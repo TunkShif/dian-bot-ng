@@ -18,6 +18,6 @@ defmodule Dian.Chats.Message do
   def changeset(message, attrs) do
     message
     |> cast(attrs, [:raw_text, :content, :sent_at, :sender_id])
-    |> validate_required([:raw_text, :content, :sent_at])
+    |> validate_required([:content, :sent_at])
   end
 end
