@@ -26,7 +26,7 @@ config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Test
 # Use local mock server for onebot adapter
 config :dian, DianBot,
   secret: "1234",
-  base_url: "http://localhost:4321/bot",
+  base_url: "http://localhost:4320/bot",
   access_token: "secret token"
 
 # Disable swoosh api client as it is only required for production adapters.

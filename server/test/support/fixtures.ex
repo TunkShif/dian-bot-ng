@@ -42,16 +42,13 @@ defmodule Dian.Fixtures do
   def fixture(:message, opts) do
     mid = opts[:mid] || 666
     qid = opts[:qid] || "1"
-    gid = opts[:gid] || "2"
     raw_text = opts[:raw_text] || "hello"
 
     {:ok, sender} = DianBot.get_user(qid)
-    {:ok, group} = DianBot.get_group(gid)
 
     %Message{
       mid: mid,
       sender: sender,
-      group: group,
       raw_text: raw_text,
       sent_at: ~U[2023-07-09 23:21:00Z]
     }

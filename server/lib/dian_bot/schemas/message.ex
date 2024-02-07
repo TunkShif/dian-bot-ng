@@ -3,12 +3,11 @@ defmodule DianBot.Schemas.Message do
 
   alias Dian.{Chats, Storage}
   alias DianBot.Coucou
-  alias DianBot.Schemas.{User, Group, Message}
+  alias DianBot.Schemas.{User, Message}
 
   typedstruct do
     field :mid, String.t()
     field :sender, User.t(), enforce: true
-    field :group, Group.t(), enforce: true
     field :raw_text, String.t(), enforce: true
     field :content, Coucou.result()
     field :sent_at, DateTime.t(), enforce: true

@@ -8,7 +8,7 @@ defmodule Dian.Chats.ThreadWorkerTest do
 
   test "should create new thread when given valid event id" do
     Cachex.put(Dian.Cache, "event:123", fixture(:event, id: 123))
-    assert {:ok, :ok} = perform_job(ThreadWorker, %{id: 123})
+    assert :ok = perform_job(ThreadWorker, %{id: 123})
     assert {:ok, nil} = Cachex.get(Dian.Cache, "event:123")
   end
 end

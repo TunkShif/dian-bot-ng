@@ -19,7 +19,7 @@ defmodule Dian.Chats.Group do
   def changeset(group, attrs) do
     group
     |> cast(attrs, [:gid, :name, :description])
-    |> validate_required([:gid, :name, :description])
+    |> validate_required([:gid, :name])
     |> unique_constraint(:gid)
   end
 

@@ -39,7 +39,6 @@ defmodule DianBot.Adapters.OnebotAdapterTest do
       assert {:ok, %Message{} = message} = OnebotAdapter.get_message("1")
       assert message.mid == "1"
       assert message.sender.nickname == "Alice"
-      assert message.group.name == "Customer Support"
       assert message.raw_text == "Hello everyone!"
     end
   end
@@ -50,7 +49,6 @@ defmodule DianBot.Adapters.OnebotAdapterTest do
       assert length(messages) == 5
       assert message = List.first(messages)
       assert message.sender.nickname == "Alice"
-      assert message.group.name == "Sales Team"
       assert message.raw_text =~ "Hey team"
     end
   end

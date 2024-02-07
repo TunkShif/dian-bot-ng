@@ -55,6 +55,6 @@ const app = new Elysia()
       .post("/set_essence_msg", () => Res.ok(null))
   )
 
-app.listen(4321)
+app.listen(4320)
 
 console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`)

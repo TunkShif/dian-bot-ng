@@ -12,14 +12,17 @@ defmodule Dian.Chats.ThreadWorker do
 
     # event struct passed into the job args will be serialized,
     # so here we're relying on cache to get the original event struct
-    Cachex.transaction(Dian.Cache, [key], fn worker ->
-      with {:ok, event} <- Cachex.get(worker, key),
-           {:ok, _thread} <- Chats.create_thread(event),
-           {:ok, true} <- Cachex.del(worker, key) do
-        # TODO: reviewing this later
-        DianBot.send_group_message(event.group.gid, "sdxd")
-        :ok
-      end
-    end)
+    {:ok, result} =
+      Cachex.transaction(Dian.Cache, [key], fn worker ->
+        with {:ok, event} <- Cachex.get(worker, key),
+             {:ok, _thread} <- Chats.create_thread(event),
+             {:ok, true} <- Cachex.del(worker, key) do
+          # TODO: reviewing this later
+          DianBot.send_group_message(event.group.gid, "[CQ:at,qq=#{event.owner.qid}]sdxd")
+          :ok
+        end
+      end)
+
+    result
   end
 end

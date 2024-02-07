@@ -47,14 +47,12 @@ defmodule DianBot.Adapters.OnebotAdapter do
   def get_message(mid) do
     with {:ok, response} <- get("/get_msg", query: [message_id: mid]),
          {:ok, data} <- handle_response(response),
-         {:ok, sender} <- get_user(data["sender"]["user_id"]),
-         {:ok, group} <- get_group(data["group_id"]) do
+         {:ok, sender} <- get_user(data["sender"]["user_id"]) do
       {:ok,
        %Message{
          mid: mid,
          sender: sender,
-         group: group,
-         raw_text: data["raw_message"],
+         raw_text: data["message"],
          sent_at: data["time"] |> DateTime.from_unix!()
        }}
     end
@@ -72,11 +70,9 @@ defmodule DianBot.Adapters.OnebotAdapter do
     try do
       messages =
         for message <- messages do
-          with {:ok, sender} <- get_user(message["sender"]["user_id"]),
-               {:ok, group} <- get_group(message["group_id"]) do
+          with {:ok, sender} <- get_user(message["sender"]["user_id"]) do
             %Message{
               sender: sender,
-              group: group,
               raw_text: message["content"],
               sent_at: message["time"] |> DateTime.from_unix!()
             }

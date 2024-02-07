@@ -4,7 +4,7 @@
       "user_id": "1"
     },
     "group_id": "4",
-    "raw_message": "Hello everyone!",
+    "message": "Hello everyone!",
     "time": 1644158695
   },
   {
@@ -12,7 +12,7 @@
       "user_id": "7"
     },
     "group_id": "4",
-    "raw_message": "Good morning, team!",
+    "message": "Good morning, team!",
     "time": 1644158900
   },
   {
@@ -20,7 +20,7 @@
       "user_id": "4"
     },
     "group_id": "2",
-    "raw_message": "Meeting reminder: 3 PM today.",
+    "message": "Meeting reminder: 3 PM today.",
     "time": 1644159123
   },
   {
@@ -28,7 +28,7 @@
       "user_id": "3"
     },
     "group_id": "1",
-    "raw_message": "[CQ:at,qq=2]Don't forget to submit your reports.",
+    "message": "[CQ:at,qq=2]Don't forget to submit your reports.",
     "time": 1644159321
   },
   {
@@ -36,7 +36,7 @@
       "user_id": "6"
     },
     "group_id": "2",
-    "raw_message": "Happy Friday, everyone!",
+    "message": "Happy Friday, everyone!",
     "time": 1644159500
   },
   {
@@ -44,7 +44,7 @@
       "user_id": "5"
     },
     "group_id": "3",
-    "raw_message": "[CQ:forward,id=2]",
+    "message": "[CQ:forward,id=2]",
     "time": 1644158745
   }
 ]

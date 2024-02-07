@@ -1,5 +1,5 @@
 defmodule DianWeb.WebhookControllerTest do
-  use DianWeb.ConnCase, async: true
+  use DianWeb.ConnCase
 
   import Dian.Fixtures
 
