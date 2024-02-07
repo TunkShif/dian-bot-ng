@@ -27,7 +27,7 @@ defmodule Dian.Storage.Adapters.SupabaseAdapter do
 
   @impl true
   def upload(params) do
-    %{"name" => name, "url" => url} = params
+    %{"file" => name, "url" => url} = params
 
     with {:ok, %Tesla.Env{status: 200} = response} <- get(url),
          %Tesla.Env{headers: headers, body: body} = response,
