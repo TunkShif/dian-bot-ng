@@ -31,9 +31,10 @@ defmodule Dian.Storage.Adapters.SupabaseAdapter do
 
     with {:ok, %Tesla.Env{status: 200} = response} <- get(url),
          %Tesla.Env{headers: headers, body: body} = response,
-         headers = Enum.find(headers, fn {key, _value} -> key == "content-type" end),
+         content_type = Enum.find(headers, fn {key, _value} -> key == "content-type" end),
          payload =
-           Tesla.Multipart.new() |> Tesla.Multipart.add_file_content(body, name, headers: headers),
+           Tesla.Multipart.new()
+           |> Tesla.Multipart.add_file_content(body, name, headers: [content_type]),
          {:ok, %Tesla.Env{status: 200}} <-
            post("/storage/v1/object/#{bucket_name()}/#{name}", payload) do
       {:ok, get_url(name)}

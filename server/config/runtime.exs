@@ -76,8 +76,18 @@ if config_env() == :prod do
     base_url: bot_url,
     access_token: bot_token
 
+  storage_url = System.get_env("STORAGE_URL") || raise "environment STORAGE_URL is missing"
+  storage_key = System.get_env("STORAGE_KEY") || raise "environment STORAGE_KEY is missing"
+
+  storage_bucket =
+    System.get_env("STORAGE_BUCKET") || raise "environment STORAGE_BUCKET is missing"
+
   # Configures storgae provider
-  config :dian, Dian.Storage, adapter: Dian.Storage.Adapters.SupabaseAdapter
+  config :dian, Dian.Storage,
+    adapter: Dian.Storage.Adapters.SupabaseAdapter,
+    base_url: storage_url,
+    api_key: storage_key,
+    bucket_name: storage_bucket
 
   # ## SSL Support
   #
