@@ -7,6 +7,8 @@ defmodule Dian.Application do
 
   @impl true
   def start(_type, _args) do
+    Oban.Telemetry.attach_default_logger()
+
     children = [
       DianWeb.Telemetry,
       Dian.Repo,
@@ -34,5 +36,10 @@ defmodule Dian.Application do
   def config_change(changed, _new, removed) do
     DianWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  @impl true
+  def stop(_state) do
+    Oban.Telemetry.detach_default_logger()
   end
 end
