@@ -65,6 +65,20 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  bot_secret = System.get_env("BOT_SECRET") || raise "environment BOT_SECRET is missing"
+  bot_url = System.get_env("BOT_URL") || raise "environment BOT_URL is missing"
+  bot_token = System.get_env("BOT_TOKEN") || raise "environment BOT_TOKEN is missing"
+
+  # Configures bot adapter
+  config :dian, DianBot,
+    adapter: DianBot.Adapters.OnebotAdapter,
+    secret: bot_secret,
+    base_url: bot_url,
+    access_token: bot_token
+
+  # Configures storgae provider
+  config :dian, Dian.Storage, adapter: Dian.Storage.Adapters.SupabaseAdapter
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
