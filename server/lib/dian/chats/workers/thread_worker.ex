@@ -18,6 +18,7 @@ defmodule Dian.Chats.ThreadWorker do
              {:ok, _thread} <- Chats.create_thread(event),
              {:ok, true} <- Cachex.del(worker, key) do
           # TODO: reviewing this later
+          DianBot.set_honorable_message(event.message.mid)
           DianBot.send_group_message(event.group.gid, "[CQ:at,qq=#{event.owner.qid}]sdxd")
           :ok
         end
