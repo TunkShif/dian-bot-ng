@@ -72,10 +72,17 @@ defmodule DianBot.Schemas.Message do
   end
 
   defp process_code(%{type: "image", data: data} = item) do
-    case Storage.upload(data) do
-      {:ok, url} -> %{item | data: %{url: url}}
-      {:error, error} -> raise error
-    end
+    url =
+      if Storage.exists?(data["file"]) do
+        Storage.get_url(data["file"])
+      else
+        case Storage.upload(data) do
+          {:ok, url} -> url
+          {:error, error} -> raise error
+        end
+      end
+
+    %{item | data: %{url: url}}
   end
 
   defp process_code(item), do: item
