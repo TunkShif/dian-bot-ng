@@ -1,4 +1,4 @@
-defmodule Dian.Repo.Migrations.AddObanJobsTable do
+defmodule Dian.Repo.Migrations.CreateObanJobs do
   use Ecto.Migration
 
   def up do

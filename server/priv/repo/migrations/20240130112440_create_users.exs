@@ -3,8 +3,8 @@ defmodule Dian.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :qid, :string, null: false
-      add :name, :string, null: false
+      add :qid, :text, null: false
+      add :name, :text, null: false
 
       timestamps(type: :utc_datetime)
     end

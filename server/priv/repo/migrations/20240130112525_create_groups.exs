@@ -3,9 +3,9 @@ defmodule Dian.Repo.Migrations.CreateGroups do
 
   def change do
     create table(:groups) do
-      add :gid, :string, null: false
-      add :name, :string, null: false
-      add :description, :string
+      add :gid, :text, null: false
+      add :name, :text, null: false
+      add :description, :text, default: ""
 
       timestamps(type: :utc_datetime)
     end
