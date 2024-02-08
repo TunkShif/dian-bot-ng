@@ -1,10 +1,16 @@
 defmodule Dian.Chats do
+  import Ecto.Query
+
   alias Dian.Repo
   alias DianBot.Schemas.Event
   alias DianBot.Schemas.User, as: BotUser
   alias DianBot.Schemas.Group, as: BotGroup
   alias DianBot.Schemas.Message, as: BotMessage
   alias Dian.Chats.{User, Group, Message, Thread}
+
+  def list_threads() do
+    from(t in Thread, preload: [:owner, :group, :messages], select: t) |> Repo.all()
+  end
 
   def create_thread(%Event{} = event) do
     multi =
