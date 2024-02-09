@@ -20,7 +20,7 @@ defmodule DianWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :dian,
-    gzip: Mix.env() == :prod,
+    gzip: not Application.compile_env(:dian, :dev_routes, false),
     only: DianWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the

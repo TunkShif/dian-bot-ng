@@ -14,7 +14,6 @@ defmodule DianWeb.Router do
   forward "/graphql", Absinthe.Plug, schema: DianWeb.Schema
 
   if Application.compile_env(:dian, :dev_routes) do
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: DianWeb.Schema
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -31,6 +30,9 @@ defmodule DianWeb.Router do
 
       live_dashboard "/dashboard", metrics: DianWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+
+      get "/explorer", DianWeb.ExplorerController, :index
+      forward "/graphiql", Absinthe.Plug.GraphiQL, schema: DianWeb.Schema
     end
   end
 end
