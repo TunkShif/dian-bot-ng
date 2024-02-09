@@ -25,10 +25,10 @@ config :dian, DianWeb.Endpoint,
 # Configure tesla client adapter
 config :tesla, :adapter, {Tesla.Adapter.Finch, name: Dian.Finch}
 
-# Configures bot adapter
+# Configures default bot adapter
 config :dian, DianBot, adapter: DianBot.Adapters.OnebotAdapter
 
-# Configures storgae provider
+# Configures default storgae provider
 config :dian, Dian.Storage, adapter: Dian.Storage.Adapters.SupabaseAdapter
 
 # Configures the mailer

@@ -29,6 +29,12 @@ config :dian, DianBot,
   base_url: "http://localhost:4320/bot",
   access_token: "secret token"
 
+# Use local mock server for supabase adapter
+config :dian, Dian.Storage,
+  base_url: "http://localhost:4320/storage",
+  api_key: "secret key",
+  bucket_name: "images"
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 

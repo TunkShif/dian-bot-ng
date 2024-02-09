@@ -62,11 +62,17 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
-# Use local mock server for onebot adapter
+# Use local bot server for onebot adapter
 config :dian, DianBot,
   secret: "8964",
   base_url: "http://localhost:4321",
   access_token: "secret token"
+
+# Use local mock server for supabase adapter
+config :dian, Dian.Storage,
+  base_url: "http://localhost:4320/storage",
+  api_key: "secret key",
+  bucket_name: "images"
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false

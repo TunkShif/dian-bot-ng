@@ -54,6 +54,42 @@ const app = new Elysia()
       .post("/send_group_msg", () => Res.ok(null))
       .post("/set_essence_msg", () => Res.ok(null))
   )
+  .group("/storage", (app) =>
+    app
+      .get(
+        "/storage/v1/object/public/:bucket/:name",
+        async ({ params: { name } }) => Bun.file(`./public/images/${name}`),
+        {
+          params: t.Object({ bucket: t.String(), name: t.String() })
+        }
+      )
+      .get(
+        "/storage/v1/object/info/public/:bucket/:name",
+        async ({ params: { name }, set }) => {
+          const file = Bun.file(`./public/images/${name}`)
+          if (await file.exists()) {
+            return Res.ok(null)
+          } else {
+            set.status = "Not Found"
+            return Res.err()
+          }
+        },
+        {
+          params: t.Object({ bucket: t.String(), name: t.String() })
+        }
+      )
+      .post(
+        "/storage/v1/object/:bucket/:name",
+        async ({ params: { name }, body: { file } }) => {
+          await Bun.write(Bun.file(`./public/images/${name}`), file)
+          return Res.ok(null)
+        },
+        {
+          params: t.Object({ bucket: t.String(), name: t.String() }),
+          body: t.Object({ file: t.File() })
+        }
+      )
+  )
 
 app.listen(4320)
 
