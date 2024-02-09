@@ -17,7 +17,7 @@ defmodule DianBot.Schemas.Message do
   def to_parsed(%Message{} = message) do
     case message.content do
       nil -> %Message{message | content: Coucou.parse(message.raw_text)}
-      message -> message
+      _ -> message
     end
   end
 
