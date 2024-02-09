@@ -50,7 +50,8 @@ defmodule Dian.MixProject do
       {:oban, "~> 2.16"},
       {:cachex, "~> 3.6"},
       {:absinthe, "~> 1.7"},
-      {:absinthe_plug, "~> 1.5"}
+      {:absinthe_plug, "~> 1.5"},
+      {:dataloader, "~> 1.0"}
     ]
   end
 
