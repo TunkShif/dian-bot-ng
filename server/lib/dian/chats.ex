@@ -1,6 +1,4 @@
 defmodule Dian.Chats do
-  import Ecto.Query
-
   alias Dian.Repo
   alias DianBot.Schemas.Event
   alias DianBot.Schemas.User, as: BotUser
@@ -8,8 +6,11 @@ defmodule Dian.Chats do
   alias DianBot.Schemas.Message, as: BotMessage
   alias Dian.Chats.{User, Group, Message, Thread}
 
+  def data, do: Dataloader.Ecto.new(Dian.Repo, query: &query/2)
+  def query(queryable, _params), do: queryable
+
   def list_threads() do
-    from(t in Thread, preload: [:owner, :group, :messages], select: t) |> Repo.all()
+    Repo.all(Thread)
   end
 
   def create_thread(%Event{} = event) do
