@@ -44,7 +44,7 @@ config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Local
 config :dian, Oban,
   repo: Dian.Repo,
   plugins: [Oban.Plugins.Pruner],
-  queues: [default: 10]
+  queues: [default: 4]
 
 # Configures Elixir's Logger
 config :logger, :console,
