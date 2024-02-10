@@ -6,19 +6,20 @@
   "scripts": {
     "prepare": "panda codegen",
     "build": "remix build",
-    "dev": "remix dev --manual",
+    "dev": "remix dev --manual -c \"pnpm run start\"",
     "format": "biome format ./app --write",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "remix-serve ./build/index.js",
+    "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
     "typecheck": "tsc"
   },
   "dependencies": {
     "@ark-ui/react": "^2.0.1",
+    "@remix-run/cloudflare": "^2.6.0",
+    "@remix-run/cloudflare-pages": "^2.6.0",
     "@remix-run/css-bundle": "^2.6.0",
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
     "@remix-run/serve": "^2.6.0",
-    "@vercel/remix": "^2.5.1",
     "isbot": "^4.4.0",
     "lucide-react": "^0.323.0",
     "react": "^18.2.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
+    "@cloudflare/workers-types": "^4.20240208.0",
     "@pandacss/dev": "^0.30.2",
     "@park-ui/panda-preset": "^0.34.0",
     "@remix-run/dev": "^2.6.0",
@@ -38,7 +40,8 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "wrangler": "^3.28.1"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,4 +1,4 @@
-import { type MetaFunction } from "@vercel/remix"
+import { type MetaFunction } from "@remix-run/cloudflare"
 import { Box } from "styled-system/jsx"
 
 export const meta: MetaFunction = () => {

@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect, type MetaFunction } from "@vercel/remix"
+import { LoaderFunction, redirect, type MetaFunction } from "@remix-run/cloudflare"
 
 export const meta: MetaFunction = () => {
   return [
