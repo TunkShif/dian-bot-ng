@@ -1,8 +1,9 @@
 import type { LinksFunction } from "@remix-run/cloudflare"
 import { cssBundleHref } from "@remix-run/css-bundle"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
-
 import styles from "./index.css"
+
+import "@fontsource-variable/inter/wght.css"
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
