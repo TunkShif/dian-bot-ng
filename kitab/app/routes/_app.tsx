@@ -3,8 +3,8 @@ import { ArchiveIcon, GaugeIcon, ImageIcon, SearchIcon, SettingsIcon, UserIcon }
 import { css } from "styled-system/css"
 import { Center, Flex, styled } from "styled-system/jsx"
 import { flex, vstack } from "styled-system/patterns"
-import { Badge } from "~/app/components/ui/badge"
-import { Button } from "~/app/components/ui/button"
+import { Badge } from "~/components/ui/badge"
+import { Button } from "~/components/ui/button"
 
 const NAVIGATIONS = [
   { name: "Dashboard", icon: GaugeIcon, route: "/dashboard" },
