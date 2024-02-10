@@ -1,11 +1,19 @@
-server-iex:
-  cd server && iex -S mix phx.server
+dev-server:
+  cd hafiz && mix phx.server
 
-server-dev:
-  cd server && mix phx.server
-
-webapp-dev:
-  cd webapp && pnpm dev
-
-mock-dev:
+dev-mock:
   cd mock && bun dev
+
+dev-app:
+  cd kitab && pnpm dev
+
+repl-server:
+  cd hafiz && iex -S mix phx.server
+
+format-server:
+  cd hafiz && mix format
+
+format-app:
+  cd kitab && pnpm format
+
+format-all: format-app format-server
