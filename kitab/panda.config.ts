@@ -11,6 +11,15 @@ export default defineConfig({
       additionalColors: ["sage", "tomato"]
     })
   ],
+  theme: {
+    extend: {
+      tokens: {
+        fonts: {
+          arvo: { value: "var(--font-arvo), serif" }
+        }
+      }
+    }
+  },
   preflight: true,
   jsxFramework: "react",
   outdir: "styled-system",

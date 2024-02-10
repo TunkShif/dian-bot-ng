@@ -2,6 +2,7 @@ node_modules
 
 /build/
 /.cache
+/.wrangler
 /functions/\[\[path\]\].js
 /functions/\[\[path\]\].js.map
 /functions/metafile.*

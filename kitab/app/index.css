@@ -1,5 +1,11 @@
 @layer reset, base, tokens, recipes, utilities;
 
-* {
-  font-family: "Inter Variable", system-ui, sans-serif;
+@layer base {
+  * {
+    font-family: "Inter Variable", system-ui, sans-serif;
+  }
+}
+
+:root {
+  --font-arvo: Arvo;
 }
