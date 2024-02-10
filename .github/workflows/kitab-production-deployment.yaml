@@ -1,5 +1,7 @@
 name: Kitab Production Deployment
 on:
+  workflow_dispatch:
+
   push:
     branches:
       - main
@@ -33,3 +35,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name=kitab-rojo ./public
+          workingDirectory: kitab
