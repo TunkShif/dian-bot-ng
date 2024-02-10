@@ -23,9 +23,11 @@ jobs:
         with:
           version: latest
           run_install: false
-      - name: Build Project Artifacts
+      - name: Install project dependencies
+        run: pnpm install
+      - name: Build Project
         run: pnpm build
-      - name: Deploy Project Artifacts to Cloudflare Pages
+      - name: Deploy Project to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
