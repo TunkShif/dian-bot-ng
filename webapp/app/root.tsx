@@ -6,7 +6,8 @@ import styles from "./index.css"
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-  { rel: "stylesheet", href: styles }
+  { rel: "stylesheet", href: styles },
+  { rel: "icon", href: "/favicon.svg" }
 ]
 
 export default function App() {

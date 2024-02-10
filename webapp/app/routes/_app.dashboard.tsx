@@ -5,5 +5,5 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Dashboard() {
-  return <div></div>
+  return "foobar"
 }
