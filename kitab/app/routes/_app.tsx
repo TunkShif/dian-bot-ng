@@ -7,11 +7,11 @@ import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
 
 const NAVIGATIONS = [
-  { name: "Dashboard", icon: GaugeIcon, route: "/dashboard" },
-  { name: "Archive", icon: ArchiveIcon, route: "/archive" },
-  { name: "Gallery", icon: ImageIcon, route: "/gallery" },
-  { name: "Account", icon: UserIcon, route: "/account" },
-  { name: "Settings", icon: SettingsIcon, route: "/settings" }
+  { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
+  { name: "精华典库", icon: ArchiveIcon, route: "/archive" },
+  { name: "精彩图库", icon: ImageIcon, route: "/gallery" },
+  { name: "个人账户", icon: UserIcon, route: "/account" },
+  { name: "更多设置", icon: SettingsIcon, route: "/settings" }
 ]
 
 export default function AppLayout() {
