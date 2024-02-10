@@ -58,7 +58,7 @@ defmodule DianBot.Schemas.Message do
   end
 
   defp process_message!(%Message{} = message) do
-    content = Enum.map(message.content, &process_code/1)
+    content = Enum.map(message.content, &process_code/1) |> Enum.reject(&is_nil/1)
 
     raw_text = for(part <- content, part.type == "text", do: part.data) |> Enum.join("\n")
 
@@ -84,6 +84,8 @@ defmodule DianBot.Schemas.Message do
 
     %{item | data: %{url: url}}
   end
+
+  defp process_code(%{type: "reply"}), do: nil
 
   defp process_code(item), do: item
 end

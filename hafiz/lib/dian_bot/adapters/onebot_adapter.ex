@@ -66,6 +66,7 @@ defmodule DianBot.Adapters.OnebotAdapter do
     end
   end
 
+  # TODO: handle nested forwarded messages
   defp parse_forwarded_messages(messages) do
     try do
       messages =
