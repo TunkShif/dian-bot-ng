@@ -7,9 +7,10 @@
     "prepare": "panda codegen",
     "build": "remix build",
     "dev": "remix dev --manual -c \"pnpm run start\"",
+    "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
+    "pages:deploy": "pnpm run build && wrangler pages deploy ./public",
     "format": "biome format ./app --write",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
     "typecheck": "tsc"
   },
   "dependencies": {
