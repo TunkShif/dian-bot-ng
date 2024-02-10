@@ -58,7 +58,8 @@ const NavSection = () => {
     <Flex mx="-4" px="4" py="4" direction="column" gap="4" borderBottomWidth="1px">
       <Button variant="outline" justifyContent="space-between">
         <styled.span display="inline-flex">
-          <SearchIcon className={css({ mr: "2" })} /> Search
+          <SearchIcon className={css({ mr: "2", color: "fg.default" })} />{" "}
+          <styled.span color="fg.subtle">搜索 Anything</styled.span>
         </styled.span>
         <Badge>CTRL + K</Badge>
       </Button>
