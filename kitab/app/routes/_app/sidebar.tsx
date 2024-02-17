@@ -10,9 +10,9 @@ import {
   SettingsIcon,
   UserIcon
 } from "lucide-react"
-import { css } from "styled-system/css"
+import { css, cx } from "styled-system/css"
 import { Box, Center, Flex, styled } from "styled-system/jsx"
-import { flex, vstack } from "styled-system/patterns"
+import { flex, hstack, vstack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 import { Logo } from "~/components/logo"
@@ -60,6 +60,8 @@ const useOptimisticIsCollapsed = () => {
 export const Sidebar = () => {
   return (
     <Flex
+      display="none"
+      lg={{ display: "flex" }}
       direction="column"
       w="var(--sidebar-width)"
       position="fixed"
@@ -206,6 +208,31 @@ const SearchButton = () => {
   )
 }
 
+const navStyles = flex({
+  p: "2",
+  gap: "4",
+  align: "center",
+  rounded: "lg",
+  _hover: { bg: "accent.2" },
+  _focus: { bg: "accent.2" },
+  _focusVisible: {
+    outlineColor: "accent.emphasized",
+    outlineStyle: "solid",
+    outlineWidth: "2px",
+    outlineOffset: "2px"
+  },
+  _currentPage: {
+    bg: "accent.emphasized",
+    _hover: {
+      bg: "accent.emphasized"
+    },
+    _focus: {
+      bg: "accent.emphasized"
+    },
+    "& [data-nav-label]": { color: "accent.fg" }
+  }
+})
+
 const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) => {
   const isCollapsed = useIsCollapsed()
 
@@ -214,35 +241,16 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
       <Tooltip.Trigger asChild>
         <NavLink
           to={route}
-          className={flex({
-            p: "2",
-            gap: "4",
-            align: "center",
-            rounded: "lg",
-            _hover: { bg: "accent.2" },
-            _focus: { bg: "accent.2" },
-            _focusVisible: {
-              outlineColor: "accent.emphasized",
-              outlineStyle: "solid",
-              outlineWidth: "2px",
-              outlineOffset: "2px"
-            },
-            _currentPage: {
-              bg: "accent.emphasized",
-              _hover: {
-                bg: "accent.emphasized"
-              },
-              _focus: {
-                bg: "accent.emphasized"
-              },
-              "& [data-nav-label]": { color: "white" }
-            },
-            "[data-sidebar-collapsed=true] &": {
-              flexDirection: "column",
-              gap: "2",
-              justifyContent: "center"
-            }
-          })}
+          className={cx(
+            navStyles,
+            css({
+              "[data-sidebar-collapsed=true] &": {
+                flexDirection: "column",
+                gap: "2",
+                justifyContent: "center"
+              }
+            })
+          )}
         >
           <Center w="8" h="8" bg="accent.4" rounded="md">
             <Icon color="accent.text">
@@ -269,5 +277,43 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
         </Tooltip.Positioner>
       </Portal>
     </Tooltip.Root>
+  )
+}
+
+export const BottomBar = () => {
+  return (
+    <Box position="fixed" insetX="0" bottom="0" borderTopWidth="1px" lg={{ display: "none" }}>
+      <styled.nav p="2" md={{ px: "8" }}>
+        <ul className={hstack({ gap: "1", justifyContent: "space-between" })}>
+          {NAVIGATIONS.map(({ name, route, icon: NavIcon }) => (
+            <styled.li key={name}>
+              <NavLink
+                to={route}
+                className={cx(navStyles, css({ flexDirection: "column", gap: "1.5" }))}
+              >
+                <Center w="8" h="8" bg="accent.4" rounded="md">
+                  <Icon color="accent.text">
+                    <NavIcon />
+                  </Icon>
+                </Center>
+                <styled.span
+                  data-nav-label
+                  fontSize="xs"
+                  fontWeight="medium"
+                  textAlign="center"
+                  className={css({
+                    "[data-sidebar-collapsed=true] &": {
+                      display: "none"
+                    }
+                  })}
+                >
+                  {name}
+                </styled.span>
+              </NavLink>
+            </styled.li>
+          ))}
+        </ul>
+      </styled.nav>
+    </Box>
   )
 }

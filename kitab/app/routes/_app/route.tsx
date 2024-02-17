@@ -1,7 +1,7 @@
 import { Outlet } from "@remix-run/react"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
-import { Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
+import { BottomBar, Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
 
 import "@fontsource/silkscreen/700.css"
 
@@ -20,13 +20,18 @@ export default function AppLayout() {
     >
       <Sidebar />
       <Main />
+      <BottomBar />
     </div>
   )
 }
 
 const Main = () => {
   return (
-    <styled.main ml="var(--sidebar-width)">
+    <styled.main
+      lg={{
+        ml: "var(--sidebar-width)"
+      }}
+    >
       <Outlet />
     </styled.main>
   )
