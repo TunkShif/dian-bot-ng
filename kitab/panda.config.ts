@@ -7,15 +7,15 @@ export default defineConfig({
     createPreset({
       grayColor: "sage",
       accentColor: "tomato",
-      borderRadius: "lg",
-      additionalColors: ["sage", "tomato"]
+      borderRadius: "lg"
     })
   ],
   theme: {
     extend: {
       tokens: {
         fonts: {
-          arvo: { value: "var(--font-arvo), serif" }
+          arvo: { value: "var(--font-arvo), serif" },
+          silkscreen: {value: "var(--font-silkscreen), serif"}
         }
       }
     }

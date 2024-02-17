@@ -1,11 +1,13 @@
 @layer reset, base, tokens, recipes, utilities;
 
 @layer base {
-  * {
+  :root {
+    --font-arvo: Arvo;
+    --font-silkscreen: Silkscreen;
+  }
+
+  :root {
     font-family: "Inter Variable", system-ui, sans-serif;
   }
 }
 
-:root {
-  --font-arvo: Arvo;
-}
