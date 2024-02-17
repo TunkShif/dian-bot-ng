@@ -1,11 +1,13 @@
 import { Outlet } from "@remix-run/react"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
-import { Sidebar } from "~/routes/_app/sidebar"
+import { Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
 
 import "@fontsource/silkscreen/700.css"
 
 export default function AppLayout() {
+  const isCollapsed = useIsCollapsed()
+
   return (
     <div
       className={css({
@@ -14,7 +16,7 @@ export default function AppLayout() {
           "--sidebar-width": "{sizes.20}"
         }
       })}
-      data-sidebar-collapsed={true}
+      data-sidebar-collapsed={isCollapsed}
     >
       <Sidebar />
       <Main />
