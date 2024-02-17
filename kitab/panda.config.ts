@@ -6,7 +6,7 @@ export default defineConfig({
     "@pandacss/preset-base",
     createPreset({
       grayColor: "sage",
-      accentColor: "tomato",
+      accentColor: "red",
       borderRadius: "lg"
     })
   ],
@@ -15,7 +15,7 @@ export default defineConfig({
       tokens: {
         fonts: {
           arvo: { value: "var(--font-arvo), serif" },
-          silkscreen: {value: "var(--font-silkscreen), serif"}
+          silkscreen: { value: "var(--font-silkscreen), serif" }
         }
       }
     }

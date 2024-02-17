@@ -1,3 +1,4 @@
+import { Portal } from "@ark-ui/react"
 import { Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
 import {
   ArchiveIcon,
@@ -20,6 +21,7 @@ import { Button } from "~/components/ui/button"
 import { Icon } from "~/components/ui/icon"
 import { IconButton } from "~/components/ui/icon-button"
 import { Text } from "~/components/ui/text"
+import * as Tooltip from "~/components/ui/tooltip"
 import { type loader as rootLoader } from "~/root"
 
 const NAVIGATIONS = [
@@ -140,98 +142,132 @@ const NavSection = () => (
       }
     })}
   >
-    <Button
-      variant="outline"
-      justifyContent="space-between"
-      className={css({
-        "[data-sidebar-collapsed=true] &": {
-          paddingX: "0",
-          justifyContent: "center",
-          marginInline: "2"
-        }
-      })}
-    >
-      <styled.span display="inline-flex">
-        <SearchIcon className={css({ color: "fg.default" })} />
-        <styled.span
-          ml="2"
-          color="fg.subtle"
-          className={css({
-            "[data-sidebar-collapsed=true] &": {
-              display: "none"
-            }
-          })}
-        >
-          搜索 Anything
-        </styled.span>
-      </styled.span>
-      <Badge
-        className={css({
-          "[data-sidebar-collapsed=true] &": {
-            display: "none"
-          }
-        })}
-      >
-        CTRL + K
-      </Badge>
-    </Button>
+    <SearchButton />
     <nav>
-      <styled.ul className={vstack({ gap: "1" })}>
-        {NAVIGATIONS.map(({ name, icon: NavIcon, route }) => (
-          <styled.li key={name} w="full">
-            <NavLink
-              to={route}
-              className={flex({
-                p: "2",
-                gap: "4",
-                align: "center",
-                rounded: "lg",
-                _hover: { bg: "accent.2" },
-                _focus: { bg: "accent.2" },
-                _focusVisible: {
-                  outlineColor: "accent.emphasized",
-                  outlineStyle: "solid",
-                  outlineWidth: "2px",
-                  outlineOffset: "2px"
-                },
-                _currentPage: {
-                  bg: "accent.emphasized",
-                  _hover: {
-                    bg: "accent.emphasized"
-                  },
-                  _focus: {
-                    bg: "accent.emphasized"
-                  },
-                  "& [data-nav-label]": { color: "white" }
-                },
-                "[data-sidebar-collapsed=true] &": {
-                  flexDirection: "column",
-                  gap: "2",
-                  justifyContent: "center"
-                }
-              })}
-            >
-              <Center w="8" h="8" bg="accent.4" rounded="md">
-                <Icon color="accent.text">
-                  <NavIcon />
-                </Icon>
-              </Center>
-              <styled.span
-                data-nav-label
-                fontSize="sm"
-                fontWeight="medium"
-                className={css({
-                  "[data-sidebar-collapsed=true] &": {
-                    display: "none"
-                  }
-                })}
-              >
-                {name}
-              </styled.span>
-            </NavLink>
+      <ul className={vstack({ gap: "1" })}>
+        {NAVIGATIONS.map((nav) => (
+          <styled.li key={nav.name} w="full">
+            <NavItem {...nav} />
           </styled.li>
         ))}
-      </styled.ul>
+      </ul>
     </nav>
   </Flex>
 )
+
+const SearchButton = () => {
+  const isCollapsed = useIsCollapsed()
+
+  return (
+    <Tooltip.Root disabled={!isCollapsed} positioning={{ placement: "right-end" }}>
+      <Tooltip.Trigger asChild>
+        <Button
+          variant="outline"
+          justifyContent="space-between"
+          className={css({
+            "[data-sidebar-collapsed=true] &": {
+              paddingX: "0",
+              justifyContent: "center",
+              marginInline: "2"
+            }
+          })}
+        >
+          <styled.span display="inline-flex">
+            <SearchIcon className={css({ color: "fg.default" })} />
+            <styled.span
+              ml="2"
+              color="fg.subtle"
+              className={css({
+                "[data-sidebar-collapsed=true] &": {
+                  display: "none"
+                }
+              })}
+            >
+              搜索 Anything
+            </styled.span>
+          </styled.span>
+          <Badge
+            className={css({
+              "[data-sidebar-collapsed=true] &": {
+                display: "none"
+              }
+            })}
+          >
+            CTRL + K
+          </Badge>
+        </Button>
+      </Tooltip.Trigger>
+      <Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Content>搜索 Anything</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Portal>
+    </Tooltip.Root>
+  )
+}
+
+const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) => {
+  const isCollapsed = useIsCollapsed()
+
+  return (
+    <Tooltip.Root disabled={!isCollapsed} positioning={{ placement: "right-end" }}>
+      <Tooltip.Trigger asChild>
+        <NavLink
+          to={route}
+          className={flex({
+            p: "2",
+            gap: "4",
+            align: "center",
+            rounded: "lg",
+            _hover: { bg: "accent.2" },
+            _focus: { bg: "accent.2" },
+            _focusVisible: {
+              outlineColor: "accent.emphasized",
+              outlineStyle: "solid",
+              outlineWidth: "2px",
+              outlineOffset: "2px"
+            },
+            _currentPage: {
+              bg: "accent.emphasized",
+              _hover: {
+                bg: "accent.emphasized"
+              },
+              _focus: {
+                bg: "accent.emphasized"
+              },
+              "& [data-nav-label]": { color: "white" }
+            },
+            "[data-sidebar-collapsed=true] &": {
+              flexDirection: "column",
+              gap: "2",
+              justifyContent: "center"
+            }
+          })}
+        >
+          <Center w="8" h="8" bg="accent.4" rounded="md">
+            <Icon color="accent.text">
+              <NavIcon />
+            </Icon>
+          </Center>
+          <styled.span
+            data-nav-label
+            fontSize="sm"
+            fontWeight="medium"
+            className={css({
+              "[data-sidebar-collapsed=true] &": {
+                display: "none"
+              }
+            })}
+          >
+            {name}
+          </styled.span>
+        </NavLink>
+      </Tooltip.Trigger>
+      <Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Content>{name}</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Portal>
+    </Tooltip.Root>
+  )
+}
