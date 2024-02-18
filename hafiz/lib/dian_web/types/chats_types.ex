@@ -6,8 +6,6 @@ defmodule DianWeb.ChatsTypes do
   alias Dian.Chats
   alias DianWeb.ChatsResolver
 
-  # TODO: custom datetime scalar type
-
   object :chats_queries do
     field :threads, non_null(list_of(non_null(:thread))) do
       resolve &ChatsResolver.list_threads/3
@@ -19,14 +17,14 @@ defmodule DianWeb.ChatsTypes do
     field :owner, non_null(:user), resolve: dataloader(Chats)
     field :group, non_null(:group), resolve: dataloader(Chats)
     field :messages, non_null(list_of(:message)), resolve: dataloader(Chats)
-    # field :posted_at, non_null(:datetime)
+    field :posted_at, non_null(:naive_datetime)
   end
 
   object :message do
     field :id, non_null(:id)
     field :sender, non_null(:user), resolve: dataloader(Chats)
     field :content, non_null(list_of(non_null(:message_content)))
-    # field :sent_at, non_null(:datetime)
+    field :sent_at, non_null(:naive_datetime)
   end
 
   object :group do
@@ -34,8 +32,6 @@ defmodule DianWeb.ChatsTypes do
     field :gid, non_null(:string)
     field :name, non_null(:string)
   end
-
-  # TODO: how to typing message_content
 
   interface :message_content do
     field :type, non_null(:string)

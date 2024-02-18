@@ -46,6 +46,9 @@ config :dian, Oban,
   plugins: [Oban.Plugins.Pruner],
   queues: [default: 4]
 
+# Configure app url
+config :dian, :app_url, "http://localhost:8788"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

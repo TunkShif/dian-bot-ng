@@ -3,6 +3,7 @@ defmodule DianWeb.Schema do
 
   alias Dian.Chats
 
+  import_types Absinthe.Type.Custom
   import_types DianWeb.BotTypes
   import_types DianWeb.ChatsTypes
   import_types DianWeb.AccountTypes

@@ -65,6 +65,11 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  app_url = System.get_env("APP_URL") || raise "environment APP_URL is missing"
+
+  # Configure app url
+  config :dian, :app_url, app_url
+
   bot_secret = System.get_env("BOT_SECRET") || raise "environment BOT_SECRET is missing"
   bot_url = System.get_env("BOT_URL") || raise "environment BOT_URL is missing"
   bot_token = System.get_env("BOT_TOKEN") || raise "environment BOT_TOKEN is missing"
