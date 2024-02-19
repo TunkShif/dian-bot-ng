@@ -110,6 +110,7 @@ const BrandLogo = () => (
       fontFamily="silkscreen"
       textTransform="uppercase"
       letterSpacing="tight"
+      userSelect="none"
       className={css({ "[data-sidebar-collapsed=true] &": { display: "none" } })}
     >
       Little Red Book
