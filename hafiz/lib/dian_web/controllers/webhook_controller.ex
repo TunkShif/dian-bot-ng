@@ -10,7 +10,7 @@ defmodule DianWeb.WebhookController do
     signature = get_req_header(conn, "x-signature") |> List.first()
 
     with {:ok, event} <- DianBot.parse_event(params, payload: payload, signature: signature),
-         {:ok, _} <- Cachex.put(Dian.Cache, "event:#{event.id}", event, ttl: :timer.minutes(5)),
+         {:ok, _} <- Cachex.put(Dian.Cache, "event:#{event.id}", event, ttl: :timer.minutes(2)),
          {:ok, _job} <- ThreadWorker.new(%{id: event.id}) |> Oban.insert() do
       conn |> json(%{data: nil})
     else
