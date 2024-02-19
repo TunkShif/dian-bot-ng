@@ -12,13 +12,13 @@ defmodule DianWeb.WebhookController do
     with {:ok, event} <- DianBot.parse_event(params, payload: payload, signature: signature),
          {:ok, _} <- Cachex.put(Dian.Cache, "event:#{event.id}", event, ttl: :timer.minutes(2)),
          {:ok, _job} <- ThreadWorker.new(%{id: event.id}) |> Oban.insert() do
-      conn |> json(%{data: nil})
+      conn |> json(%{success: true})
     else
       {:error, %BotError{message: "unauthorized event source"}} ->
-        conn |> put_status(:unauthorized) |> json(%{data: nil})
+        conn |> put_status(:unauthorized) |> json(%{success: false})
 
       _ ->
-        conn |> put_status(:bad_request) |> json(%{data: nil})
+        conn |> put_status(:bad_request) |> json(%{success: false})
     end
   end
 end

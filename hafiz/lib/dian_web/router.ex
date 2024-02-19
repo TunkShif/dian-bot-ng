@@ -1,8 +1,18 @@
 defmodule DianWeb.Router do
   use DianWeb, :router
 
+  import DianWeb.Auth
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_current_user
+  end
+
+  scope "/api", DianWeb do
+    pipe_through :api
+
+    post "/auth/login", SessionController, :create
+    delete "/auth/logout", SessionController, :delete
   end
 
   scope "/webhooks", DianWeb do

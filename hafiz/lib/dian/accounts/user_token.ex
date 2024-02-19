@@ -43,9 +43,18 @@ defmodule Dian.Accounts.UserToken do
   and devices in the UI and allow users to explicitly expire any
   session they deem invalid.
   """
-  def build_session_token(user) do
+  def build_session_token(user, params \\ %{}) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %UserToken{token: token, context: :session, user_id: user.id}}
+    hashed_token = :crypto.hash(@hash_algorithm, token)
+
+    {Base.encode64(token, padding: false),
+     %UserToken{
+       token: hashed_token,
+       context: :session,
+       user_id: user.id,
+       device: params["device"],
+       location: params["location"]
+     }}
   end
 
   @doc """
@@ -57,13 +66,21 @@ defmodule Dian.Accounts.UserToken do
   not expired (after @session_validity_in_days).
   """
   def verify_session_token_query(token) do
-    query =
-      from token in token_and_context_query(token, "session"),
-        join: user in assoc(token, :user),
-        where: token.inserted_at > ago(@session_validity_in_days, "day"),
-        select: user
+    case Base.decode64(token, padding: false) do
+      {:ok, decoded_token} ->
+        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
 
-    {:ok, query}
+        query =
+          from token in token_and_context_query(hashed_token, :session),
+            join: user in assoc(token, :user),
+            where: token.inserted_at > ago(@session_validity_in_days, "day"),
+            select: user
+
+        {:ok, query}
+
+      :error ->
+        :error
+    end
   end
 
   @doc """
@@ -87,10 +104,6 @@ defmodule Dian.Accounts.UserToken do
   for example, by phone numbers.
   """
   def build_email_token(email, context) do
-    build_hashed_token(context, email)
-  end
-
-  defp build_hashed_token(context, sent_to) do
     token = :crypto.strong_rand_bytes(@rand_size)
     hashed_token = :crypto.hash(@hash_algorithm, token)
 
@@ -98,7 +111,7 @@ defmodule Dian.Accounts.UserToken do
      %UserToken{
        token: hashed_token,
        context: context,
-       sent_to: sent_to
+       sent_to: email
      }}
   end
 

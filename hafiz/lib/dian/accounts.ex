@@ -88,4 +88,33 @@ defmodule Dian.Accounts do
       Repo.update(User.register_changeset(user, attrs))
     end
   end
+
+  @doc """
+  Authenticate a user with qid and password, return a token if succeed otherwise nil.
+  """
+  @spec login_user(map()) :: String.t() | nil
+  def login_user(params \\ %{}) do
+    qid = params["qid"]
+    password = params["password"]
+    user = Repo.get_by(User, qid: qid)
+
+    if User.valid_password?(user, password) do
+      {token, user_token} = UserToken.build_session_token(user, params)
+      Repo.insert!(user_token)
+      token
+    end
+  end
+
+  def get_user_by_session_token(token) do
+    with {:ok, query} <- UserToken.verify_session_token_query(token) do
+      Repo.one(query)
+    else
+      _ -> nil
+    end
+  end
+
+  def delete_user_session_token(token) do
+    # TODO: handle hashed token
+    Repo.delete_all(UserToken.token_and_context_query())
+  end
 end
