@@ -8,25 +8,38 @@ defmodule DianWeb.SessionController do
     device = get_req_header(conn, "user-agent") |> List.first()
     params = params |> Map.put("device", device)
 
-    if token = Accounts.login_user(params) do
-      conn
-      |> put_resp_header("authorization", "Bearer #{token}")
-      |> json(%{success: true})
-    else
-      conn
-      |> put_status(:unauthorized)
-      |> json(%{success: false})
+    case Accounts.login_user(params) do
+      nil ->
+        send_unauthorized_resp(conn)
+
+      token ->
+        conn
+        |> put_resp_header("authorization", "Bearer #{token}")
+        |> json(%{success: true})
     end
   end
 
   def delete(conn, _params) do
-    user = conn.assigns[:current_user]
-    dbg(user)
+    case get_auth_token(conn) do
+      nil ->
+        send_unauthorized_resp(conn)
 
-    if user do
-      json(conn, %{success: true})
-    else
-      json(conn, %{success: false})
+      token ->
+        Accounts.delete_user_session_token(token)
+        conn |> json(%{success: true})
     end
+  end
+
+  defp get_auth_token(conn) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] -> token
+      _ -> nil
+    end
+  end
+
+  defp send_unauthorized_resp(conn) do
+    conn
+    |> put_status(:unauthorized)
+    |> json(%{success: false})
   end
 end

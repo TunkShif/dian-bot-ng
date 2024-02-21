@@ -8,6 +8,11 @@ defmodule DianWeb.Router do
     plug :fetch_current_user
   end
 
+  pipeline :graphql do
+    plug :fetch_current_user
+    plug :put_user_context
+  end
+
   scope "/api", DianWeb do
     pipe_through :api
 
@@ -21,9 +26,10 @@ defmodule DianWeb.Router do
     post "/event", WebhookController, :event
   end
 
-  forward "/graphql", Absinthe.Plug, schema: DianWeb.Schema
+  scope "/graphql" do
+    pipe_through :graphql
 
-  if Application.compile_env(:dian, :dev_routes) do
+    forward "/", Absinthe.Plug, schema: DianWeb.Schema
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

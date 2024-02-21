@@ -25,6 +25,30 @@ defmodule Dian.Accounts.UserToken do
   end
 
   @doc """
+  Returns encoded token and hashed token.
+  """
+  def build_hashed_token() do
+    token = :crypto.strong_rand_bytes(@rand_size)
+    hashed_token = :crypto.hash(@hash_algorithm, token)
+    {Base.encode64(token, padding: false), hashed_token}
+  end
+
+  @doc """
+  Returns the token struct for the given token value and context.
+  """
+  def token_and_context_query(encoded_token, context) do
+    case Base.decode64(encoded_token, padding: false) do
+      {:ok, token} ->
+        hashed_token = :crypto.hash(@hash_algorithm, token)
+        query = from UserToken, where: [token: ^hashed_token, context: ^context]
+        {:ok, query}
+
+      :error ->
+        :error
+    end
+  end
+
+  @doc """
   Generates a token that will be stored in a signed place,
   such as session or cookie. As they are signed, those
   tokens do not need to be hashed.
@@ -44,10 +68,9 @@ defmodule Dian.Accounts.UserToken do
   session they deem invalid.
   """
   def build_session_token(user, params \\ %{}) do
-    token = :crypto.strong_rand_bytes(@rand_size)
-    hashed_token = :crypto.hash(@hash_algorithm, token)
+    {encoded_token, hashed_token} = build_hashed_token()
 
-    {Base.encode64(token, padding: false),
+    {encoded_token,
      %UserToken{
        token: hashed_token,
        context: :session,
@@ -66,28 +89,15 @@ defmodule Dian.Accounts.UserToken do
   not expired (after @session_validity_in_days).
   """
   def verify_session_token_query(token) do
-    case Base.decode64(token, padding: false) do
-      {:ok, decoded_token} ->
-        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
+    with {:ok, query} <- token_and_context_query(token, :session) do
+      query =
+        from token in query,
+          join: user in assoc(token, :user),
+          where: token.inserted_at > ago(@session_validity_in_days, "day"),
+          select: user
 
-        query =
-          from token in token_and_context_query(hashed_token, :session),
-            join: user in assoc(token, :user),
-            where: token.inserted_at > ago(@session_validity_in_days, "day"),
-            select: user
-
-        {:ok, query}
-
-      :error ->
-        :error
+      {:ok, query}
     end
-  end
-
-  @doc """
-  Returns the token struct for the given token value and context.
-  """
-  def token_and_context_query(token, context) do
-    from UserToken, where: [token: ^token, context: ^context]
   end
 
   @doc """
@@ -104,10 +114,9 @@ defmodule Dian.Accounts.UserToken do
   for example, by phone numbers.
   """
   def build_email_token(email, context) do
-    token = :crypto.strong_rand_bytes(@rand_size)
-    hashed_token = :crypto.hash(@hash_algorithm, token)
+    {encoded_token, hashed_token} = build_hashed_token()
 
-    {Base.url_encode64(token, padding: false),
+    {encoded_token,
      %UserToken{
        token: hashed_token,
        context: context,
@@ -129,21 +138,15 @@ defmodule Dian.Accounts.UserToken do
   see `verify_change_email_token_query/2`.
   """
   def verify_email_token_query(token, context) do
-    case Base.url_decode64(token, padding: false) do
-      {:ok, decoded_token} ->
-        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
+    with {:ok, query} <- token_and_context_query(token, context) do
+      query =
+        from token in query,
+          where:
+            token.inserted_at > ago(@confirm_validity_in_mins, "minute") and
+              not is_nil(token.sent_to),
+          select: token
 
-        query =
-          from token in token_and_context_query(hashed_token, context),
-            where:
-              token.inserted_at > ago(@confirm_validity_in_mins, "minute") and
-                not is_nil(token.sent_to),
-            select: token
-
-        {:ok, query}
-
-      :error ->
-        :error
+      {:ok, query}
     end
   end
 end

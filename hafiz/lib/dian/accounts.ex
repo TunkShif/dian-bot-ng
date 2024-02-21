@@ -114,7 +114,8 @@ defmodule Dian.Accounts do
   end
 
   def delete_user_session_token(token) do
-    # TODO: handle hashed token
-    Repo.delete_all(UserToken.token_and_context_query())
+    with {:ok, query} <- UserToken.token_and_context_query(token, :session) do
+      Repo.delete_all(query)
+    end
   end
 end
