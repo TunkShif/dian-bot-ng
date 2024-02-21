@@ -1,10 +1,11 @@
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { cssBundleHref } from "@remix-run/css-bundle"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, json } from "@remix-run/react"
+import { Toaster } from "~/components/toast"
+import { getUserPreferences, setUserPrefrences } from "~/lib/user-preferences.server"
 import styles from "./index.css"
 
 import "@fontsource-variable/inter/wght.css"
-import { getUserPreferences, setUserPrefrences } from "~/lib/user-preferences.server"
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -36,6 +37,7 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

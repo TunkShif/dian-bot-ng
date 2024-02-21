@@ -1,21 +1,35 @@
-import { type MetaFunction } from "@remix-run/cloudflare"
+import { Portal } from "@ark-ui/react"
+import { type ActionFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
 import { Form, Link } from "@remix-run/react"
+import { XIcon } from "lucide-react"
 import { css } from "styled-system/css"
 import { Box, Flex, HStack, Stack, VStack, styled } from "styled-system/jsx"
+import { z } from "zod"
 import { Button } from "~/components/ui/button"
 import { Checkbox } from "~/components/ui/checkbox"
 import { Heading } from "~/components/ui/heading"
+import { IconButton } from "~/components/ui/icon-button"
 import { Input } from "~/components/ui/input"
-import { Text } from "~/components/ui/text"
 import { Link as StyledLink } from "~/components/ui/link"
 import * as Popover from "~/components/ui/popover"
-import { Portal } from "@ark-ui/react"
-import { IconButton } from "~/components/ui/icon-button"
-import { XIcon } from "lucide-react"
+import { Text } from "~/components/ui/text"
 
 export const meta: MetaFunction = () => {
   return [{ title: "Signup - LITTLE RED BOOK" }]
 }
+
+export const action = async ({ request, context }: ActionFunctionArgs) => {
+  // TODO: sign up
+}
+
+const formSchema = z.object({
+  email: z
+    .string()
+    .max(20)
+    .email("请输入正确的邮箱")
+    .regex(/^\d{6,}@qq\.com$/, "请使用数字号码的企鹅邮箱"),
+  agree: z.boolean()
+})
 
 export default function SignUp() {
   return (
@@ -41,9 +55,18 @@ const Header = () => (
 
 const SignUpForm = () => {
   return (
-    <Form id="login-form" className={css({ w: "4/5" })}>
-      <VStack>
-        <Input name="email" placeholder="account@company.com" w="full" />
+    <Form id="signup-form" className={css({ w: "4/5" })}>
+      <VStack gap="4">
+        <Input
+          id="signup-form-email"
+          w="full"
+          name="email"
+          type="email"
+          placeholder="account@company.com"
+          pattern="^\d{6,}@qq\.com$"
+          maxLength={20}
+          required
+        />
         <Button type="submit" w="full">
           创建账户
         </Button>
@@ -55,7 +78,9 @@ const SignUpForm = () => {
 
 const AgreementsCheckbox = () => (
   <HStack w="full" gap="0" alignItems="center">
-    <Checkbox size="sm">我已阅读并同意</Checkbox>
+    <Checkbox size="sm" id="signup-form-agree" name="agree" required>
+      我已阅读并同意
+    </Checkbox>
     <AgreementsPopover />
   </HStack>
 )
@@ -96,7 +121,7 @@ const Divider = () => (
   <HStack w="4/5" my="4">
     <styled.div w="full" borderBlockEndWidth="1px" borderColor="border.subtle" />
     <Text size="sm" color="fg.subtle" flexShrink="0" fontWeight="light">
-      已经拥有账户?
+      已经拥有本站账户?
     </Text>
     <styled.div w="full" borderBlockEndWidth="1px" borderColor="border.subtle" />
   </HStack>

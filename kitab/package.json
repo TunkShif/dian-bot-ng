@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "@ark-ui/react": "^2.1.1",
+    "@conform-to/react": "^1.0.2",
+    "@conform-to/zod": "^1.0.2",
     "@fontsource-variable/cinzel": "^5.0.8",
     "@fontsource-variable/inter": "^5.0.16",
     "@fontsource/silkscreen": "^5.0.18",
@@ -25,6 +27,7 @@
     "@remix-run/react": "^2.7.1",
     "@remix-run/serve": "^2.7.1",
     "isbot": "^5.1.0",
+    "ky": "^1.2.0",
     "lucide-react": "^0.335.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

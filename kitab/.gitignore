@@ -8,6 +8,7 @@ node_modules
 /functions/metafile.*
 /functions/version.txt
 /public/build
+.env
 .dev.vars
 
 /styled-system

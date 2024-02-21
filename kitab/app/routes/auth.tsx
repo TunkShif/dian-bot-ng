@@ -1,3 +1,4 @@
+import { type LinksFunction } from "@remix-run/cloudflare"
 import { Outlet } from "@remix-run/react"
 import { CameraIcon } from "lucide-react"
 import { Box, Center, Flex } from "styled-system/jsx"
@@ -7,6 +8,8 @@ import { Link } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
 
 import "@fontsource-variable/cinzel/wght.css"
+
+export const links: LinksFunction = () => [{ rel: "prefetch", href: "/images/bg-books.jpg" }]
 
 export default function AuthLayout() {
   return (
