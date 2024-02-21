@@ -6,7 +6,7 @@ import { Icon } from "~/components/ui/icon"
 import { Link } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
 
-import "@fontsource/arvo/latin-400.css"
+import "@fontsource-variable/cinzel/wght.css"
 
 export default function AuthLayout() {
   return (
@@ -64,10 +64,12 @@ const CoverSection = () => {
         as="blockquote"
         size={["lg", "lg", "xl"]}
         position="absolute"
-        right={["8", undefined, "8"]}
-        bottom={["8", undefined, "8"]}
+        right={["4", undefined, "8"]}
+        bottom={["6", undefined, "8"]}
         color="accent.fg"
-        fontFamily="arvo"
+        textAlign="right"
+        fontWeight="medium"
+        fontFamily="cinzel"
         _before={{ content: "open-quote" }}
         _after={{ content: "close-quote" }}
       >
@@ -83,13 +85,22 @@ const FormSection = () => {
       position="relative"
       flex="2"
       backgroundColor="bg.default"
-      translate="auto"
-      translateY="-2"
-      borderRadius="lg"
+      _before={{
+        content: "''",
+        position: "absolute",
+        backgroundColor: "white",
+        roundedTop: "xl",
+        insetX: "0",
+        top: "-4",
+        h: "4"
+      }}
       lg={{
         flex: "1",
         translate: "none",
-        borderRadius: "none"
+        borderRadius: "none",
+        _before: {
+          display: "none"
+        }
       }}
     >
       <Flex
@@ -99,7 +110,7 @@ const FormSection = () => {
         top="8"
         left="0"
         right="0"
-        lg={{ top: "16", left: "16", right: "auto" }}
+        lg={{ top: "12", left: "16", right: "auto" }}
       >
         <Logo width="32" height="32" />
         <Text

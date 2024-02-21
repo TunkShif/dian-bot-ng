@@ -62,7 +62,7 @@ defmodule Dian.Accounts do
   @spec build_verification_url(String.t()) :: String.t()
   defp build_verification_url(token) do
     app_url = Application.get_env(:dian, :app_url)
-    "#{app_url}/verify/#{token}"
+    "#{app_url}/auth/verify/#{token}"
   end
 
   @doc """
