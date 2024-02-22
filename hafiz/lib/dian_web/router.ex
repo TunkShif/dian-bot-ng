@@ -16,6 +16,10 @@ defmodule DianWeb.Router do
   scope "/api", DianWeb do
     pipe_through :api
 
+    post "/user/create", UserController, :create
+    post "/user/verify/:token", UserController, :verify
+    post "/user/confirm/:token", UserController, :confirm
+
     post "/auth/login", SessionController, :create
     delete "/auth/logout", SessionController, :delete
   end

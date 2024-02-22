@@ -6,7 +6,7 @@ defmodule DianWeb.Schema do
   import_types Absinthe.Type.Custom
   import_types DianWeb.BotTypes
   import_types DianWeb.ChatsTypes
-  import_types DianWeb.AccountTypes
+  import_types DianWeb.AccountsTypes
 
   query do
     import_fields :bot_queries

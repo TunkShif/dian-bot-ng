@@ -1,4 +1,4 @@
-defmodule DianWeb.AccountTypes do
+defmodule DianWeb.AccountsTypes do
   use Absinthe.Schema.Notation
 
   object :user do
