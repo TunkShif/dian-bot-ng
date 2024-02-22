@@ -7,7 +7,12 @@ export const userPreferencesSchema = z.object({
 
 export type UserPreferencesSchema = z.infer<typeof userPreferencesSchema>
 
-export const userPreferencesCookie = createCookie("__user_prefs", { maxAge: 7 * 24 * 60 * 60 })
+export const userPreferencesCookie = createCookie("__user_prefs", {
+  maxAge: 7 * 24 * 60 * 60,
+  path: "/",
+  httpOnly: true,
+  sameSite: "lax"
+})
 
 export const getUserPreferences = async (request: Request) => {
   const cookie = (await userPreferencesCookie.parse(request.headers.get("Cookie"))) || {}
@@ -15,5 +20,6 @@ export const getUserPreferences = async (request: Request) => {
   return prefs
 }
 
-export const setUserPrefrences = (preferences: UserPreferencesSchema) =>
-  userPreferencesCookie.serialize(preferences)
+export const setUserPreferences = async (preferences: UserPreferencesSchema) => {
+  return new Headers({ "Set-Cookie": await userPreferencesCookie.serialize(preferences) })
+}

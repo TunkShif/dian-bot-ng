@@ -1,8 +1,21 @@
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { cssBundleHref } from "@remix-run/css-bundle"
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, json } from "@remix-run/react"
-import { Toaster } from "~/components/toast"
-import { getUserPreferences, setUserPrefrences } from "~/lib/user-preferences.server"
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  json,
+  useLoaderData
+} from "@remix-run/react"
+import { Toaster } from "sonner"
+import { styled } from "styled-system/jsx"
+import { useToast } from "~/components/toaster"
+import { combineHeaders } from "~/lib/helpers"
+import { getToast } from "~/lib/toast.server"
+import { getUserPreferences, setUserPreferences } from "~/lib/user-preferences.server"
 import styles from "./index.css"
 
 import "@fontsource-variable/inter/wght.css"
@@ -14,19 +27,27 @@ export const links: LinksFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const userPreferences = await getUserPreferences(request)
+  const [toast, userPreferences] = await Promise.all([
+    getToast(request),
+    getUserPreferences(request)
+  ])
 
-  const data = {
-    userPreferences
-  }
+  const headers = combineHeaders(toast.headers, await setUserPreferences(userPreferences))
 
-  const headers = new Headers()
-  headers.append("Set-Cookie", await setUserPrefrences(userPreferences))
-
-  return json(data, { headers })
+  return json(
+    {
+      toast: toast.toast,
+      userPreferences
+    },
+    { headers }
+  )
 }
 
 export default function App() {
+  const { toast } = useLoaderData<typeof loader>()
+
+  useToast(toast)
+
   return (
     <html lang="en">
       <head>
@@ -35,13 +56,13 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <styled.body position="relative">
         <Outlet />
-        <Toaster />
+        <Toaster position="top-center" toastOptions={{ duration: 2000 }} closeButton richColors />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-      </body>
+      </styled.body>
     </html>
   )
 }

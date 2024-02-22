@@ -1,31 +1,53 @@
-import ky, { type KyInstance } from "ky"
-import { z } from "zod"
+import ky, { type HTTPError, type KyInstance } from "ky"
+import invariant from "tiny-invariant"
 
-export const signInFormSchema = z.object({
-  qid: z.string(),
-  password: z.string()
-})
-
-export type SignInFormSchema = z.infer<typeof signInFormSchema>
-
-type AuthResponse = {
-  success: boolean
+export type SignInParams = {
+  qid: string
+  password: string
+  device: string | null
+  location: string | null
 }
 
-// TODO: error handling
+type AuthResult = { type: "unauthorized" } | { type: "unknown_error" }
+export type SignInResult = { type: "signin_success"; token: string } | AuthResult
+export type SignOutResult = { type: "signout_success" } | AuthResult
 
 export class AuthService {
   client: KyInstance
 
-  constructor(baseURL: string, options: { headers: HeadersInit | undefined }) {
-    this.client = ky.create({ prefixUrl: baseURL, headers: options?.headers })
+  constructor(baseUrl: string, options?: { headers: HeadersInit | undefined }) {
+    const authUrl = `${baseUrl}/api/auth`
+    this.client = ky.create({
+      prefixUrl: authUrl,
+      headers: options?.headers,
+      credentials: undefined
+    })
   }
 
-  signIn(params: SignInFormSchema) {
-    return this.client.post("/api/auth/login", { json: params })
+  async signIn(params: SignInParams): Promise<SignInResult> {
+    try {
+      const response = await this.client.post("login", { json: params })
+      const authorization = response.headers.get("Authorization")
+      invariant(authorization, "Authorization header cannot be null.")
+      const token = authorization.substring("Bearer ".length)
+      return { type: "signin_success", token }
+    } catch (error) {
+      const { response } = error as HTTPError
+      return {
+        type: response.status === 401 ? "unauthorized" : "unknown_error"
+      }
+    }
   }
 
-  signOut() {
-    return this.client.delete("/api/auth/logout")
+  async signOut(): Promise<SignOutResult> {
+    try {
+      await this.client.delete("logout")
+      return { type: "signout_success" }
+    } catch (error) {
+      const { response } = error as HTTPError
+      return {
+        type: response.status === 401 ? "unauthorized" : "unknown_error"
+      }
+    }
   }
 }

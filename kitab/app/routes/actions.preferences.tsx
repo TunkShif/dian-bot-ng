@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, json } from "@remix-run/cloudflare"
-import { getUserPreferences, setUserPrefrences } from "~/lib/user-preferences.server"
+import { getUserPreferences, setUserPreferences } from "~/lib/user-preferences.server"
 import { sidebarFormSchema } from "~/routes/_app/sidebar"
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -10,8 +10,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     sidebarCollapsed: formData.collapsed
   }
 
-  const headers = new Headers()
-  headers.append("Set-Cookie", await setUserPrefrences(data))
+  const headers = await setUserPreferences(data)
 
   return json(data, { headers })
 }
