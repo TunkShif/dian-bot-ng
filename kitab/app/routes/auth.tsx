@@ -84,9 +84,11 @@ const CoverSection = () => {
 
 const FormSection = () => {
   return (
-    <Center
+    <Flex
+      w="full"
       position="relative"
       flex="2"
+      flexDirection="column"
       backgroundColor="bg.default"
       _before={{
         content: "''",
@@ -106,15 +108,7 @@ const FormSection = () => {
         }
       }}
     >
-      <Flex
-        position="absolute"
-        justify="center"
-        align="center"
-        top="8"
-        left="0"
-        right="0"
-        lg={{ top: "12", left: "16", right: "auto" }}
-      >
+      <Flex mt="4" justify="center" align="center" lg={{ mt: "8", ml: "16", mr: "auto" }}>
         <Logo width="32" height="32" />
         <Text
           ml="1"
@@ -126,7 +120,9 @@ const FormSection = () => {
           Little Red Book
         </Text>
       </Flex>
-      <Outlet />
-    </Center>
+      <Center flexGrow="1">
+        <Outlet />
+      </Center>
+    </Flex>
   )
 }
