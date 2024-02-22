@@ -94,6 +94,11 @@ if config_env() == :prod do
     api_key: storage_key,
     bucket_name: storage_bucket
 
+  resend_key = System.get_env("RESEND_API_KEY") || raise "environment RESEND_API_KEY is missing"
+
+  # Configures resend mailer
+  config :dian, Dian.Mailer, adapter: Resend.Swoosh.Adapter, api_key: resend_key
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

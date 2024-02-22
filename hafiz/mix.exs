@@ -53,6 +53,7 @@ defmodule Dian.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:dataloader, "~> 1.0"},
       {:bcrypt_elixir, "~> 3.0"},
+      {:resend, "~> 0.4.0"},
       {:mjml, "~> 3.0"}
     ]
   end
