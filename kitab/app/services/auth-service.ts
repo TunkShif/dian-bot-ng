@@ -64,7 +64,14 @@ export class AuthService {
     }
   }
 
-  async verifyRegistration(token: string) {}
+  async verifyRegistration(token: string) {
+    try {
+      await this.client.post(`api/user/verify/${token}`)
+      return true
+    } catch (error) {
+      return false
+    }
+  }
 
   async confirmRegistration(token: string, params: ConfirmRegistraionParams) {}
 
