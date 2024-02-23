@@ -1,3 +1,6 @@
+env:
+  HAFIZ_API_URL: ${{ secrets.HAFIZ_API_URL }}
+
 name: Kitab Production Deployment
 on:
   workflow_dispatch:
