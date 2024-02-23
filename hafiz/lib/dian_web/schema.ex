@@ -9,6 +9,7 @@ defmodule DianWeb.Schema do
   import_types DianWeb.AccountsTypes
 
   query do
+    import_fields :me_queries
     import_fields :bot_queries
     import_fields :chats_queries
   end
