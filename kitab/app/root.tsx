@@ -26,7 +26,7 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg" }
 ]
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const [toast, userPreferences] = await Promise.all([
     getToast(request),
     getUserPreferences(request)

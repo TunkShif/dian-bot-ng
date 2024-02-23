@@ -1,15 +1,28 @@
-import { type LinksFunction } from "@remix-run/cloudflare"
-import { Outlet } from "@remix-run/react"
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
+import { Outlet, redirect } from "@remix-run/react"
 import { CameraIcon } from "lucide-react"
 import { Box, Center, Flex } from "styled-system/jsx"
 import { Logo } from "~/components/logo"
 import { Icon } from "~/components/ui/icon"
 import { Link } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
+import { CurrentUserQuery } from "~/services/auth-service"
 
 import "@fontsource-variable/cinzel/wght.css"
 
 export const links: LinksFunction = () => [{ rel: "prefetch", href: "/images/bg-books.jpg" }]
+
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const token = await context.sessionStorage.getUserToken(request)
+  const client = context.client.createGraphQLClient(token)
+
+  const { data } = await client.query(CurrentUserQuery, {}).toPromise()
+  if (data?.me.user) {
+    return redirect("/")
+  }
+
+  return { ok: true }
+}
 
 export default function AuthLayout() {
   return (

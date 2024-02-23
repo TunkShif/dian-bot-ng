@@ -40,7 +40,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     return submission.reply()
   }
 
-  const service = new AuthService(context.env.HAFIZ_API_URL)
+  const service = new AuthService(context.client.httpClient)
   const result = await service.requestRegistration(submission.value.email)
 
   if (result.type === "request_success") {

@@ -27,7 +27,16 @@ defmodule Dian.Storage.Adapters.SupabaseAdapter do
 
   @impl true
   def upload(params) do
-    %{"file" => name, "url" => url} = params
+    %{"file" => file, "url" => url} = params
+
+    name =
+      if String.contains?(file, "/") do
+        String.split(file, "/") |> List.last()
+      else
+        file
+      end
+
+    url = HtmlEntities.decode(url)
 
     with {:ok, %Tesla.Env{status: 200} = response} <- get(url),
          %Tesla.Env{headers: headers, body: body} = response,

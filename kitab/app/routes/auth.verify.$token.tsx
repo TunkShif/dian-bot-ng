@@ -48,7 +48,7 @@ export const action = async ({ request, context, params }: ActionFunctionArgs) =
     return submission.reply()
   }
 
-  const service = new AuthService(context.env.HAFIZ_API_URL)
+  const service = new AuthService(context.client.httpClient)
   const isConfirmSuccess = await service.confirmRegistration(token, submission.value)
 
   if (!isConfirmSuccess) {
@@ -70,10 +70,9 @@ export const action = async ({ request, context, params }: ActionFunctionArgs) =
 
 export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   const token = params.token
-  console.log(token)
   invariant(token, "Token is missing in route params")
 
-  const service = new AuthService(context.env.HAFIZ_API_URL)
+  const service = new AuthService(context.client.httpClient)
   const isVerifiedToken = await service.verifyRegistration(token)
   if (!isVerifiedToken) {
     const headers = await createToast({

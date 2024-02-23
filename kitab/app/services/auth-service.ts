@@ -1,4 +1,5 @@
-import ky, { type HTTPError, type KyInstance } from "ky"
+import { graphql } from "gql"
+import type { HTTPError, KyInstance } from "ky"
 import invariant from "tiny-invariant"
 
 type SignInParams = {
@@ -34,17 +35,13 @@ type RequestRegistrationResult =
 export class AuthService {
   client: KyInstance
 
-  constructor(baseUrl: string, options?: { headers: HeadersInit | undefined }) {
-    this.client = ky.create({
-      prefixUrl: baseUrl,
-      headers: options?.headers,
-      credentials: undefined
-    })
+  constructor(client: KyInstance) {
+    this.client = client
   }
 
   async requestRegistration(email: string): Promise<RequestRegistrationResult> {
     try {
-      await this.client.post("api/user/create", { json: { email } })
+      await this.client.post("user/create", { json: { email } })
       return { type: "request_success" }
     } catch (error) {
       const { response } = error as HTTPError
@@ -66,7 +63,7 @@ export class AuthService {
 
   async verifyRegistration(token: string) {
     try {
-      await this.client.post(`api/user/verify/${encodeURIComponent(token)}`)
+      await this.client.post(`user/verify/${encodeURIComponent(token)}`)
       return true
     } catch (error) {
       return false
@@ -75,17 +72,16 @@ export class AuthService {
 
   async confirmRegistration(token: string, params: ConfirmRegistraionParams) {
     try {
-      await this.client.post(`api/user/confirm/${encodeURIComponent(token)}`, { json: params })
+      await this.client.post(`user/confirm/${encodeURIComponent(token)}`, { json: params })
       return true
     } catch (error) {
-      console.log(error)
       return false
     }
   }
 
   async signIn(params: SignInParams): Promise<SignInResult> {
     try {
-      const response = await this.client.post("api/auth/login", { json: params })
+      const response = await this.client.post("auth/login", { json: params })
       const authorization = response.headers.get("Authorization")
       invariant(authorization, "Authorization header cannot be null.")
       const token = authorization.substring("Bearer ".length)
@@ -100,7 +96,7 @@ export class AuthService {
 
   async signOut(): Promise<SignOutResult> {
     try {
-      await this.client.delete("api/auth/logout")
+      await this.client.delete("auth/logout")
       return { type: "signout_success" }
     } catch (error) {
       const { response } = error as HTTPError
@@ -110,3 +106,16 @@ export class AuthService {
     }
   }
 }
+
+export const CurrentUserQuery = graphql(`
+  query CurrentUserQuery {
+    me {
+      user {
+        id
+        qid
+        role
+        name
+      }
+    }
+  }
+`)

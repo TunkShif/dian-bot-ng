@@ -1,4 +1,4 @@
-import { type Session, createCookieSessionStorage } from "@remix-run/cloudflare"
+import { createCookieSessionStorage, type Session } from "@remix-run/cloudflare"
 
 type SessionData = {
   token: string
@@ -30,5 +30,10 @@ export const createSessionStorage = (secret: string) => {
   const commitSession = async (session: CurrentSession) =>
     new Headers({ "Set-Cookie": await sessionStorage.commitSession(session) })
 
-  return { getSession, commitSession }
+  const getUserToken = async (request: Request) => {
+    const session = await getSession(request)
+    return session.get("token")
+  }
+
+  return { getSession, commitSession, getUserToken }
 }

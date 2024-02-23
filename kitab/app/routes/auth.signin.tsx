@@ -40,7 +40,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   const device = request.headers.get("User-Agent")
   const location = null // TODO: get user request IP
 
-  const service = new AuthService(context.env.HAFIZ_API_URL)
+  const service = new AuthService(context.client.httpClient)
   const result = await service.signIn({ ...submission.value, device, location })
 
   if (result.type === "signin_success") {

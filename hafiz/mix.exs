@@ -54,7 +54,8 @@ defmodule Dian.MixProject do
       {:dataloader, "~> 1.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:resend, "~> 0.4.0"},
-      {:mjml, "~> 3.0"}
+      {:mjml, "~> 3.0"},
+      {:html_entities, "~> 0.5"}
     ]
   end
 
