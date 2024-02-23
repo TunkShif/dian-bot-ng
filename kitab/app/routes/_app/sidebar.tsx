@@ -1,18 +1,20 @@
 import { Portal } from "@ark-ui/react"
-import { Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
+import { Form, Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
 import {
   ArchiveIcon,
   GaugeIcon,
   ImageIcon,
+  LogOutIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
   SearchIcon,
   SettingsIcon,
+  SunMoonIcon,
   UserIcon
 } from "lucide-react"
 import { css, cx } from "styled-system/css"
-import { Box, Center, Flex, styled } from "styled-system/jsx"
-import { flex, hstack, vstack } from "styled-system/patterns"
+import { Box, Center, Flex, Stack, styled } from "styled-system/jsx"
+import { center, flex, hstack, vstack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 import { Logo } from "~/components/logo"
@@ -63,6 +65,7 @@ export const Sidebar = () => {
       display="none"
       lg={{ display: "flex" }}
       direction="column"
+      justify="space-between"
       w="var(--sidebar-width)"
       position="fixed"
       top="0"
@@ -73,6 +76,9 @@ export const Sidebar = () => {
       <Box position="relative" pt="4" px="4">
         <BrandSection />
         <NavSection />
+      </Box>
+      <Box position="relative" pb="4" px="4">
+        <BottomSection />
       </Box>
     </Flex>
   )
@@ -280,6 +286,56 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
     </Tooltip.Root>
   )
 }
+
+const BottomSection = () => {
+  return (
+    <Stack
+      direction="row"
+      justify="end"
+      gap="1"
+      className={css({ "[data-sidebar-collapsed=true] &": { flexDirection: "column" } })}
+    >
+      <ThemeToggleButton />
+      <SignOutButton />
+    </Stack>
+  )
+}
+
+const ThemeToggleButton = () => {
+  return (
+    <Center>
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <IconButton variant="ghost">
+            <SunMoonIcon />
+          </IconButton>
+        </Tooltip.Trigger>
+        <Portal>
+          <Tooltip.Positioner>
+            <Tooltip.Content>切换主题</Tooltip.Content>
+          </Tooltip.Positioner>
+        </Portal>
+      </Tooltip.Root>
+    </Center>
+  )
+}
+
+const SignOutButton = () => (
+  <Form method="delete" action="/auth/signout" className={center()}>
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild>
+        <IconButton variant="ghost" type="submit">
+          <LogOutIcon />
+        </IconButton>
+      </Tooltip.Trigger>
+      <Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Content>退出登录</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Portal>
+    </Tooltip.Root>
+  </Form>
+)
 
 export const BottomBar = () => {
   return (

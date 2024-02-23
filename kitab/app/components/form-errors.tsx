@@ -14,7 +14,7 @@ export const FormErrors = (props: FormErrorsProps) => {
   return (
     <Stack>
       {errors.map((error) => (
-        <Text size="sm" color="accent.emphasized">
+        <Text key={error} size="sm" color="accent.emphasized">
           * {error}
         </Text>
       ))}

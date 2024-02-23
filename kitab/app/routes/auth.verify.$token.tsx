@@ -110,7 +110,7 @@ const ConfirmForm = () => {
   })
 
   const navigation = useNavigation()
-  const isSubmitting = navigation.formAction === "/auth/signup"
+  const isSubmitting = navigation.formAction?.startsWith("/auth/verify/") ?? false
 
   return (
     <Form method="post" {...getFormProps(form)} className={css({ w: "4/5" })}>

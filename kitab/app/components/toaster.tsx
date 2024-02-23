@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { toast } from "sonner"
 import type { ToastSchema } from "~/lib/toast.server"
 
-const showToast = (toastOptions: ToastSchema) => {
+export const showToast = (toastOptions: ToastSchema) => {
   const { id, type, title, description } = toastOptions
   switch (type) {
     case "success":

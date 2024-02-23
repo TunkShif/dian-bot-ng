@@ -35,5 +35,10 @@ export const createSessionStorage = (secret: string) => {
     return session.get("token")
   }
 
-  return { getSession, commitSession, getUserToken }
+  const destroySession = async (request: Request) => {
+    const session = await getSession(request)
+    return new Headers({ "Set-Cookie": await sessionStorage.destroySession(session) })
+  }
+
+  return { getSession, commitSession, destroySession, getUserToken }
 }
