@@ -9,7 +9,6 @@ import {
   PanelLeftOpenIcon,
   SearchIcon,
   SettingsIcon,
-  SunMoonIcon,
   UserIcon
 } from "lucide-react"
 import { css, cx } from "styled-system/css"
@@ -18,6 +17,7 @@ import { center, flex, hstack, vstack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 import { Logo } from "~/components/logo"
+import { ThemeToggleButton } from "~/components/theme"
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
 import { Icon } from "~/components/ui/icon"
@@ -298,25 +298,6 @@ const BottomSection = () => {
       <ThemeToggleButton />
       <SignOutButton />
     </Stack>
-  )
-}
-
-const ThemeToggleButton = () => {
-  return (
-    <Center>
-      <Tooltip.Root>
-        <Tooltip.Trigger asChild>
-          <IconButton variant="ghost">
-            <SunMoonIcon />
-          </IconButton>
-        </Tooltip.Trigger>
-        <Portal>
-          <Tooltip.Positioner>
-            <Tooltip.Content>切换主题</Tooltip.Content>
-          </Tooltip.Positioner>
-        </Portal>
-      </Tooltip.Root>
-    </Center>
   )
 }
 

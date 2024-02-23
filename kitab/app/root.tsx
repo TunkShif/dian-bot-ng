@@ -19,6 +19,9 @@ import { getUserPreferences, setUserPreferences } from "~/lib/user-preferences.s
 import styles from "./index.css"
 
 import "@fontsource-variable/inter/wght.css"
+import { useTheme } from "~/components/theme"
+import { ClientHintCheck, getHints } from "~/lib/client-hints"
+import { getUserTheme } from "~/lib/theme.server"
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -26,9 +29,10 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg" }
 ]
 
-export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const [toast, userPreferences] = await Promise.all([
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const [toast, theme, userPreferences] = await Promise.all([
     getToast(request),
+    getUserTheme(request),
     getUserPreferences(request)
   ])
 
@@ -36,7 +40,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   return json(
     {
+      hints: getHints(request),
       toast: toast.toast,
+      theme,
       userPreferences
     },
     { headers }
@@ -45,12 +51,14 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 export default function App() {
   const { toast } = useLoaderData<typeof loader>()
+  const theme = useTheme()
 
   useToast(toast)
 
   return (
-    <html lang="en">
+    <html lang="en" className={theme}>
       <head>
+        <ClientHintCheck nonce="" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />

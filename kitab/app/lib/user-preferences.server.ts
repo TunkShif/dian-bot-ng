@@ -8,7 +8,7 @@ export const userPreferencesSchema = z.object({
 export type UserPreferencesSchema = z.infer<typeof userPreferencesSchema>
 
 export const userPreferencesCookie = createCookie("__user_prefs", {
-  maxAge: 7 * 24 * 60 * 60,
+  maxAge: 365 * 24 * 60 * 60,
   path: "/",
   httpOnly: true,
   sameSite: "lax"
