@@ -95,9 +95,14 @@ if config_env() == :prod do
     bucket_name: storage_bucket
 
   resend_key = System.get_env("RESEND_API_KEY") || raise "environment RESEND_API_KEY is missing"
+  mailer_name = System.get_env("MAILER_NAME") || raise "environment MAILER_NAME is missing"
+  mailer_email = System.get_env("MAILER_EMAIL") || raise "environment MAILER_EMAIL is missing"
 
   # Configures resend mailer
-  config :dian, Dian.Mailer, adapter: Resend.Swoosh.Adapter, api_key: resend_key
+  config :dian, Dian.Mailer,
+    adapter: Resend.Swoosh.Adapter,
+    api_key: resend_key,
+    sender: {mailer_name, mailer_email}
 
   # ## SSL Support
   #

@@ -38,7 +38,9 @@ config :dian, Dian.Storage, adapter: Dian.Storage.Adapters.SupabaseAdapter
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Local
+config :dian, Dian.Mailer,
+  adapter: Swoosh.Adapters.Local,
+  sender: {"HAFIZ Dev", "hafiz@email.com"}
 
 # Configure oban jobs
 config :dian, Oban,
