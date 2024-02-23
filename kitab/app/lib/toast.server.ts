@@ -21,7 +21,7 @@ type SessionFlashData = { toast: ToastSchema }
 export const toastsSessionStorage = createCookieSessionStorage<SessionData, SessionFlashData>({
   cookie: {
     name: "__toasts",
-    maxAge: 20 * 60,
+    maxAge: 2 * 60,
     path: "/",
     httpOnly: true,
     sameSite: "lax",

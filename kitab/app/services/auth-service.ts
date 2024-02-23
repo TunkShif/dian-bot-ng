@@ -66,14 +66,22 @@ export class AuthService {
 
   async verifyRegistration(token: string) {
     try {
-      await this.client.post(`api/user/verify/${token}`)
+      await this.client.post(`api/user/verify/${encodeURIComponent(token)}`)
       return true
     } catch (error) {
       return false
     }
   }
 
-  async confirmRegistration(token: string, params: ConfirmRegistraionParams) {}
+  async confirmRegistration(token: string, params: ConfirmRegistraionParams) {
+    try {
+      await this.client.post(`api/user/confirm/${encodeURIComponent(token)}`, { json: params })
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
 
   async signIn(params: SignInParams): Promise<SignInResult> {
     try {

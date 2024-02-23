@@ -37,10 +37,40 @@ export const schema = z
     message: "两次输入的密码不一致"
   })
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {}
+export const action = async ({ request, context, params }: ActionFunctionArgs) => {
+  const token = params.token
+  invariant(token, "Token is missing in route params.")
+
+  const formData = await request.formData()
+  const submission = parseWithZod(formData, { schema })
+
+  if (submission.status !== "success") {
+    return submission.reply()
+  }
+
+  const service = new AuthService(context.env.HAFIZ_API_URL)
+  const isConfirmSuccess = await service.confirmRegistration(token, submission.value)
+
+  if (!isConfirmSuccess) {
+    const headers = await createToast({
+      type: "error",
+      title: "注册失败",
+      description: "注册链接似乎出问题了，稍后再试试吧"
+    })
+    return redirect("/auth/signup", { headers })
+  }
+
+  const headers = await createToast({
+    type: "success",
+    title: "注册成功",
+    description: "赶紧去登录吧"
+  })
+  return redirect("/auth/signin", { headers })
+}
 
 export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   const token = params.token
+  console.log(token)
   invariant(token, "Token is missing in route params")
 
   const service = new AuthService(context.env.HAFIZ_API_URL)

@@ -15,7 +15,7 @@ defmodule DianWeb.UserController do
 
   def verify(conn, %{"token" => token}) do
     case Accounts.verify_email_user_token(token) do
-      {:ok, _user_token} -> send_success_resp(conn)
+      {:ok, _user} -> send_success_resp(conn)
       {:error, error} -> send_error_resp(conn, error)
     end
   end

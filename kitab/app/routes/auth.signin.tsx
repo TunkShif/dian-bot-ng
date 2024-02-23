@@ -11,6 +11,7 @@ import { FormLabel } from "~/components/ui/form-label"
 import { Heading } from "~/components/ui/heading"
 import { Input } from "~/components/ui/input"
 import { Link as StyledLink } from "~/components/ui/link"
+import { combineHeaders } from "~/lib/helpers"
 import { createToast } from "~/lib/toast.server"
 import { AuthService } from "~/services/auth-service"
 
@@ -45,9 +46,15 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (result.type === "signin_success") {
     const session = await sessionStorage.getSession(request)
     session.set("token", result.token)
-    const headers = new Headers({
-      "Set-Cookie": await sessionStorage.commitSession(session)
+
+    const setUserToken = await sessionStorage.commitSession(session)
+    const sendSuccessToast = await createToast({
+      type: "success",
+      title: "登录成功",
+      description: "欢迎回来~"
     })
+
+    const headers = combineHeaders(setUserToken, sendSuccessToast)
     return redirect("/dashboard", { headers })
   }
 

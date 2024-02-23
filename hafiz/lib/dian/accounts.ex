@@ -62,7 +62,7 @@ defmodule Dian.Accounts do
   @spec build_verification_url(String.t()) :: String.t()
   defp build_verification_url(token) do
     app_url = Application.get_env(:dian, :app_url)
-    "#{app_url}/auth/verify/#{token}"
+    "#{app_url}/auth/verify/#{URI.encode_www_form(token)}"
   end
 
   @doc """
@@ -71,8 +71,10 @@ defmodule Dian.Accounts do
   @spec verify_email_user_token(String.t()) :: {:ok, Ecto.Schema.t()} | {:error, String.t()}
   def verify_email_user_token(token) do
     with {:ok, query} <- UserToken.verify_email_token_query(token, :confirm),
-         %UserToken{} = user_token <- Repo.one(query) do
-      {:ok, user_token}
+         %UserToken{} = user_token <- Repo.one(query),
+         {:ok, qid} <- validate_email(user_token.sent_to),
+         {:ok, %User{} = user} <- validate_non_registered(qid) do
+      {:ok, user}
     else
       _ -> {:error, "invalid_token"}
     end
@@ -82,9 +84,7 @@ defmodule Dian.Accounts do
   Register a new user with the given `token`.
   """
   def register_user(token, attrs \\ %{}) do
-    with {:ok, %UserToken{} = user_token} <- verify_email_user_token(token),
-         {:ok, qid} <- validate_email(user_token.sent_to),
-         {:ok, %User{} = user} <- validate_non_registered(qid) do
+    with {:ok, %User{} = user} <- verify_email_user_token(token) do
       Repo.update(User.register_changeset(user, attrs))
     end
   end

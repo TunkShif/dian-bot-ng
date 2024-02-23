@@ -58,7 +58,7 @@ export default function App() {
       </head>
       <styled.body position="relative">
         <Outlet />
-        <Toaster position="top-center" toastOptions={{ duration: 2500 }} closeButton richColors />
+        <Toaster position="top-center" toastOptions={{ duration: 3500 }} closeButton richColors />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
