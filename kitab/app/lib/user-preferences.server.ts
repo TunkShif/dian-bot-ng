@@ -2,7 +2,7 @@ import { createCookie } from "@remix-run/cloudflare"
 import { z } from "zod"
 
 export const userPreferencesSchema = z.object({
-  sidebarCollapsed: z.boolean().default(false)
+  sidebarCollapsed: z.boolean().default(true)
 })
 
 export type UserPreferencesSchema = z.infer<typeof userPreferencesSchema>

@@ -132,9 +132,23 @@ const CollapseToggle = () => {
 
   return (
     <fetcher.Form method="post" action="/actions/preferences">
-      <IconButton variant="ghost" type="submit" name="collapsed" value={(!isCollapsed).toString()}>
-        {isCollapsed ? <PanelLeftOpenIcon /> : <PanelLeftCloseIcon />}
-      </IconButton>
+      <Tooltip.Root openDelay={150}>
+        <Tooltip.Trigger asChild>
+          <IconButton
+            variant="ghost"
+            type="submit"
+            name="collapsed"
+            value={(!isCollapsed).toString()}
+          >
+            {isCollapsed ? <PanelLeftOpenIcon /> : <PanelLeftCloseIcon />}
+          </IconButton>
+        </Tooltip.Trigger>
+        <Portal>
+          <Tooltip.Positioner>
+            <Tooltip.Content>{isCollapsed ? "展开面板" : "收起面板"}</Tooltip.Content>
+          </Tooltip.Positioner>
+        </Portal>
+      </Tooltip.Root>
     </fetcher.Form>
   )
 }
