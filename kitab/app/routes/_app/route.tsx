@@ -1,5 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { Outlet } from "@remix-run/react"
+import { graphql } from "gql"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
 import { createToast } from "~/lib/toast.server"
@@ -8,12 +9,21 @@ import { CurrentUserQuery } from "~/services/auth-service"
 
 import "@fontsource/silkscreen/700.css"
 
+const BotStatusQuery = graphql(`
+  query DashboardQuery {
+    bot {
+      isOnline
+    }
+  }
+`)
+
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)
   const client = context.client.createGraphQLClient(token)
 
-  const { data } = await client.query(CurrentUserQuery, {}).toPromise()
-  if (!data || !data.me.user) {
+  const userQuery = await client.query(CurrentUserQuery, {}).toPromise()
+  const user = userQuery.data?.me.user
+  if (!user) {
     const headers = await createToast({
       type: "error",
       title: "访问受限",
@@ -22,7 +32,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     return redirect("/auth/signin", { headers })
   }
 
-  return { currentUser: data.me.user }
+  const botQuery = await client.query(BotStatusQuery, {}).toPromise()
+  const isBotOnline = botQuery.data?.bot.isOnline ?? false
+
+  return { currentUser: user, isBotOnline }
 }
 
 export default function AppLayout() {

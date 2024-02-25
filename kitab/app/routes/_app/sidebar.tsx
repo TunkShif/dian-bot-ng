@@ -2,6 +2,7 @@ import { Portal } from "@ark-ui/react"
 import { Form, Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
 import {
   ArchiveIcon,
+  BotIcon,
   GaugeIcon,
   ImageIcon,
   LogOutIcon,
@@ -12,7 +13,7 @@ import {
   UserIcon
 } from "lucide-react"
 import { css, cx } from "styled-system/css"
-import { Box, Center, Flex, Stack, styled } from "styled-system/jsx"
+import { Box, Center, Circle, Flex, Stack, styled } from "styled-system/jsx"
 import { center, flex, hstack, vstack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
@@ -25,6 +26,7 @@ import { IconButton } from "~/components/ui/icon-button"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
 import { type loader as rootLoader } from "~/root"
+import { loader as appLoader } from "~/routes/_app/route"
 
 const NAVIGATIONS = [
   { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
@@ -295,9 +297,42 @@ const BottomSection = () => {
       gap="1"
       className={css({ "[data-sidebar-collapsed=true] &": { flexDirection: "column" } })}
     >
+      <BotStatusButton />
       <ThemeToggleButton />
       <SignOutButton />
     </Stack>
+  )
+}
+
+const BotStatusButton = () => {
+  const data = useRouteLoaderData<typeof appLoader>("routes/_app")
+  invariant(data, "App route data is missing")
+  const isBotOnline = data.isBotOnline
+
+  return (
+    <Center>
+      <Tooltip.Root openDelay={150}>
+        <Tooltip.Trigger asChild>
+          <IconButton position="relative" variant="ghost">
+            <BotIcon />
+            <Circle
+              data-active={isBotOnline || undefined}
+              position="absolute"
+              top="0"
+              right="0"
+              bg="tomato.8"
+              size="1.5"
+              _active={{ bg: "grass.8" }}
+            />
+          </IconButton>
+        </Tooltip.Trigger>
+        <Portal>
+          <Tooltip.Positioner>
+            <Tooltip.Content>{isBotOnline ? "Bot 状态在线" : "Bot 似乎挂了"}</Tooltip.Content>
+          </Tooltip.Positioner>
+        </Portal>
+      </Tooltip.Root>
+    </Center>
   )
 }
 

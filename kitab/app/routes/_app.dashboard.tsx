@@ -1,17 +1,14 @@
-import { type MetaFunction } from "@remix-run/cloudflare"
-import { Link } from "@remix-run/react"
-import { Box } from "styled-system/jsx"
-import { Link as StyledLink } from "~/components/ui/link"
-import { Text } from "~/components/ui/text"
+import { type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
+import { Flex } from "styled-system/jsx"
 
 export const meta: MetaFunction = () => {
   return [{ title: "Dashboard - LITTLE RED BOOK" }]
 }
 
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  return {}
+}
+
 export default function Dashboard() {
-  return (
-    <Box p="8" fontSize="lg">
-      <Text>还没做好</Text>
-    </Box>
-  )
+  return <Flex p="8" fontSize="lg"></Flex>
 }
