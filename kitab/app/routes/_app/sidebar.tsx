@@ -25,8 +25,8 @@ import { Icon } from "~/components/ui/icon"
 import { IconButton } from "~/components/ui/icon-button"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
-import { type loader as rootLoader } from "~/root"
-import { loader as appLoader } from "~/routes/_app/route"
+import type { loader as rootLoader } from "~/root"
+import type { loader as appLoader } from "~/routes/_app/route"
 
 const NAVIGATIONS = [
   { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
@@ -383,17 +383,7 @@ export const BottomBar = () => {
                     <NavIcon />
                   </Icon>
                 </Center>
-                <styled.span
-                  data-nav-label
-                  fontSize="xs"
-                  fontWeight="medium"
-                  textAlign="center"
-                  className={css({
-                    "[data-sidebar-collapsed=true] &": {
-                      display: "none"
-                    }
-                  })}
-                >
+                <styled.span data-nav-label fontSize="xs" fontWeight="medium" textAlign="center">
                   {name}
                 </styled.span>
               </NavLink>

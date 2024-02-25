@@ -8,7 +8,7 @@ import { z } from "zod"
 import { IconButton } from "~/components/ui/icon-button"
 import * as Tooltip from "~/components/ui/tooltip"
 import { useHints } from "~/lib/client-hints"
-import { loader as rootLoader } from "~/root"
+import type { loader as rootLoader } from "~/root"
 
 const THEME_FETCHER_KEY = "THEME_FETCHER"
 

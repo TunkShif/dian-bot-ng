@@ -11,7 +11,7 @@ import {
 import { useRevalidator, useRouteLoaderData } from "@remix-run/react"
 import { useEffect } from "react"
 import invariant from "tiny-invariant"
-import { loader as rootLoader } from "~/root"
+import type { loader as rootLoader } from "~/root"
 
 const hintsUtils = getHintUtils({
   theme: colorSchemeHint
