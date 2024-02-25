@@ -2,6 +2,7 @@ import { Portal } from "@ark-ui/react"
 import { Form, Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
 import {
   ArchiveIcon,
+  BookLockIcon,
   BotIcon,
   GaugeIcon,
   ImageIcon,
@@ -33,6 +34,7 @@ const NAVIGATIONS = [
   { name: "精华典库", icon: ArchiveIcon, route: "/archive" },
   { name: "精彩图库", icon: ImageIcon, route: "/gallery" },
   { name: "个人账户", icon: UserIcon, route: "/account" },
+  { name: "后台管理", icon: BookLockIcon, route: "/admin" },
   { name: "更多设置", icon: SettingsIcon, route: "/settings" }
 ]
 
@@ -105,7 +107,6 @@ const BrandSection = () => {
       })}
     >
       <BrandLogo />
-      <CollapseToggle />
     </Flex>
   )
 }
@@ -131,7 +132,7 @@ const CollapseToggle = () => {
   const isCollapsed = useIsCollapsed()
 
   return (
-    <fetcher.Form method="post" action="/actions/preferences">
+    <fetcher.Form method="post" action="/actions/preferences" className={center()}>
       <Tooltip.Root openDelay={150}>
         <Tooltip.Trigger asChild>
           <IconButton
@@ -276,7 +277,7 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
           )}
         >
           <Center w="8" h="8" bg="accent.4" rounded="md">
-            <Icon color="accent.text">
+            <Icon color="accent.text" _dark={{ color: "accent.12" }}>
               <NavIcon />
             </Icon>
           </Center>
@@ -311,6 +312,7 @@ const BottomSection = () => {
       gap="1"
       className={css({ "[data-sidebar-collapsed=true] &": { flexDirection: "column" } })}
     >
+      <CollapseToggle />
       <BotStatusButton />
       <ThemeToggleButton />
       <SignOutButton />
