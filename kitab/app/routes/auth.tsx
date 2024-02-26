@@ -44,7 +44,8 @@ const CoverSection = () => {
         content: "''",
         position: "absolute",
         inset: "0",
-        bgColor: "gray.a11/75"
+        bgColor: "gray.a11/75",
+        _dark: { bgColor: "gray.a1/75" }
       }}
     >
       <Text
