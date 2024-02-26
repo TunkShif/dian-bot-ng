@@ -30,7 +30,5 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       break
   }
 
-  console.log("==========", url)
-
   return fetch(url)
 }

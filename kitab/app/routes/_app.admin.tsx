@@ -1,7 +1,12 @@
+import { type MetaFunction } from "@remix-run/cloudflare"
 import { NavLink, Outlet } from "@remix-run/react"
 import { Box, Flex, styled } from "styled-system/jsx"
 import { flex, vstack } from "styled-system/patterns"
 import { Heading } from "~/components/ui/heading"
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Admin - LITTLE RED BOOK" }]
+}
 
 export default function AdminLayout() {
   return (
