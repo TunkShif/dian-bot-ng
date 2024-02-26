@@ -6,12 +6,12 @@ import {
 } from "@remix-run/cloudflare"
 import { useLoaderData } from "@remix-run/react"
 import { graphql } from "gql"
+import { AccessibilityIcon } from "lucide-react"
 import { Center, Flex, HStack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
-import * as Card from "~/components/ui/card"
 import * as Alert from "~/components/ui/alert"
-import { AccessibilityIcon } from "lucide-react"
 import { Avatar } from "~/components/ui/avatar"
+import * as Card from "~/components/ui/card"
 import { Text } from "~/components/ui/text"
 
 export const meta: MetaFunction = () => {
