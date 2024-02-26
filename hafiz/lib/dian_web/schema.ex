@@ -20,6 +20,10 @@ defmodule DianWeb.Schema do
     Map.put(ctx, :loader, loader)
   end
 
+  def middleware(middleware, _field, _object) do
+    [DianWeb.Middleware.Auth] ++ middleware
+  end
+
   def plugins do
     [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end
