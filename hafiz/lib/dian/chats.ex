@@ -1,4 +1,6 @@
 defmodule Dian.Chats do
+  import Ecto.Query
+
   alias Dian.Repo
   alias DianBot.Schemas.Event
   alias DianBot.Schemas.User, as: BotUser
@@ -10,7 +12,7 @@ defmodule Dian.Chats do
   def query(queryable, _params), do: queryable
 
   def list_threads() do
-    Repo.all(Thread)
+    Repo.all(from thread in Thread, limit: 10, order_by: [desc: thread.posted_at], select: thread)
   end
 
   def create_thread(%Event{} = event) do

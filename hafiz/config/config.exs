@@ -31,6 +31,11 @@ config :dian, DianBot, adapter: DianBot.Adapters.OnebotAdapter
 # Configures default storgae provider
 config :dian, Dian.Storage, adapter: Dian.Storage.Adapters.SupabaseAdapter
 
+# Configures Sqids hash id secret
+config :dian, Dian.Sqids,
+  secret: 233,
+  alphabet: "ONmTp39yKvhz0He5QAV6Mr2UIq4ZWXxnLiC87kBd1gRGJuDastoSljbEwPfcFY"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

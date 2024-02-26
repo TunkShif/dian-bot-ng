@@ -1,7 +1,7 @@
 defmodule DianWeb.AccountsTypes do
   use Absinthe.Schema.Notation
 
-  alias DianWeb.AccountsResolver
+  alias DianWeb.{AccountsResolver, HelperResolver}
 
   object :me_queries do
     field :me, non_null(:me), resolve: fn _, _, _ -> {:ok, %{}} end
@@ -14,7 +14,7 @@ defmodule DianWeb.AccountsTypes do
   end
 
   object :user do
-    field :id, non_null(:id)
+    field :id, non_null(:id), resolve: &HelperResolver.hashed_id/3
     field :qid, non_null(:string)
     field :role, non_null(:user_role)
     field :name, non_null(:string)

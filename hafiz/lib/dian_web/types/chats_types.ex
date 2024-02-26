@@ -4,7 +4,7 @@ defmodule DianWeb.ChatsTypes do
   import Absinthe.Resolution.Helpers
 
   alias Dian.Chats
-  alias DianWeb.ChatsResolver
+  alias DianWeb.{ChatsResolver, HelperResolver}
 
   object :chats_queries do
     field :threads, non_null(list_of(non_null(:thread))) do
@@ -13,7 +13,7 @@ defmodule DianWeb.ChatsTypes do
   end
 
   object :thread do
-    field :id, non_null(:id)
+    field :id, non_null(:id), resolve: &HelperResolver.hashed_id/3
     field :owner, non_null(:user), resolve: dataloader(Chats)
     field :group, non_null(:group), resolve: dataloader(Chats)
     field :messages, non_null(list_of(:message)), resolve: dataloader(Chats)
@@ -21,14 +21,14 @@ defmodule DianWeb.ChatsTypes do
   end
 
   object :message do
-    field :id, non_null(:id)
+    field :id, non_null(:id), resolve: &HelperResolver.hashed_id/3
     field :sender, non_null(:user), resolve: dataloader(Chats)
     field :content, non_null(list_of(non_null(:message_content)))
     field :sent_at, non_null(:naive_datetime)
   end
 
   object :group do
-    field :id, non_null(:id)
+    field :id, non_null(:id), resolve: &HelperResolver.hashed_id/3
     field :gid, non_null(:string)
     field :name, non_null(:string)
   end

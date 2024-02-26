@@ -55,7 +55,8 @@ defmodule Dian.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:resend, "~> 0.4.0"},
       {:mjml, "~> 3.0"},
-      {:html_entities, "~> 0.5"}
+      {:html_entities, "~> 0.5"},
+      {:sqids, "~> 0.1.0"}
     ]
   end
 

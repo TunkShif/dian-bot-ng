@@ -104,6 +104,17 @@ if config_env() == :prod do
     api_key: resend_key,
     sender: {mailer_name, mailer_email}
 
+  hash_secret =
+    String.to_integer(
+      System.get_env("HASH_ID_SECRET") || raise("environment HASH_ID_SECRET is missing")
+    )
+
+  hash_alphabet =
+    System.get_env("HASH_ID_ALPHABET") || raise "environment HASH_ID_ALPHABET is missing"
+
+  # Configures Sqids hash id secret
+  config :dian, Dian.Sqids, secret: hash_secret, alphabet: hash_alphabet
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
