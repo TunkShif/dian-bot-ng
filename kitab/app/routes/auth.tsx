@@ -106,7 +106,7 @@ const FormSection = () => {
       _before={{
         content: "''",
         position: "absolute",
-        backgroundColor: "white",
+        backgroundColor: "bg.default",
         roundedTop: "xl",
         insetX: "0",
         top: "-4",
