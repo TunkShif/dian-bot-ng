@@ -47,6 +47,7 @@ const SideBar = () => {
               <styled.li w="full">
                 <NavLink
                   to={route}
+                  prefetch="intent"
                   className={flex({
                     alignItems: "center",
                     w: "calc(100% - {sizes.4})",

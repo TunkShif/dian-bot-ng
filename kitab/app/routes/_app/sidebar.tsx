@@ -265,6 +265,7 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
       <Tooltip.Trigger asChild>
         <NavLink
           to={route}
+          prefetch="intent"
           className={cx(
             navStyles,
             css({
