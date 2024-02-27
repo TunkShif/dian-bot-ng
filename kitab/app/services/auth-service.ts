@@ -110,12 +110,10 @@ export class AuthService {
 export const CurrentUserQuery = graphql(`
   query CurrentUserQuery {
     me {
-      user {
-        id
-        qid
-        role
-        name
-      }
+      id
+      qid
+      role
+      name
     }
   }
 `)

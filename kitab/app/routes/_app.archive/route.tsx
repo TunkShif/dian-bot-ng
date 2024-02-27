@@ -30,13 +30,16 @@ const ListThreadsQuery = graphql(`
       messages {
         content {
           ... on AtMessageContent {
+            __typename
             name
             qid
           }
           ... on ImageMessageContent {
+            __typename
             url
           }
           ... on TextMessageContent {
+            __typename
             text
           }
         }
@@ -124,7 +127,7 @@ const ThreadItem = ({ thread }: ThreadItemProps) => {
                 <Text>{message?.sender.name}</Text>
                 <VStack rounded="lg" bg="bg.subtle" p="2" alignItems="start">
                   {message?.content.map((content, index) => (
-                    <MessageContentView key={content.__typename! + index} content={content} />
+                    <MessageContentView key={content.__typename + index} content={content} />
                   ))}
                 </VStack>
               </Flex>
@@ -137,7 +140,6 @@ const ThreadItem = ({ thread }: ThreadItemProps) => {
 }
 
 const MessageContentView = ({ content }: { content: MessageContent }) => {
-  if (!content.__typename) return null
   switch (content.__typename) {
     case "AtMessageContent":
       return <Text>@{content.name}</Text>

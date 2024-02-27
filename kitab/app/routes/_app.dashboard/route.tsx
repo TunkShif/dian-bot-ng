@@ -1,5 +1,6 @@
-import { type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
-import { useRouteLoaderData } from "@remix-run/react"
+import { json, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
+import { graphql } from "gql"
 import { UserRole } from "gql/graphql"
 import {
   ClipboardCheckIcon,
@@ -27,8 +28,27 @@ export const meta: MetaFunction = () => {
   return [{ title: "Dashboard - LITTLE RED BOOK" }]
 }
 
+const DashboardQuery = graphql(`
+  query DashboardQuery {
+    me {
+      statistics {
+        chats
+        threads
+        followers
+      }
+    }
+  }
+`)
+
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  return {}
+  const token = await context.sessionStorage.getUserToken(request)
+  const client = context.client.createGraphQLClient(token)
+  const { data } = await client.query(DashboardQuery, {}).toPromise()
+  // TODO: unified invariant error handling
+  invariant(data?.me)
+  return json({
+    statistics: data.me.statistics
+  })
 }
 
 export default function Dashboard() {
@@ -78,6 +98,8 @@ const ProfileCard = () => {
   const user = data.currentUser
   const isAdmin = user.role === UserRole.Admin
 
+  const { statistics } = useLoaderData<typeof loader>()
+
   return (
     <Card.Root maxW="xs">
       <Card.Header>
@@ -118,7 +140,7 @@ const ProfileCard = () => {
                 </Text>
               </VStack>
               <Text size="lg" fontVariantNumeric="tabular-nums">
-                NaN
+                {statistics.chats}
               </Text>
             </VStack>
           </Center>
@@ -134,7 +156,7 @@ const ProfileCard = () => {
                 </Text>
               </VStack>
               <Text size="lg" fontVariantNumeric="tabular-nums">
-                NaN
+                {statistics.threads}
               </Text>
             </VStack>
           </Center>
@@ -150,7 +172,7 @@ const ProfileCard = () => {
                 </Text>
               </VStack>
               <Text size="lg" fontVariantNumeric="tabular-nums">
-                NaN
+                {statistics.followers}
               </Text>
             </VStack>
           </Center>
@@ -165,7 +187,7 @@ const RssFeedCard = () => {
     <Card.Root>
       <Card.Header pb="4">
         <Card.Title>RSS Feed</Card.Title>
-        <Card.Description>使用你最爱的 RSS 阅览器来追踪关注用户的每日动态!</Card.Description>
+        <Card.Description>使用你最爱的 RSS 阅览器来追踪用户的每日动态!</Card.Description>
       </Card.Header>
       <Card.Body>
         <Clipboard.Root value="https://example.com">

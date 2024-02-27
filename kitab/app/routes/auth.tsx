@@ -17,7 +17,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const client = context.client.createGraphQLClient(token)
 
   const { data } = await client.query(CurrentUserQuery, {}).toPromise()
-  if (data?.me.user) {
+  if (data?.me) {
     return redirect("/")
   }
 

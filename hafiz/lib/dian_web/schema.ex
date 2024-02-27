@@ -5,6 +5,8 @@ defmodule DianWeb.Schema do
   alias Dian.Chats
   alias DianWeb.NodeResolver
 
+  # TODO: ID Translator
+
   import_types Absinthe.Type.Custom
   import_types DianWeb.NodeTypes
   import_types DianWeb.BotTypes

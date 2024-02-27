@@ -1,5 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { Outlet } from "@remix-run/react"
+import { Outlet, useNavigation } from "@remix-run/react"
 import { graphql } from "gql"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
@@ -10,7 +10,7 @@ import { CurrentUserQuery } from "~/services/auth-service"
 import "@fontsource/silkscreen/700.css"
 
 const BotStatusQuery = graphql(`
-  query DashboardQuery {
+  query BotStatusQuery {
     bot {
       isOnline
     }
@@ -22,7 +22,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const client = context.client.createGraphQLClient(token)
 
   const userQuery = await client.query(CurrentUserQuery, {}).toPromise()
-  const user = userQuery.data?.me.user
+  const user = userQuery.data?.me
   if (!user) {
     const headers = await createToast({
       type: "error",
@@ -59,11 +59,17 @@ export default function AppLayout() {
 }
 
 const Main = () => {
+  const navigation = useNavigation()
+  const isNavigating = navigation.state === "loading"
+
   return (
     <styled.main
       lg={{
         ml: "var(--sidebar-width)"
       }}
+      data-loading={isNavigating || undefined}
+      aria-busy={isNavigating}
+      _loading={{ opacity: "65%" }}
     >
       <Outlet />
     </styled.main>

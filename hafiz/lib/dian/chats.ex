@@ -26,7 +26,8 @@ defmodule Dian.Chats do
     %{
       chats: Repo.aggregate(chats_query, :count),
       threads: Repo.aggregate(threads_query, :count),
-      followers: 0 # TODO: follower
+      # TODO: follower
+      followers: 0
     }
   end
 
