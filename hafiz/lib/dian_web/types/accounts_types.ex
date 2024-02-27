@@ -1,27 +1,33 @@
 defmodule DianWeb.AccountsTypes do
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
-  alias DianWeb.{AccountsResolver, HelperResolver}
+  alias DianWeb.AccountsResolver
 
   object :me_queries do
-    field :me, non_null(:me), resolve: fn _, _, _ -> {:ok, %{}} end
+    field :me, :user, resolve: &AccountsResolver.current_user/3
   end
 
-  object :me do
-    field :user, :user do
-      resolve &AccountsResolver.fetch_current_user/3
-    end
-  end
-
-  object :user do
-    field :id, non_null(:id), resolve: &HelperResolver.hashed_id/3
+  node object(:user) do
     field :qid, non_null(:string)
-    field :role, non_null(:user_role)
     field :name, non_null(:string)
+    field :role, non_null(:user_role)
+    field :statistics, non_null(:user_statistics), resolve: &AccountsResolver.user_statistics/3
+
+    # TODO: complete connections later
+    connection field :threads, node_type: :thread do
+      resolve &AccountsResolver.user_threads/2
+    end
   end
 
   enum :user_role do
     value :user
     value :admin
+  end
+
+  object :user_statistics do
+    field :chats, non_null(:integer)
+    field :threads, non_null(:integer)
+    field :followers, non_null(:integer)
   end
 end

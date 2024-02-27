@@ -9,13 +9,6 @@ defmodule DianWeb.ChatsResolver do
   end
 
   @doc """
-  Resolve the type of a message content fragment.
-  """
-  def message_content_type(root, _args, _info) do
-    {:ok, root["type"]}
-  end
-
-  @doc """
   Resolve the data field of a message content fragment.
   """
   def message_content_data(field \\ nil) do

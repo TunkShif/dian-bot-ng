@@ -15,6 +15,21 @@ defmodule Dian.Chats do
     Repo.all(from thread in Thread, limit: 10, order_by: [desc: thread.posted_at], select: thread)
   end
 
+  def list_user_threads_query(user_id) do
+    from thread in Thread, where: [owner_id: ^user_id], order_by: [desc: thread.posted_at]
+  end
+
+  def get_user_statistics(user_id) do
+    chats_query = from message in Message, where: [sender_id: ^user_id]
+    threads_query = from thread in Thread, where: [owner_id: ^user_id]
+
+    %{
+      chats: Repo.aggregate(chats_query, :count),
+      threads: Repo.aggregate(threads_query, :count),
+      followers: 0 # TODO: follower
+    }
+  end
+
   def create_thread(%Event{} = event) do
     multi =
       Ecto.Multi.new()

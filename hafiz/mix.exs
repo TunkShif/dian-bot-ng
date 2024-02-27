@@ -51,6 +51,7 @@ defmodule Dian.MixProject do
       {:cachex, "~> 3.6"},
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
+      {:absinthe_relay, "~> 1.5.0"},
       {:dataloader, "~> 1.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:resend, "~> 0.4.0"},

@@ -1,9 +1,12 @@
 defmodule DianWeb.Schema do
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :modern
 
   alias Dian.Chats
+  alias DianWeb.NodeResolver
 
   import_types Absinthe.Type.Custom
+  import_types DianWeb.NodeTypes
   import_types DianWeb.BotTypes
   import_types DianWeb.ChatsTypes
   import_types DianWeb.AccountsTypes
@@ -12,6 +15,10 @@ defmodule DianWeb.Schema do
     import_fields :me_queries
     import_fields :bot_queries
     import_fields :chats_queries
+
+    node field do
+      resolve &NodeResolver.resolve_node/2
+    end
   end
 
   def context(ctx) do
