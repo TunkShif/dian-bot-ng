@@ -4,8 +4,16 @@ defmodule Dian.Sqids do
   @secret Application.compile_env!(:dian, Dian.Sqids) |> Keyword.fetch!(:secret)
   @alphabet Application.compile_env!(:dian, Dian.Sqids) |> Keyword.fetch!(:alphabet)
 
-  @context Sqids.new!(min_length: 7, alphabet: @alphabet)
+  @context Sqids.new!(min_length: 5, alphabet: @alphabet)
 
-  def encode!(numbers), do: Sqids.encode!(dialyzed_ctx(@context), numbers ++ [@secret])
-  def decode!(id), do: Sqids.decode!(dialyzed_ctx(@context), id)
+  def encode(number) when is_integer(number) do
+    Sqids.encode!(dialyzed_ctx(@context), [number, @secret])
+  end
+
+  def decode(id) do
+    case Sqids.decode!(dialyzed_ctx(@context), id) do
+      [number, @secret] -> {:ok, number}
+      _ -> {:error, "Could not decode hashed ID from value #{inspect(id)}"}
+    end
+  end
 end
