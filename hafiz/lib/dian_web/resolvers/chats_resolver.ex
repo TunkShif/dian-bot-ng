@@ -1,11 +1,13 @@
 defmodule DianWeb.ChatsResolver do
+  alias Dian.Repo
   alias Dian.Chats
 
   @doc """
   Resolve a list of threads.
   """
-  def list_threads(_root, _args, _info) do
-    {:ok, Chats.list_threads()}
+  def list_threads(args, _info) do
+    Chats.list_threads_query()
+    |> Absinthe.Relay.Connection.from_query(&Repo.all/1, args)
   end
 
   @doc """

@@ -8,8 +8,8 @@ defmodule DianWeb.ChatsTypes do
   alias DianWeb.ChatsResolver
 
   object :chats_queries do
-    field :threads, non_null(list_of(non_null(:thread))) do
-      resolve &ChatsResolver.list_threads/3
+    connection field :threads, node_type: :thread do
+      resolve &ChatsResolver.list_threads/2
     end
   end
 

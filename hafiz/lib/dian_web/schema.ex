@@ -12,11 +12,13 @@ defmodule DianWeb.Schema do
   import_types DianWeb.BotTypes
   import_types DianWeb.ChatsTypes
   import_types DianWeb.AccountsTypes
+  import_types DianWeb.StatisticsType
 
   query do
     import_fields :me_queries
     import_fields :bot_queries
     import_fields :chats_queries
+    import_fields :statistics_queries
 
     node field do
       resolve &NodeResolver.resolve_node/2

@@ -11,12 +11,13 @@ defmodule Dian.Chats do
   def data, do: Dataloader.Ecto.new(Dian.Repo, query: &query/2)
   def query(queryable, _params), do: queryable
 
-  def list_threads() do
-    Repo.all(from thread in Thread, limit: 10, order_by: [desc: thread.posted_at], select: thread)
+  def list_threads_query() do
+    from thread in Thread, order_by: [desc: thread.posted_at]
   end
 
-  def list_user_threads_query(user_id) do
-    from thread in Thread, where: [owner_id: ^user_id], order_by: [desc: thread.posted_at]
+  def list_threads_query(user_id) do
+    list_threads_query()
+    |> where(owner_id: ^user_id)
   end
 
   def get_user_statistics(user_id) do
@@ -29,6 +30,21 @@ defmodule Dian.Chats do
       # TODO: follower
       followers: 0
     }
+  end
+
+  @doc """
+  Returns daily thread count in last 6 months.
+  """
+  def get_daily_threads_statistics() do
+    last_date = DateTime.utc_now() |> DateTime.add(-(30 * 6), :day)
+
+    Repo.all(
+      from thread in Thread,
+        where: thread.posted_at > ^last_date,
+        group_by: fragment("date_trunc('day', ?)", thread.posted_at),
+        order_by: [desc: fragment("date_trunc('day', ?)", thread.posted_at)],
+        select: %{date: fragment("date_trunc('day', ?)", thread.posted_at), count: count()}
+    )
   end
 
   def create_thread(%Event{} = event) do
