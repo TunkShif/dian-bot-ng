@@ -14,7 +14,7 @@ defmodule Dian.Chats.User do
     field :password, :string, virtual: true, redact: true
     field :password_confirmation, :string, virtual: true, redact: true
 
-    field :role, Ecto.Enum, values: [:user, :admin]
+    field :role, Ecto.Enum, values: [:user, :vip, :admin]
 
     has_many :tokens, UserToken
 

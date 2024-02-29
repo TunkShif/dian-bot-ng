@@ -108,7 +108,7 @@ export class AuthService {
 }
 
 export const CurrentUserQuery = graphql(`
-  query CurrentUserQuery {
+  query CurrentUser {
     me {
       id
       qid

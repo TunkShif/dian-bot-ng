@@ -1,6 +1,6 @@
 defmodule DianWeb.Schema do
   use Absinthe.Schema
-  use Absinthe.Relay.Schema, flavor: :modern, global_id_translator: Dian.Absinthe.IDTranslator
+  use Absinthe.Relay.Schema, flavor: :modern, global_id_translator: DianWeb.Absinthe.IDTranslator
 
   alias Dian.Chats
   alias DianWeb.NodeResolver

@@ -8,17 +8,27 @@ defmodule DianWeb.ChatsTypes do
   alias DianWeb.ChatsResolver
 
   object :chats_queries do
-    connection field :threads, node_type: :thread do
+    connection field :threads, node_type: :thread, non_null: true do
+      arg :filter, :thread_filter
       resolve &ChatsResolver.list_threads/2
     end
   end
 
-  connection(node_type: :thread)
+  input_object :thread_filter do
+    @desc "Filtering by a user qid"
+    field :user, :string
+    @desc "Filtering by a group gid"
+    field :group, :string
+    @desc "Filtering by a specific day"
+    field :date, :naive_datetime
+  end
+
+  connection(:thread, node_type: non_null(:thread), non_null: true)
 
   node object(:thread) do
     field :owner, non_null(:user), resolve: dataloader(Chats)
     field :group, non_null(:group), resolve: dataloader(Chats)
-    field :messages, non_null(list_of(:message)), resolve: dataloader(Chats)
+    field :messages, non_null(list_of(non_null(:message))), resolve: dataloader(Chats)
     field :posted_at, non_null(:naive_datetime)
   end
 

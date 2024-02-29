@@ -18,6 +18,16 @@ export default defineConfig({
           cinzel: { value: "var(--font-cinzel), serif" },
           silkscreen: { value: "var(--font-silkscreen), serif" }
         }
+      },
+      slotRecipes: {
+        card: {
+          base: {
+            root: {
+              boxShadow: "none",
+              borderWidth: "1px"
+            }
+          }
+        }
       }
     }
   },

@@ -67,6 +67,7 @@ export const Sidebar = () => {
   return (
     <Flex
       display="none"
+      bg="bg.default"
       lg={{ display: "flex" }}
       direction="column"
       justify="space-between"
@@ -372,7 +373,14 @@ const SignOutButton = () => (
 
 export const BottomBar = () => {
   return (
-    <Box position="fixed" insetX="0" bottom="0" borderTopWidth="1px" lg={{ display: "none" }}>
+    <Box
+      position="fixed"
+      insetX="0"
+      bottom="0"
+      borderTopWidth="1px"
+      bg="bg.default"
+      lg={{ display: "none" }}
+    >
       <styled.nav p="2" md={{ px: "8" }}>
         <ul className={hstack({ gap: "1", justifyContent: "space-between" })}>
           {NAVIGATIONS.map(({ name, route, icon: NavIcon }) => (
@@ -386,7 +394,14 @@ export const BottomBar = () => {
                     <NavIcon />
                   </Icon>
                 </Center>
-                <styled.span data-nav-label fontSize="xs" fontWeight="medium" textAlign="center">
+                <styled.span
+                  data-nav-label
+                  fontSize="xs"
+                  fontWeight="medium"
+                  textAlign="center"
+                  maxW="4ch"
+                  md={{ maxW: "none" }}
+                >
                   {name}
                 </styled.span>
               </NavLink>

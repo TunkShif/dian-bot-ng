@@ -10,7 +10,7 @@ import { CurrentUserQuery } from "~/services/auth-service"
 
 import "@fontsource-variable/cinzel/wght.css"
 
-export const links: LinksFunction = () => [{ rel: "prefetch", href: "/images/bg-books.jpg" }]
+export const links: LinksFunction = () => [{ rel: "prefetch", href: "/images/bg-books.webp" }]
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)
@@ -38,7 +38,7 @@ const CoverSection = () => {
     <Box
       flex="1"
       position="relative"
-      backgroundImage="url('/images/bg-books.jpg')"
+      backgroundImage="url('/images/bg-books.webp')"
       backgroundSize="cover"
       _before={{
         content: "''",

@@ -10,7 +10,7 @@ import { CurrentUserQuery } from "~/services/auth-service"
 import "@fontsource/silkscreen/700.css"
 
 const BotStatusQuery = graphql(`
-  query BotStatusQuery {
+  query BotStatus {
     bot {
       isOnline
     }

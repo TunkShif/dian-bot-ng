@@ -1,4 +1,4 @@
-defmodule Dian.Absinthe.IDTranslator do
+defmodule DianWeb.Absinthe.IDTranslator do
   @behaviour Absinthe.Relay.Node.IDTranslator
 
   alias Dian.Sqids
