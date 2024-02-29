@@ -3,11 +3,14 @@ import { Outlet, useNavigation } from "@remix-run/react"
 import { graphql } from "gql"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
+import { Link as StyledLink } from "~/components/ui/link"
+import { Text } from "~/components/ui/text"
 import { createToast } from "~/lib/toast.server"
 import { BottomBar, Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
 import { CurrentUserQuery } from "~/services/auth-service"
 
 import "@fontsource/silkscreen/700.css"
+import { center } from "styled-system/patterns"
 
 const BotStatusQuery = graphql(`
   query BotStatus {
@@ -53,6 +56,7 @@ export default function AppLayout() {
     >
       <Sidebar />
       <Main />
+      <Footer />
       <BottomBar />
     </div>
   )
@@ -73,5 +77,31 @@ const Main = () => {
     >
       <Outlet />
     </styled.main>
+  )
+}
+
+const Footer = () => {
+  return (
+    <footer
+      className={center({
+        pt: "6",
+        pb: "32",
+        lg: { pb: "6", ml: "var(--sidebar-width)" },
+        flexDirection: "column",
+        gap: "2",
+        borderTopWidth: "1"
+      })}
+    >
+      <Text size="sm" fontFamily="silkscreen" color="accent.text">
+        little red book
+      </Text>
+      <Text size="sm">
+        📕 Powered by
+        <StyledLink mx="0.5" href="https://github.com/TunkShif/dian-bot-ng/" target="_blank">
+          dian-bot-ng
+        </StyledLink>
+        , made with ❤️
+      </Text>
+    </footer>
   )
 }

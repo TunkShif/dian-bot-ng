@@ -32,7 +32,7 @@ export const ThreadItem = ({ thread }: ThreadItemProps) => {
           <StyledLink px="0.5" asChild>
             <span>{thread.owner.name}</span>
           </StyledLink>
-          于{formatDateTime(thread.postedAt)}设置
+          于<styled.time px="0.5">{formatDateTime(thread.postedAt)}</styled.time>设置
         </Text>
       </Card.Footer>
     </Card.Root>

@@ -53,7 +53,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 export default function Dashboard() {
   return (
-    <Center mx="4" pt="4" lg={{ pt: "8" }}>
+    <Center mx="4" pt="4" pb="48" lg={{ pt: "8" }}>
       <Flex w="full" flexDirection="column" lg={{ flexDirection: "row", maxW: "5xl" }} gap="8">
         <VStack flex="2" gap="6">
           <PinnedMessageList />
