@@ -2,6 +2,7 @@ defmodule Dian.Chats.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Dian.Admins.PinnedMessage
   alias DianBot.Schemas.User, as: BotUser
   alias Dian.Chats.{User, Thread, Message}
   alias Dian.Accounts.{UserToken}
@@ -20,6 +21,7 @@ defmodule Dian.Chats.User do
 
     has_many :threads, Thread, foreign_key: :owner_id
     has_many :messages, Message, foreign_key: :sender_id
+    has_many :pinned_messages, PinnedMessage, foreign_key: :operator_id
 
     timestamps(type: :utc_datetime)
   end
