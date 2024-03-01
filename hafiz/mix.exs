@@ -57,7 +57,9 @@ defmodule Dian.MixProject do
       {:resend, "~> 0.4.0"},
       {:mjml, "~> 3.0"},
       {:html_entities, "~> 0.5"},
-      {:sqids, "~> 0.1.0"}
+      {:sqids, "~> 0.1.0"},
+      {:canada, "~> 2.0"},
+      {:bbmustache, "~> 1.12"}
     ]
   end
 

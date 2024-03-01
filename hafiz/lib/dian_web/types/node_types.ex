@@ -3,7 +3,7 @@ defmodule DianWeb.NodeTypes do
   use Absinthe.Relay.Schema.Notation, :modern
 
   alias Dian.Chats.{User, Group, Thread, Message}
-  alias Dian.Admins.{PinnedMessage}
+  alias Dian.Admins.{PinnedMessage, NotificationMessage}
 
   node interface do
     resolve_type fn
@@ -12,6 +12,7 @@ defmodule DianWeb.NodeTypes do
       %Thread{}, _ -> :thread
       %Message{}, _ -> :message
       %PinnedMessage{}, _ -> :pinned_message
+      %NotificationMessage{}, _ -> :notification_message
       _, _ -> nil
     end
   end

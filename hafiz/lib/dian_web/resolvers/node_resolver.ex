@@ -1,6 +1,7 @@
 defmodule DianWeb.NodeResolver do
   alias Dian.Repo
   alias Dian.Chats.{User, Group, Thread, Message}
+  alias Dian.Admins.{PinnedMessage, NotificationMessage}
 
   def resolve_node(%{type: type, id: id}, _info) do
     schema =
@@ -9,6 +10,8 @@ defmodule DianWeb.NodeResolver do
         :group -> Group
         :thread -> Thread
         :message -> Message
+        :pinned_message -> PinnedMessage
+        :notification_message -> NotificationMessage
       end
 
     {:ok, Repo.get(schema, id)}

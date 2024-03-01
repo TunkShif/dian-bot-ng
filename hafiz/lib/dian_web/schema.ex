@@ -35,6 +35,10 @@ defmodule DianWeb.Schema do
     Map.put(ctx, :loader, loader)
   end
 
+  def middleware(middleware, _field, %{identifier: :mutation}) do
+    [DianWeb.Middleware.Auth] ++ middleware ++ [DianWeb.Middleware.ErrorFormatter]
+  end
+
   def middleware(middleware, _field, _object) do
     [DianWeb.Middleware.Auth] ++ middleware
   end
