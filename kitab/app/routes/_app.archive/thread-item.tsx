@@ -21,15 +21,15 @@ export const ThreadItem = ({ thread }: ThreadItemProps) => {
         </VStack>
       </Card.Body>
       <Card.Footer justifyContent="space-between" px="4" pb="4">
-        <Text size="sm" color="fg.subtle">
+        <Text size="xs" color="fg.subtle">
           来自群
-          <StyledLink px="0.5" asChild>
+          <StyledLink px="0.5" maxW="6ch" title={thread.group.name} truncate asChild>
             <span>{thread.group.name}</span>
           </StyledLink>
         </Text>
-        <Text size="sm" color="fg.subtle">
+        <Text size="xs" color="fg.subtle">
           由
-          <StyledLink px="0.5" asChild>
+          <StyledLink px="0.5" maxW="6ch" title={thread.owner.name} truncate asChild>
             <span>{thread.owner.name}</span>
           </StyledLink>
           于<styled.time px="0.5">{formatDateTime(thread.postedAt)}</styled.time>设置
@@ -74,6 +74,10 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
     case "ImageMessageContent":
       return <styled.img rounded="sm" src={content.url} alt="a chat image" loading="lazy" />
     case "TextMessageContent":
-      return <Text as="span">{content.text}</Text>
+      return (
+        <Text wordBreak="break-word" as="span">
+          {content.text}
+        </Text>
+      )
   }
 }
