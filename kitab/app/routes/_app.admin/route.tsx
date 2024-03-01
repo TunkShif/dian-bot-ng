@@ -1,11 +1,18 @@
-import { type MetaFunction } from "@remix-run/cloudflare"
-import { NavLink, Outlet } from "@remix-run/react"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare"
+import { NavLink, Outlet, redirect } from "@remix-run/react"
 import { Box, Flex, styled } from "styled-system/jsx"
 import { flex, vstack } from "styled-system/patterns"
 import { Heading } from "~/components/ui/heading"
 
 export const meta: MetaFunction = () => {
   return [{ title: "Admin - LITTLE RED BOOK" }]
+}
+
+export const loader = ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url)
+  const isLayoutRoute = url.pathname === "/admin"
+  if (isLayoutRoute) return redirect("/admin/broadcast")
+  return { ok: true }
 }
 
 export default function AdminLayout() {
@@ -44,7 +51,7 @@ const SideBar = () => {
         <styled.nav py="14">
           <ul className={vstack({ gap: "1", py: "4", alignItems: "start" })}>
             {NAVIGATIONS.map(({ name, route }) => (
-              <styled.li w="full">
+              <styled.li key={name} w="full">
                 <NavLink
                   to={route}
                   prefetch="intent"

@@ -3,7 +3,6 @@ import { Await, useLoaderData } from "@remix-run/react"
 import HeatMap, { type HeatMapValue } from "@uiw/react-heat-map"
 import { subDays } from "date-fns"
 import { Suspense } from "react"
-import { css } from "styled-system/css"
 import { Box } from "styled-system/jsx"
 import * as Card from "~/components/ui/card"
 import * as Tooltip from "~/components/ui/tooltip"
@@ -19,12 +18,12 @@ export const DailyHeatMapCard = () => {
       </Card.Header>
       <Card.Body pb="2">
         <Box overflowX="auto">
-          <Suspense fallback={<DailyHeatMap data={[]} />}>
+          <Suspense fallback={<DailyHeatMap key="loading-heatmap" data={[]} />}>
             <Await resolve={dailyStatisticsQuery}>
               {(dailyStatistics) => {
                 const data = (dailyStatistics.data?.statistics?.dailyThreads ??
                   []) as HeatMapValue[]
-                return <DailyHeatMap data={data} />
+                return <DailyHeatMap key="loaded-heatmap" data={data} />
               }}
             </Await>
           </Suspense>
@@ -41,7 +40,9 @@ type DailyHeatMapProps = {
 const DailyHeatMap = ({ data }: DailyHeatMapProps) => {
   return (
     <HeatMap
-      style={{ color: "var(--colors-fg-default)", "--rhm-rect": "var(--colors-bg-emphasized)" }}
+      style={
+        { color: "var(--colors-fg-default)", "--rhm-rect": "var(--colors-bg-emphasized)" } as any
+      }
       value={data}
       width={620}
       height={180}

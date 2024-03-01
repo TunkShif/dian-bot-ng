@@ -2,6 +2,7 @@ import { defer, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cl
 import { graphql } from "gql"
 import { Center, Flex, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
+import { PinnedMessagesQuery } from "~/queries/pinned-messages"
 import { DailyHeatMapCard } from "~/routes/_app.dashboard/daily-heatmap-card"
 import { PinnedMessageList } from "~/routes/_app.dashboard/pinned-message-list"
 import { RSSSubscriptionCard } from "~/routes/_app.dashboard/rss-subscription-card"
@@ -40,6 +41,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const userStatisticsQuery = client.query(UserStatisticsQuery, {}).toPromise()
   const dailyStatisticsQuery = client.query(DailyStatisticsQuery, {}).toPromise()
+  const pinnedMessagesQuery = client.query(PinnedMessagesQuery, { first: 5 }).toPromise()
 
   const userStatisticsResult = await userStatisticsQuery
 
@@ -47,7 +49,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   return defer({
     userStatistics: userStatisticsResult.data.me.statistics,
-    dailyStatisticsQuery
+    dailyStatisticsQuery,
+    pinnedMessagesQuery
   })
 }
 

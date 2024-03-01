@@ -7,7 +7,7 @@ export default defineConfig({
     createPreset({
       grayColor: "mauve",
       accentColor: "red",
-      borderRadius: "lg",
+      borderRadius: "md",
       additionalColors: ["tomato", "grass"]
     })
   ],
