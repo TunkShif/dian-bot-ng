@@ -124,7 +124,7 @@ const [CreateActionProvider, useIsDialogOpen, useSetIsDialogOpen] = createContex
 
 export default function PinnedMessages() {
   return (
-    <Stack p="4">
+    <Stack p="2">
       <HStack justify="space-between">
         <Stack gap="2">
           <Heading as="h3">站内公告管理</Heading>
@@ -272,7 +272,7 @@ const CreatePinnedMessageAction = () => {
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Dialog.Trigger asChild>
-        <Button size="xs">
+        <Button flexShrink={0} size="xs">
           <Icon>
             <PlusCircleIcon />
           </Icon>
@@ -375,9 +375,7 @@ const CreatePinnedMessageForm = () => {
         </Stack>
 
         <Stack gap="1.5">
-          <FormLabel flexShrink="0" size="sm">
-            内容
-          </FormLabel>
+          <FormLabel size="sm">内容</FormLabel>
           <Textarea size="sm" {...getTextareaProps(fields.content)} />
           <FormErrors errors={fields.content.errors} />
         </Stack>

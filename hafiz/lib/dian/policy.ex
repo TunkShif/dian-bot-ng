@@ -12,7 +12,7 @@ defmodule Dian.Policy do
         do: :ok
 
     def can?(%User{role: role}, action, %NotificationMessage{})
-        when action in [:create, :update] and role in [:vip, :admin],
+        when action in [:create] and role in [:vip, :admin],
         do: :ok
 
     def can?(_user, _action, _subject),

@@ -28,8 +28,10 @@ const DEFAULT_TAB = "message-broadcast"
 export default function AdminLayout() {
   const location = useLocation()
   const navigate = useNavigate()
-  const segment = location.pathname.split("/").at(-1)
-  const activeTab = !!segment ? segment : DEFAULT_TAB
+
+  const segments = location.pathname.split("/").filter((it) => !!it)
+  const maybeTab = segments[1]
+  const activeTab = !!maybeTab ? maybeTab : DEFAULT_TAB
 
   return (
     <Center mx="4" py="4" lg={{ py: "8" }}>

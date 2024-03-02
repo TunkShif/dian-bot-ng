@@ -75,9 +75,11 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
       return <styled.img rounded="sm" src={content.url} alt="a chat image" loading="lazy" />
     case "TextMessageContent":
       return (
-        <Text wordBreak="break-word" as="span">
-          {content.text}
-        </Text>
+        <>
+          {content.text.split("\n").map((it) => (
+            <Text wordBreak="break-word">{it}</Text>
+          ))}
+        </>
       )
   }
 }

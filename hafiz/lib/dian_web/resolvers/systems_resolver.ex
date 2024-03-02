@@ -32,8 +32,4 @@ defmodule DianWeb.SystemsResolver do
   def create_notification_message(_root, args, %{context: context}) do
     Admins.create_notification_message(args, context.current_user)
   end
-
-  def update_notification_message(_root, args, %{context: context}) do
-    Admins.update_notification_message(args, context.current_user)
-  end
 end

@@ -32,16 +32,11 @@ defmodule DianWeb.SystemsTypes do
       resolve &SystemsResolver.delete_pinned_message/3
     end
 
+    @desc "Create or update a notification message template for user"
     field :create_notification_message, type: :notification_message do
       arg :template, non_null(:string)
 
       resolve &SystemsResolver.create_notification_message/3
-    end
-
-    field :update_notification_message, type: :notification_message do
-      arg :template, non_null(:string)
-
-      resolve &SystemsResolver.update_notification_message/3
     end
   end
 

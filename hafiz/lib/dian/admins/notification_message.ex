@@ -16,22 +16,10 @@ defmodule Dian.Admins.NotificationMessage do
   @doc false
   def changeset(notification_message, attrs) do
     notification_message
-    |> cast(attrs, [:template, :operator_id])
-    |> validate_required([:template, :operator_id])
-    |> validate_length(:template, max: 60)
-  end
-
-  def create_changeset(notification_message, attrs) do
-    changeset(notification_message, attrs)
-    |> validate_template()
-    |> unique_constraint([:operator_id], message: "already has a notification message")
-  end
-
-  def update_changeset(notification_message, attrs) do
-    notification_message
     |> cast(attrs, [:template])
     |> validate_required([:template, :operator_id])
-    |> validate_length(:template, max: 60)
+    |> validate_length(:template, max: 120)
+    |> unique_constraint([:operator_id], message: "already has a notification message")
     |> validate_template()
   end
 
@@ -47,6 +35,7 @@ defmodule Dian.Admins.NotificationMessage do
   end
 
   def render_message(%NotificationMessage{template: template}, assigns) do
+    # TODO: escape `[` and `]`
     :bbmustache.render(template, assigns, key_type: :binary)
   end
 end
