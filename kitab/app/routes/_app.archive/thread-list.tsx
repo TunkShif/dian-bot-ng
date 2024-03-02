@@ -8,7 +8,7 @@ export const ThreadList = () => {
   const { threads } = useLoaderData<typeof archiveLoader>()
 
   return (
-    <VStack maxW="lg" gap="6" py="4" lg={{ py: "8" }}>
+    <VStack maxW="lg" gap="6" py="4" lg={{ py: "8", maxW: "5xl" }}>
       {threads.map((thread) => (
         <ThreadItem key={thread.node?.id} thread={thread.node as Thread} />
       ))}

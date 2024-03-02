@@ -19,6 +19,26 @@ export default defineConfig({
           silkscreen: { value: "var(--font-silkscreen), serif" }
         }
       },
+      recipes: {
+        button: {
+          variants: {
+            size: {
+              "2xs": {
+                h: "6",
+                minW: "6",
+                textStyle: "xs",
+                px: "2.5",
+                gap: "2",
+                "& svg": {
+                  fontSize: "md",
+                  width: "4",
+                  height: "4"
+                }
+              }
+            }
+          }
+        }
+      },
       slotRecipes: {
         card: {
           base: {

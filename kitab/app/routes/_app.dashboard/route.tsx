@@ -2,6 +2,7 @@ import { defer, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cl
 import { graphql } from "gql"
 import { Center, Flex, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
+import { Heading } from "~/components/ui/heading"
 import { PinnedMessagesQuery } from "~/queries/pinned-messages"
 import { DailyHeatMapCard } from "~/routes/_app.dashboard/daily-heatmap-card"
 import { PinnedMessageList } from "~/routes/_app.dashboard/pinned-message-list"
@@ -59,6 +60,15 @@ export default function Dashboard() {
     <Center mx="4" pt="4" pb="48" lg={{ pt: "8" }}>
       <Flex w="full" flexDirection="column" lg={{ flexDirection: "row", maxW: "5xl" }} gap="8">
         <VStack flex="2" gap="6">
+          <Heading
+            color="accent.emphasized"
+            w="full"
+            fontFamily="silkscreen"
+            fontSize="2xl"
+            as="h2"
+          >
+            Dashboard
+          </Heading>
           <PinnedMessageList />
           <VStack w="full">
             <DailyHeatMapCard />

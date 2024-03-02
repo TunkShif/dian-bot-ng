@@ -1,8 +1,8 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare"
-import { NavLink, Outlet, redirect } from "@remix-run/react"
-import { Box, Flex, styled } from "styled-system/jsx"
-import { flex, vstack } from "styled-system/patterns"
+import { Link, Outlet, redirect, useLocation, useNavigate } from "@remix-run/react"
+import { Center, Stack } from "styled-system/jsx"
 import { Heading } from "~/components/ui/heading"
+import * as Tabs from "~/components/ui/tabs"
 
 export const meta: MetaFunction = () => {
   return [{ title: "Admin - LITTLE RED BOOK" }]
@@ -10,81 +10,51 @@ export const meta: MetaFunction = () => {
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
-  const isLayoutRoute = url.pathname === "/admin"
-  if (isLayoutRoute) return redirect("/admin/broadcast")
+  const segments = url.pathname.split("/").filter((it) => !!it)
+  const isLayoutRoute = segments.length === 1 && segments[0] === "admin"
+  if (isLayoutRoute) return redirect("/admin/pinned-messages") // TODO: change this later
   return { ok: true }
 }
 
+const TABS = [
+  { key: "message-broadcast", label: "消息广播" },
+  { key: "notification-template", label: "通知管理" },
+  { key: "pinned-messages", label: "站内公告" },
+  { key: "user-management", label: "用户管理" }
+] as const
+
+const DEFAULT_TAB = "message-broadcast"
+
 export default function AdminLayout() {
-  return (
-    <Box w="full" position="relative">
-      <SideBar />
-      <Box ml="44">
-        <Outlet />
-      </Box>
-    </Box>
-  )
-}
+  const location = useLocation()
+  const navigate = useNavigate()
+  const segment = location.pathname.split("/").at(-1)
+  const activeTab = !!segment ? segment : DEFAULT_TAB
 
-const NAVIGATIONS = [
-  { name: "消息通告", route: "/admin/broadcast" },
-  { name: "权限管理", route: "/admin/permissions" }
-]
-
-const SideBar = () => {
   return (
-    <Flex
-      position="fixed"
-      direction="column"
-      left="var(--sidebar-width)"
-      insetY="0"
-      w="44"
-      bg="bg.subtle"
-      borderRightWidth="1"
-    >
-      <Box w="full" p="4" h="16" bg="bg.default" borderBottomWidth="1">
-        <Heading as="h1" fontFamily="silkscreen" size="lg">
-          Systems
+    <Center mx="4" py="4" lg={{ py: "8" }}>
+      <Stack w="full" maxW="5xl" gap="6">
+        <Heading color="accent.emphasized" w="full" fontFamily="silkscreen" fontSize="2xl" as="h2">
+          Administration
         </Heading>
-      </Box>
-      <Box w="full">
-        <styled.nav py="14">
-          <ul className={vstack({ gap: "1", py: "4", alignItems: "start" })}>
-            {NAVIGATIONS.map(({ name, route }) => (
-              <styled.li key={name} w="full">
-                <NavLink
-                  to={route}
-                  prefetch="intent"
-                  className={flex({
-                    alignItems: "center",
-                    w: "calc(100% - {sizes.4})",
-                    h: "12",
-                    px: "6",
-                    py: "2",
-                    fontSize: "sm",
-                    fontWeight: "medium",
-                    roundedRight: "lg",
-                    _hover: { bg: "accent.emphasized", color: "accent.fg" },
-                    _focus: { bg: "accent.emphasized", color: "accent.fg" },
-                    _focusVisible: {
-                      outlineColor: "accent.emphasized",
-                      outlineStyle: "solid",
-                      outlineWidth: "2px",
-                      outlineOffset: "2px"
-                    },
-                    _currentPage: {
-                      bg: "accent.emphasized",
-                      color: "accent.fg"
-                    }
-                  })}
-                >
-                  {name}
-                </NavLink>
-              </styled.li>
+        <Tabs.Root
+          variant="outline"
+          value={activeTab}
+          onValueChange={({ value }) => navigate(value === activeTab ? "" : value)}
+        >
+          <Tabs.List>
+            {TABS.map(({ key, label }) => (
+              <Tabs.Trigger key={key} value={key} asChild>
+                <Link to={key}>{label}</Link>
+              </Tabs.Trigger>
             ))}
-          </ul>
-        </styled.nav>
-      </Box>
-    </Flex>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Content value={activeTab}>
+            <Outlet />
+          </Tabs.Content>
+        </Tabs.Root>
+      </Stack>
+    </Center>
   )
 }
