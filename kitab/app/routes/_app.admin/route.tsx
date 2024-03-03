@@ -12,15 +12,15 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const segments = url.pathname.split("/").filter((it) => !!it)
   const isLayoutRoute = segments.length === 1 && segments[0] === "admin"
-  if (isLayoutRoute) return redirect("/admin/pinned-messages") // TODO: change this later
+  if (isLayoutRoute) return redirect("/admin/notification-template") // TODO: change this later
   return { ok: true }
 }
 
 const TABS = [
-  { key: "message-broadcast", label: "消息广播" },
+  { key: "user-management", label: "用户管理" },
   { key: "notification-template", label: "通知管理" },
   { key: "pinned-messages", label: "站内公告" },
-  { key: "user-management", label: "用户管理" }
+  { key: "message-broadcast", label: "消息广播" }
 ] as const
 
 const DEFAULT_TAB = "message-broadcast"
@@ -36,9 +36,18 @@ export default function AdminLayout() {
   return (
     <Center mx="4" py="4" lg={{ py: "8" }}>
       <Stack w="full" maxW="5xl" gap="6">
-        <Heading color="accent.emphasized" w="full" fontFamily="silkscreen" fontSize="2xl" as="h2">
-          Administration
-        </Heading>
+        <Link to="/admin">
+          <Heading
+            color="accent.emphasized"
+            w="full"
+            fontFamily="silkscreen"
+            fontSize="2xl"
+            as="h2"
+          >
+            Administration
+          </Heading>
+        </Link>
+
         <Tabs.Root
           variant="outline"
           value={activeTab}

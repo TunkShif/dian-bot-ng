@@ -7,6 +7,8 @@ defmodule Dian.Chats do
   alias DianBot.Schemas.Group, as: BotGroup
   alias DianBot.Schemas.Message, as: BotMessage
   alias Dian.Chats.{User, Group, Message, Thread}
+  alias Dian.Admins
+  alias Dian.Admins.NotificationMessage
 
   def data, do: Dataloader.Ecto.new(Dian.Repo, query: &query/2)
   def query(queryable, _params), do: queryable
@@ -139,5 +141,26 @@ defmodule Dian.Chats do
       nil -> create_group(group_params)
       group -> {:ok, group}
     end
+  end
+
+  def send_notification_message(%Thread{} = thread) do
+    owner_qid = thread.owner.qid
+    sender_qid = hd(thread.messages) |> Repo.preload(:sender) |> Map.get(:qid)
+    notification = Admins.get_user_notfication_message(thread.owner.id)
+
+    message =
+      NotificationMessage.render_message(notification, %{
+        at_me: "[CQ:at,qq=#{owner_qid}]",
+        at_user: "[CQ:at,qq=#{sender_qid}]",
+        dian_url: build_thread_url(thread.id)
+      })
+
+    DianBot.send_group_message(thread.group.gid, message)
+  end
+
+  defp build_thread_url(thread_id) do
+    app_url = Application.get_env(:dian, :app_url)
+    global_id = Absinthe.Relay.Node.to_global_id(:thread, to_string(thread_id), DianWeb.Schema)
+    "#{app_url}/archive/#{global_id}"
   end
 end

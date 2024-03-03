@@ -33,8 +33,23 @@ defmodule Dian.Admins do
     end
   end
 
+  def get_default_notification_message() do
+    # TODO: get default notification from global settings
+    Repo.one(
+      from notification_message in NotificationMessage,
+        order_by: [desc: notification_message.updated_at],
+        limit: 1
+    )
+  end
+
+  @doc """
+  Returns the notification message of given user or the default notification message
+  """
   def get_user_notfication_message(user_id) do
-    Repo.one(from notification_message in NotificationMessage, where: [operator_id: ^user_id])
+    notification =
+      Repo.one(from notification_message in NotificationMessage, where: [operator_id: ^user_id])
+
+    notification || get_default_notification_message()
   end
 
   def create_notification_message(attrs, %User{} = user) do

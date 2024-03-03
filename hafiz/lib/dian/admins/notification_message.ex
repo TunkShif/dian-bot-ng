@@ -35,7 +35,7 @@ defmodule Dian.Admins.NotificationMessage do
   end
 
   def render_message(%NotificationMessage{template: template}, assigns) do
-    # TODO: escape `[` and `]`
-    :bbmustache.render(template, assigns, key_type: :binary)
+    escaped_template = template |> String.replace("[", "&#91;") |> String.replace("]", "&#93;")
+    :bbmustache.render(escaped_template, assigns, key_type: :atom)
   end
 end

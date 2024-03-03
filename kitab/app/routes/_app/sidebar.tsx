@@ -33,8 +33,8 @@ const NAVIGATIONS = [
   { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
   { name: "精华典库", icon: ArchiveIcon, route: "/archive" },
   { name: "精彩图库", icon: ImageIcon, route: "/gallery" },
-  { name: "个人账户", icon: UserIcon, route: "/account" },
   { name: "后台管理", icon: BookLockIcon, route: "/admin" },
+  { name: "个人账户", icon: UserIcon, route: "/account" },
   { name: "更多设置", icon: SettingsIcon, route: "/settings" }
 ]
 

@@ -12,7 +12,7 @@ type ThreadItemProps = {
 
 export const ThreadItem = ({ thread }: ThreadItemProps) => {
   return (
-    <Card.Root w="full" maxW="lg">
+    <Card.Root w="full" minW="sm">
       <Card.Body px="4" pt="6">
         <VStack w="full">
           {thread.messages.map((message) => (
@@ -20,16 +20,31 @@ export const ThreadItem = ({ thread }: ThreadItemProps) => {
           ))}
         </VStack>
       </Card.Body>
+
       <Card.Footer justifyContent="space-between" px="4" pb="4">
         <Text size="xs" color="fg.subtle">
           来自群
-          <StyledLink px="0.5" maxW="6ch" title={thread.group.name} truncate asChild>
+          <StyledLink
+            px="0.5"
+            maxW="6ch"
+            md={{ maxW: "none" }}
+            title={thread.group.name}
+            truncate
+            asChild
+          >
             <span>{thread.group.name}</span>
           </StyledLink>
         </Text>
         <Text size="xs" color="fg.subtle">
           由
-          <StyledLink px="0.5" maxW="6ch" title={thread.owner.name} truncate asChild>
+          <StyledLink
+            px="0.5"
+            maxW="6ch"
+            md={{ maxW: "none" }}
+            title={thread.owner.name}
+            truncate
+            asChild
+          >
             <span>{thread.owner.name}</span>
           </StyledLink>
           于<styled.time px="0.5">{formatDateTime(thread.postedAt)}</styled.time>设置
@@ -55,7 +70,7 @@ const MessageItem = ({ message }: MessageItemProps) => {
         </Text>
         <Box p="2" bg="bg.emphasized" rounded="md">
           {message.content.map((content, index) => (
-            <MessageContentView key={message.id + index} content={content} />
+            <MessageContentView key={`${message.id}-${index}`} content={content} />
           ))}
         </Box>
       </Flex>
@@ -76,8 +91,10 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
     case "TextMessageContent":
       return (
         <>
-          {content.text.split("\n").map((it) => (
-            <Text wordBreak="break-word">{it}</Text>
+          {content.text.split("\n").map((it, index) => (
+            <Text key={index} wordBreak="break-word">
+              {it}
+            </Text>
           ))}
         </>
       )
