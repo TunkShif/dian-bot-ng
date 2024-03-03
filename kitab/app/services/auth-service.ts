@@ -1,4 +1,3 @@
-import { graphql } from "gql"
 import type { HTTPError, KyInstance } from "ky"
 import invariant from "tiny-invariant"
 
@@ -33,7 +32,7 @@ type RequestRegistrationResult =
   | AuthResult
 
 export class AuthService {
-  client: KyInstance
+  private client: KyInstance
 
   constructor(client: KyInstance) {
     this.client = client
@@ -106,14 +105,3 @@ export class AuthService {
     }
   }
 }
-
-export const CurrentUserQuery = graphql(`
-  query CurrentUser {
-    me {
-      id
-      qid
-      role
-      name
-    }
-  }
-`)

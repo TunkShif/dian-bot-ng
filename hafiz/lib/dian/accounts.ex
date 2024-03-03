@@ -118,4 +118,12 @@ defmodule Dian.Accounts do
       Repo.delete_all(query)
     end
   end
+
+  @doc """
+  Returns a map of user id to user pairs with given `ids`.
+  """
+  def get_user_maps(ids) do
+    Repo.all(from user in User, where: user.id in ^ids, select: {user.id, user})
+    |> Enum.into(%{})
+  end
 end

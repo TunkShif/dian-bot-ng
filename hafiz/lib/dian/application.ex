@@ -14,14 +14,11 @@ defmodule Dian.Application do
       Dian.Repo,
       {DNSCluster, query: Application.get_env(:dian, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Dian.PubSub},
-      # Start the Finch HTTP client for sending emails
       {Finch, name: Dian.Finch},
       {Cachex, name: Dian.Cache},
       {Oban, Application.fetch_env!(:dian, Oban)},
-      # Start a worker by calling: Dian.Worker.start_link(arg)
-      # {Dian.Worker, arg},
-      # Start to serve requests, typically the last entry
-      DianWeb.Endpoint
+      DianWeb.Endpoint,
+      DianWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -16,8 +16,12 @@ defmodule DianWeb.Auth do
   def put_user_context(conn, _opts) do
     context =
       case conn.assigns[:current_user] do
-        %User{} = current_user -> %{current_user: current_user}
-        _ -> %{}
+        %User{} = current_user ->
+          token = Phoenix.Token.sign(conn, "user socket", current_user.id)
+          %{current_user: current_user, token: token}
+
+        _ ->
+          %{}
       end
 
     Absinthe.Plug.put_options(conn, context: context)

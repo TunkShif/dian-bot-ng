@@ -29,9 +29,6 @@ dependencies:
   '@graphql-typed-document-node/core':
     specifier: ^3.2.0
     version: 3.2.0(graphql@16.8.1)
-  '@heroicons/react':
-    specifier: ^2.1.1
-    version: 2.1.1(react@18.2.0)
   '@paralleldrive/cuid2':
     specifier: ^2.2.2
     version: 2.2.2
@@ -57,8 +54,8 @@ dependencies:
     specifier: ^2.2.2
     version: 2.2.2(@babel/runtime@7.24.0)(react-dom@18.2.0)(react@18.2.0)
   '@urql/core':
-    specifier: ^4.2.3
-    version: 4.2.3(graphql@16.8.1)
+    specifier: ^4.3.0
+    version: 4.3.0(graphql@16.8.1)
   date-fns:
     specifier: ^3.3.1
     version: 3.3.1
@@ -71,12 +68,18 @@ dependencies:
   jotai:
     specifier: ^2.7.0
     version: 2.7.0(@types/react@18.2.61)(react@18.2.0)
+  jotai-effect:
+    specifier: ^0.6.0
+    version: 0.6.0(jotai@2.7.0)
   ky:
     specifier: ^1.2.2
     version: 1.2.2
   lucide-react:
     specifier: ^0.344.0
     version: 0.344.0(react@18.2.0)
+  phoenix:
+    specifier: ^1.7.11
+    version: 1.7.11
   radash:
     specifier: ^12.0.0
     version: 12.0.0
@@ -121,6 +124,9 @@ devDependencies:
   '@remix-run/dev':
     specifier: ^2.8.0
     version: 2.8.0(@remix-run/serve@2.8.0)(typescript@5.3.3)(wrangler@3.30.1)
+  '@types/phoenix':
+    specifier: ^1.6.4
+    version: 1.6.4
   '@types/react':
     specifier: ^18.2.61
     version: 18.2.61
@@ -2635,14 +2641,6 @@ packages:
     dependencies:
       graphql: 16.8.1
 
-  /@heroicons/react@2.1.1(react@18.2.0):
-    resolution: {integrity: sha512-JyyN9Lo66kirbCMuMMRPtJxtKJoIsXKS569ebHGGRKbl8s4CtUfLnyKJxteA+vIKySocO4s1SkTkGS4xtG/yEA==}
-    peerDependencies:
-      react: '>= 16'
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /@humanwhocodes/config-array@0.11.14:
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
@@ -3657,6 +3655,10 @@ packages:
       undici-types: 5.26.5
     dev: true
 
+  /@types/phoenix@1.6.4:
+    resolution: {integrity: sha512-B34A7uot1Cv0XtaHRYDATltAdKx0BvVKNgYNqE4WjtPUa4VQJM7kxeXcVKaH+KS+kCmZ+6w+QaUdcljiheiBJA==}
+    dev: true
+
   /@types/prop-types@15.7.11:
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
 
@@ -3838,8 +3840,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@urql/core@4.2.3(graphql@16.8.1):
-    resolution: {integrity: sha512-DJ9q9+lcs5JL8DcU2J3NqsgeXYJva+1+Qt8HU94kzTPqVOIRRA7ouvy4ksUfPY+B5G2PQ+vLh+JJGyZCNXv0cg==}
+  /@urql/core@4.3.0(graphql@16.8.1):
+    resolution: {integrity: sha512-wT+FeL8DG4x5o6RfHEnONNFVDM3616ouzATMYUClB6CB+iIu2mwfBKd7xSUxYOZmwtxna5/hDRQdMl3nbQZlnw==}
     dependencies:
       '@0no-co/graphql.web': 1.0.4(graphql@16.8.1)
       wonka: 6.3.4
@@ -3878,7 +3880,7 @@ packages:
       '@babel/plugin-syntax-typescript': 7.23.3(@babel/core@7.24.0)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.5
       '@vanilla-extract/css': 1.14.1
-      esbuild: 0.19.12
+      esbuild: 0.17.6
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -7347,6 +7349,14 @@ packages:
     resolution: {integrity: sha512-/WByRr4jDcsKlvMd1dRJnPfS1GVO3WuKyaurJ/vvXcOaUQO8rnNObCQMlv/5uCceVQIq5Q4WLF44ohsdiTohdg==}
     dev: true
 
+  /jotai-effect@0.6.0(jotai@2.7.0):
+    resolution: {integrity: sha512-PCewL5ThH3MXYI6+sQwvkk3o+gje4K1qw2YnyqjRVnZbIxqX3zHZv11JXqXosRkT8p3a51gd3pLv7+cBfyXz7A==}
+    peerDependencies:
+      jotai: '>=2.5.0'
+    dependencies:
+      jotai: 2.7.0(@types/react@18.2.61)(react@18.2.0)
+    dev: false
+
   /jotai@2.7.0(@types/react@18.2.61)(react@18.2.0):
     resolution: {integrity: sha512-4qsyFKu4MprI39rj2uoItyhu24NoCHzkOV7z70PQr65SpzV6CSyhQvVIfbNlNqOIOspNMdf5OK+kTXLvqe63Jw==}
     engines: {node: '>=12.20.0'}
@@ -8903,6 +8913,10 @@ packages:
       estree-walker: 3.0.3
       is-reference: 3.0.2
     dev: true
+
+  /phoenix@1.7.11:
+    resolution: {integrity: sha512-aeikMR/Qh6gAygY45d5p/B7srqH60h0GbCIauEAStAtRUq4hvlkzDTyDj1NJidJEV9IKFhZe7f9L+zosUJdF/g==}
+    dev: false
 
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}

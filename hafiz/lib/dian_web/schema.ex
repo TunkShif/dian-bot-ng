@@ -11,7 +11,8 @@ defmodule DianWeb.Schema do
   import_types DianWeb.ChatsTypes
   import_types DianWeb.AccountsTypes
   import_types DianWeb.SystemsTypes
-  import_types DianWeb.StatisticsType
+  import_types DianWeb.StatisticsTypes
+  import_types DianWeb.TrackerTypes
 
   query do
     import_fields :me_queries
@@ -19,6 +20,7 @@ defmodule DianWeb.Schema do
     import_fields :chats_queries
     import_fields :systems_queries
     import_fields :statistics_queries
+    import_fields :tracker_queries
 
     node field do
       resolve &NodeResolver.resolve_node/2

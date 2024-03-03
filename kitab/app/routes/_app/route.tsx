@@ -1,32 +1,32 @@
-import { redirect, type LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { Outlet, useNavigation } from "@remix-run/react"
-import { graphql } from "gql"
+import { defer, redirect, type LoaderFunctionArgs } from "@remix-run/cloudflare"
+import { Outlet, useLoaderData, useNavigation } from "@remix-run/react"
+import { useAtom } from "jotai"
+import { useMemo } from "react"
 import { css } from "styled-system/css"
 import { styled } from "styled-system/jsx"
+import { center } from "styled-system/patterns"
+import invariant from "tiny-invariant"
 import { Link as StyledLink } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
 import { createToast } from "~/lib/toast.server"
+import { createSetupTrackerEffect } from "~/lib/trackers"
+import { BotStatusQuery } from "~/queries/bot-status"
+import { CurrentUserQuery } from "~/queries/current-user"
+import { UserActivitiesQuery } from "~/queries/user-activities"
+import { ActivityTrackers } from "~/routes/_app/activity-trackers"
 import { BottomBar, Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
-import { CurrentUserQuery } from "~/services/auth-service"
 
 import "@fontsource/silkscreen/700.css"
-import { center } from "styled-system/patterns"
 
-const BotStatusQuery = graphql(`
-  query BotStatus {
-    bot {
-      isOnline
-    }
-  }
-`)
+export const useAppLoaderData = () => useLoaderData<typeof loader>()
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)
   const client = context.client.createGraphQLClient(token)
 
-  const userQuery = await client.query(CurrentUserQuery, {}).toPromise()
-  const user = userQuery.data?.me
-  if (!user) {
+  const currentUserResult = await client.query(CurrentUserQuery, {}).toPromise()
+  const currentUser = currentUserResult.data?.me
+  if (!currentUser?.user) {
     const headers = await createToast({
       type: "error",
       title: "访问受限",
@@ -34,15 +34,41 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     })
     return redirect("/auth/signin", { headers })
   }
+  invariant(currentUser.token)
+
+  const userActivitiesQuery = client.query(UserActivitiesQuery, { first: 20 }).toPromise()
 
   const botQuery = await client.query(BotStatusQuery, {}).toPromise()
   const isBotOnline = botQuery.data?.bot.isOnline ?? false
 
-  return { currentUser: user, isBotOnline }
+  const env = {
+    baseUrl: context.env.HAFIZ_SOCKET_URL
+  }
+
+  return defer({
+    env,
+    now: new Date(),
+    currentUser: currentUser.user,
+    token: currentUser.token,
+    isBotOnline,
+    userActivitiesQuery
+  })
 }
 
 export default function AppLayout() {
   const isCollapsed = useIsCollapsed()
+
+  const {
+    env: { baseUrl },
+    token
+  } = useAppLoaderData()
+
+  const setupTrackerEffect = useMemo(
+    () => createSetupTrackerEffect(baseUrl, token),
+    [baseUrl, token]
+  )
+
+  useAtom(setupTrackerEffect)
 
   return (
     <div
@@ -58,6 +84,7 @@ export default function AppLayout() {
       <Main />
       <Footer />
       <BottomBar />
+      <ActivityTrackers />
     </div>
   )
 }

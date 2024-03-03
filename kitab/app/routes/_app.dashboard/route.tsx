@@ -1,10 +1,11 @@
 import { defer, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
 import { Link } from "@remix-run/react"
-import { graphql } from "gql"
 import { Center, Flex, Stack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
 import { Heading } from "~/components/ui/heading"
+import { DailyThreadsStatisticsQuery } from "~/queries/daily-threads-statistics"
 import { PinnedMessagesQuery } from "~/queries/pinned-messages"
+import { UserStatisticsQuery } from "~/queries/user-statistics"
 import { DailyHeatMapCard } from "~/routes/_app.dashboard/daily-heatmap-card"
 import { PinnedMessageList } from "~/routes/_app.dashboard/pinned-message-list"
 import { RSSSubscriptionCard } from "~/routes/_app.dashboard/rss-subscription-card"
@@ -14,45 +15,28 @@ export const meta: MetaFunction = () => {
   return [{ title: "Dashboard - LITTLE RED BOOK" }]
 }
 
-const UserStatisticsQuery = graphql(`
-  query UserStatistics {
-    me {
-      statistics {
-        chats
-        threads
-        followers
-      }
-    }
-  }
-`)
-
-const DailyStatisticsQuery = graphql(`
-  query DailyStatistics {
-    statistics {
-      dailyThreads {
-        count
-        date
-      }
-    }
-  }
-`)
-
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)
   const client = context.client.createGraphQLClient(token)
 
   const userStatisticsQuery = client.query(UserStatisticsQuery, {}).toPromise()
-  const dailyStatisticsQuery = client.query(DailyStatisticsQuery, {}).toPromise()
+  const dailyStatisticsQuery = client.query(DailyThreadsStatisticsQuery, {}).toPromise()
   const pinnedMessagesQuery = client.query(PinnedMessagesQuery, { first: 5 }).toPromise()
 
-  const userStatisticsResult = await userStatisticsQuery
+  const [userStatisticsResult, dailyStatisticsResult, pinnedMessagesResult] = await Promise.all([
+    userStatisticsQuery,
+    dailyStatisticsQuery,
+    pinnedMessagesQuery
+  ])
 
-  invariant(userStatisticsResult.data?.me)
+  invariant(userStatisticsResult.data?.me?.statistics)
+  invariant(dailyStatisticsResult.data)
+  invariant(pinnedMessagesResult.data)
 
   return defer({
     userStatistics: userStatisticsResult.data.me.statistics,
-    dailyStatisticsQuery,
-    pinnedMessagesQuery
+    dailyStatistics: dailyStatisticsResult.data.dailyThreadsStatistics,
+    pinnedMessages: pinnedMessagesResult.data.pinnedMessages.edges
   })
 }
 
