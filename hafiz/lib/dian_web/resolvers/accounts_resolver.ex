@@ -1,6 +1,6 @@
 defmodule DianWeb.AccountsResolver do
   alias Dian.Repo
-  alias Dian.Chats
+  alias Dian.{Chats, Admins}
   alias Dian.Chats.User
 
   def current_user(_root, _args, %{context: context}) do
@@ -14,5 +14,9 @@ defmodule DianWeb.AccountsResolver do
 
   def user_statistics(root, _args, _info) do
     {:ok, Chats.get_user_statistics(root.id)}
+  end
+
+  def user_notification_message(root, _args, _info) do
+    {:ok, Admins.get_user_notfication_message(root.id)}
   end
 end

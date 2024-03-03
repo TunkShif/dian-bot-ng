@@ -1,6 +1,7 @@
 import { defer, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
+import { Link } from "@remix-run/react"
 import { graphql } from "gql"
-import { Center, Flex, VStack } from "styled-system/jsx"
+import { Center, Flex, Stack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
 import { Heading } from "~/components/ui/heading"
 import { PinnedMessagesQuery } from "~/queries/pinned-messages"
@@ -57,27 +58,32 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 export default function Dashboard() {
   return (
-    <Center mx="4" pt="4" pb="48" lg={{ pt: "8" }}>
+    <Center mx="4" py="4" lg={{ py: "8" }}>
       <Flex w="full" flexDirection="column" lg={{ flexDirection: "row", maxW: "5xl" }} gap="8">
-        <VStack flex="2" gap="6">
-          <Heading
-            color="accent.emphasized"
-            w="full"
-            fontFamily="silkscreen"
-            fontSize="2xl"
-            as="h2"
-          >
-            Dashboard
-          </Heading>
+        <Stack flex="2" gap="6">
+          <Link to="/dashboard">
+            <Heading
+              color="accent.emphasized"
+              w="full"
+              fontFamily="silkscreen"
+              fontSize="2xl"
+              as="h2"
+            >
+              Dashboard
+            </Heading>
+          </Link>
+
           <PinnedMessageList />
+
           <VStack w="full">
             <DailyHeatMapCard />
           </VStack>
-        </VStack>
-        <VStack display="none" lg={{ display: "flex" }} flex="1" gap="6">
+        </Stack>
+
+        <Stack display="none" lg={{ display: "flex" }} flex="1" gap="6">
           <UserProfileCard />
           <RSSSubscriptionCard />
-        </VStack>
+        </Stack>
       </Flex>
     </Center>
   )

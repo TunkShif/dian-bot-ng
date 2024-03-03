@@ -33,23 +33,35 @@ defmodule Dian.Admins do
     end
   end
 
+  def get_default_notification_message() do
+    # TODO: get default notification from global settings
+    Repo.one(
+      from notification_message in NotificationMessage,
+        order_by: [desc: notification_message.updated_at],
+        limit: 1
+    )
+  end
+
+  @doc """
+  Returns the notification message of given user or the default notification message
+  """
+  def get_user_notfication_message(user_id) do
+    notification =
+      Repo.one(from notification_message in NotificationMessage, where: [operator_id: ^user_id])
+
+    notification || get_default_notification_message()
+  end
+
   def create_notification_message(attrs, %User{} = user) do
     notification_message = Ecto.build_assoc(user, :notification_message)
 
     with :ok <- can?(user, create(notification_message)) do
       notification_message
-      |> NotificationMessage.create_changeset(attrs)
-      |> Repo.insert()
-    end
-  end
-
-  def update_notification_message(attrs, %User{} = user) do
-    notification_message = Repo.get_by(NotificationMessage, operator_id: user.id)
-
-    with :ok <- can?(user, update(notification_message)) do
-      notification_message
-      |> NotificationMessage.update_changeset(attrs)
-      |> Repo.update()
+      |> NotificationMessage.changeset(attrs)
+      |> Repo.insert(
+        on_conflict: [set: [template: attrs.template]],
+        conflict_target: :operator_id
+      )
     end
   end
 end

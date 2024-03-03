@@ -14,6 +14,9 @@ defmodule DianWeb.AccountsTypes do
     field :role, non_null(:user_role)
     field :statistics, non_null(:user_statistics), resolve: &AccountsResolver.user_statistics/3
 
+    field :notification_message, :notification_message,
+      resolve: &AccountsResolver.user_notification_message/3
+
     # TODO: complete connections later
     connection field :threads, node_type: :thread do
       resolve &AccountsResolver.user_threads/2
