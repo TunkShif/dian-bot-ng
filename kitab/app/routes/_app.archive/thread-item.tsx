@@ -1,4 +1,5 @@
 import type { Message, MessageContent, Thread } from "gql/graphql"
+import { css } from "styled-system/css"
 import { Box, Flex, VStack, styled } from "styled-system/jsx"
 import { Avatar } from "~/components/ui/avatar"
 import * as Card from "~/components/ui/card"
@@ -68,7 +69,12 @@ const MessageItem = ({ message }: MessageItemProps) => {
         <Text size="sm" color="fg.subtle" fontWeight="medium">
           {message.sender.name}
         </Text>
-        <Box p="2" bg="bg.emphasized" rounded="md">
+        <Box
+          p="2"
+          bg="bg.emphasized"
+          rounded="md"
+          className={css({ "&:has(img:only-child)": { p: "0" } })}
+        >
           {message.content.map((content, index) => (
             <MessageContentView key={`${message.id}-${index}`} content={content} />
           ))}
@@ -87,7 +93,15 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
         </StyledLink>
       )
     case "ImageMessageContent":
-      return <styled.img rounded="sm" src={content.url} alt="a chat image" loading="lazy" />
+      return (
+        <styled.img
+          rounded="sm"
+          borderWidth="1"
+          src={content.url}
+          alt="a chat image"
+          loading="lazy"
+        />
+      )
     case "TextMessageContent":
       return (
         <>
