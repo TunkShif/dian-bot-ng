@@ -5,22 +5,29 @@ defmodule DianWeb.AccountsTypes do
   alias DianWeb.AccountsResolver
 
   object :me_queries do
-    field :me, :user, resolve: &AccountsResolver.current_user/3
+    field :me, :me, resolve: &AccountsResolver.me/3
+  end
+
+  object :me do
+    @desc "Current logged-in user"
+    field :user, :user, resolve: &AccountsResolver.current_user/3
+
+    @desc "User token for socket usage"
+    field :token, :string, resolve: &AccountsResolver.user_token/3
+
+    field :statistics, non_null(:user_statistics) do
+      resolve &AccountsResolver.user_statistics/3
+    end
+
+    field :notification_message, :notification_message do
+      resolve &AccountsResolver.user_notification_message/3
+    end
   end
 
   node object(:user) do
     field :qid, non_null(:string)
     field :name, non_null(:string)
     field :role, non_null(:user_role)
-    field :statistics, non_null(:user_statistics), resolve: &AccountsResolver.user_statistics/3
-
-    field :notification_message, :notification_message,
-      resolve: &AccountsResolver.user_notification_message/3
-
-    # TODO: complete connections later
-    connection field :threads, node_type: :thread do
-      resolve &AccountsResolver.user_threads/2
-    end
   end
 
   enum :user_role do

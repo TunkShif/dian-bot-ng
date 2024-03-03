@@ -6,7 +6,7 @@ import { Logo } from "~/components/logo"
 import { Icon } from "~/components/ui/icon"
 import { Link } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
-import { CurrentUserQuery } from "~/services/auth-service"
+import { CurrentUserQuery } from "~/queries/current-user"
 
 import "@fontsource-variable/cinzel/wght.css"
 
@@ -17,7 +17,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const client = context.client.createGraphQLClient(token)
 
   const { data } = await client.query(CurrentUserQuery, {}).toPromise()
-  if (data?.me) {
+  if (data?.me?.user) {
     return redirect("/")
   }
 

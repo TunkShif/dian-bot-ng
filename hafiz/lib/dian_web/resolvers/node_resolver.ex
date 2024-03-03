@@ -1,5 +1,6 @@
 defmodule DianWeb.NodeResolver do
   alias Dian.Repo
+  alias Dian.Tracker.Activity
   alias Dian.Chats.{User, Group, Thread, Message}
   alias Dian.Admins.{PinnedMessage, NotificationMessage}
 
@@ -12,6 +13,7 @@ defmodule DianWeb.NodeResolver do
         :message -> Message
         :pinned_message -> PinnedMessage
         :notification_message -> NotificationMessage
+        :user_activity -> Activity
       end
 
     {:ok, Repo.get(schema, id)}

@@ -1,22 +1,23 @@
 defmodule DianWeb.AccountsResolver do
-  alias Dian.Repo
   alias Dian.{Chats, Admins}
-  alias Dian.Chats.User
+
+  def me(_root, _args, _info) do
+    {:ok, %{}}
+  end
 
   def current_user(_root, _args, %{context: context}) do
     {:ok, context[:current_user]}
   end
 
-  def user_threads(args, %{source: %User{} = user}) do
-    Chats.list_threads_query(user.id)
-    |> Absinthe.Relay.Connection.from_query(&Repo.all/1, args)
+  def user_token(_root, _args, %{context: context}) do
+    {:ok, context[:token]}
   end
 
-  def user_statistics(root, _args, _info) do
-    {:ok, Chats.get_user_statistics(root.id)}
+  def user_statistics(_root, _args, %{context: context}) do
+    {:ok, Chats.get_user_statistics(context.current_user.id)}
   end
 
-  def user_notification_message(root, _args, _info) do
-    {:ok, Admins.get_user_notfication_message(root.id)}
+  def user_notification_message(_root, _args, %{context: context}) do
+    {:ok, Admins.get_user_notfication_message(context.current_user.id)}
   end
 end

@@ -1,15 +1,14 @@
 import { Portal } from "@ark-ui/react"
-import { Await, useLoaderData } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 import HeatMap, { type HeatMapValue } from "@uiw/react-heat-map"
 import { subDays } from "date-fns"
-import { Suspense } from "react"
 import { Box } from "styled-system/jsx"
 import * as Card from "~/components/ui/card"
 import * as Tooltip from "~/components/ui/tooltip"
 import type { loader as dashboardLoader } from "~/routes/_app.dashboard/route"
 
 export const DailyHeatMapCard = () => {
-  const { dailyStatisticsQuery } = useLoaderData<typeof dashboardLoader>()
+  const { dailyStatistics } = useLoaderData<typeof dashboardLoader>()
 
   return (
     <Card.Root w="full">
@@ -18,26 +17,14 @@ export const DailyHeatMapCard = () => {
       </Card.Header>
       <Card.Body pb="2">
         <Box overflowX="auto">
-          <Suspense fallback={<DailyHeatMap key="loading-heatmap" data={[]} />}>
-            <Await resolve={dailyStatisticsQuery}>
-              {(dailyStatistics) => {
-                const data = (dailyStatistics.data?.statistics?.dailyThreads ??
-                  []) as HeatMapValue[]
-                return <DailyHeatMap key="loaded-heatmap" data={data} />
-              }}
-            </Await>
-          </Suspense>
+          <DailyHeatMap key="loaded-heatmap" data={dailyStatistics as HeatMapValue[]} />
         </Box>
       </Card.Body>
     </Card.Root>
   )
 }
 
-type DailyHeatMapProps = {
-  data: HeatMapValue[]
-}
-
-const DailyHeatMap = ({ data }: DailyHeatMapProps) => {
+const DailyHeatMap = ({ data }: { data: HeatMapValue[] }) => {
   return (
     <HeatMap
       style={

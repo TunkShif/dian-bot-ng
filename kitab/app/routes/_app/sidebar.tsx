@@ -27,6 +27,7 @@ import { IconButton } from "~/components/ui/icon-button"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
 import type { loader as rootLoader } from "~/root"
+import { OnlineUsers } from "~/routes/_app/online-users"
 import type { loader as appLoader } from "~/routes/_app/route"
 
 const NAVIGATIONS = [
@@ -315,14 +316,15 @@ const BottomSection = () => {
       className={css({ "[data-sidebar-collapsed=true] &": { flexDirection: "column" } })}
     >
       <CollapseToggle />
-      <BotStatusButton />
+      <BotStatus />
+      <OnlineUsers />
       <ThemeToggleButton />
       <SignOutButton />
     </Stack>
   )
 }
 
-const BotStatusButton = () => {
+const BotStatus = () => {
   const data = useRouteLoaderData<typeof appLoader>("routes/_app")
   invariant(data, "App route data is missing")
   const isBotOnline = data.isBotOnline

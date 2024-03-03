@@ -5,6 +5,7 @@ defmodule Dian.Chats.User do
   alias DianBot.Schemas.User, as: BotUser
   alias Dian.Chats.{User, Thread, Message}
   alias Dian.Accounts.{UserToken}
+  alias Dian.Tracker.Activity
   alias Dian.Admins.{PinnedMessage, NotificationMessage}
 
   schema "users" do
@@ -22,6 +23,7 @@ defmodule Dian.Chats.User do
     has_many :messages, Message, foreign_key: :sender_id
     has_many :pinned_messages, PinnedMessage, foreign_key: :operator_id
 
+    has_one :activity, Activity
     has_one :notification_message, NotificationMessage, foreign_key: :operator_id
 
     timestamps(type: :utc_datetime)
