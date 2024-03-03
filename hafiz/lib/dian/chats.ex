@@ -145,7 +145,13 @@ defmodule Dian.Chats do
 
   def send_notification_message(%Thread{} = thread) do
     owner_qid = thread.owner.qid
-    sender_qid = hd(thread.messages) |> Repo.preload(:sender) |> Map.get(:qid)
+
+    sender_qid =
+      hd(thread.messages)
+      |> Repo.preload(:sender)
+      |> Map.get(:sender)
+      |> Map.get(:qid)
+
     notification = Admins.get_user_notfication_message(thread.owner.id)
 
     message =
