@@ -1,4 +1,5 @@
 import type { Message, MessageContent, Thread } from "gql/graphql"
+import { Fragment } from "react/jsx-runtime"
 import { css } from "styled-system/css"
 import { Box, Flex, VStack, styled } from "styled-system/jsx"
 import { Avatar } from "~/components/ui/avatar"
@@ -102,15 +103,16 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
           loading="lazy"
         />
       )
-    case "TextMessageContent":
-      return (
-        <>
-          {content.text.split("\n").map((it, index) => (
-            <Text key={index} wordBreak="break-word">
-              {it}
-            </Text>
-          ))}
-        </>
-      )
+    case "TextMessageContent": {
+      const texts = content.text.split("\n")
+      return texts.map((it, index) => (
+        <Fragment key={index}>
+          <Text wordBreak="break-word" as="span">
+            {it}
+          </Text>
+          {index !== texts.length - 1 && <br />}
+        </Fragment>
+      ))
+    }
   }
 }

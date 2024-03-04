@@ -1,7 +1,8 @@
 import { Portal } from "@ark-ui/react"
+import * as Collapsible from "~/components/ui/collapsible"
 import { intlFormatDistance } from "date-fns"
-import { atom, useAtomValue, useSetAtom } from "jotai"
-import { UsersRoundIcon, XIcon } from "lucide-react"
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
+import { ChevronDownIcon, UsersRoundIcon, XIcon } from "lucide-react"
 import { Box, Center, HStack, Stack, styled } from "styled-system/jsx"
 import { stack } from "styled-system/patterns"
 import { Tooltip } from "~/components/shared/tooltip"
@@ -9,7 +10,16 @@ import { Avatar } from "~/components/ui/avatar"
 import { IconButton } from "~/components/ui/icon-button"
 import * as Popover from "~/components/ui/popover"
 import { Text } from "~/components/ui/text"
-import { onlineUsersAtom, type OnlineUser } from "~/lib/trackers"
+import {
+  onlineUsersAtom,
+  type OnlineUser,
+  showOnlineActivityAtom,
+  showHistoryActivityAtom
+} from "~/lib/trackers"
+import { Button } from "~/components/ui/button"
+import { Icon } from "~/components/ui/icon"
+import { css } from "styled-system/css"
+import { Switch } from "~/components/ui/switch"
 
 const nowAtom = atom(new Date())
 
@@ -42,9 +52,12 @@ export const OnlineUsers = () => {
 
             <Stack gap="2">
               <Popover.Title>在线用户列表</Popover.Title>
+
               <Stack maxH="xs" overflowY="auto">
                 <OnlineUsersList />
               </Stack>
+
+              <ActivityDisplaySettings />
             </Stack>
 
             <Box position="absolute" top="1" right="1">
@@ -93,5 +106,52 @@ const OnlineUserItem = ({ user }: { user: OnlineUser }) => {
         </Text>
       </Stack>
     </HStack>
+  )
+}
+
+const ActivityDisplaySettings = () => {
+  const [showOnlineActivity, setShowOnlineActivity] = useAtom(showOnlineActivityAtom)
+  const [showHistoryActivity, setShowHistoryActivity] = useAtom(showHistoryActivityAtom)
+
+  return (
+    <Box mx="-4" px="4" pt="2" borderTopWidth="1">
+      <Collapsible.Root>
+        <Collapsible.Trigger asChild>
+          <Button variant="link" size="sm">
+            用户足迹显示设置
+            <Icon
+              className={css({
+                "[data-scope='collapsible'][data-state='open'] &": {
+                  rotate: "-180deg"
+                }
+              })}
+            >
+              <ChevronDownIcon />
+            </Icon>
+          </Button>
+        </Collapsible.Trigger>
+        <Collapsible.Content>
+          <Stack pt="2" gap="1.5">
+            <HStack justify="space-between">
+              <Text size="sm">显示在线用户实时动态</Text>
+              <Switch
+                size="sm"
+                checked={showOnlineActivity}
+                onCheckedChange={({ checked }) => setShowOnlineActivity(checked)}
+              />
+            </HStack>
+
+            <HStack justify="space-between">
+              <Text size="sm">显示用户历史足迹</Text>
+              <Switch
+                size="sm"
+                checked={showHistoryActivity}
+                onCheckedChange={({ checked }) => setShowHistoryActivity(checked)}
+              />
+            </HStack>
+          </Stack>
+        </Collapsible.Content>
+      </Collapsible.Root>
+    </Box>
   )
 }

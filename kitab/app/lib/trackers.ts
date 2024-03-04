@@ -1,15 +1,46 @@
 import { fromUnixTime } from "date-fns"
 import { atom } from "jotai"
 import { atomEffect } from "jotai-effect"
+import { atomWithStorage } from "jotai/utils"
 import { Presence, Socket } from "phoenix"
 import { throttle } from "radash"
 
+export type OnlineUser = {
+  id: string
+  qid: string
+  name: string
+  onlineAt: Date
+}
+
+export type OnlineUserActivity = {
+  id: string
+  user: OnlineUser
+  location: string
+  mouseX: number
+  mouseY: number
+}
+
 export const onlineUsersAtom = atom<OnlineUser[]>([])
+export const onlineUserActivitiesAtom = atom<Record<string, OnlineUserActivity>>({})
+
+export const showOnlineActivityAtom = atomWithStorage("showOnlineActivity", true)
+export const showHistoryActivityAtom = atomWithStorage("showHistoryActivity", true)
 
 export const createSetupTrackerEffect = (baseUrl: string, token: string) =>
-  atomEffect((_get, set) => {
+  atomEffect((get, set) => {
     const socket = createSocket(baseUrl, token)
-    const cancelActivityTracker = createActivityTracker(socket)
+    const cancelActivityTracker = createActivityTracker(socket, (event) => {
+      const users = get(onlineUsersAtom)
+      const user = users.find((user) => user.id === event.id)
+
+      if (user) {
+        const activity = {
+          ...event,
+          user
+        }
+        set(onlineUserActivitiesAtom, (prev) => ({ ...prev, [user.id]: activity }))
+      }
+    })
     const cancelOnlineTracker = createOnlineTracker(socket, (users) => set(onlineUsersAtom, users))
 
     socket.connect()
@@ -24,13 +55,6 @@ export const createSetupTrackerEffect = (baseUrl: string, token: string) =>
 export const createSocket = (baseUrl: string, token: string) => {
   const socket = new Socket(`${baseUrl}/socket`, { params: { token } })
   return socket
-}
-
-export type OnlineUser = {
-  id: string
-  qid: string
-  name: string
-  onlineAt: Date
 }
 
 export const createOnlineTracker = (socket: Socket, callback: (users: OnlineUser[]) => void) => {
@@ -55,10 +79,13 @@ export const createOnlineTracker = (socket: Socket, callback: (users: OnlineUser
   return () => channel.leave()
 }
 
-export const createActivityTracker = (socket: Socket) => {
+export const createActivityTracker = (
+  socket: Socket,
+  onEvent: (event: Omit<OnlineUserActivity, "user">) => void
+) => {
   const channel = socket.channel("activity")
 
-  const trackUserActivity = throttle({ interval: 5 * 1000 }, (event: MouseEvent) => {
+  const trackUserActivity = throttle({ interval: 2 * 1000 }, (event: MouseEvent) => {
     const location = window.location.pathname
     const mouseX = (event.pageX / window.innerWidth) * 100
     const mouseY = (event.pageY / window.innerHeight) * 100
@@ -68,6 +95,7 @@ export const createActivityTracker = (socket: Socket) => {
 
   window.addEventListener("mousemove", trackUserActivity)
 
+  channel.on("new_move", (payload) => onEvent(payload))
   channel.join()
 
   return () => {
