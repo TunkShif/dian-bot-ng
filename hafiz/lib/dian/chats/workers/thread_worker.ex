@@ -18,7 +18,7 @@ defmodule Dian.Chats.ThreadWorker do
         DianBot.set_honorable_message(event.message.mid)
       end)
 
-      Task.start(fn ->
+      Task.start_link(fn ->
         Chats.send_notification_message(thread)
       end)
 
