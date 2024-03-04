@@ -1,7 +1,7 @@
 import type { ImageMessageContent, Message, MessageContent, Thread } from "gql/graphql"
 import { Fragment } from "react/jsx-runtime"
 import { css } from "styled-system/css"
-import { Box, Flex, VStack, styled } from "styled-system/jsx"
+import { Box, Flex, Stack, VStack, styled } from "styled-system/jsx"
 import { Avatar } from "~/components/ui/avatar"
 import * as Card from "~/components/ui/card"
 import { Link as StyledLink } from "~/components/ui/link"
@@ -66,21 +66,24 @@ const MessageItem = ({ message }: MessageItemProps) => {
       <Box>
         <Avatar src={`/avatar/${message.sender.qid}`} name={message.sender.name} borderWidth="1" />
       </Box>
-      <Flex direction="column" gap="1.5">
-        <Text size="sm" color="fg.subtle" fontWeight="medium">
-          {message.sender.name}
-        </Text>
-        <Box
-          p="2"
-          bg="bg.emphasized"
-          rounded="md"
-          className={css({ "&:has([data-image]:only-child)": { p: "0" } })}
-        >
-          {message.content.map((content, index) => (
-            <MessageContentView key={`${message.id}-${index}`} content={content} />
-          ))}
-        </Box>
-      </Flex>
+
+      <Box>
+        <Stack gap="1.5">
+          <Text size="sm" color="fg.subtle" fontWeight="medium">
+            {message.sender.name}
+          </Text>
+          <Box
+            p="2"
+            bg="bg.emphasized"
+            rounded="md"
+            className={css({ "&:has([data-image]:only-child)": { p: "0" } })}
+          >
+            {message.content.map((content, index) => (
+              <MessageContentView key={`${message.id}-${index}`} content={content} />
+            ))}
+          </Box>
+        </Stack>
+      </Box>
     </Flex>
   )
 }
@@ -119,30 +122,40 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
   }
 
   return (
-    <Box data-image w="full" h="full" rounded="sm" borderWidth="1" overflow="hidden">
-      <Box
-        position="relative"
-        style={{
-          width: image.width!,
-          height: image.height!
-        }}
-      >
-        <styled.img
-          position="absolute"
-          w="full"
-          h="full"
-          inset="0"
-          objectFit="cover"
-          filter="auto"
-          blur="lg"
-          scale="auto"
-          scaleX="1.1"
-          scaleY="1.1"
-          src={image.blurredUrl!}
-          aria-hidden="true"
-        />
-        <styled.img src={image.url} w="full" h="full" position="relative" />
-      </Box>
+    <Box
+      data-image
+      position="relative"
+      maxW="2xs"
+      md={{ maxW: "md" }}
+      lg={{ maxW: "xs" }}
+      w="full"
+      h="full"
+      rounded="md"
+      borderWidth="1"
+      overflow="hidden"
+      style={{
+        aspectRatio: `${image.width!} / ${image.height}`
+      }}
+    >
+      <styled.img
+        position="absolute"
+        width="full"
+        height="full"
+        objectFit="cover"
+        filter="auto"
+        blur="lg"
+        scale="auto"
+        scaleX="1.1"
+        scaleY="1.1"
+        src={image.blurredUrl!}
+        aria-hidden="true"
+      />
+      <img
+        src={image.url}
+        width={image.width!}
+        height={image.height!}
+        className={css({ position: "relative", maxHeight: "full" })}
+      />
     </Box>
   )
 }
