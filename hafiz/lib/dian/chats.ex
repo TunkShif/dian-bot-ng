@@ -2,11 +2,13 @@ defmodule Dian.Chats do
   import Ecto.Query
 
   alias Dian.Repo
+  alias Dian.Storage
   alias DianBot.Schemas.Event
   alias DianBot.Schemas.User, as: BotUser
   alias DianBot.Schemas.Group, as: BotGroup
   alias DianBot.Schemas.Message, as: BotMessage
   alias Dian.Chats.{User, Group, Message, Thread}
+  alias Dian.Chats.Image, as: ChatImage
   alias Dian.Admins
   alias Dian.Admins.NotificationMessage
 
@@ -168,5 +170,39 @@ defmodule Dian.Chats do
     app_url = Application.get_env(:dian, :app_url)
     global_id = Absinthe.Relay.Node.to_global_id(:thread, to_string(thread_id), DianWeb.Schema)
     "#{app_url}/archive/#{global_id}"
+  end
+
+  def get_or_create_image!(name, url) do
+    case Repo.get_by(ChatImage, name: name) do
+      nil -> create_image!(name, url)
+      %ChatImage{} = image -> image
+    end
+  end
+
+  def create_image!(name, url) do
+    {:ok, {url, image}} = Storage.upload(name, url)
+
+    image = Image.from_binary!(image)
+    width = Image.width(image)
+    height = Image.height(image)
+
+    blurred =
+      image
+      |> Image.thumbnail!(80)
+      |> Image.blur!()
+      |> Image.write!(:memory, suffix: ".webp", quality: 5, strip_metadata: true)
+      |> Base.encode64()
+
+    attrs = %{
+      name: name,
+      url: url,
+      width: width,
+      height: height,
+      blurred_data: blurred
+    }
+
+    %ChatImage{}
+    |> ChatImage.changeset(attrs)
+    |> Repo.insert!()
   end
 end

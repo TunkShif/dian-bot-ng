@@ -34,7 +34,11 @@ defmodule DianWeb.ChatsTypes do
 
   node object(:message) do
     field :sender, non_null(:user), resolve: dataloader(Chats)
-    field :content, non_null(list_of(non_null(:message_content)))
+
+    field :content, non_null(list_of(non_null(:message_content))) do
+      resolve &ChatsResolver.message_content/3
+    end
+
     field :sent_at, non_null(:naive_datetime)
   end
 
@@ -47,23 +51,28 @@ defmodule DianWeb.ChatsTypes do
     types [:text_message_content, :at_message_content, :image_message_content]
 
     resolve_type fn
-      %{"type" => "text"}, _ -> :text_message_content
-      %{"type" => "at"}, _ -> :at_message_content
-      %{"type" => "image"}, _ -> :image_message_content
+      %{type: :text}, _ -> :text_message_content
+      %{type: :at}, _ -> :at_message_content
+      %{type: :image}, _ -> :image_message_content
       _, _ -> nil
     end
   end
 
   object :text_message_content do
-    field :text, non_null(:string), resolve: ChatsResolver.message_content_data()
+    field :text, non_null(:string)
   end
 
   object :at_message_content do
-    field :qid, non_null(:string), resolve: ChatsResolver.message_content_data("qid")
-    field :name, non_null(:string), resolve: ChatsResolver.message_content_data("name")
+    field :qid, non_null(:string)
+    field :name, non_null(:string)
   end
 
   object :image_message_content do
-    field :url, non_null(:string), resolve: ChatsResolver.message_content_data("url")
+    field :url, non_null(:string)
+    field :width, :integer
+    field :height, :integer
+    field :blurred_url, :string
+
+    field :format, non_null(:string)
   end
 end

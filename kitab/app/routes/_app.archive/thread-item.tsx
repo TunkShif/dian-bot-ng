@@ -1,4 +1,4 @@
-import type { Message, MessageContent, Thread } from "gql/graphql"
+import type { ImageMessageContent, Message, MessageContent, Thread } from "gql/graphql"
 import { Fragment } from "react/jsx-runtime"
 import { css } from "styled-system/css"
 import { Box, Flex, VStack, styled } from "styled-system/jsx"
@@ -74,7 +74,7 @@ const MessageItem = ({ message }: MessageItemProps) => {
           p="2"
           bg="bg.emphasized"
           rounded="md"
-          className={css({ "&:has(img:only-child)": { p: "0" } })}
+          className={css({ "&:has([data-image]:only-child)": { p: "0" } })}
         >
           {message.content.map((content, index) => (
             <MessageContentView key={`${message.id}-${index}`} content={content} />
@@ -94,15 +94,7 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
         </StyledLink>
       )
     case "ImageMessageContent":
-      return (
-        <styled.img
-          rounded="sm"
-          borderWidth="1"
-          src={content.url}
-          alt="a chat image"
-          loading="lazy"
-        />
-      )
+      return <BlurrableImage image={content} />
     case "TextMessageContent": {
       const texts = content.text.split("\n")
       return texts.map((it, index) => (
@@ -115,4 +107,39 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
       ))
     }
   }
+}
+
+const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
+  const isOldFormat = image.format === "old"
+
+  if (isOldFormat) {
+    return (
+      <styled.img rounded="sm" borderWidth="1" src={image.url} alt="a chat image" loading="lazy" />
+    )
+  }
+
+  console.log(image)
+
+  return (
+    <Box data-image position="relative" rounded="sm" borderWidth="1" overflow="hidden">
+      <styled.img
+        width={image.width!}
+        height={image.height!}
+        position="absolute"
+        inset="0"
+        w="full"
+        h="full"
+        objectFit="cover"
+        filter="auto"
+        blur="lg"
+        scale="auto"
+        scaleX="1.1"
+        scaleY="1.1"
+        zIndex="1"
+        src={image.blurredUrl!}
+        aria-hidden="true"
+      />
+      <styled.img src={image.url} w="full" h="full" position="relative" zIndex="2" />
+    </Box>
+  )
 }

@@ -1,7 +1,7 @@
 defmodule DianBot.Schemas.Message do
   use TypedStruct
 
-  alias Dian.{Chats, Storage}
+  alias Dian.Chats
   alias DianBot.Coucou
   alias DianBot.Schemas.{User, Message}
 
@@ -72,17 +72,11 @@ defmodule DianBot.Schemas.Message do
   end
 
   defp process_code(%{type: "image", data: data} = item) do
-    url =
-      if Storage.exists?(data["file"]) do
-        Storage.get_url(data["file"])
-      else
-        case Storage.upload(data) do
-          {:ok, url} -> url
-          {:error, error} -> raise error
-        end
-      end
+    %{"file" => name, "url" => url} = data
 
-    %{item | data: %{url: url}}
+    image = Chats.get_or_create_image!(name, url)
+
+    %{item | data: %{id: image.id}}
   end
 
   defp process_code(%{type: "reply"}), do: nil
