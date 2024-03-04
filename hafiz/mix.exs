@@ -59,7 +59,8 @@ defmodule Dian.MixProject do
       {:html_entities, "~> 0.5"},
       {:sqids, "~> 0.1.0"},
       {:canada, "~> 2.0"},
-      {:bbmustache, "~> 1.12"}
+      {:bbmustache, "~> 1.12"},
+      {:image, "~> 0.37"}
     ]
   end
 

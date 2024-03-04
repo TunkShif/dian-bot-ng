@@ -26,14 +26,12 @@ defmodule Dian.Storage.Adapters.SupabaseAdapter do
   end
 
   @impl true
-  def upload(params) do
-    %{"file" => file, "url" => url} = params
-
+  def upload(name, url) do
     name =
-      if String.contains?(file, "/") do
-        String.split(file, "/") |> List.last()
+      if String.contains?(name, "/") do
+        String.split(name, "/") |> List.last()
       else
-        file
+        name
       end
 
     url = HtmlEntities.decode(url)
@@ -46,7 +44,7 @@ defmodule Dian.Storage.Adapters.SupabaseAdapter do
            |> Tesla.Multipart.add_file_content(body, name, headers: [content_type]),
          {:ok, %Tesla.Env{status: 200}} <-
            post("/storage/v1/object/#{bucket_name()}/#{name}", payload) do
-      {:ok, get_url(name)}
+      {:ok, {get_url(name), body}}
     end
   end
 end

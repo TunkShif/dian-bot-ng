@@ -21,6 +21,10 @@ export const ThreadsQuery = graphql(`
               ... on ImageMessageContent {
                 __typename
                 url
+                format
+                width
+                height
+                blurredUrl
               }
               ... on TextMessageContent {
                 __typename
