@@ -1,7 +1,7 @@
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/cloudflare"
 import { Outlet, redirect } from "@remix-run/react"
 import { CameraIcon } from "lucide-react"
-import { Box, Center, Flex } from "styled-system/jsx"
+import { Box, Center, Flex, styled } from "styled-system/jsx"
 import { Logo } from "~/components/logo"
 import { Icon } from "~/components/ui/icon"
 import { Link } from "~/components/ui/link"
@@ -35,19 +35,39 @@ export default function AuthLayout() {
 
 const CoverSection = () => {
   return (
-    <Box
-      flex="1"
-      position="relative"
-      backgroundImage="url('/images/bg-books.webp')"
-      backgroundSize="cover"
-      _before={{
-        content: "''",
-        position: "absolute",
-        inset: "0",
-        bgColor: "gray.a11/75",
-        _dark: { bgColor: "gray.a1/75" }
-      }}
-    >
+    <Box flex="1" position="relative">
+      <Box position="absolute" inset="0" overflow="hidden">
+        <styled.img
+          position="absolute"
+          inset="0"
+          w="full"
+          h="full"
+          objectFit="cover"
+          filter="auto"
+          blur="lg"
+          sepia="25%"
+          grayscale="15%"
+          brightness="60%"
+          scale="auto"
+          scaleX="1.1"
+          scaleY="1.1"
+          zIndex="-1"
+          src="data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAADwBwCdASpkAEMAP4Wkw12/tjgmtfytE/AwiWUGcA0Eg283KspRwnzbU8OcmUJb0POR9YiNEJ7WRLqmF4Igunj0UYfX/XF4ZLgA/up7xvscvPagV2G3afgWdyEkXJZxOfFBBWb5XdezUJ/0wuC9z5jE5Zw8JqW/7oONQxC6wt36sxC/4UP0F+suaxWSGqmJOBVYAxmM8YL2UVnM3sib6IscHp9s38ak+LsBZEjEG9oY86ryiUYHraTAjD0yC2LokbekrBH8u10JVHndm7bRhxWpfAtfAAAA"
+          alt="blurred books"
+          aria-hidden="true"
+        />
+        <styled.img
+          w="full"
+          h="full"
+          objectFit="cover"
+          filter="auto"
+          sepia="25%"
+          grayscale="15%"
+          brightness="60%"
+          src="/images/bg-books.webp"
+          alt="books"
+        />
+      </Box>
       <Text
         size={["xs", "xs", "sm"]}
         position="absolute"
