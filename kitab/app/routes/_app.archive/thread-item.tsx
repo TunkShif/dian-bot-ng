@@ -119,12 +119,18 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
   }
 
   return (
-    <Box data-image position="relative" rounded="sm" borderWidth="1" overflow="hidden">
+    <Box
+      data-image
+      position="relative"
+      rounded="sm"
+      borderWidth="1"
+      overflow="hidden"
+      style={{
+        width: image.width!,
+        height: image.height!
+      }}
+    >
       <styled.img
-        style={{
-          width: image.width!,
-          height: image.height!
-        }}
         position="absolute"
         inset="0"
         w="full"
