@@ -119,33 +119,30 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
   }
 
   return (
-    <Box
-      data-image
-      position="relative"
-      rounded="sm"
-      borderWidth="1"
-      overflow="hidden"
-      style={{
-        width: image.width!,
-        height: image.height!
-      }}
-    >
-      <styled.img
-        position="absolute"
-        inset="0"
-        w="full"
-        h="full"
-        objectFit="cover"
-        filter="auto"
-        blur="lg"
-        scale="auto"
-        scaleX="1.1"
-        scaleY="1.1"
-        zIndex="1"
-        src={image.blurredUrl!}
-        aria-hidden="true"
-      />
-      <styled.img src={image.url} w="full" h="full" position="relative" zIndex="2" />
+    <Box data-image w="full" h="full" rounded="sm" borderWidth="1" overflow="hidden">
+      <Box
+        position="relative"
+        style={{
+          width: image.width!,
+          height: image.height!
+        }}
+      >
+        <styled.img
+          position="absolute"
+          w="full"
+          h="full"
+          inset="0"
+          objectFit="cover"
+          filter="auto"
+          blur="lg"
+          scale="auto"
+          scaleX="1.1"
+          scaleY="1.1"
+          src={image.blurredUrl!}
+          aria-hidden="true"
+        />
+        <styled.img src={image.url} w="full" h="full" position="relative" />
+      </Box>
     </Box>
   )
 }
