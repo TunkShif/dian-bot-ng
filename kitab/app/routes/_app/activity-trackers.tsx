@@ -2,6 +2,7 @@ import { Portal } from "@ark-ui/react"
 import { autoPlacement, shift, useFloating } from "@floating-ui/react-dom"
 import { Await, useLocation } from "@remix-run/react"
 import { addHours, intlFormatDistance } from "date-fns"
+import { AnimatePresence, motion } from "framer-motion"
 import type { UserActivity } from "gql/graphql"
 import { atom, useAtomValue } from "jotai"
 import { SVGProps, Suspense, forwardRef, useMemo } from "react"
@@ -71,9 +72,7 @@ const HistoryTrackerList = ({ activities }: { activities: UserActivity[] }) => {
   return (
     <ul>
       {activities.map((activity) => (
-        <li key={activity.id}>
-          <HistoryIndicator activity={activity} />
-        </li>
+        <HistoryIndicator key={activity.id} activity={activity} />
       ))}
     </ul>
   )
@@ -84,39 +83,53 @@ const HistoryIndicator = ({ activity }: { activity: UserActivity }) => {
 
   const { shouldRender, refs, floatingStyles } = useIndicator({ mouseX, mouseY, location })
 
-  if (!shouldRender) return null
-
   const now = new Date()
   const ago = addHours(new Date(offlineAt), 8)
   const distance = intlFormatDistance(ago, now, { locale: "zh-Hans-CN" })
 
   return (
-    <Box ref={refs.setFloating} style={floatingStyles}>
-      <Box
-        position="relative"
-        bg="bg.default/45"
-        backdropFilter="auto"
-        backdropBlur="sm"
-        rounded="full"
-        p="1"
-        shadow="md"
-      >
-        <HStack gap="2">
-          <Avatar size="sm" borderWidth="1" src={`/avatar/${user.qid}`} name={user.name} />
-          <Box textWrap="nowrap">
-            <Text dir="rtl" size="sm" fontWeight="semibold" as="span">
-              {user.name}
-            </Text>
-            <Text size="sm" as="span">
-              {distance}
-            </Text>
-            <Text size="sm" as="span">
-              来过
-            </Text>
+    <AnimatePresence>
+      {shouldRender && (
+        <motion.li
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              delay: 1,
+              duration: 2
+            }
+          }}
+          exit={{ opacity: 0 }}
+        >
+          <Box ref={refs.setFloating} style={floatingStyles}>
+            <Box
+              position="relative"
+              bg="bg.subtle/45"
+              backdropFilter="auto"
+              backdropBlur="sm"
+              rounded="full"
+              p="1"
+              shadow="lg"
+            >
+              <HStack gap="2">
+                <Avatar size="sm" borderWidth="1" src={`/avatar/${user.qid}`} name={user.name} />
+                <Box textWrap="nowrap" pr="1">
+                  <Text dir="rtl" size="sm" fontWeight="semibold" as="span">
+                    {user.name}
+                  </Text>{" "}
+                  <Text size="sm" as="span">
+                    {distance}
+                  </Text>
+                  <Text size="sm" as="span">
+                    来过
+                  </Text>
+                </Box>
+              </HStack>
+            </Box>
           </Box>
-        </HStack>
-      </Box>
-    </Box>
+        </motion.li>
+      )}
+    </AnimatePresence>
   )
 }
 
@@ -131,9 +144,7 @@ const RealtimeTrackerList = ({ activities }: { activities: OnlineUserActivity[] 
   return (
     <ul>
       {activities.map((activity) => (
-        <li key={activity.id}>
-          <RealtimeIndicator activity={activity} />
-        </li>
+        <RealtimeIndicator key={activity.id} activity={activity} />
       ))}
     </ul>
   )
@@ -149,28 +160,49 @@ const RealtimeIndicator = ({ activity }: { activity: OnlineUserActivity }) => {
   const { shouldRender, refs, floatingStyles } = useIndicator({ mouseX, mouseY, location })
 
   const shouldIgnore = activity.id === myself || !shouldRender
-  if (shouldIgnore) return null
 
   return (
-    <Box ref={refs.setFloating} style={floatingStyles}>
-      <Box
-        position="relative"
-        bg="bg.default/45"
-        backdropFilter="auto"
-        backdropBlur="sm"
-        rounded="full"
-        px="4"
-        py="2"
-        shadow="md"
-      >
-        <Icon position="absolute" left="-2" top="-2" size="md" color="accent.default">
-          <CursorIcon />
-        </Icon>
-        <Text size="sm" fontWeight="semibold">
-          {user.name}
-        </Text>
-      </Box>
-    </Box>
+    <AnimatePresence>
+      {!shouldIgnore && (
+        <motion.li
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              delay: 1,
+              duration: 2
+            }
+          }}
+          exit={{ opacity: 0 }}
+        >
+          <Box
+            ref={refs.setFloating}
+            transition="transform"
+            transitionDuration="500ms"
+            transitionTimingFunction="ease-in-out"
+            style={floatingStyles}
+          >
+            <Box
+              position="relative"
+              bg="bg.subtle/45"
+              backdropFilter="auto"
+              backdropBlur="sm"
+              rounded="full"
+              px="4"
+              py="2"
+              shadow="lg"
+            >
+              <Icon position="absolute" left="-2" top="-2" size="md" color="accent.default">
+                <CursorIcon />
+              </Icon>
+              <Text size="sm" fontWeight="semibold">
+                {user.name}
+              </Text>
+            </Box>
+          </Box>
+        </motion.li>
+      )}
+    </AnimatePresence>
   )
 }
 

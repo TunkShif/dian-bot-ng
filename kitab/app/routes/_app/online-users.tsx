@@ -1,25 +1,25 @@
 import { Portal } from "@ark-ui/react"
-import * as Collapsible from "~/components/ui/collapsible"
 import { intlFormatDistance } from "date-fns"
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
 import { ChevronDownIcon, UsersRoundIcon, XIcon } from "lucide-react"
+import { css } from "styled-system/css"
 import { Box, Center, HStack, Stack, styled } from "styled-system/jsx"
 import { stack } from "styled-system/patterns"
 import { Tooltip } from "~/components/shared/tooltip"
 import { Avatar } from "~/components/ui/avatar"
+import { Button } from "~/components/ui/button"
+import * as Collapsible from "~/components/ui/collapsible"
+import { Icon } from "~/components/ui/icon"
 import { IconButton } from "~/components/ui/icon-button"
 import * as Popover from "~/components/ui/popover"
+import { Switch } from "~/components/ui/switch"
 import { Text } from "~/components/ui/text"
 import {
   onlineUsersAtom,
-  type OnlineUser,
+  showHistoryActivityAtom,
   showOnlineActivityAtom,
-  showHistoryActivityAtom
+  type OnlineUser
 } from "~/lib/trackers"
-import { Button } from "~/components/ui/button"
-import { Icon } from "~/components/ui/icon"
-import { css } from "styled-system/css"
-import { Switch } from "~/components/ui/switch"
 
 const nowAtom = atom(new Date())
 
