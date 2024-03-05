@@ -113,14 +113,7 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
 }
 
 const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
-  const isOldFormat = image.format === "old"
-
-  if (isOldFormat) {
-    return (
-      <styled.img rounded="sm" borderWidth="1" src={image.url} alt="a chat image" loading="lazy" />
-    )
-  }
-
+  const { width, height, url, blurredUrl } = image
   return (
     <Box
       data-image
@@ -134,7 +127,7 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
       borderWidth="1"
       overflow="hidden"
       style={{
-        aspectRatio: `${image.width!} / ${image.height}`
+        aspectRatio: `${width} / ${height}`
       }}
     >
       <styled.img
@@ -147,13 +140,15 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
         scale="auto"
         scaleX="1.1"
         scaleY="1.1"
-        src={image.blurredUrl!}
+        src={blurredUrl}
+        loading="eager"
         aria-hidden="true"
       />
       <img
-        src={image.url}
-        width={image.width!}
-        height={image.height!}
+        src={url}
+        width={width}
+        height={height}
+        loading="lazy"
         className={css({ position: "relative", maxHeight: "full" })}
       />
     </Box>

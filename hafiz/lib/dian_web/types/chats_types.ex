@@ -69,10 +69,8 @@ defmodule DianWeb.ChatsTypes do
 
   object :image_message_content do
     field :url, non_null(:string)
-    field :width, :integer
-    field :height, :integer
-    field :blurred_url, :string
-
-    field :format, non_null(:string)
+    field :width, non_null(:integer)
+    field :height, non_null(:integer)
+    field :blurred_url, non_null(:string)
   end
 end

@@ -30,19 +30,10 @@ defmodule DianWeb.ChatsResolver do
 
     %{
       type: :image,
-      format: "new",
       url: image.url,
       width: image.width,
       height: image.height,
       blurred_url: "data:image/webp;base64,#{image.blurred_data}"
-    }
-  end
-
-  defp resolve_message_content(%{"type" => "image", "data" => %{"url" => url}}) do
-    %{
-      type: :image,
-      format: "old",
-      url: url
     }
   end
 
