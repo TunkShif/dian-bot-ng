@@ -23,6 +23,10 @@ defmodule DianWeb.AccountsResolver do
     {:ok, context[:token]}
   end
 
+  def user_perms(_root, _args, %{context: context}) do
+    {:ok, User.perms(context.current_user)}
+  end
+
   def user_registered(root, _args, %{context: context}) do
     registered? =
       case User.admin?(context.current_user) do

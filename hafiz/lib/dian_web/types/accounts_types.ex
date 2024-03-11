@@ -31,6 +31,8 @@ defmodule DianWeb.AccountsTypes do
     @desc "Current logged-in user"
     field :user, :user, resolve: &AccountsResolver.current_user/3
 
+    field :perms, non_null(list_of(non_null(:string))), resolve: &AccountsResolver.user_perms/3
+
     @desc "User token for socket usage"
     field :token, :string, resolve: &AccountsResolver.user_token/3
 

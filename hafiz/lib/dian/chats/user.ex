@@ -40,10 +40,12 @@ defmodule Dian.Chats.User do
   def admin?(%User{role: :admin}), do: true
   def admin?(_), do: false
 
-  def perms(%User{role: :user}), do: ~w(notification-template)
+  @user_perms ~w(notification-template)
+  @admin_perms @user_perms ++ ~w(user-management pinned-message message-broadcast)
 
-  def perms(%User{role: :admin}),
-    do: ~w(user-management notification-template pinned-message message-broadcast)
+  def perms(%User{role: :user}), do: @user_perms
+  def perms(%User{role: :admin}), do: @admin_perms
+  def perms(_), do: []
 
   @spec create_changeset(Ecto.Schema.t(), BotUser.t()) :: Ecto.Changeset.t()
   def create_changeset(user, %BotUser{} = user_params) do
