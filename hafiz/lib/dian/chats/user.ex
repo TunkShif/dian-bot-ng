@@ -16,7 +16,7 @@ defmodule Dian.Chats.User do
     field :password, :string, virtual: true, redact: true
     field :password_confirmation, :string, virtual: true, redact: true
 
-    field :role, Ecto.Enum, values: [:user, :vip, :admin]
+    field :role, Ecto.Enum, values: [:user, :admin]
 
     has_many :tokens, UserToken
     has_many :threads, Thread, foreign_key: :owner_id
@@ -37,6 +37,14 @@ defmodule Dian.Chats.User do
     |> unique_constraint(:qid)
   end
 
+  def admin?(%User{role: :admin}), do: true
+  def admin?(_), do: false
+
+  def perms(%User{role: :user}), do: ~w(notification-template)
+
+  def perms(%User{role: :admin}),
+    do: ~w(user-management notification-template pinned-message message-broadcast)
+
   @spec create_changeset(Ecto.Schema.t(), BotUser.t()) :: Ecto.Changeset.t()
   def create_changeset(user, %BotUser{} = user_params) do
     changeset(user, %{qid: user_params.qid, name: user_params.nickname})
@@ -49,6 +57,11 @@ defmodule Dian.Chats.User do
     |> validate_length(:password, min: 10, max: 72)
     |> validate_confirmation(:password)
     |> put_hashed_password()
+  end
+
+  def update_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:role, :hashed_password])
   end
 
   defp put_hashed_password(changeset) do

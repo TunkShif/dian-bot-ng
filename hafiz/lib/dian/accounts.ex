@@ -1,8 +1,9 @@
 defmodule Dian.Accounts do
   import Ecto.Query
+  import Canada
 
   alias Dian.Repo
-  alias Dian.Chats.{User}
+  alias Dian.Chats.User
   alias Dian.Accounts.{UserToken, UserNotifier}
 
   @register_request_interval_in_mins 2
@@ -125,5 +126,18 @@ defmodule Dian.Accounts do
   def get_user_maps(ids) do
     Repo.all(from user in User, where: user.id in ^ids, select: {user.id, user})
     |> Enum.into(%{})
+  end
+
+  def list_users_query() do
+    from user in User, order_by: [desc: user.id]
+  end
+
+  def update_user(id, attrs, %User{} = me) do
+    user = Repo.get(User, id)
+
+    with :ok <- can?(me, update(user)) do
+      User.update_changeset(user, attrs)
+      |> Repo.update()
+    end
   end
 end

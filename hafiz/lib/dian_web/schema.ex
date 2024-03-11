@@ -15,8 +15,8 @@ defmodule DianWeb.Schema do
   import_types DianWeb.TrackerTypes
 
   query do
-    import_fields :me_queries
     import_fields :bot_queries
+    import_fields :accounts_queries
     import_fields :chats_queries
     import_fields :systems_queries
     import_fields :statistics_queries
@@ -28,6 +28,7 @@ defmodule DianWeb.Schema do
   end
 
   mutation do
+    import_fields :accounts_mutations
     import_fields :systems_mutations
   end
 

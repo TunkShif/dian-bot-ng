@@ -38,6 +38,13 @@ defmodule DianWeb.SystemsTypes do
 
       resolve &SystemsResolver.create_notification_message/3
     end
+
+    field :create_broadcast_message, type: :boolean do
+      arg :group_id, non_null(:string)
+      arg :message, non_null(:string)
+
+      resolve &SystemsResolver.create_broadcast_message/3
+    end
   end
 
   connection(:pinned_message, node_type: non_null(:pinned_message), non_null: true)

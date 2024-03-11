@@ -20,4 +20,8 @@ defmodule Dian.Chats.Message do
     |> cast(attrs, [:raw_text, :content, :sent_at, :sender_id])
     |> validate_required([:content, :sent_at])
   end
+
+  def escape_content(content) when is_binary(content) do
+    content |> String.replace("[", "&#91;") |> String.replace("]", "&#93;")
+  end
 end
