@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - kitab/**
+      - hafiz/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
