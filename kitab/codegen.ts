@@ -1,4 +1,4 @@
-import { CodegenConfig } from "@graphql-codegen/cli"
+import type { CodegenConfig } from "@graphql-codegen/cli"
 
 const GRAPHQL_API_URL = process.env.HAFIZ_API_URL || "http://0.0.0.0:4000/graphql"
 const config: CodegenConfig = {

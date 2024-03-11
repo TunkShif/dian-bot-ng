@@ -1,5 +1,5 @@
 import { Portal } from "@ark-ui/react"
-import { Form, Link, NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
+import { Form, Link, NavLink, useFetcher } from "@remix-run/react"
 import {
   ArchiveIcon,
   BookLockIcon,
@@ -26,9 +26,9 @@ import { Icon } from "~/components/ui/icon"
 import { IconButton } from "~/components/ui/icon-button"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
-import type { loader as rootLoader } from "~/root"
+import { useRootRouteLoaderData } from "~/root"
 import { OnlineUsers } from "~/routes/_app/online-users"
-import type { loader as appLoader } from "~/routes/_app/route"
+import { useAppRouteLoaderData } from "~/routes/_app/route"
 
 const NAVIGATIONS = [
   { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
@@ -46,7 +46,7 @@ export const sidebarFormSchema = z.object({
 })
 
 export const useIsCollapsed = () => {
-  const data = useRouteLoaderData<typeof rootLoader>("root")
+  const data = useRootRouteLoaderData()
   invariant(data?.userPreferences, "No user preferences found in root loader data.")
   let collapsed = data.userPreferences.sidebarCollapsed
   const optimisticValue = useOptimisticIsCollapsed()
@@ -325,7 +325,7 @@ const BottomSection = () => {
 }
 
 const BotStatus = () => {
-  const data = useRouteLoaderData<typeof appLoader>("routes/_app")
+  const data = useAppRouteLoaderData()
   invariant(data, "App route data is missing")
   const isBotOnline = data.isBotOnline
 

@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect, type MetaFunction } from "@remix-run/cloudflare"
+import { LoaderFunction, type MetaFunction, redirect } from "@remix-run/cloudflare"
 
 export const meta: MetaFunction = () => {
   return [

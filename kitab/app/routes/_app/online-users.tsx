@@ -15,10 +15,10 @@ import * as Popover from "~/components/ui/popover"
 import { Switch } from "~/components/ui/switch"
 import { Text } from "~/components/ui/text"
 import {
+  type OnlineUser,
   onlineUsersAtom,
   showHistoryActivityAtom,
-  showOnlineActivityAtom,
-  type OnlineUser
+  showOnlineActivityAtom
 } from "~/lib/trackers"
 
 const nowAtom = atom(new Date())

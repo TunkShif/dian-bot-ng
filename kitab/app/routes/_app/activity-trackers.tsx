@@ -11,10 +11,10 @@ import { Avatar } from "~/components/ui/avatar"
 import { Icon } from "~/components/ui/icon"
 import { Text } from "~/components/ui/text"
 import {
+  type OnlineUserActivity,
   onlineUserActivitiesAtom,
   showHistoryActivityAtom,
-  showOnlineActivityAtom,
-  type OnlineUserActivity
+  showOnlineActivityAtom
 } from "~/lib/trackers"
 import { useAppLoaderData } from "~/routes/_app/route"
 

@@ -1,4 +1,4 @@
-import { createCookieSessionStorage, type Session } from "@remix-run/cloudflare"
+import { type Session, createCookieSessionStorage } from "@remix-run/cloudflare"
 
 type SessionData = {
   token: string

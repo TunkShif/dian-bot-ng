@@ -1,4 +1,4 @@
-import { json, type ActionFunctionArgs } from "@remix-run/cloudflare"
+import { type ActionFunctionArgs, json } from "@remix-run/cloudflare"
 import { getUserPreferences, setUserPreferences } from "~/lib/user-preferences.server"
 import { sidebarFormSchema } from "~/routes/_app/sidebar"
 

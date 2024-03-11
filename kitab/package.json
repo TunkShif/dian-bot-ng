@@ -11,8 +11,7 @@
     "dev:graphql": "graphql-codegen --watch",
     "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
     "pages:deploy": "pnpm run build && wrangler pages deploy ./public",
-    "format": "biome format ./server.ts ./app --write",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "format": "biome check --apply --linter-enabled=false ./server.ts ./app",
     "typecheck": "tsc",
     "codegen:panda": "panda codegen",
     "codegen:graphql": "graphql-codegen"
@@ -64,13 +63,6 @@
     "@types/phoenix": "^1.6.4",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "eslint": "^8.57.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "graphql": "^16.8.1",
     "typescript": "^5.4.2",
     "wrangler": "^3.32.0"

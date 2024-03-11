@@ -1,4 +1,4 @@
-import { json, redirect, type ActionFunctionArgs } from "@remix-run/cloudflare"
+import { type ActionFunctionArgs, json, redirect } from "@remix-run/cloudflare"
 import { AuthService } from "~/services/auth-service"
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {

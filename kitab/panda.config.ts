@@ -1,5 +1,5 @@
-import { defineConfig } from "@pandacss/dev"
-import { createPreset } from "@park-ui/panda-preset"
+import { defineConfig } from "@pandacss/dev";
+import { createPreset } from "@park-ui/panda-preset";
 
 export default defineConfig({
   presets: [
@@ -8,16 +8,16 @@ export default defineConfig({
       grayColor: "mauve",
       accentColor: "red",
       borderRadius: "md",
-      additionalColors: ["tomato", "grass"]
-    })
+      additionalColors: ["tomato", "grass"],
+    }),
   ],
   theme: {
     extend: {
       tokens: {
         fonts: {
           cinzel: { value: "var(--font-cinzel), serif" },
-          silkscreen: { value: "var(--font-silkscreen), serif" }
-        }
+          silkscreen: { value: "var(--font-silkscreen), serif" },
+        },
       },
       recipes: {
         button: {
@@ -32,29 +32,29 @@ export default defineConfig({
                 "& svg": {
                   fontSize: "md",
                   width: "4",
-                  height: "4"
-                }
-              }
-            }
-          }
-        }
+                  height: "4",
+                },
+              },
+            },
+          },
+        },
       },
       slotRecipes: {
         card: {
           base: {
             root: {
               boxShadow: "none",
-              borderWidth: "1px"
-            }
-          }
-        }
-      }
-    }
+              borderWidth: "1px",
+            },
+          },
+        },
+      },
+    },
   },
   preflight: true,
   jsxFramework: "react",
   outdir: "styled-system",
   outExtension: "js",
-  include: ["./app/routes/**/*.{ts,tsx,js,jsx}", "./app/components/**/*.{ts,tsx,js,jsx}"],
-  exclude: []
-})
+  include: ["./app/**/*.{ts,tsx,js,jsx}"],
+  exclude: [],
+});

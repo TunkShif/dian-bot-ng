@@ -1,5 +1,5 @@
 import { parseWithZod } from "@conform-to/zod"
-import { json, type ActionFunctionArgs } from "@remix-run/cloudflare"
+import { type ActionFunctionArgs, json } from "@remix-run/cloudflare"
 import { themeFormSchema } from "~/components/theme"
 import { setUserTheme } from "~/lib/theme.server"
 

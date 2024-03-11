@@ -1,5 +1,5 @@
 import { Portal } from "@ark-ui/react"
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 import { UserRole } from "gql/graphql"
 import { MessageSquareIcon, StickerIcon, UsersRoundIcon } from "lucide-react"
 import { Center, Flex, Grid, HStack, VStack } from "styled-system/jsx"
@@ -11,7 +11,7 @@ import { Icon } from "~/components/ui/icon"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
 import type { loader as dashboardLoader } from "~/routes/_app.dashboard/route"
-import type { loader as appLoader } from "~/routes/_app/route"
+import { useAppRouteLoaderData } from "~/routes/_app/route"
 
 export const UserProfileCard = () => {
   return (
@@ -30,7 +30,7 @@ export const UserProfileCard = () => {
 }
 
 const UserInfo = () => {
-  const data = useRouteLoaderData<typeof appLoader>("routes/_app")
+  const data = useAppRouteLoaderData()
   invariant(data, "App loader data is missing.")
   const user = data.currentUser
 

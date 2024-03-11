@@ -1,5 +1,5 @@
-import { defer, redirect, type LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { Outlet, useLoaderData, useNavigation } from "@remix-run/react"
+import { type LoaderFunctionArgs, defer, redirect } from "@remix-run/cloudflare"
+import { Outlet, useLoaderData, useNavigation, useRouteLoaderData } from "@remix-run/react"
 import { useAtom } from "jotai"
 import { useMemo } from "react"
 import { css } from "styled-system/css"
@@ -19,6 +19,8 @@ import { BottomBar, Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
 import "@fontsource/silkscreen/700.css"
 
 export const useAppLoaderData = () => useLoaderData<typeof loader>()
+
+export const useAppRouteLoaderData = () => useRouteLoaderData<typeof loader>("routes/_app")
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)
@@ -48,10 +50,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   return defer({
     env,
     now: new Date(),
-    currentUser: currentUser.user,
-    token: currentUser.token,
     isBotOnline,
-    userActivitiesQuery
+    userActivitiesQuery,
+    token: currentUser.token,
+    currentUser: currentUser.user,
+    permissions: currentUser.perms
   })
 }
 
@@ -127,7 +130,7 @@ const Footer = () => {
         <StyledLink mx="0.5" href="https://github.com/TunkShif/dian-bot-ng/" target="_blank">
           dian-bot-ng
         </StyledLink>
-        , made with ❤️
+        , made with ❤
       </Text>
     </footer>
   )

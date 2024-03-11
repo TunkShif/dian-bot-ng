@@ -1,5 +1,5 @@
 import { createCookie } from "@remix-run/cloudflare"
-import { themeSchema, type ThemeSchema } from "~/components/theme"
+import { type ThemeSchema, themeSchema } from "~/components/theme"
 
 export const themeCookie = createCookie("__user_theme", {
   maxAge: 365 * 24 * 60 * 60,
