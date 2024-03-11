@@ -328,7 +328,7 @@ const CreatePinnedMessageForm = () => {
       form.reset()
       setIsOpen(false)
     }
-  }, [setIsOpen, isSubmissionSuccess])
+  }, [form, setIsOpen, isSubmissionSuccess])
 
   return (
     <fetcher.Form method="post" {...getFormProps(form)} className={stack({ p: "6" })}>

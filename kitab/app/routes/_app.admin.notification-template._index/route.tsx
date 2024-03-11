@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/cloudflare"
+import { type LoaderFunctionArgs, type MetaFunction, json } from "@remix-run/cloudflare"
 import { Link, useLoaderData } from "@remix-run/react"
 import type { NotificationMessage } from "gql/graphql"
 import { SquarePenIcon } from "lucide-react"
@@ -10,6 +10,10 @@ import { Heading } from "~/components/ui/heading"
 import { Icon } from "~/components/ui/icon"
 import { Text } from "~/components/ui/text"
 import { NotificationMessagesQuery } from "~/queries/notification-messages"
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Notification Template - LITTLE RED BOOK" }]
+}
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const token = await context.sessionStorage.getUserToken(request)

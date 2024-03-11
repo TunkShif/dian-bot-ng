@@ -24,6 +24,10 @@ defmodule Dian.Chats do
     |> where(owner_id: ^user_id)
   end
 
+  def list_groups_query() do
+    from group in Group, order_by: [desc: group.inserted_at]
+  end
+
   def get_user_statistics(user_id) do
     chats_query = from message in Message, where: [sender_id: ^user_id]
     threads_query = from thread in Thread, where: [owner_id: ^user_id]

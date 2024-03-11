@@ -22,8 +22,8 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
 const DEFAULT_TAB = "notification-template"
 
 const TABS = [
-  { key: "user-management", label: "用户管理" },
   { key: "notification-template", label: "通知管理" },
+  { key: "user-management", label: "用户管理" },
   { key: "pinned-messages", label: "站内公告" },
   { key: "message-broadcast", label: "消息广播" }
 ] as const

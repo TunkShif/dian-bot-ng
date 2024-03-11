@@ -41,7 +41,7 @@ defmodule Dian.Chats.User do
   def admin?(_), do: false
 
   @user_perms ~w(notification-template)
-  @admin_perms @user_perms ++ ~w(user-management pinned-message message-broadcast)
+  @admin_perms @user_perms ++ ~w(user-management pinned-messages message-broadcast)
 
   def perms(%User{role: :user}), do: @user_perms
   def perms(%User{role: :admin}), do: @admin_perms
