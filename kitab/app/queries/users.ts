@@ -9,6 +9,12 @@ export const UsersQuery = graphql(`
           name
           qid
           role
+          registered
+          statistics {
+            chats
+            threads
+            followers
+          }
         }
       }
       pageInfo {

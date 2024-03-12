@@ -9,12 +9,13 @@ import {
 import { useLoaderData } from "@remix-run/react"
 import { atom, getDefaultStore, useAtom, useAtomValue } from "jotai"
 import { atomWithImmer } from "jotai-immer"
-import { BotIcon, CheckCircleIcon, CircleXIcon, ForwardIcon, LoaderCircleIcon } from "lucide-react"
+import { BotIcon, CheckCircleIcon, CircleXIcon, ForwardIcon } from "lucide-react"
 import { Fragment, type KeyboardEvent, useCallback, useState } from "react"
 import { Box, Center, Flex, HStack, Stack } from "styled-system/jsx"
 import { hstack, stack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
+import { Spinner } from "~/components/shared/spinner"
 import { Tooltip } from "~/components/shared/tooltip"
 import { Avatar } from "~/components/ui/avatar"
 import { Heading } from "~/components/ui/heading"
@@ -267,15 +268,13 @@ const MessageStatusIndicator = ({ status }: { status: MessageStatus }) => {
     case "submitting":
       return (
         <Box alignSelf="end">
-          <Icon size="xs" color="fg.default" animation="spin 1s linear infinite">
-            <LoaderCircleIcon />
-          </Icon>
+          <Spinner size="xs" color="fg.default" />
         </Box>
       )
     case "sent":
       return (
         <Box alignSelf="end">
-          <Icon size="xs" color="grass.9">
+          <Icon size="xs" color="jade.9">
             <CheckCircleIcon />
           </Icon>
         </Box>

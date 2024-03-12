@@ -239,8 +239,8 @@ const navStyles = flex({
   gap: "4",
   align: "center",
   rounded: "lg",
-  _hover: { bg: "accent.2" },
-  _focus: { bg: "accent.2" },
+  _hover: { bg: "accent.3" },
+  _focus: { bg: "accent.3" },
   _focusVisible: {
     outlineColor: "accent.emphasized",
     outlineStyle: "solid",
@@ -279,7 +279,7 @@ const NavItem = ({ name, route, icon: NavIcon }: (typeof NAVIGATIONS)[number]) =
             })
           )}
         >
-          <Center w="8" h="8" bg="accent.4" rounded="md">
+          <Center w="8" h="8" bg="accent.5" rounded="md">
             <Icon color="accent.text" _dark={{ color: "accent.12" }}>
               <NavIcon />
             </Icon>
@@ -342,7 +342,7 @@ const BotStatus = () => {
               right="0"
               bg="tomato.8"
               size="1.5"
-              _active={{ bg: "grass.8" }}
+              _active={{ bg: "jade.8" }}
             />
           </IconButton>
         </Tooltip.Trigger>
@@ -391,7 +391,7 @@ export const BottomBar = () => {
                 to={route}
                 className={cx(navStyles, css({ flexDirection: "column", gap: "1.5" }))}
               >
-                <Center w="8" h="8" bg="accent.4" rounded="md">
+                <Center w="8" h="8" bg="accent.5" rounded="md">
                   <Icon color="accent.text">
                     <NavIcon />
                   </Icon>

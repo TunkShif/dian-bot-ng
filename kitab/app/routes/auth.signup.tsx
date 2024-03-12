@@ -8,6 +8,7 @@ import { css } from "styled-system/css"
 import { Box, Flex, HStack, Stack, VStack, styled } from "styled-system/jsx"
 import { z } from "zod"
 import { FormErrors } from "~/components/form-errors"
+import { Spinner } from "~/components/shared/spinner"
 import { Button } from "~/components/ui/button"
 import { Checkbox } from "~/components/ui/checkbox"
 import { Heading } from "~/components/ui/heading"
@@ -115,6 +116,7 @@ const SignUpForm = () => {
           <FormErrors id={fields.email.errorId} errors={fields.email.errors} />
         </Stack>
         <Button type="submit" w="full" disabled={isSubmitting}>
+          {isSubmitting && <Spinner size="sm" />}
           创建账户
         </Button>
 

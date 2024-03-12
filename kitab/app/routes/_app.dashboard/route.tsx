@@ -29,12 +29,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pinnedMessagesQuery
   ])
 
-  invariant(userStatisticsResult.data?.me?.statistics)
+  invariant(userStatisticsResult.data?.me?.user?.statistics)
   invariant(dailyStatisticsResult.data)
   invariant(pinnedMessagesResult.data)
 
   return defer({
-    userStatistics: userStatisticsResult.data.me.statistics,
+    userStatistics: userStatisticsResult.data.me.user.statistics,
     dailyStatistics: dailyStatisticsResult.data.dailyThreadsStatistics,
     pinnedMessages: pinnedMessagesResult.data.pinnedMessages.edges
   })

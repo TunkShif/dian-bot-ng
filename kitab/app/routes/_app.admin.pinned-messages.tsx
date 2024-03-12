@@ -18,6 +18,7 @@ import invariant from "tiny-invariant"
 import { z } from "zod"
 import { FormErrors } from "~/components/form-errors"
 import { PINNED_MESSAGES_ICONS, PINNED_MESSAGES_LABELS } from "~/components/shared/pinned-message"
+import { Spinner } from "~/components/shared/spinner"
 import { Tooltip } from "~/components/shared/tooltip"
 import { Avatar } from "~/components/ui/avatar"
 import { Button } from "~/components/ui/button"
@@ -235,6 +236,7 @@ const DeletePinnedMessageAction = ({ messageId }: { messageId: string }) => {
                 <Popover.Title>删除公告</Popover.Title>
                 <Popover.Description>确定要删除本条公告吗？</Popover.Description>
               </Stack>
+
               <HStack justify="end">
                 <Popover.CloseTrigger asChild>
                   <Button size="2xs" variant="outline" type="button">
@@ -388,6 +390,7 @@ const CreatePinnedMessageForm = () => {
           </Button>
         </Dialog.CloseTrigger>
         <Button size="sm" width="full" type="submit" disabled={isSubmitting}>
+          {isSubmitting && <Spinner size="sm" />}
           确认
         </Button>
       </Stack>

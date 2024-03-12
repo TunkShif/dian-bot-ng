@@ -4,6 +4,7 @@ import { UserRole } from "gql/graphql"
 import { MessageSquareIcon, StickerIcon, UsersRoundIcon } from "lucide-react"
 import { Center, Flex, Grid, HStack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
+import { RoleBadge } from "~/components/shared/role-badge"
 import { Avatar } from "~/components/ui/avatar"
 import { Badge } from "~/components/ui/badge"
 import * as Card from "~/components/ui/card"
@@ -40,7 +41,7 @@ const UserInfo = () => {
         <Avatar size="2xl" src={`/avatar/${user.qid}`} name={user.name} borderWidth="1" />
         <VStack alignItems="start">
           <Flex gap="2" alignItems="center">
-            <UserRoleBadge role={user.role} />
+            <RoleBadge userRole={user.role} />
             <Text maxW="10ch" truncate title={user.name}>
               {user.name}
             </Text>
@@ -55,19 +56,6 @@ const UserInfo = () => {
       </HStack>
     </Flex>
   )
-}
-
-const USER_ROLE_LABELS = {
-  [UserRole.User]: "普通用户",
-  [UserRole.Admin]: "SVIP"
-}
-
-type UserRoleBadgeProps = {
-  role: UserRole
-}
-
-const UserRoleBadge = ({ role }: UserRoleBadgeProps) => {
-  return <Badge variant="solid">{USER_ROLE_LABELS[role]}</Badge>
 }
 
 const USER_STATISTICS = [
