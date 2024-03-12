@@ -15,7 +15,7 @@ export const toastSchema = z.object({
 export type ToastSchema = z.infer<typeof toastSchema>
 export type ToastInputSchema = z.input<typeof toastSchema>
 
-type SessionData = {}
+type SessionData = Record<never, never>
 type SessionFlashData = { toast: ToastSchema }
 
 export const toastsSessionStorage = createCookieSessionStorage<SessionData, SessionFlashData>({

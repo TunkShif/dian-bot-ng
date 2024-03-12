@@ -101,6 +101,7 @@ const MessageContentView = ({ content }: { content: MessageContent }) => {
     case "TextMessageContent": {
       const texts = content.text.split("\n")
       return texts.map((it, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: no workaround
         <Fragment key={index}>
           <Text wordBreak="break-word" as="span">
             {it}
@@ -146,6 +147,7 @@ const BlurrableImage = ({ image }: { image: ImageMessageContent }) => {
       />
       <img
         src={url}
+        alt="maybe a meme"
         width={width}
         height={height}
         loading="lazy"

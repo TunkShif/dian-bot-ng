@@ -11,6 +11,10 @@
   },
   "linter": {
     "enabled": true,
+    "ignore": [
+      "./app/lib/create-style-context.tsx",
+      "./app/components/ui/*.tsx"
+    ],
     "rules": {
       "recommended": true
     }

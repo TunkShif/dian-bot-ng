@@ -1,4 +1,4 @@
-import { type MetaFunction } from "@remix-run/cloudflare"
+import type { MetaFunction } from "@remix-run/cloudflare"
 import { Link, Outlet } from "@remix-run/react"
 import { Center, Stack } from "styled-system/jsx"
 import { Heading } from "~/components/ui/heading"

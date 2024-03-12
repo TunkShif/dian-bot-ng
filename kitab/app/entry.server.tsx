@@ -17,8 +17,10 @@ export default async function handleRequest(
   // This is ignored so we can keep it in the template for visibility.  Feel
   // free to delete this parameter in your app if you're not using it!
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadContext: AppLoadContext
+  _loadContext: AppLoadContext
 ) {
+  let statusCode = responseStatusCode
+
   const body = await renderToReadableStream(
     <RemixServer context={remixContext} url={request.url} />,
     {
@@ -26,7 +28,7 @@ export default async function handleRequest(
       onError(error: unknown) {
         // Log streaming rendering errors from inside the shell
         console.error(error)
-        responseStatusCode = 500
+        statusCode = 500
       }
     }
   )
@@ -38,6 +40,6 @@ export default async function handleRequest(
   responseHeaders.set("Content-Type", "text/html")
   return new Response(body, {
     headers: responseHeaders,
-    status: responseStatusCode
+    status: statusCode
   })
 }

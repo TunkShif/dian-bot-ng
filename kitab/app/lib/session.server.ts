@@ -4,7 +4,7 @@ type SessionData = {
   token: string
 }
 
-type SessionFlashData = {}
+type SessionFlashData = Record<never, never>
 
 export type SessionStorage = ReturnType<typeof createSessionStorage>
 

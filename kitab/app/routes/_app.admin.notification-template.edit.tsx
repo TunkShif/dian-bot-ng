@@ -158,7 +158,10 @@ const TemplateHelp = () => {
         <Collapsible.Content>
           <Stack>
             <Text size="sm" color="fg.subtle" pt="2">
-              使用 <Code size="sm" fontFamily="mono">{`{{}}`}</Code>{" "}
+              使用{" "}
+              <Code size="sm" fontFamily="mono">
+                {"{{}}"}
+              </Code>{" "}
               语法可以在消息中插入特定的显示内容, 目前支持的模板插值变量如下:
             </Text>
 

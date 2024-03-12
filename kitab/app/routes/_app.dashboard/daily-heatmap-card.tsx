@@ -2,6 +2,7 @@ import { Portal } from "@ark-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import HeatMap, { type HeatMapValue } from "@uiw/react-heat-map"
 import { subDays } from "date-fns"
+import type { CSSProperties } from "react"
 import { Box } from "styled-system/jsx"
 import * as Card from "~/components/ui/card"
 import * as Tooltip from "~/components/ui/tooltip"
@@ -28,7 +29,10 @@ const DailyHeatMap = ({ data }: { data: HeatMapValue[] }) => {
   return (
     <HeatMap
       style={
-        { color: "var(--colors-fg-default)", "--rhm-rect": "var(--colors-bg-emphasized)" } as any
+        {
+          color: "var(--colors-fg-default)",
+          "--rhm-rect": "var(--colors-bg-emphasized)"
+        } as CSSProperties
       }
       value={data}
       width={620}
