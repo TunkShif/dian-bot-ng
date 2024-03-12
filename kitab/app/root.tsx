@@ -8,26 +8,31 @@ import {
   Scripts,
   ScrollRestoration,
   json,
-  useLoaderData
+  useLoaderData,
+  useRouteLoaderData
 } from "@remix-run/react"
 import { Toaster } from "sonner"
 import { styled } from "styled-system/jsx"
+import { useTheme } from "~/components/theme"
 import { useToast } from "~/components/toaster"
+import { ClientHintCheck, getHints } from "~/lib/client-hints"
 import { combineHeaders } from "~/lib/helpers"
+import { getUserTheme } from "~/lib/theme.server"
 import { getToast } from "~/lib/toast.server"
 import { getUserPreferences, setUserPreferences } from "~/lib/user-preferences.server"
-import styles from "./index.css"
 
 import "@fontsource-variable/inter/wght.css"
-import { useTheme } from "~/components/theme"
-import { ClientHintCheck, getHints } from "~/lib/client-hints"
-import { getUserTheme } from "~/lib/theme.server"
+import styles from "./index.css"
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: styles },
   { rel: "icon", href: "/favicon.svg" }
 ]
+
+export const useRootLoaderData = () => useLoaderData<typeof loader>()
+
+export const useRootRouteLoaderData = () => useRouteLoaderData<typeof loader>("root")
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const [toast, theme, userPreferences] = await Promise.all([
@@ -50,7 +55,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export default function App() {
-  const { toast } = useLoaderData<typeof loader>()
+  const { toast } = useRootLoaderData()
   const theme = useTheme()
 
   useToast(toast)

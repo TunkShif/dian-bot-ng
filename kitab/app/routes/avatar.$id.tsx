@@ -1,5 +1,5 @@
 import { parseWithZod } from "@conform-to/zod"
-import { LoaderFunctionArgs } from "@remix-run/cloudflare"
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 

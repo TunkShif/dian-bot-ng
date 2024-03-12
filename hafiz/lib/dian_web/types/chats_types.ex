@@ -4,10 +4,13 @@ defmodule DianWeb.ChatsTypes do
 
   import Absinthe.Resolution.Helpers
 
-  alias Dian.Chats
   alias DianWeb.ChatsResolver
 
   object :chats_queries do
+    connection field :groups, node_type: :group, non_null: true do
+      resolve &ChatsResolver.list_groups/2
+    end
+
     connection field :threads, node_type: :thread, non_null: true do
       arg :filter, :thread_filter
       resolve &ChatsResolver.list_threads/2
@@ -41,6 +44,8 @@ defmodule DianWeb.ChatsTypes do
 
     field :sent_at, non_null(:naive_datetime)
   end
+
+  connection(:group, node_type: non_null(:group), non_null: true)
 
   node object(:group) do
     field :gid, non_null(:string)

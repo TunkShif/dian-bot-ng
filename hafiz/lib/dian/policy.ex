@@ -7,12 +7,20 @@ defmodule Dian.Policy do
   end
 
   defimpl Canada.Can, for: User do
+    def can?(%User{role: role}, action, %User{})
+        when action in [:update] and role in [:admin],
+        do: :ok
+
     def can?(%User{role: role}, action, %PinnedMessage{})
-        when action in [:create, :delete] and role in [:vip, :admin],
+        when action in [:create, :delete] and role in [:admin],
         do: :ok
 
     def can?(%User{role: role}, action, %NotificationMessage{})
-        when action in [:create] and role in [:user, :vip, :admin],
+        when action in [:create] and role in [:user, :admin],
+        do: :ok
+
+    def can?(%User{role: role}, action, :broadcast_message)
+        when action in [:create] and role in [:admin],
         do: :ok
 
     def can?(_user, _action, _subject),

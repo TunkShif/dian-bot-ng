@@ -8,7 +8,7 @@ import { z } from "zod"
 import { IconButton } from "~/components/ui/icon-button"
 import * as Tooltip from "~/components/ui/tooltip"
 import { useHints } from "~/lib/client-hints"
-import type { loader as rootLoader } from "~/root"
+import { type loader as rootLoader, useRootRouteLoaderData } from "~/root"
 
 const THEME_FETCHER_KEY = "THEME_FETCHER"
 
@@ -52,7 +52,7 @@ export const ThemeToggleButton = () => {
 
 export const useTheme = () => {
   const hints = useHints()
-  const data = useRouteLoaderData<typeof rootLoader>("root")
+  const data = useRootRouteLoaderData()
   invariant(data?.theme, "No theme found in root loader.")
 
   const optimisticValue = useOptimisticTheme()

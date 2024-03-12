@@ -4,7 +4,6 @@ defmodule DianWeb.SystemsTypes do
 
   import Absinthe.Resolution.Helpers
 
-  alias Dian.Chats
   alias DianWeb.SystemsResolver
 
   object :systems_queries do
@@ -37,6 +36,13 @@ defmodule DianWeb.SystemsTypes do
       arg :template, non_null(:string)
 
       resolve &SystemsResolver.create_notification_message/3
+    end
+
+    field :create_broadcast_message, type: :boolean do
+      arg :group_id, non_null(:string)
+      arg :message, non_null(:string)
+
+      resolve &SystemsResolver.create_broadcast_message/3
     end
   end
 

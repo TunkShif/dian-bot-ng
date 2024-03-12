@@ -70,6 +70,11 @@ if config_env() == :prod do
   # Configure app url
   config :dian, :app_url, app_url
 
+  init_qid = System.get_env("INIT_ADMIN")
+
+  # Configure init admin account
+  config :dian, :init_admin, init_qid
+
   bot_secret = System.get_env("BOT_SECRET") || raise "environment BOT_SECRET is missing"
   bot_url = System.get_env("BOT_URL") || raise "environment BOT_URL is missing"
   bot_token = System.get_env("BOT_TOKEN") || raise "environment BOT_TOKEN is missing"

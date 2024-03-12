@@ -8,10 +8,10 @@ import {
   clientHint as colorSchemeHint,
   subscribeToSchemeChange
 } from "@epic-web/client-hints/color-scheme"
-import { useRevalidator, useRouteLoaderData } from "@remix-run/react"
+import { useRevalidator } from "@remix-run/react"
 import { useEffect } from "react"
 import invariant from "tiny-invariant"
-import type { loader as rootLoader } from "~/root"
+import { useRootRouteLoaderData } from "~/root"
 
 const hintsUtils = getHintUtils({
   theme: colorSchemeHint
@@ -23,7 +23,7 @@ export const { getHints } = hintsUtils
  * @returns an object with the client hints and their values
  */
 export function useHints() {
-  const data = useRouteLoaderData<typeof rootLoader>("root")
+  const data = useRootRouteLoaderData()
   invariant(data?.hints, "No hints data fount in root loader.")
   return data.hints
 }
@@ -40,6 +40,7 @@ export function ClientHintCheck({ nonce }: { nonce: string }) {
   return (
     <script
       nonce={nonce}
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: rare needed use case
       dangerouslySetInnerHTML={{
         __html: hintsUtils.getClientHintCheckScript()
       }}

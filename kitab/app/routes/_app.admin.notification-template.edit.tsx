@@ -1,10 +1,10 @@
 import { getFormProps, getTextareaProps, useForm } from "@conform-to/react"
 import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import {
-  json,
-  redirect,
   type ActionFunctionArgs,
-  type LoaderFunctionArgs
+  type LoaderFunctionArgs,
+  json,
+  redirect
 } from "@remix-run/cloudflare"
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react"
 import { CreateNotificationMessageDocument, type NotificationMessage } from "gql/graphql"
@@ -158,7 +158,10 @@ const TemplateHelp = () => {
         <Collapsible.Content>
           <Stack>
             <Text size="sm" color="fg.subtle" pt="2">
-              使用 <Code size="sm" fontFamily="mono">{`{{}}`}</Code>{" "}
+              使用{" "}
+              <Code size="sm" fontFamily="mono">
+                {"{{}}"}
+              </Code>{" "}
               语法可以在消息中插入特定的显示内容, 目前支持的模板插值变量如下:
             </Text>
 

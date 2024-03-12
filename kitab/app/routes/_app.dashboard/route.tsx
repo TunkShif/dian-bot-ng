@@ -1,4 +1,4 @@
-import { defer, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
+import { type LoaderFunctionArgs, type MetaFunction, defer } from "@remix-run/cloudflare"
 import { Link } from "@remix-run/react"
 import { Center, Flex, Stack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
@@ -29,12 +29,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pinnedMessagesQuery
   ])
 
-  invariant(userStatisticsResult.data?.me?.statistics)
+  invariant(userStatisticsResult.data?.me?.user?.statistics)
   invariant(dailyStatisticsResult.data)
   invariant(pinnedMessagesResult.data)
 
   return defer({
-    userStatistics: userStatisticsResult.data.me.statistics,
+    userStatistics: userStatisticsResult.data.me.user.statistics,
     dailyStatistics: dailyStatisticsResult.data.dailyThreadsStatistics,
     pinnedMessages: pinnedMessagesResult.data.pinnedMessages.edges
   })

@@ -2,7 +2,7 @@ defmodule Dian.Admins.NotificationMessage do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Dian.Chats.User
+  alias Dian.Chats.{User, Message}
   alias Dian.Admins.NotificationMessage
 
   schema "notification_messages" do
@@ -35,7 +35,7 @@ defmodule Dian.Admins.NotificationMessage do
   end
 
   def render_message(%NotificationMessage{template: template}, assigns) do
-    escaped_template = template |> String.replace("[", "&#91;") |> String.replace("]", "&#93;")
+    escaped_template = Message.escape_content(template)
     :bbmustache.render(escaped_template, assigns, key_type: :atom)
   end
 end

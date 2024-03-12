@@ -3,7 +3,7 @@ defmodule Dian.Admins do
   import Canada
 
   alias Dian.Repo
-  alias Dian.Chats.User
+  alias Dian.Chats.{User, Message}
   alias Dian.Admins.{PinnedMessage, NotificationMessage}
 
   def list_pinned_messages_query() do
@@ -58,6 +58,12 @@ defmodule Dian.Admins do
         on_conflict: [set: [template: attrs.template]],
         conflict_target: :operator_id
       )
+    end
+  end
+
+  def broadcast_message(gid, content, %User{} = user) do
+    with :ok <- can?(user, create(:broadcast_message)) do
+      DianBot.send_group_message(gid, Message.escape_content(content))
     end
   end
 end

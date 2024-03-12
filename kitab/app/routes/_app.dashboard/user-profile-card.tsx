@@ -1,9 +1,10 @@
 import { Portal } from "@ark-ui/react"
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 import { UserRole } from "gql/graphql"
 import { MessageSquareIcon, StickerIcon, UsersRoundIcon } from "lucide-react"
 import { Center, Flex, Grid, HStack, VStack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
+import { RoleBadge } from "~/components/shared/role-badge"
 import { Avatar } from "~/components/ui/avatar"
 import { Badge } from "~/components/ui/badge"
 import * as Card from "~/components/ui/card"
@@ -11,7 +12,7 @@ import { Icon } from "~/components/ui/icon"
 import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
 import type { loader as dashboardLoader } from "~/routes/_app.dashboard/route"
-import type { loader as appLoader } from "~/routes/_app/route"
+import { useAppRouteLoaderData } from "~/routes/_app/route"
 
 export const UserProfileCard = () => {
   return (
@@ -30,7 +31,7 @@ export const UserProfileCard = () => {
 }
 
 const UserInfo = () => {
-  const data = useRouteLoaderData<typeof appLoader>("routes/_app")
+  const data = useAppRouteLoaderData()
   invariant(data, "App loader data is missing.")
   const user = data.currentUser
 
@@ -40,7 +41,7 @@ const UserInfo = () => {
         <Avatar size="2xl" src={`/avatar/${user.qid}`} name={user.name} borderWidth="1" />
         <VStack alignItems="start">
           <Flex gap="2" alignItems="center">
-            <UserRoleBadge role={user.role} />
+            <RoleBadge userRole={user.role} />
             <Text maxW="10ch" truncate title={user.name}>
               {user.name}
             </Text>
@@ -55,19 +56,6 @@ const UserInfo = () => {
       </HStack>
     </Flex>
   )
-}
-
-const USER_ROLE_LABELS = {
-  [UserRole.User]: "普通用户",
-  [UserRole.Admin]: "SVIP"
-}
-
-type UserRoleBadgeProps = {
-  role: UserRole
-}
-
-const UserRoleBadge = ({ role }: UserRoleBadgeProps) => {
-  return <Badge variant="solid">{USER_ROLE_LABELS[role]}</Badge>
 }
 
 const USER_STATISTICS = [

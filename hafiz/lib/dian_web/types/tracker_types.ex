@@ -4,7 +4,6 @@ defmodule DianWeb.TrackerTypes do
 
   import Absinthe.Resolution.Helpers
 
-  alias Dian.Chats
   alias DianWeb.TrackerResolver
 
   object :tracker_queries do

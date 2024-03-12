@@ -11,6 +11,11 @@ defmodule DianWeb.ChatsResolver do
     |> Absinthe.Relay.Connection.from_query(&Repo.all/1, args)
   end
 
+  def list_groups(args, _info) do
+    Chats.list_groups_query()
+    |> Absinthe.Relay.Connection.from_query(&Repo.all/1, args)
+  end
+
   def message_content(root, _args, _info) do
     {:ok, Enum.map(root.content, &resolve_message_content/1)}
   end

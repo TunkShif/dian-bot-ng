@@ -1,10 +1,10 @@
-import { createCookieSessionStorage, type Session } from "@remix-run/cloudflare"
+import { type Session, createCookieSessionStorage } from "@remix-run/cloudflare"
 
 type SessionData = {
   token: string
 }
 
-type SessionFlashData = {}
+type SessionFlashData = Record<never, never>
 
 export type SessionStorage = ReturnType<typeof createSessionStorage>
 

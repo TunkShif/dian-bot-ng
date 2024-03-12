@@ -1,7 +1,7 @@
 defmodule DianWeb.StatisticsResolver do
-  alias Dian.Chats
+  alias Dian.Statistics
 
   def daily_threads(_root, _args, _info) do
-    {:ok, Chats.get_daily_threads_statistics()}
+    {:ok, Statistics.get_daily_threads_statistics()}
   end
 end

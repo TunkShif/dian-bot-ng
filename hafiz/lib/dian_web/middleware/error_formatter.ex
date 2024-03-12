@@ -10,7 +10,7 @@ defmodule DianWeb.Middleware.ErrorFormatter do
     changeset |> DianWeb.ErrorJSON.error() |> Enum.map(fn {key, value} -> "#{key} #{value}" end)
   end
 
+  def format_error(%DianBot.BotError{} = error), do: [error.message]
   def format_error(%Dian.Policy.AuthorizationError{} = error), do: [error.message]
-
   def format_error(error), do: [error]
 end

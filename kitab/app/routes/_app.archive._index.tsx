@@ -1,33 +1,17 @@
 import { parseWithZod } from "@conform-to/zod"
-import { json, type LoaderFunctionArgs } from "@remix-run/cloudflare"
+import { type LoaderFunctionArgs, json } from "@remix-run/cloudflare"
 import { Link, useLoaderData } from "@remix-run/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { Flex, Stack } from "styled-system/jsx"
 import invariant from "tiny-invariant"
-import { z } from "zod"
 import { Button } from "~/components/ui/button"
+import { createPaginationSchema } from "~/lib/pagination"
 import { ThreadsQuery } from "~/queries/threads"
 import { ThreadList } from "~/routes/_app.archive/thread-list"
 
-const PAGE_ITEM_SIZE = 8
+const PAGE_SIZE = 8
 
-const schema = z.union([
-  z
-    .object({
-      before: z.string()
-    })
-    .transform((val) => ({ last: PAGE_ITEM_SIZE, before: val.before })),
-
-  z
-    .object({
-      after: z.string()
-    })
-    .transform((val) => ({ first: PAGE_ITEM_SIZE, after: val.after })),
-  z
-    .object({})
-    .strict()
-    .transform(() => ({ first: 8 }))
-])
+const schema = createPaginationSchema(PAGE_SIZE)
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const submission = parseWithZod(new URL(request.url).searchParams, { schema })

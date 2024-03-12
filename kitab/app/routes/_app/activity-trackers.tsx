@@ -5,16 +5,16 @@ import { addHours, intlFormatDistance } from "date-fns"
 import { AnimatePresence, motion } from "framer-motion"
 import type { UserActivity } from "gql/graphql"
 import { atom, useAtomValue } from "jotai"
-import { SVGProps, Suspense, forwardRef, useMemo } from "react"
+import { type SVGProps, Suspense, forwardRef, useMemo } from "react"
 import { Box, HStack } from "styled-system/jsx"
 import { Avatar } from "~/components/ui/avatar"
 import { Icon } from "~/components/ui/icon"
 import { Text } from "~/components/ui/text"
 import {
+  type OnlineUserActivity,
   onlineUserActivitiesAtom,
   showHistoryActivityAtom,
-  showOnlineActivityAtom,
-  type OnlineUserActivity
+  showOnlineActivityAtom
 } from "~/lib/trackers"
 import { useAppLoaderData } from "~/routes/_app/route"
 
@@ -258,6 +258,7 @@ const CursorIcon = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>((props, re
       ref={ref}
       {...props}
     >
+      <title>cursor</title>
       <path
         fill="currentColor"
         d="M4.002 2.998a1 1 0 0 1 1.6-.8L13.6 8.2c.768.576.36 1.8-.6 1.8H9.053a1 1 0 0 0-.793.39l-2.466 3.215c-.581.758-1.793.347-1.793-.609z"

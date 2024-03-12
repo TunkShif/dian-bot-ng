@@ -8,7 +8,7 @@ export default defineConfig({
       grayColor: "mauve",
       accentColor: "red",
       borderRadius: "md",
-      additionalColors: ["tomato", "grass"]
+      additionalColors: ["tomato", "gold", "jade"]
     })
   ],
   theme: {
@@ -37,6 +37,23 @@ export default defineConfig({
               }
             }
           }
+        },
+        iconButton: {
+          variants: {
+            size: {
+              "2xs": {
+                w: "6",
+                h: "6",
+                minW: "6",
+                minH: "6",
+                "& svg": {
+                  fontSize: "md",
+                  width: "4",
+                  height: "4"
+                }
+              }
+            }
+          }
         }
       },
       slotRecipes: {
@@ -55,6 +72,6 @@ export default defineConfig({
   jsxFramework: "react",
   outdir: "styled-system",
   outExtension: "js",
-  include: ["./app/routes/**/*.{ts,tsx,js,jsx}", "./app/components/**/*.{ts,tsx,js,jsx}"],
+  include: ["./app/**/*.{ts,tsx,js,jsx}"],
   exclude: []
 })

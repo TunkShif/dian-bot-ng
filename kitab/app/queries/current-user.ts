@@ -6,9 +6,10 @@ export const CurrentUserQuery = graphql(`
       user {
         id
         qid
-        role
         name
+        role
       }
+      perms
       token
     }
   }

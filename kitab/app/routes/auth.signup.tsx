@@ -1,13 +1,14 @@
 import { Portal } from "@ark-ui/react"
 import { getFormProps, getInputProps, useForm } from "@conform-to/react"
 import { getZodConstraint, parseWithZod } from "@conform-to/zod"
-import { json, type ActionFunctionArgs, type MetaFunction } from "@remix-run/cloudflare"
+import { type ActionFunctionArgs, type MetaFunction, json } from "@remix-run/cloudflare"
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react"
 import { XIcon } from "lucide-react"
 import { css } from "styled-system/css"
 import { Box, Flex, HStack, Stack, VStack, styled } from "styled-system/jsx"
 import { z } from "zod"
 import { FormErrors } from "~/components/form-errors"
+import { Spinner } from "~/components/shared/spinner"
 import { Button } from "~/components/ui/button"
 import { Checkbox } from "~/components/ui/checkbox"
 import { Heading } from "~/components/ui/heading"
@@ -115,6 +116,7 @@ const SignUpForm = () => {
           <FormErrors id={fields.email.errorId} errors={fields.email.errors} />
         </Stack>
         <Button type="submit" w="full" disabled={isSubmitting}>
+          {isSubmitting && <Spinner size="sm" />}
           创建账户
         </Button>
 

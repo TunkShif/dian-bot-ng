@@ -32,4 +32,11 @@ defmodule DianWeb.SystemsResolver do
   def create_notification_message(_root, args, %{context: context}) do
     Admins.create_notification_message(args, context.current_user)
   end
+
+  def create_broadcast_message(_root, args, %{context: context}) do
+    case Admins.broadcast_message(args.group_id, args.message, context.current_user) do
+      :ok -> {:ok, true}
+      error -> error
+    end
+  end
 end
