@@ -6,11 +6,11 @@ import {
   type MetaFunction,
   json
 } from "@remix-run/cloudflare"
-import { useLoaderData } from "@remix-run/react"
-import { atom, getDefaultStore, useAtom, useAtomValue } from "jotai"
+import { useFetchers, useLoaderData, useSubmit } from "@remix-run/react"
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai"
 import { atomWithImmer } from "jotai-immer"
 import { BotIcon, CheckCircleIcon, CircleXIcon, ForwardIcon } from "lucide-react"
-import { Fragment, type KeyboardEvent, useCallback, useState } from "react"
+import { type FormEvent, Fragment, type KeyboardEvent, useCallback, useRef } from "react"
 import { Box, Center, Flex, HStack, Stack } from "styled-system/jsx"
 import { hstack, stack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
@@ -84,60 +84,21 @@ export default function MessageBroadcast() {
 }
 
 type GroupID = string
-type MessageID = string
 
 type Message = {
-  id: GroupID
+  id: string
   content: string
-  status: MessageStatus
-  timestamp: number
 }
 
-type MessageStatus = "submitting" | "sent" | "error"
+type GroupMessage = Record<GroupID, Message[]>
 
-type GroupMessage = Record<GroupID, Record<MessageID, Message>>
-
-const store = getDefaultStore()
 const groupMessageAtom = atomWithImmer<GroupMessage>({})
 const currentGroupAtom = atom<GroupID>("")
 const currentMessagesAtom = atom<Message[]>((get) => {
   const currentGroup = get(currentGroupAtom)
   const groupMessages = get(groupMessageAtom)
-  const currentMessages = groupMessages[currentGroup] ?? {}
-  return Object.values(currentMessages).sort((a, b) => a.timestamp - b.timestamp)
+  return groupMessages[currentGroup] ?? []
 })
-
-const createBroadcastMessage = async (id: string, params: z.infer<typeof schema>) => {
-  store.set(groupMessageAtom, (draft) => {
-    if (!draft[params.groupId]) draft[params.groupId] = {}
-
-    draft[params.groupId][id] = {
-      id,
-      content: params.message,
-      status: "submitting",
-      timestamp: Date.now()
-    }
-  })
-
-  const formData = new FormData()
-  for (const [key, value] of Object.entries(params)) {
-    formData.append(key, value)
-  }
-
-  let success = false
-  try {
-    const response = await fetch(
-      `/admin/message-broadcast?_data=${encodeURIComponent("routes/_app.admin.message-broadcast")}`,
-      { method: "POST", body: formData }
-    )
-    const result = await response.json<{ success: boolean }>()
-    if (result.success) success = true
-  } catch (e) {}
-
-  store.set(groupMessageAtom, (draft) => {
-    draft[params.groupId][id].status = success ? "sent" : "error"
-  })
-}
 
 const BroadcastSection = () => {
   return (
@@ -254,7 +215,7 @@ const MessageList = () => {
                   </Fragment>
                 ))}
               </Box>
-              <MessageStatusIndicator status={message.status} />
+              <MessageStatusIndicator messageId={message.id} />
             </HStack>
           </li>
         ))}
@@ -263,83 +224,119 @@ const MessageList = () => {
   )
 }
 
-const MessageStatusIndicator = ({ status }: { status: MessageStatus }) => {
-  switch (status) {
-    case "submitting":
-      return (
-        <Box alignSelf="end">
-          <Spinner size="xs" color="fg.default" />
-        </Box>
-      )
-    case "sent":
-      return (
-        <Box alignSelf="end">
-          <Icon size="xs" color="jade.9">
-            <CheckCircleIcon />
-          </Icon>
-        </Box>
-      )
-    case "error":
-      return (
-        <Box alignSelf="end">
-          <Icon size="xs" color="tomato.9">
-            <CircleXIcon />
-          </Icon>
-        </Box>
-      )
+const MessageStatusIndicator = ({ messageId }: { messageId: string }) => {
+  const fetchers = useFetchers()
+  const fetcher = fetchers.find((it) => it.key === `broadcast:${messageId}`)
+
+  if (!fetcher) return null
+
+  const isSubmitting = fetcher.state !== "idle"
+  if (isSubmitting) {
+    return (
+      <Box alignSelf="end">
+        <Spinner size="xs" color="fg.default" />
+      </Box>
+    )
+  }
+
+  const isSubmissionSuccess = fetcher.state === "idle" && fetcher.data?.success
+  if (isSubmissionSuccess) {
+    return (
+      <Box alignSelf="end">
+        <Icon size="xs" color="jade.9">
+          <CheckCircleIcon />
+        </Icon>
+      </Box>
+    )
+  }
+
+  const isSubmissionFailed = fetcher.state === "idle" && !fetcher.data?.success
+  if (isSubmissionFailed) {
+    return (
+      <Box alignSelf="end">
+        <Icon size="xs" color="tomato.9">
+          <CircleXIcon />
+        </Icon>
+      </Box>
+    )
   }
 }
 
 const InputBox = () => {
-  const [content, setContent] = useState("")
+  const formRef = useRef<HTMLFormElement>(null)
+  const contentRef = useRef<HTMLTextAreaElement>(null)
 
+  const submit = useSubmit()
   const currentGroup = useAtomValue(currentGroupAtom)
+  const setGroupMessage = useSetAtom(groupMessageAtom)
 
-  const handleSubmit = useCallback(() => {
+  const broadcast = useCallback(() => {
+    if (!formRef.current) return
+
     const id = cuid2()
-    const params = {
-      groupId: currentGroup,
-      message: content
+    const content = new FormData(formRef.current).get("message")?.toString() ?? ""
+
+    setGroupMessage((groupMessage) => {
+      if (!groupMessage[currentGroup]) groupMessage[currentGroup] = []
+      groupMessage[currentGroup].push({ id, content })
+    })
+
+    submit(formRef.current, {
+      method: "post",
+      navigate: false,
+      fetcherKey: `broadcast:${id}`
+    })
+
+    if (contentRef.current) {
+      contentRef.current.value = ""
     }
-    setContent("")
-    createBroadcastMessage(id, params)
-  }, [content, currentGroup])
+  }, [submit, currentGroup, setGroupMessage])
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      broadcast()
+    },
+    [broadcast]
+  )
 
   const handleKeydown = useCallback(
     (e: KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.ctrlKey && e.key === "Enter") {
         e.preventDefault()
-        handleSubmit()
+        broadcast()
       }
     },
-    [handleSubmit]
+    [broadcast]
   )
 
   if (currentGroup === "") return null
 
   return (
     <Box position="absolute" mx="auto" w="2/3" bottom="4" insetX="0">
-      <Box w="full" position="relative">
-        <Textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          onSubmit={handleSubmit}
-          onKeyDown={handleKeydown}
-          minLength={1}
-          maxLength={200}
-          required
-          resize="none"
-          w="full"
-          bg="bg.default"
-          rounded="xl"
-        />
+      <form id="broadcast-message" ref={formRef} method="post" onSubmit={handleSubmit}>
+        <input type="hidden" name="groupId" value={currentGroup} />
+        <Box w="full" position="relative">
+          <Textarea
+            ref={contentRef}
+            name="message"
+            onKeyDown={handleKeydown}
+            minLength={1}
+            maxLength={200}
+            required
+            resize="none"
+            w="full"
+            bg="bg.default"
+            rounded="xl"
+          />
 
-        <Tooltip content="发送" positioning={{ placement: "top" }}>
-          <IconButton onClick={handleSubmit} size="xs" position="absolute" right="2" bottom="4">
-            <ForwardIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+          <Tooltip content="发送" positioning={{ placement: "top" }}>
+            <IconButton type="submit" size="xs" position="absolute" right="2" bottom="4">
+              <ForwardIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </form>
     </Box>
   )
 }
