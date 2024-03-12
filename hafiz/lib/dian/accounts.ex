@@ -86,9 +86,13 @@ defmodule Dian.Accounts do
   """
   def register_user(token, attrs \\ %{}) do
     with {:ok, %User{} = user} <- verify_email_user_token(token) do
+      role = if user.qid == initial_admin_qid(), do: :admin, else: :user
+      attrs = Map.put(attrs, :role, role)
       Repo.update(User.register_changeset(user, attrs))
     end
   end
+
+  defp initial_admin_qid, do: Application.get_env(:dian, :init_admin)
 
   @doc """
   Authenticate a user with qid and password, return a token if succeed otherwise nil.
@@ -124,8 +128,10 @@ defmodule Dian.Accounts do
   Returns a map of user id to user pairs with given `ids`.
   """
   def get_user_maps(ids) do
-    Repo.all(from user in User, where: user.id in ^ids, select: {user.id, user})
-    |> Enum.into(%{})
+    query = from user in User, where: user.id in ^ids, select: {user.id, user}
+
+    Repo.all(query)
+    |> Map.new()
   end
 
   def list_users_query() do

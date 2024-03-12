@@ -2,7 +2,6 @@ defmodule DianWeb.Schema do
   use Absinthe.Schema
   use Absinthe.Relay.Schema, flavor: :modern, global_id_translator: DianWeb.Absinthe.IDTranslator
 
-  alias Dian.Chats
   alias DianWeb.NodeResolver
 
   import_types Absinthe.Type.Custom
@@ -33,7 +32,10 @@ defmodule DianWeb.Schema do
   end
 
   def context(ctx) do
-    loader = Dataloader.new() |> Dataloader.add_source(Chats, Chats.data())
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Chats, Dian.Chats.data())
+      |> Dataloader.add_source(Statistics, DianWeb.Dataloader.Statistics.data())
 
     Map.put(ctx, :loader, loader)
   end

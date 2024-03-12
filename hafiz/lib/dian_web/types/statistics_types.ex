@@ -14,4 +14,10 @@ defmodule DianWeb.StatisticsTypes do
     field :date, non_null(:naive_datetime)
     field :count, non_null(:integer)
   end
+
+  object :user_statistics do
+    field :chats, non_null(:integer)
+    field :threads, non_null(:integer)
+    field :followers, non_null(:integer)
+  end
 end

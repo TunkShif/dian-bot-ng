@@ -54,7 +54,7 @@ defmodule Dian.Chats.User do
 
   def register_changeset(user, attrs) do
     user
-    |> cast(attrs, [:password])
+    |> cast(attrs, [:password, :role])
     |> validate_required([:password])
     |> validate_length(:password, min: 10, max: 72)
     |> validate_confirmation(:password)

@@ -2,6 +2,8 @@ defmodule DianWeb.AccountsTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
 
+  import Absinthe.Resolution.Helpers
+
   alias DianWeb.AccountsResolver
 
   object :accounts_queries do
@@ -36,11 +38,6 @@ defmodule DianWeb.AccountsTypes do
     @desc "User token for socket usage"
     field :token, :string, resolve: &AccountsResolver.user_token/3
 
-    @desc "User statistics including counts of messages, threads and followers"
-    field :statistics, non_null(:user_statistics) do
-      resolve &AccountsResolver.user_statistics/3
-    end
-
     @desc "Notification message template for the current user"
     field :notification_message, :notification_message do
       resolve &AccountsResolver.user_notification_message/3
@@ -54,16 +51,13 @@ defmodule DianWeb.AccountsTypes do
     field :name, non_null(:string)
     field :role, non_null(:user_role)
     field :registered, non_null(:boolean), resolve: &AccountsResolver.user_registered/3
+
+    @desc "User statistics including counts of messages, threads and followers"
+    field :statistics, non_null(:user_statistics), resolve: dataloader(Statistics)
   end
 
   enum :user_role do
     value :user
     value :admin
-  end
-
-  object :user_statistics do
-    field :chats, non_null(:integer)
-    field :threads, non_null(:integer)
-    field :followers, non_null(:integer)
   end
 end

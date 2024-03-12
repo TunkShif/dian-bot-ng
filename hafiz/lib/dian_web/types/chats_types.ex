@@ -4,7 +4,6 @@ defmodule DianWeb.ChatsTypes do
 
   import Absinthe.Resolution.Helpers
 
-  alias Dian.Chats
   alias DianWeb.ChatsResolver
 
   object :chats_queries do
