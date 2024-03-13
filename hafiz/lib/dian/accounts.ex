@@ -87,7 +87,7 @@ defmodule Dian.Accounts do
   def register_user(token, attrs \\ %{}) do
     with {:ok, %User{} = user} <- verify_email_user_token(token) do
       role = if user.qid == initial_admin_qid(), do: :admin, else: :user
-      attrs = Map.put(attrs, :role, role)
+      attrs = Map.put(attrs, "role", role)
       Repo.update(User.register_changeset(user, attrs))
     end
   end
