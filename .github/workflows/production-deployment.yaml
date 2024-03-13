@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Gigalixir Action
-        uses: TunkShif/gigalixir-action@v0.6.1
+        uses: TunkShif/gigalixir-action@main/action.yml
         with:
           APP_SUBFOLDER: hafiz
           GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP }}
