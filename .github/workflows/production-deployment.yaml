@@ -1,17 +1,34 @@
 env:
   HAFIZ_API_URL: ${{ secrets.HAFIZ_API_URL }}
 
-name: Kitab Production Deployment
+name: Production Deployment
 on:
   workflow_dispatch:
 
   push:
     branches:
       - main
-    paths:
-      - kitab/**
+
 jobs:
-  Deploy-Production:
+  hafiz-deployment:
+    if: ${{ contains(join(github.event.push.paths, ','), 'hafiz/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Gigalixir Action
+        uses: TunkShif/gigalixir-action@v0.6.1
+        with:
+          APP_SUBFOLDER: hafiz
+          GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP }}
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  kitab-deployment:
+    if: ${{ contains(join(github.event.push.paths, ','), 'kitab/') }}
+    needs: hafiz-deployment
     runs-on: ubuntu-latest
     defaults:
       run:
