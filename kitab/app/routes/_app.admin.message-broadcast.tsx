@@ -12,7 +12,7 @@ import { atomWithImmer } from "jotai-immer"
 import { BotIcon, CheckCircleIcon, CircleXIcon, ForwardIcon } from "lucide-react"
 import { type FormEvent, Fragment, type KeyboardEvent, useCallback, useRef } from "react"
 import { Box, Center, Flex, HStack, Stack } from "styled-system/jsx"
-import { hstack, stack } from "styled-system/patterns"
+import { stack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 import { Spinner } from "~/components/shared/spinner"
@@ -103,12 +103,15 @@ const currentMessagesAtom = atom<Message[]>((get) => {
 const BroadcastSection = () => {
   return (
     <Box bg="bg.canvas" rounded="sm" borderWidth="1">
-      <Flex>
-        <Box flex="1" borderRightWidth="1">
+      <Flex flexDir="column" lg={{ flexDirection: "row" }}>
+        <Box
+          borderBottomWidth="1"
+          lg={{ flex: "1", borderBottomWidth: "0", borderRightWidth: "1" }}
+        >
           <GroupList />
         </Box>
 
-        <Stack flex="4">
+        <Stack lg={{ flex: "4" }}>
           <ChatBox />
         </Stack>
       </Flex>
@@ -123,7 +126,8 @@ const GroupList = () => {
   return (
     <Stack gap="0">
       <Heading
-        display="flex"
+        display="none"
+        lg={{ display: "flex" }}
         alignItems="center"
         h="12"
         px="4"
@@ -137,7 +141,13 @@ const GroupList = () => {
       </Heading>
 
       <Box p="2" overflowY="auto">
-        <ul className={stack({ gap: "1.5", h: "60vh" })}>
+        <ul
+          className={stack({
+            flexDirection: "row",
+            lg: { flexDirection: "column", h: "60vh" },
+            gap: "1.5"
+          })}
+        >
           {groups.map((group) => (
             <li key={group.node.gid}>
               <Tooltip content={group.node.name} positioning={{ placement: "right" }}>
@@ -145,7 +155,9 @@ const GroupList = () => {
                   type="button"
                   data-active={currentGroup === group.node.gid ? true : undefined}
                   onClick={() => setCurrentGroup(group.node.gid)}
-                  className={hstack({
+                  className={stack({
+                    flexDirection: "column",
+                    lg: { flexDirection: "row" },
                     w: "full",
                     gap: "2",
                     p: "2",
@@ -156,15 +168,28 @@ const GroupList = () => {
                     _active: { bg: "gray.5" }
                   })}
                 >
-                  <Avatar src={`/avatar/${group.node.gid}?type=group`} name={group.node.name} />
+                  <Avatar
+                    src={`/avatar/${group.node.gid}?type=group`}
+                    name={group.node.name}
+                    borderWidth="1"
+                  />
 
                   <Stack gap="0.5" justifyContent="start">
-                    <Text size="sm" fontWeight="medium" textAlign="start" lineClamp={1}>
+                    <Text
+                      size="xs"
+                      maxW="10"
+                      lg={{ maxW: "none", fontSize: "sm" }}
+                      fontWeight="medium"
+                      textAlign="start"
+                      lineClamp={1}
+                    >
                       {group.node.name}
                     </Text>
-                    <Text size="sm" color="fg.subtle" textAlign="start" lineClamp={1}>
-                      ({group.node.gid})
-                    </Text>
+                    <Box display="none" lg={{ display: "block" }}>
+                      <Text size="sm" color="fg.subtle" textAlign="start" lineClamp={1}>
+                        ({group.node.gid})
+                      </Text>
+                    </Box>
                   </Stack>
                 </button>
               </Tooltip>
@@ -178,7 +203,7 @@ const GroupList = () => {
 
 const ChatBox = () => {
   return (
-    <Box w="full" h="full" position="relative">
+    <Box w="full" h="full" position="relative" minH="60vh">
       <MessageList />
       <InputBox />
     </Box>
