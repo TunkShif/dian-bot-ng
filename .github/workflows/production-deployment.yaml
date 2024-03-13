@@ -23,6 +23,7 @@ jobs:
         with:
           APP_SUBFOLDER: hafiz
           GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP }}
+          GIGALIXIR_CLEAN: true
           GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
           GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
