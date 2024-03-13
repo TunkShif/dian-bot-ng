@@ -14,7 +14,7 @@ type ThreadItemProps = {
 
 export const ThreadItem = ({ thread }: ThreadItemProps) => {
   return (
-    <Card.Root w="full" minW="sm">
+    <Card.Root w="full" minW="xs">
       <Card.Body px="4" pt="6">
         <VStack w="full">
           {thread.messages.map((message) => (

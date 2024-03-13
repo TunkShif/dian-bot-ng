@@ -14,7 +14,7 @@ import { BotStatusQuery } from "~/queries/bot-status"
 import { CurrentUserQuery } from "~/queries/current-user"
 import { UserActivitiesQuery } from "~/queries/user-activities"
 import { ActivityTrackers } from "~/routes/_app/activity-trackers"
-import { BottomBar, Sidebar, useIsCollapsed } from "~/routes/_app/sidebar"
+import { BottomBar, Sidebar, TopBar, useIsCollapsed } from "~/routes/_app/sidebar"
 
 import "@fontsource/silkscreen/700.css"
 
@@ -83,10 +83,14 @@ export default function AppLayout() {
       })}
       data-sidebar-collapsed={isCollapsed}
     >
+      <TopBar />
+
       <Sidebar />
       <Main />
       <Footer />
+
       <BottomBar />
+
       <ActivityTrackers />
     </div>
   )
