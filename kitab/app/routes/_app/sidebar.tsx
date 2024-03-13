@@ -1,3 +1,4 @@
+import * as Drawer from "~/components/ui/drawer"
 import { Portal } from "@ark-ui/react"
 import { Form, Link, NavLink, useFetcher } from "@remix-run/react"
 import {
@@ -7,14 +8,16 @@ import {
   GaugeIcon,
   ImageIcon,
   LogOutIcon,
+  MenuIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
+  PanelRightCloseIcon,
   SearchIcon,
   SettingsIcon,
   UserIcon
 } from "lucide-react"
 import { css, cx } from "styled-system/css"
-import { Box, Center, Circle, Flex, Stack, styled } from "styled-system/jsx"
+import { Box, Center, Circle, Flex, HStack, Stack, styled } from "styled-system/jsx"
 import { center, flex, hstack, vstack } from "styled-system/patterns"
 import invariant from "tiny-invariant"
 import { z } from "zod"
@@ -28,7 +31,9 @@ import { Text } from "~/components/ui/text"
 import * as Tooltip from "~/components/ui/tooltip"
 import { useRootRouteLoaderData } from "~/root"
 import { OnlineUsers } from "~/routes/_app/online-users"
-import { useAppRouteLoaderData } from "~/routes/_app/route"
+import { useAppLoaderData, useAppRouteLoaderData } from "~/routes/_app/route"
+import { Avatar } from "~/components/ui/avatar"
+import { RoleBadge } from "~/components/shared/role-badge"
 
 const NAVIGATIONS = [
   { name: "我的首页", icon: GaugeIcon, route: "/dashboard" },
@@ -372,6 +377,83 @@ const SignOutButton = () => (
     </Tooltip.Root>
   </Form>
 )
+
+export const TopBar = () => {
+  const { currentUser } = useAppLoaderData()
+
+  return (
+    <HStack px="4" pt="4" justifyContent="space-between" lg={{ display: "none" }}>
+      <Link to="/" className={flex({ align: "center" })}>
+        <Logo width="32" height="32" />
+        <Text
+          ml="1"
+          fontFamily="silkscreen"
+          textTransform="uppercase"
+          letterSpacing="tight"
+          userSelect="none"
+        >
+          Little Red Book
+        </Text>
+      </Link>
+
+      <Drawer.Root>
+        <Drawer.Trigger asChild>
+          <IconButton variant="ghost">
+            <MenuIcon />
+          </IconButton>
+        </Drawer.Trigger>
+
+        <Portal>
+          <Drawer.Backdrop />
+          <Drawer.Positioner w="80vw">
+            <Drawer.Content>
+              <Drawer.Header>
+                <Drawer.Title>
+                  <HStack>
+                    <Avatar
+                      size="lg"
+                      src={`/avatar/${currentUser.qid}`}
+                      name={currentUser.name}
+                      borderWidth="1"
+                    />
+                    <Stack gap="0.5">
+                      <HStack gap="2">
+                        <Text fontWeight="medium">{currentUser.name}</Text>
+                        <RoleBadge userRole={currentUser.role} />
+                      </HStack>
+                      <Text color="fg.subtle" size="sm">
+                        ({currentUser.qid})
+                      </Text>
+                    </Stack>
+                  </HStack>
+                </Drawer.Title>
+              </Drawer.Header>
+
+              <Drawer.Body>
+                {
+                  // TODO: drawer content
+                }
+              </Drawer.Body>
+
+              <Drawer.Footer>
+                <HStack w="full" gap="0.5">
+                  <Drawer.CloseTrigger asChild>
+                    <IconButton variant="ghost">
+                      <PanelRightCloseIcon />
+                    </IconButton>
+                  </Drawer.CloseTrigger>
+                  <ThemeToggleButton />
+                  <BotStatus />
+                  <SignOutButton />
+                </HStack>
+              </Drawer.Footer>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Portal>
+      </Drawer.Root>
+    </HStack>
+  )
+}
 
 export const BottomBar = () => {
   return (
