@@ -53,12 +53,13 @@ defmodule DianWeb.ChatsTypes do
   end
 
   union :message_content do
-    types [:text_message_content, :at_message_content, :image_message_content]
+    types [:text_message_content, :at_message_content, :image_message_content, :face_message_content]
 
     resolve_type fn
       %{type: :text}, _ -> :text_message_content
       %{type: :at}, _ -> :at_message_content
       %{type: :image}, _ -> :image_message_content
+      %{type: :face}, _ -> :face_message_content
       _, _ -> nil
     end
   end
@@ -77,5 +78,9 @@ defmodule DianWeb.ChatsTypes do
     field :width, non_null(:integer)
     field :height, non_null(:integer)
     field :blurred_url, non_null(:string)
+  end
+
+  object :face_message_content do
+    field :id, non_null(:string)
   end
 end
