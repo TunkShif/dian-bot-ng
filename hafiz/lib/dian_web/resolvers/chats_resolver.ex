@@ -28,6 +28,10 @@ defmodule DianWeb.ChatsResolver do
     %{type: :at, qid: content["data"]["qid"], name: content["data"]["name"]}
   end
 
+  defp resolve_message_content(%{"type" => "face"} = content) do
+    %{type: :face, id: content["data"]["id"]}
+  end
+
   # TODO: batch image query
 
   defp resolve_message_content(%{"type" => "image", "data" => %{"id" => id}}) do
