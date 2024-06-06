@@ -15,6 +15,14 @@ defmodule DianWeb.AccountsTypes do
   end
 
   object :accounts_mutations do
+    field :create_user_account, type: :account_result do
+      meta skip_auth: true
+
+      arg :email, non_null(:string)
+
+      resolve &AccountsResolver.create_user_account/3
+    end
+
     field :update_user_role, type: :user do
       arg :id, non_null(:id)
       arg :role, non_null(:user_role)
@@ -44,6 +52,11 @@ defmodule DianWeb.AccountsTypes do
     end
   end
 
+  enum :user_role do
+    value :user
+    value :admin
+  end
+
   connection(:user, node_type: non_null(:user), non_null: true)
 
   node object(:user) do
@@ -56,8 +69,10 @@ defmodule DianWeb.AccountsTypes do
     field :statistics, non_null(:user_statistics), resolve: dataloader(Statistics)
   end
 
-  enum :user_role do
-    value :user
-    value :admin
+  enum :account_result do
+    value :invalid_email
+    value :invalid_account
+    value :already_requested
+    value :already_registered
   end
 end

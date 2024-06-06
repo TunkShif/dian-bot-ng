@@ -24,7 +24,10 @@ config :dian, DianWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "z1sVZZszHS+7lAh5MafUIEBMTIM+3GGajTJPR6UDywLLpfeA7ONAbUGkSjycUSv0",
-  watchers: []
+  watchers: [
+    pnpm: ["run", "dev", cd: Path.expand("../assets/", __DIR__)],
+    pnpm: ["run", "dev:graphql", cd: Path.expand("../assets/", __DIR__)]
+  ]
 
 # ## SSL Support
 #

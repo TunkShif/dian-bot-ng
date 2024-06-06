@@ -41,6 +41,14 @@ defmodule DianWeb.AccountsResolver do
     {:ok, Admins.get_user_notfication_message(context.current_user.id)}
   end
 
+  def create_user_account(_root, args, _info) do
+    with :ok <- Accounts.deliver_registration_email(args.email) do
+      {:ok, nil}
+    else
+      {:error, code} -> {:ok, code}
+    end
+  end
+
   def update_user_role(_root, args, %{context: context}) do
     with {:ok, %{type: :user, id: id}} <-
            Absinthe.Relay.Node.from_global_id(args.id, DianWeb.Schema) do

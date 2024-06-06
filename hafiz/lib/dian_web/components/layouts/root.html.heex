@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" - LITTLE RED BOOK">
+      <%= assigns[:page_title] || "Welcome" %>
+    </.live_title>
+    <link rel="icon" href="/favicon.svg" />
+    <%= if Application.get_env(:dian, :dev_routes) do %>
+      <script type="module" src="http://localhost:5173/@vite/client">
+      </script>
+      <script type="module">
+        import RefreshRuntime from 'http://localhost:5173/@react-refresh'
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => {}
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+      </script>
+      <script type="module" src="http://localhost:5173/src/main.tsx">
+      </script>
+    <% else %>
+      <link rel="stylesheet" href={~p"/assets/app.css"} />
+      <script defer type="module" src={~p"/assets/app.js"}>
+      </script>
+    <% end %>
+  </head>
+  <body>
+    <%= @inner_content %>
+  </body>
+</html>

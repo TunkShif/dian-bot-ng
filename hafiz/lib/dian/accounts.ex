@@ -30,7 +30,7 @@ defmodule Dian.Accounts do
   defp validate_email(email) when is_binary(email) do
     case Regex.named_captures(~r/^(?<qid>\d+)@qq\.com$/, email) do
       %{"qid" => qid} -> {:ok, qid}
-      _ -> {:error, "invalid_email"}
+      _ -> {:error, :invalid_email}
     end
   end
 
@@ -38,9 +38,9 @@ defmodule Dian.Accounts do
   @spec validate_non_registered(String.t()) :: {:ok, Ecto.Schema.t()} | {:error, String.t()}
   defp validate_non_registered(qid) do
     case Repo.get_by(User, qid: qid) do
-      nil -> {:error, "invalid_account"}
+      nil -> {:error, :invalid_account}
       %User{hashed_password: nil} = user -> {:ok, user}
-      _ -> {:error, "already_registered"}
+      _ -> {:error, :already_registered}
     end
   end
 
@@ -56,7 +56,7 @@ defmodule Dian.Accounts do
 
     case Repo.one(query) do
       nil -> :ok
-      %UserToken{} -> {:error, "already_requested"}
+      %UserToken{} -> {:error, :already_requested}
     end
   end
 
@@ -77,7 +77,7 @@ defmodule Dian.Accounts do
          {:ok, %User{} = user} <- validate_non_registered(qid) do
       {:ok, user}
     else
-      _ -> {:error, "invalid_token"}
+      _ -> {:error, :invalid_token}
     end
   end
 

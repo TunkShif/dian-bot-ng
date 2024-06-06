@@ -40,12 +40,17 @@ defmodule DianWeb.Schema do
     Map.put(ctx, :loader, loader)
   end
 
-  def middleware(middleware, _field, %{identifier: :mutation}) do
-    [DianWeb.Middleware.Auth] ++ middleware ++ [DianWeb.Middleware.ErrorFormatter]
-  end
+  def middleware(middleware, field, _object) do
+    meta = Absinthe.Type.meta(field)
 
-  def middleware(middleware, _field, _object) do
-    [DianWeb.Middleware.Auth] ++ middleware
+    middleware =
+      unless meta[:skip_auth] do
+        [DianWeb.Middleware.Auth | middleware]
+      else
+        middleware
+      end
+
+    middleware ++ [DianWeb.Middleware.ErrorFormatter]
   end
 
   def plugins do

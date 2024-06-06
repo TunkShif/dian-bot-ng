@@ -17,7 +17,7 @@ defmodule DianWeb do
   those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+  def static_paths, do: ~w(assets fonts images locales favicon.svg robots.txt)
 
   def router do
     quote do
@@ -43,6 +43,29 @@ defmodule DianWeb do
 
       import Plug.Conn
 
+      unquote(verified_routes())
+    end
+  end
+
+  def html do
+    quote do
+      use Phoenix.Component
+
+      # Import convenience functions from controllers
+      import Phoenix.Controller,
+        only: [get_csrf_token: 0, view_module: 1, view_template: 1]
+
+      # Include general helpers for rendering HTML
+      unquote(html_helpers())
+    end
+  end
+
+  defp html_helpers do
+    quote do
+      # HTML escaping functionality
+      import Phoenix.HTML
+
+      # Routes generation with the ~p sigil
       unquote(verified_routes())
     end
   end
