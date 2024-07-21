@@ -1,12 +1,5 @@
 import { Link } from "react-router-dom"
-import { css } from "styled-system/css"
-import { Flex, Stack, VStack } from "styled-system/jsx"
 import z from "zod"
-import { Button } from "~/components/ui/button"
-import { FormLabel } from "~/components/ui/form-label"
-import { Heading } from "~/components/ui/heading"
-import { Input } from "~/components/ui/input"
-import { Link as StyledLink } from "~/components/ui/link"
 
 export const schema = z.object({
   qid: z
@@ -18,14 +11,15 @@ export const schema = z.object({
 })
 
 export const SignInPage = () => {
-  return (
-    <Flex direction="column" justify="center" align="center" minW="sm">
-      <Heading as="h1" size="xl" mb="4">
-        👋 Welcome back!
-      </Heading>
-      <SignInForm />
-    </Flex>
-  )
+  return <>sign in page</>
+  // return (
+  //   <Flex direction="column" justify="center" align="center" minW="sm">
+  //     <Heading as="h1" size="xl" mb="4">
+  //       👋 Welcome back!
+  //     </Heading>
+  //     <SignInForm />
+  //   </Flex>
+  // )
 }
 
 const SignInForm = () => {
