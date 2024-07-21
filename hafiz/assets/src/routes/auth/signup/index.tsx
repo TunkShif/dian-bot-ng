@@ -57,7 +57,7 @@ export const signUpAction = async ({ request }: ActionFunctionArgs) => {
   return { ok: true }
 }
 
-export const SignUp = () => {
+export const SignUpPage = () => {
   const { t } = useTranslation()
 
   return (

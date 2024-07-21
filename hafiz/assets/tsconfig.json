@@ -28,8 +28,7 @@
   },
   "include": [
     "src",
-    "gqp",
-    "styled-system"
+    "gql"
   ],
   "references": [
     {

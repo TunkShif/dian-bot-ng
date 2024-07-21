@@ -1,13 +1,23 @@
-import { Form, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { css } from "styled-system/css"
 import { Flex, Stack, VStack } from "styled-system/jsx"
+import z from "zod"
 import { Button } from "~/components/ui/button"
 import { FormLabel } from "~/components/ui/form-label"
 import { Heading } from "~/components/ui/heading"
 import { Input } from "~/components/ui/input"
 import { Link as StyledLink } from "~/components/ui/link"
 
-export const SignIn = () => {
+export const schema = z.object({
+  qid: z
+    .string({ required_error: "请输入你的企鹅账号" })
+    .min(5, "请输入正确的账号")
+    .max(12, "请输入正确的账号")
+    .regex(/^\d{6,}$/, "请输入正确的账号"),
+  password: z.string({ required_error: "请输入你的本站密码" })
+})
+
+export const SignInPage = () => {
   return (
     <Flex direction="column" justify="center" align="center" minW="sm">
       <Heading as="h1" size="xl" mb="4">
@@ -20,7 +30,7 @@ export const SignIn = () => {
 
 const SignInForm = () => {
   return (
-    <Form method="post" className={css({ w: "4/5" })}>
+    <form method="post" className={css({ w: "4/5" })}>
       <VStack gap="4">
         <Stack w="full" gap="1.5">
           <FormLabel>账号</FormLabel>
@@ -37,6 +47,6 @@ const SignInForm = () => {
           <Link to="/auth/signup">还没有本站账户?</Link>
         </StyledLink>
       </VStack>
-    </Form>
+    </form>
   )
 }

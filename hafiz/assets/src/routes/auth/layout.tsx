@@ -7,7 +7,7 @@ import { Icon } from "~/components/ui/icon"
 import { Link } from "~/components/ui/link"
 import { Text } from "~/components/ui/text"
 
-export const Auth = () => {
+export const AuthLayout = () => {
   return (
     <Flex w="full" h="screen" flexDirection={["column", undefined, "row"]}>
       <CoverSection />
