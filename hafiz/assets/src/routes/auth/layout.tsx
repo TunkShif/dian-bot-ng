@@ -1,20 +1,37 @@
-import "@fontsource-variable/cinzel/wght.css"
-import { Box, Flex } from "@mantine/core"
+import { Box, Flex, Image, Paper } from "@mantine/core"
 import { CameraIcon } from "lucide-react"
 import { Outlet } from "react-router-dom"
 import { Logo } from "~/components/logo"
+import "@fontsource-variable/cinzel/wght.css"
+import * as styles from "./style.css"
 
 export const AuthLayout = () => {
   return (
-    <Flex w="full" h="screen" direction={{ base: "row", sm: "column", md: "column", lg: "row" }}>
-      <CoverSection />
-      <FormSection />
-    </Flex>
+    <div className={styles.container}>
+      <Cover />
+      <Form />
+    </div>
   )
 }
 
-const CoverSection = () => {
-  return <>foobar</>
+const Cover = () => {
+  return (
+    <div className={styles.coverContainer}>
+      <div className={styles.coverWrapper}>
+        <img
+          className={styles.coverPlaceholder}
+          src="data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAADwBwCdASpkAEMAP4Wkw12/tjgmtfytE/AwiWUGcA0Eg283KspRwnzbU8OcmUJb0POR9YiNEJ7WRLqmF4Igunj0UYfX/XF4ZLgA/up7xvscvPagV2G3afgWdyEkXJZxOfFBBWb5XdezUJ/0wuC9z5jE5Zw8JqW/7oONQxC6wt36sxC/4UP0F+suaxWSGqmJOBVYAxmM8YL2UVnM3sib6IscHp9s38ak+LsBZEjEG9oY86ryiUYHraTAjD0yC2LokbekrBH8u10JVHndm7bRhxWpfAtfAAAA"
+          alt="placeholder"
+          aria-hidden="true"
+        />
+        <Image
+          className={styles.coverImage}
+          src="/images/bg-books.webp"
+          alt="layered books in shadow"
+        />
+      </div>
+    </div>
+  )
   // return (
   //   <Box flex="1" pos="relative">
   //     <Box pos="absolute" inset="0" overflow="hidden">
@@ -33,9 +50,6 @@ const CoverSection = () => {
   //         scaleX="1.1"
   //         scaleY="1.1"
   //         zIndex="-1"
-  //         src="data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAADwBwCdASpkAEMAP4Wkw12/tjgmtfytE/AwiWUGcA0Eg283KspRwnzbU8OcmUJb0POR9YiNEJ7WRLqmF4Igunj0UYfX/XF4ZLgA/up7xvscvPagV2G3afgWdyEkXJZxOfFBBWb5XdezUJ/0wuC9z5jE5Zw8JqW/7oONQxC6wt36sxC/4UP0F+suaxWSGqmJOBVYAxmM8YL2UVnM3sib6IscHp9s38ak+LsBZEjEG9oY86ryiUYHraTAjD0yC2LokbekrBH8u10JVHndm7bRhxWpfAtfAAAA"
-  //         alt="blurred books"
-  //         aria-hidden="true"
   //       />
   //       <styled.img
   //         w="full"
@@ -45,8 +59,6 @@ const CoverSection = () => {
   //         sepia="25%"
   //         grayscale="15%"
   //         brightness="60%"
-  //         src="/images/bg-books.webp"
-  //         alt="books"
   //       />
   //     </Box>
   //     <Text
@@ -97,8 +109,12 @@ const CoverSection = () => {
   // )
 }
 
-const FormSection = () => {
-  return <>foobar</>
+const Form = () => {
+  return (
+    <Paper className={styles.formContainer} radius={0} p={30}>
+      foobar
+    </Paper>
+  )
   // return (
   //   <Flex
   //     w="full"
