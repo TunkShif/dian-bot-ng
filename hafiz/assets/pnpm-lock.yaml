@@ -65,6 +65,9 @@ importers:
       lucide-react:
         specifier: ^0.412.0
         version: 0.412.0(react@18.3.1)
+      mantine-form-valibot-resolver:
+        specifier: ^2.0.1
+        version: 2.0.1(@mantine/form@7.11.2(react@18.3.1))(valibot@0.36.0)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -86,9 +89,9 @@ importers:
       urql:
         specifier: ^4.1.0
         version: 4.1.0(@urql/core@5.0.4(graphql@16.9.0))(react@18.3.1)
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
+      valibot:
+        specifier: ^0.36.0
+        version: 0.36.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -2127,6 +2130,13 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  mantine-form-valibot-resolver@2.0.1:
+    resolution: {integrity: sha512-EDPTDyW5dbHxpNMLcCgKYih5J8qde6qtskLjKEqwPnSJVWK8nxUFdKUFz6ltyB1SFqtzCNWH9qPugoGFQdgDcw==}
+    engines: {node: '>=16.6.0'}
+    peerDependencies:
+      '@mantine/form': '>=7.0.0'
+      valibot: '>=0.31.0 <1'
+
   map-cache@0.2.2:
     resolution: {integrity: sha512-8y/eV9QQZCiyn1SprXSrCmqJN0yNRATe+PO8ztwqrvrbdRLA3eYJF0yaR0YayLWkMbsQSKWS9N2gPcGEc4UsZg==}
     engines: {node: '>=0.10.0'}
@@ -2759,6 +2769,9 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  valibot@0.36.0:
+    resolution: {integrity: sha512-CjF1XN4sUce8sBK9TixrDqFM7RwNkuXdJu174/AwmQUB62QbCQADg5lLe8ldBalFgtj1uKj+pKwDJiNo4Mn+eQ==}
+
   value-or-promise@1.0.12:
     resolution: {integrity: sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==}
     engines: {node: '>=12'}
@@ -2893,9 +2906,6 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -5128,6 +5138,11 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  mantine-form-valibot-resolver@2.0.1(@mantine/form@7.11.2(react@18.3.1))(valibot@0.36.0):
+    dependencies:
+      '@mantine/form': 7.11.2(react@18.3.1)
+      valibot: 0.36.0
+
   map-cache@0.2.2: {}
 
   media-query-parser@2.0.2:
@@ -5729,6 +5744,8 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  valibot@0.36.0: {}
+
   value-or-promise@1.0.12: {}
 
   victory-vendor@36.9.2:
@@ -5872,5 +5889,3 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@0.1.0: {}
-
-  zod@3.23.8: {}

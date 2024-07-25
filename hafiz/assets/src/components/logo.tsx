@@ -1,10 +1,6 @@
-export interface LogoProps {
-  width: string
-  height: string
-  className?: string
-}
+import type { SVGProps } from "react"
 
-export const Logo = (props: LogoProps) => {
+export const Logo = (props: Omit<SVGProps<SVGSVGElement>, "children">) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

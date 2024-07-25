@@ -1,3 +1,4 @@
+import { rem } from "@mantine/core"
 import { style } from "@vanilla-extract/css"
 import { vars } from "~/theme"
 
@@ -49,12 +50,47 @@ export const coverImage = style({
   filter: "sepia(25%) grayscale(15%) brightness(60%)"
 })
 
+export const coverSource = style({
+  position: "absolute",
+  top: rem(16),
+  left: rem(16)
+})
+
+export const coverText = style({
+  position: "absolute",
+  bottom: rem(16),
+  right: rem(16),
+  selectors: {
+    "&::before": {
+      content: "open-quote"
+    },
+    "&::after": {
+      content: "close-quote"
+    }
+  }
+})
+
 export const formContainer = style({
+  position: "relative",
+  padding: rem(16),
   "@media": {
     [vars.smallerThan("md")]: {
-      gridRow: "span 8 / span 8"
+      gridRow: "span 8 / span 8",
+      selectors: {
+        "&::before": {
+          content: " ",
+          position: "absolute",
+          top: rem(-16),
+          insetInline: 0,
+          height: rem(16),
+          background: vars.colors.body,
+          borderStartStartRadius: vars.radius.md,
+          borderStartEndRadius: vars.radius.md
+        }
+      }
     },
     [vars.largerThan("md")]: {
+      padding: rem(36),
       gridColumn: "span 5 / span 5"
     }
   }

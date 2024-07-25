@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Paper } from "@mantine/core"
+import { Anchor, Center, Container, Image, Paper, Stack, Text, Title, rem } from "@mantine/core"
 import { CameraIcon } from "lucide-react"
 import { Outlet } from "react-router-dom"
 import { Logo } from "~/components/logo"
@@ -18,9 +18,9 @@ const Cover = () => {
   return (
     <div className={styles.coverContainer}>
       <div className={styles.coverWrapper}>
-        <img
+        <Image
           className={styles.coverPlaceholder}
-          src="data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAADwBwCdASpkAEMAP4Wkw12/tjgmtfytE/AwiWUGcA0Eg283KspRwnzbU8OcmUJb0POR9YiNEJ7WRLqmF4Igunj0UYfX/XF4ZLgA/up7xvscvPagV2G3afgWdyEkXJZxOfFBBWb5XdezUJ/0wuC9z5jE5Zw8JqW/7oONQxC6wt36sxC/4UP0F+suaxWSGqmJOBVYAxmM8YL2UVnM3sib6IscHp9s38ak+LsBZEjEG9oY86ryiUYHraTAjD0yC2LokbekrBH8u10JVHndm7bRhxWpfAtfAAAA"
+          fallbackSrc="data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAADwBwCdASpkAEMAP4Wkw12/tjgmtfytE/AwiWUGcA0Eg283KspRwnzbU8OcmUJb0POR9YiNEJ7WRLqmF4Igunj0UYfX/XF4ZLgA/up7xvscvPagV2G3afgWdyEkXJZxOfFBBWb5XdezUJ/0wuC9z5jE5Zw8JqW/7oONQxC6wt36sxC/4UP0F+suaxWSGqmJOBVYAxmM8YL2UVnM3sib6IscHp9s38ak+LsBZEjEG9oY86ryiUYHraTAjD0yC2LokbekrBH8u10JVHndm7bRhxWpfAtfAAAA"
           alt="placeholder"
           aria-hidden="true"
         />
@@ -29,132 +29,65 @@ const Cover = () => {
           src="/images/bg-books.webp"
           alt="layered books in shadow"
         />
+        <Text className={styles.coverSource} c="white" size="sm">
+          <CameraIcon
+            style={{
+              width: rem(16),
+              height: rem(16),
+              marginInlineEnd: rem(4),
+              verticalAlign: "text-top"
+            }}
+          />
+          Photo By{" "}
+          <Anchor
+            size="sm"
+            c="white"
+            fw="500"
+            href="https://unsplash.com/@rey_7?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            target="_blank"
+          >
+            Rey Seven
+          </Anchor>{" "}
+          on{" "}
+          <Anchor
+            size="sm"
+            c="white"
+            fw="500"
+            href="https://unsplash.com/photos/brown-books-closeup-photography-_nm_mZ4Cs2I?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+            target="_blank"
+          >
+            Splash
+          </Anchor>
+        </Text>
+        <Text className={styles.coverText} c="white" ff="Cinzel Variable" fw="500">
+          Verba volant, sed littera scripta manet.
+        </Text>
       </div>
     </div>
   )
-  // return (
-  //   <Box flex="1" pos="relative">
-  //     <Box pos="absolute" inset="0" overflow="hidden">
-  //       <styled.img
-  //         position="absolute"
-  //         inset="0"
-  //         w="full"
-  //         h="full"
-  //         objectFit="cover"
-  //         filter="auto"
-  //         blur="lg"
-  //         sepia="25%"
-  //         grayscale="15%"
-  //         brightness="60%"
-  //         scale="auto"
-  //         scaleX="1.1"
-  //         scaleY="1.1"
-  //         zIndex="-1"
-  //       />
-  //       <styled.img
-  //         w="full"
-  //         h="full"
-  //         objectFit="cover"
-  //         filter="auto"
-  //         sepia="25%"
-  //         grayscale="15%"
-  //         brightness="60%"
-  //       />
-  //     </Box>
-  //     <Text
-  //       size={["xs", "xs", "sm"]}
-  //       position="absolute"
-  //       top={["4", undefined, "8"]}
-  //       left={["4", undefined, "8"]}
-  //       color="accent.fg"
-  //     >
-  //       <Icon mr="2">
-  //         <CameraIcon />
-  //       </Icon>
-  //       Photo by{" "}
-  //       <Link
-  //         color="accent.fg"
-  //         href="https://unsplash.com/@rey_7?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-  //         target="_blank"
-  //         rel="noreferrer"
-  //       >
-  //         Rey Seven
-  //       </Link>
-  //       {" on "}
-  //       <Link
-  //         color="accent.fg"
-  //         href="https://unsplash.com/photos/brown-books-closeup-photography-_nm_mZ4Cs2I?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
-  //         target="_blank"
-  //         rel="noreferrer"
-  //       >
-  //         Unsplash
-  //       </Link>
-  //     </Text>
-  //     <Text
-  //       as="blockquote"
-  //       size={["lg", "lg", "xl"]}
-  //       position="absolute"
-  //       right={["4", undefined, "8"]}
-  //       bottom={["6", undefined, "8"]}
-  //       color="accent.fg"
-  //       textAlign="right"
-  //       fontWeight="medium"
-  //       fontFamily="cinzel"
-  //       _before={{ content: "open-quote" }}
-  //       _after={{ content: "close-quote" }}
-  //     >
-  //       Verba volant, sed littera scripta manet.
-  //     </Text>
-  //   </Box>
-  // )
 }
 
 const Form = () => {
   return (
-    <Paper className={styles.formContainer} radius={0} p={30}>
-      foobar
+    <Paper className={styles.formContainer} radius={0}>
+      <Stack w="100%" h="100%" gap="xs">
+        <Title order={1} ff="Silkscreen" size="h3" lts="-.025em" ta="left">
+          <Logo
+            style={{
+              width: rem(28),
+              height: rem(28),
+              marginInlineEnd: rem(8),
+              verticalAlign: "text-top"
+            }}
+          />
+          Little Red Book
+        </Title>
+        <Center flex="1">
+          <Container size="24rem" w="100%">
+            <Outlet />
+          </Container>
+        </Center>
+      </Stack>
     </Paper>
   )
-  // return (
-  //   <Flex
-  //     w="full"
-  //     position="relative"
-  //     flex="2"
-  //     flexDirection="column"
-  //     backgroundColor="bg.default"
-  //     _before={{
-  //       content: "''",
-  //       position: "absolute",
-  //       backgroundColor: "bg.default",
-  //       roundedTop: "xl",
-  //       insetX: "0",
-  //       top: "-4",
-  //       h: "4"
-  //     }}
-  //     lg={{
-  //       flex: "1",
-  //       translate: "none",
-  //       borderRadius: "none",
-  //       _before: {
-  //         display: "none"
-  //       }
-  //     }}
-  //   >
-  //     <Flex mt="4" justify="center" align="center" lg={{ mt: "8", ml: "16", mr: "auto" }}>
-  //       <Logo width="32" height="32" />
-  //       <Text
-  //         ml="1"
-  //         fontFamily="silkscreen"
-  //         textTransform="uppercase"
-  //         letterSpacing="tight"
-  //         userSelect="none"
-  //       >
-  //         Little Red Book
-  //       </Text>
-  //     </Flex>
-  //     <Center flexGrow="1">
-  //       <Outlet />
-  //     </Center>
-  //   </Flex>
-  // )
 }

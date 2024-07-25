@@ -1,46 +1,64 @@
+import { Anchor, Button, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { valibotResolver } from "mantine-form-valibot-resolver"
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import z from "zod"
-
-export const schema = z.object({
-  qid: z
-    .string({ required_error: "请输入你的企鹅账号" })
-    .min(5, "请输入正确的账号")
-    .max(12, "请输入正确的账号")
-    .regex(/^\d{6,}$/, "请输入正确的账号"),
-  password: z.string({ required_error: "请输入你的本站密码" })
-})
+import { maxLength, minLength, object, pipe, regex, string } from "valibot"
 
 export const SignInPage = () => {
-  return <>sign in page</>
-  // return (
-  //   <Flex direction="column" justify="center" align="center" minW="sm">
-  //     <Heading as="h1" size="xl" mb="4">
-  //       👋 Welcome back!
-  //     </Heading>
-  //     <SignInForm />
-  //   </Flex>
-  // )
-}
+  const { t } = useTranslation("auth")
 
-const SignInForm = () => {
+  const schema = useMemo(
+    () =>
+      object({
+        qid: pipe(
+          string(t("sign_in.form.qid.required")),
+          minLength(5, t("sign_in.form.qid.invalid")),
+          maxLength(12, t("sign_in.form.qid.invalid")),
+          regex(/^\d{6,}$/, t("sign_in.form.qid.invalid"))
+        ),
+        password: string(t("sign_in.form.password.required"))
+      }),
+    [t]
+  )
+
+  const form = useForm({
+    name: "sign-in",
+    mode: "uncontrolled",
+    validateInputOnBlur: true,
+    validate: valibotResolver(schema)
+  })
+
   return (
-    <form method="post" className={css({ w: "4/5" })}>
-      <VStack gap="4">
-        <Stack w="full" gap="1.5">
-          <FormLabel>账号</FormLabel>
-          <Input placeholder="Your QQ Number" />
+    <Stack>
+      <Title order={2} ta="center">
+        {t("sign_in.title")}
+      </Title>
+
+      <form method="post">
+        <Stack>
+          <TextInput
+            key={form.key("qid")}
+            label={t("sign_in.form.qid.label")}
+            placeholder={t("sign_in.form.qid.placeholder")}
+            {...form.getInputProps("qid")}
+          />
+          <PasswordInput
+            key={form.key("password")}
+            label={t("sign_in.form.password.label")}
+            placeholder={t("sign_in.form.password.placeholder")}
+            {...form.getInputProps("password")}
+          />
+          <Button type="submit" disabled={!form.isValid()} fullWidth>
+            {t("sign_in.form.submit.label")}
+          </Button>
         </Stack>
-        <Stack w="full" gap="1.5">
-          <FormLabel>密码</FormLabel>
-          <Input autoComplete="current-password" placeholder="Not Your QQ Password" />
-        </Stack>
-        <Button type="submit" w="full">
-          登录
-        </Button>
-        <StyledLink w="full" textAlign="right" fontSize="sm" asChild>
-          <Link to="/auth/signup">还没有本站账户?</Link>
-        </StyledLink>
-      </VStack>
-    </form>
+      </form>
+
+      <Anchor component={Link} c="dark" size="sm" fw={500} to="/auth/signup">
+        {t("sign_in.sign_up_hint")}
+      </Anchor>
+    </Stack>
   )
 }
