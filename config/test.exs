@@ -17,6 +17,9 @@ config :dian, DianWeb.Endpoint,
   secret_key_base: "kp/eE44+YO6ejgCaG/WgYJ8DN2hx+lLSN5oJd8I8/sRoVwnJaRQBxvCq/mUJL1b5",
   server: false
 
+# In test we don't connect to real bot server
+config :dian, DianBot.Bot, client: DianBot.Client.Test
+
 # In test we don't send emails
 config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Test
 

@@ -1,5 +1,3 @@
-set dotenv-required
-
 repl:
   iex -S mix
 

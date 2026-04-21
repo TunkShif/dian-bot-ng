@@ -7,19 +7,19 @@ defmodule Dian.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      DianWeb.Telemetry,
-      Dian.Repo,
-      {Ecto.Migrator,
-       repos: Application.fetch_env!(:dian, :ecto_repos), skip: skip_migrations?()},
-      {DNSCluster, query: Application.get_env(:dian, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Dian.PubSub},
-      DianBot.Client,
-      # Start a worker by calling: Dian.Worker.start_link(arg)
-      # {Dian.Worker, arg},
-      # Start to serve requests, typically the last entry
-      DianWeb.Endpoint
-    ]
+    children =
+      [
+        DianWeb.Telemetry,
+        Dian.Repo,
+        {Ecto.Migrator,
+         repos: Application.fetch_env!(:dian, :ecto_repos), skip: skip_migrations?()},
+        {DNSCluster, query: Application.get_env(:dian, :dns_cluster_query) || :ignore},
+        {Phoenix.PubSub, name: Dian.PubSub},
+        # Start a worker by calling: Dian.Worker.start_link(arg)
+        # {Dian.Worker, arg},
+        # Start to serve requests, typically the last entry
+        DianWeb.Endpoint
+      ] ++ bot_client_children()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -33,6 +33,13 @@ defmodule Dian.Application do
   def config_change(changed, _new, removed) do
     DianWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp bot_client_children() do
+    case DianBot.Client.impl() do
+      DianBot.Client.Default -> [DianBot.Client.Default]
+      _ -> []
+    end
   end
 
   defp skip_migrations?() do

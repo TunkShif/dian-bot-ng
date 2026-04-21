@@ -22,7 +22,8 @@ end
 
 config :dian, DianWeb.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
-config :dian, DianBot.Client,
+# Configure Bot Client
+config :dian, DianBot.Bot,
   endpoint: System.get_env("BOT_ENDPOINT"),
   access_token: System.get_env("BOT_ACCESS_TOKEN")
 
