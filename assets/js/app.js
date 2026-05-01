@@ -1,9 +1,9 @@
-import { renderApp } from "@/entry";
+// This has to be imported before any react modules
 import "@vitejs/plugin-react/preamble";
+
+import { renderApp } from "@/entry";
 import "phoenix_html";
 import "vite/modulepreload-polyfill";
-
-console.log("Hello, Vite");
 
 renderApp();
 

@@ -17,12 +17,6 @@ defmodule DianWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", DianWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", DianWeb do
   #   pipe_through :api
@@ -69,5 +63,11 @@ defmodule DianWeb.Router do
     get "/users/log-in/:token", UserSessionController, :confirm
     post "/users/log-in", UserSessionController, :create
     delete "/users/log-out", UserSessionController, :delete
+  end
+
+  scope "/", DianWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :home
   end
 end

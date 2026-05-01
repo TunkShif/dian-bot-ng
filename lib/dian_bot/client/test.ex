@@ -1,6 +1,7 @@
 defmodule DianBot.Client.Test do
   use Agent
 
+  # TODO: replace this with Hammox
   @behaviour DianBot.Client
 
   def start_link(_opts) do

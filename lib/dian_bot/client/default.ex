@@ -84,11 +84,9 @@ defmodule DianBot.Client.Default do
     {:ok, %{state | pending: pending}}
   end
 
-  defp handle_message(%{"post_type" => event_type} = payload, state) do
+  defp handle_message(%{"post_type" => _event_type} = payload, state) do
     if event = Event.build(payload) do
       PubSub.broadcast!(@pubsub, @topic, event)
-    else
-      Logger.info("ignored incoming #{event_type} event")
     end
 
     {:ok, state}

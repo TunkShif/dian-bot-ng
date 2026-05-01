@@ -6,7 +6,7 @@
     "useIgnoreFile": false
   },
   "files": {
-    "includes": ["js/**", "!js/components/ui", "css/**"],
+    "includes": ["*.*js", "js/**", "!js/components/ui", "css/**"],
     "ignoreUnknown": false
   },
   "formatter": {

@@ -1,3 +1,4 @@
+import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { phoenixVitePlugin } from "phoenix_vite";
@@ -23,7 +24,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": ".",
+      "@": path.resolve(__dirname, "./js"),
     },
   },
   plugins: [
