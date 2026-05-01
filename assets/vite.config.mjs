@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite'
-import { phoenixVitePlugin } from 'phoenix_vite'
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { phoenixVitePlugin } from "phoenix_vite";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   server: {
@@ -22,13 +23,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": "."
+      "@": ".",
     },
   },
   plugins: [
     tailwindcss(),
+    react(),
     phoenixVitePlugin({
-      pattern: /\.(ex|heex)$/
-    })
-  ]
+      pattern: /\.(ex|heex)$/,
+    }),
+  ],
 });
