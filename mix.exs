@@ -85,10 +85,15 @@ defmodule Dian.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["bun.install --if-missing", "bun assets install"],
       "assets.build": ["bun vite build"],
-      "assets.deploy": [
-        "assets.build"
-      ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      "assets.deploy": ["assets.build"],
+      "assets.precommit": ["bun typecheck", "bun biome", "assets.build"],
+      precommit: [
+        "assets.precommit",
+        "compile --warnings-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "test"
+      ]
     ]
   end
 end
