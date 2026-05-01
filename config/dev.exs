@@ -21,10 +21,8 @@ config :dian, DianWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "sN7nNNWjLN27TddDClkLdEDY5bYHcuksh4Kehzhp9qmnHcVHrKrFtG5cSSbauFZB",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:dian, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:dian, ~w(--watch)]}
-  ]
+  watchers: [vite: {Bun, :install_and_run, [:vite, ~w(dev)]}],
+  static_url: [host: "localhost", port: 5173]
 
 # ## SSL Support
 #
