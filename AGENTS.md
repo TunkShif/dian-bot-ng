@@ -1,4 +1,4 @@
-This is a web application written using the Phoenix web framework.
+This is a web application written using the Phoenix web framework (backend) and React Router v6 (frontend SPA).
 
 ## Project guidelines
 
@@ -14,19 +14,8 @@ This is a web application written using the Phoenix web framework.
 
 ### JS and CSS guidelines
 
-- **Use Tailwind CSS classes and custom CSS rules** to create polished, responsive, and visually stunning interfaces.
-- Tailwindcss v4 **no longer needs a tailwind.config.js** and uses a new import syntax in `app.css`:
-
-      @import "tailwindcss" source(none);
-      @source "../css";
-      @source "../js";
-      @source "../../lib/my_app_web";
-
-- **Never** use `@apply` when writing raw css
-- Out of the box **only the app.js and app.css bundles are supported**
-  - You cannot reference an external vendor'd script `src` or link `href` in the layouts
-  - You must import the vendor deps into app.js and app.css to use them
-  - **Never write inline <script>custom js</script> tags within templates**
+- Prefer to use existing shadcn UI primitives to build composable components, following the design system.
+- Prefer to use `nuqs` for UI state management like selected tab, pagination, etc.  
 
 ### UI/UX & design guidelines
 
