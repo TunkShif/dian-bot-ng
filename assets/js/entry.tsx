@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { router } from "@/router";
 
 export const renderApp = () => {
@@ -10,7 +11,9 @@ export const renderApp = () => {
   }
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <TooltipProvider>
+        <RouterProvider router={router} />
+      </TooltipProvider>
     </React.StrictMode>,
   );
 };
