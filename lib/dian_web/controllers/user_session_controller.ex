@@ -12,6 +12,7 @@ defmodule DianWeb.UserSessionController do
   tags ["users"]
 
   operation :create,
+    operation_id: "login_user",
     summary: "Log in user",
     description:
       "Requests a magic login link when only email is provided, or starts a password session when password is provided.",

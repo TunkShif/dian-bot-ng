@@ -1,4 +1,5 @@
 import path from "node:path";
+import { heyApiPlugin } from "@hey-api/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { phoenixVitePlugin } from "phoenix_vite";
@@ -30,6 +31,13 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
+    heyApiPlugin({
+      config: {
+        input: "../tmp/openapi.json",
+        output: "js/client",
+        plugins: ["@tanstack/react-query", "zod", "@hey-api/client-fetch", "@hey-api/sdk", "@hey-api/typescript"],
+      },
+    }),
     phoenixVitePlugin({
       pattern: /\.(ex|heex)$/,
     }),

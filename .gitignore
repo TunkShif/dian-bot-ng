@@ -38,3 +38,6 @@ npm-debug.log
 
 # Environment variables for local development 
 .env
+
+# Auto generated openapi spec client code
+/assets/js/client/

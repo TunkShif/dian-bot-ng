@@ -11,6 +11,7 @@ defmodule DianWeb.UserRegistrationController do
   tags ["users"]
 
   operation :create,
+    operation_id: "register_user",
     summary: "Register user",
     description:
       "Creates an unconfirmed account for a QQ email address and sends a magic login link.",
