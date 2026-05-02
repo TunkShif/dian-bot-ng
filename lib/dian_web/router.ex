@@ -20,12 +20,8 @@ defmodule DianWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_scope_for_user
+    plug OpenApiSpex.Plug.PutApiSpec, module: DianWeb.APISpec
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", DianWeb do
-  #   pipe_through :api
-  # end
 
   # TODO: refactor to adapt this later
   # scope "/", DianWeb do
@@ -45,7 +41,6 @@ defmodule DianWeb.Router do
   end
 
   ## Internal API
-
   scope "/api", DianWeb do
     pipe_through :api
 
@@ -54,7 +49,6 @@ defmodule DianWeb.Router do
   end
 
   ## SPA entrypoint
-
   scope "/", DianWeb do
     pipe_through :browser
 
@@ -76,6 +70,13 @@ defmodule DianWeb.Router do
 
       live_dashboard "/dashboard", metrics: DianWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+
+    # Only serve the internal openapi spec when in development
+    scope "/dev" do
+      pipe_through :api
+
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
     end
   end
 end

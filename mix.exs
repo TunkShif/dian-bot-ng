@@ -69,6 +69,7 @@ defmodule Dian.MixProject do
       {:bandit, "~> 1.5"},
       {:websockex, "~> 0.5.1"},
       {:cachex, "~> 4.0"},
+      {:open_api_spex, "~> 3.21"},
       {:bun, "~> 1.5 and >= 1.5.1", runtime: Mix.env() == :dev}
     ]
   end
