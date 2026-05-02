@@ -31,7 +31,7 @@ defmodule DianWeb.UserRegistrationControllerTest do
 
       assert %{
                "status" => "fail",
-               "data" => %{"email" => ["must have the @ sign and no spaces"]}
+               "data" => %{"email" => ["must be a QQ email"]}
              } = json_response(conn, 422)
     end
   end

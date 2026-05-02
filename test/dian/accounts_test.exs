@@ -58,7 +58,20 @@ defmodule Dian.AccountsTest do
     test "validates email when given" do
       {:error, changeset} = Accounts.register_user(%{email: "not valid"})
 
-      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+      assert %{email: ["must be a QQ email"]} = errors_on(changeset)
+    end
+
+    test "requires a 5 to 13 digit QQ email" do
+      for email <- ["1234@qq.com", "12345678901234@qq.com", "user123@qq.com", "12345@example.com"] do
+        {:error, changeset} = Accounts.register_user(%{email: email})
+        assert "must be a QQ email" in errors_on(changeset).email
+      end
+
+      assert {:ok, %User{email: "12345@qq.com"}} =
+               Accounts.register_user(%{email: "12345@qq.com"})
+
+      assert {:ok, %User{email: "1234567890123@qq.com"}} =
+               Accounts.register_user(%{email: "1234567890123@qq.com"})
     end
 
     test "validates maximum values for email for security" do
@@ -70,10 +83,6 @@ defmodule Dian.AccountsTest do
     test "validates email uniqueness" do
       %{email: email} = user_fixture()
       {:error, changeset} = Accounts.register_user(%{email: email})
-      assert "has already been taken" in errors_on(changeset).email
-
-      # Now try with the uppercased email too, to check that email case is ignored.
-      {:error, changeset} = Accounts.register_user(%{email: String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
 
