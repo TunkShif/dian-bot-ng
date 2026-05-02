@@ -2,9 +2,11 @@ defmodule Dian.AccountsTest do
   use Dian.DataCase
 
   alias Dian.Accounts
+  alias Dian.Repo
 
   import Dian.AccountsFixtures
   alias Dian.Accounts.{User, UserToken}
+  alias Dian.Settings.GlobalSetting
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -93,6 +95,21 @@ defmodule Dian.AccountsTest do
       assert is_nil(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
+    end
+
+    test "persists the first registered user as superadmin" do
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+
+      assert %GlobalSetting{superadmin_user_id: user_id} = Repo.get(GlobalSetting, 1)
+      assert user_id == user.id
+    end
+
+    test "does not replace an existing superadmin on later registrations" do
+      {:ok, first_user} = Accounts.register_user(valid_user_attributes())
+      {:ok, _second_user} = Accounts.register_user(valid_user_attributes())
+
+      assert %GlobalSetting{superadmin_user_id: user_id} = Repo.get(GlobalSetting, 1)
+      assert user_id == first_user.id
     end
   end
 

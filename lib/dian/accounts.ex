@@ -4,9 +4,14 @@ defmodule Dian.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Dian.Settings
   alias Dian.Repo
 
   alias Dian.Accounts.{User, UserToken, UserNotifier}
+
+  def extract_qq_id_from(email) when is_binary(email) do
+    String.trim_trailing(email, "@qq.com")
+  end
 
   ## Database getters
 
@@ -75,9 +80,36 @@ defmodule Dian.Accounts do
 
   """
   def register_user(attrs) do
-    %User{}
-    |> User.email_changeset(attrs)
-    |> Repo.insert()
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :user,
+      %User{}
+      |> User.email_changeset(attrs)
+      |> validate_registration()
+    )
+    |> Ecto.Multi.run(
+      :settings,
+      fn repo, %{user: user} -> Settings.maybe_set_superadmin(repo, user.id) end
+    )
+    |> Repo.transact()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, _step, %Ecto.Changeset{} = changeset, _changes} -> {:error, changeset}
+      {:error, _step, reason, _changes} -> {:error, reason}
+    end
+  end
+
+  defp validate_registration(changeset) do
+    changeset
+    |> Ecto.Changeset.validate_change(:email, fn :email, email ->
+      qq_id = extract_qq_id_from(email)
+
+      if Settings.can_user_register?(qq_id) do
+        []
+      else
+        [email: "not permitted to register"]
+      end
+    end)
   end
 
   ## Settings
