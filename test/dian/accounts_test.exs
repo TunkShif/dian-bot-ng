@@ -5,6 +5,7 @@ defmodule Dian.AccountsTest do
   alias Dian.Repo
 
   import Dian.AccountsFixtures
+  import Dian.SettingsFixtures
   alias Dian.Accounts.{User, UserToken}
   alias Dian.Settings.GlobalSetting
 
@@ -64,6 +65,8 @@ defmodule Dian.AccountsTest do
     end
 
     test "requires a 5 to 13 digit QQ email" do
+      stub_bot_group_member_info()
+
       for email <- ["1234@qq.com", "12345678901234@qq.com", "user123@qq.com", "12345@example.com"] do
         {:error, changeset} = Accounts.register_user(%{email: email})
         assert "must be a QQ email" in errors_on(changeset).email
@@ -83,6 +86,8 @@ defmodule Dian.AccountsTest do
     end
 
     test "validates email uniqueness" do
+      stub_bot_group_member_info()
+
       %{email: email} = user_fixture()
       {:error, changeset} = Accounts.register_user(%{email: email})
       assert "has already been taken" in errors_on(changeset).email
@@ -105,6 +110,8 @@ defmodule Dian.AccountsTest do
     end
 
     test "does not replace an existing superadmin on later registrations" do
+      stub_bot_group_member_info()
+
       {:ok, first_user} = Accounts.register_user(valid_user_attributes())
       {:ok, _second_user} = Accounts.register_user(valid_user_attributes())
 
@@ -290,6 +297,8 @@ defmodule Dian.AccountsTest do
       assert user_token.authenticated_at != nil
 
       # Creating the same token for another user should fail
+      stub_bot_group_member_info()
+
       assert_raise Ecto.ConstraintError, fn ->
         Repo.insert!(%UserToken{
           token: user_token.token,

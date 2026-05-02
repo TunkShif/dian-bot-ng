@@ -2,11 +2,14 @@ defmodule DianWeb.UserSessionControllerTest do
   use DianWeb.ConnCase
 
   import Dian.AccountsFixtures
+  import Dian.SettingsFixtures
 
   alias Dian.Accounts
   alias Dian.Repo
 
   setup do
+    stub_bot_group_member_info()
+
     %{unconfirmed_user: unconfirmed_user_fixture(), user: user_fixture()}
   end
 

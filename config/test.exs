@@ -21,7 +21,7 @@ config :dian, DianWeb.Endpoint,
   server: false
 
 # In test we don't connect to real bot server
-config :dian, DianBot.Bot, client: DianBot.Client.Test
+config :dian, DianBot.Bot, client: DianBot.Client.Mock
 
 # In test we don't send emails
 config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Test

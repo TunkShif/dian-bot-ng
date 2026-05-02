@@ -6,6 +6,7 @@ defmodule DianWeb.UserAuthTest do
   alias DianWeb.UserAuth
 
   import Dian.AccountsFixtures
+  import Dian.SettingsFixtures
 
   @remember_me_cookie "_dian_web_user_remember_me"
   @remember_me_cookie_max_age 60 * 60 * 24 * 14
@@ -46,6 +47,8 @@ defmodule DianWeb.UserAuthTest do
       conn: conn,
       user: user
     } do
+      stub_bot_group_member_info()
+
       other_user = user_fixture()
 
       conn =

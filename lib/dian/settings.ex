@@ -2,6 +2,8 @@ defmodule Dian.Settings do
   alias Dian.Repo
   alias Dian.Settings.GlobalSetting
 
+  import Ecto.Query
+
   def can_user_register?(qq_id) do
     case get_superadmin_user_id() do
       nil -> true
@@ -33,8 +35,14 @@ defmodule Dian.Settings do
     end
   end
 
-  defp user_in_enabled_groups?(_qq_id) do
-    # TODO: to be implemented
-    true
+  defp user_in_enabled_groups?(qq_id) do
+    group_ids = Repo.all(from g in "group_settings", where: g.enabled == true, select: g.group_id)
+
+    Enum.any?(group_ids, fn group_id ->
+      case DianBot.get_group_member_info(group_id, qq_id) do
+        {:ok, user} when user != nil -> true
+        _ -> false
+      end
+    end)
   end
 end

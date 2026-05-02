@@ -106,6 +106,7 @@ Controllers automatically have the `current_scope` available if they use the `:b
 ## Test guidelines
 
 - **Always use `start_supervised!/1`** to start processes in tests as it guarantees cleanup between tests
+- When using Mox or other mocks for external systems, **stub or expect mock behavior only in the specific test case or describe/setup block that needs it**. Do not put scenario-specific mock behavior in global test sandbox setup, shared case templates, or `test_helper.exs`, because that hides dependencies and makes later tests inherit unrelated assumptions
 - **Avoid** `Process.sleep/1` and `Process.alive?/1` in tests
   - Instead of sleeping to wait for a process to finish, **always** use `Process.monitor/1` and assert on the DOWN message:
 
