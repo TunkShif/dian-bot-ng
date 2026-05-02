@@ -1,1 +1,12 @@
+<div
+  id="phx-server-flash-data"
+  hidden
+  data-flash={
+    Jason.encode!(%{
+      info: Phoenix.Flash.get(@flash, :info),
+      error: Phoenix.Flash.get(@flash, :error)
+    })
+  }
+>
+</div>
 <div id="root"></div>

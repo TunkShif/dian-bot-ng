@@ -33,6 +33,7 @@ defmodule DianWeb.UserAuth do
   or falls back to the `signed_in_path/1`.
   """
   def log_in_user(conn, user, params \\ %{}) do
+    # TODO: consider making this work with SPA route redirects
     user_return_to = get_session(conn, :user_return_to)
 
     conn
@@ -56,7 +57,7 @@ defmodule DianWeb.UserAuth do
     conn
     |> renew_session(nil)
     |> delete_resp_cookie(@remember_me_cookie, @remember_me_options)
-    |> redirect(to: ~p"/")
+    |> redirect(to: ~p"/app/login")
   end
 
   @doc """
@@ -176,7 +177,7 @@ defmodule DianWeb.UserAuth do
       conn
       |> put_flash(:error, "You must re-authenticate to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log-in")
+      |> redirect(to: ~p"/app/login")
       |> halt()
     end
   end
@@ -194,7 +195,7 @@ defmodule DianWeb.UserAuth do
     end
   end
 
-  defp signed_in_path(_conn), do: ~p"/"
+  defp signed_in_path(_conn), do: ~p"/app/dashboard"
 
   @doc """
   Plug for routes that require the user to be authenticated.
@@ -206,7 +207,7 @@ defmodule DianWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log-in")
+      |> redirect(to: ~p"/app/login")
       |> halt()
     end
   end

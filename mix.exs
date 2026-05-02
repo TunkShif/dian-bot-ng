@@ -67,6 +67,7 @@ defmodule Dian.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:websockex, "~> 0.5.1"},
+      {:cachex, "~> 4.0"},
       {:bun, "~> 1.5 and >= 1.5.1", runtime: Mix.env() == :dev}
     ]
   end

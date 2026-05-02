@@ -15,11 +15,12 @@ defmodule Dian.Application do
          repos: Application.fetch_env!(:dian, :ecto_repos), skip: skip_migrations?()},
         {DNSCluster, query: Application.get_env(:dian, :dns_cluster_query) || :ignore},
         {Phoenix.PubSub, name: Dian.PubSub},
+        {Cachex, [:dian_cache]},
         # Start a worker by calling: Dian.Worker.start_link(arg)
         # {Dian.Worker, arg},
         # Start to serve requests, typically the last entry
         DianWeb.Endpoint
-      ] ++ bot_client_children()
+      ] ++ maybe_bot_client()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -35,7 +36,7 @@ defmodule Dian.Application do
     :ok
   end
 
-  defp bot_client_children() do
+  defp maybe_bot_client() do
     case DianBot.Client.impl() do
       DianBot.Client.Default -> [DianBot.Client.Default]
       _ -> []

@@ -15,12 +15,52 @@ defmodule DianWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :fetch_current_scope_for_user
   end
 
   # Other scopes may use custom stacks.
   # scope "/api", DianWeb do
   #   pipe_through :api
   # end
+
+  # TODO: refactor to adapt this later
+  # scope "/", DianWeb do
+  #   pipe_through [:browser, :require_authenticated_user]
+  #
+  #   get "/users/settings", UserSettingsController, :edit
+  #   put "/users/settings", UserSettingsController, :update
+  #   get "/users/settings/confirm-email/:token", UserSettingsController, :confirm_email
+  # end
+
+  ## Authentication routes
+  scope "/redirects/", DianWeb do
+    pipe_through [:browser]
+
+    get "/users/login/:token", UserSessionController, :confirm
+    delete "/users/logout", UserSessionController, :delete
+  end
+
+  ## Internal API
+
+  scope "/api", DianWeb do
+    pipe_through :api
+
+    post "/users/register", UserRegistrationController, :create
+    post "/users/login", UserSessionController, :create
+  end
+
+  ## SPA entrypoint
+
+  scope "/", DianWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/app/*path", PageController, :home
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:dian, :dev_routes) do
@@ -37,37 +77,5 @@ defmodule DianWeb.Router do
       live_dashboard "/dashboard", metrics: DianWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-  end
-
-  ## Authentication routes
-
-  scope "/", DianWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-  end
-
-  scope "/", DianWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm-email/:token", UserSettingsController, :confirm_email
-  end
-
-  scope "/", DianWeb do
-    pipe_through [:browser]
-
-    get "/users/log-in", UserSessionController, :new
-    get "/users/log-in/:token", UserSessionController, :confirm
-    post "/users/log-in", UserSessionController, :create
-    delete "/users/log-out", UserSessionController, :delete
-  end
-
-  scope "/", DianWeb do
-    pipe_through :browser
-
-    get "/*path", PageController, :home
   end
 end
