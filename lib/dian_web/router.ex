@@ -70,6 +70,7 @@ defmodule DianWeb.Router do
 
       live_dashboard "/dashboard", metrics: DianWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+      get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/dev/openapi"
     end
 
     # Only serve the internal openapi spec when in development

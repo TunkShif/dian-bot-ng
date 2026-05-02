@@ -1,11 +1,29 @@
 defmodule DianWeb.UserSessionController do
   use DianWeb, :controller
+  use OpenApiSpex.ControllerSpecs
 
-  alias DianWeb.JSend
   alias Dian.Accounts
+  alias DianWeb.JSend
+  alias DianWeb.Schemas.{JSendMessageFail, JSendSuccess, UserLoginRequest}
   alias DianWeb.UserAuth
 
   action_fallback DianWeb.FallbackController
+
+  tags ["users"]
+
+  operation :create,
+    summary: "Log in user",
+    description:
+      "Requests a magic login link when only email is provided, or starts a password session when password is provided.",
+    request_body: {"User login params", "application/json", UserLoginRequest, required: true},
+    responses: [
+      ok: {"Magic login link accepted", "application/json", JSendSuccess},
+      found: "Password login succeeded; redirects to the SPA",
+      unauthorized: {"Invalid password credentials", "application/json", JSendMessageFail}
+    ]
+
+  operation :confirm, false
+  operation :delete, false
 
   # email + password login
   def create(conn, %{"user" => %{"email" => email, "password" => password} = user_params}) do

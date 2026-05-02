@@ -1,5 +1,5 @@
 defmodule DianWeb.APISpec do
-  alias OpenApiSpex.{Components, Info, OpenApi, Paths, Server}
+  alias OpenApiSpex.{Info, OpenApi, Paths, Server}
   alias DianWeb.{Endpoint, Router}
 
   @behaviour OpenApi
