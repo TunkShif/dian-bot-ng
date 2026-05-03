@@ -4,9 +4,7 @@ defmodule DianWeb.UserRegistrationController do
 
   alias Dian.Accounts
   alias DianWeb.JSend
-  alias DianWeb.Schemas.JSendSuccess
-  alias DianWeb.Schemas.JSendValidationFail
-  alias DianWeb.Schemas.UserRegistrationCreateRequest
+  alias DianWeb.Schemas
 
   action_fallback DianWeb.FallbackController
 
@@ -18,11 +16,11 @@ defmodule DianWeb.UserRegistrationController do
     description:
       "Creates an unconfirmed account for a QQ email address and sends a magic login link.",
     request_body:
-      {"User registration params", "application/json", UserRegistrationCreateRequest,
+      {"User registration params", "application/json", Schemas.UserRegistrationCreateRequest,
        required: true},
     responses: [
-      ok: {"Registration accepted", "application/json", JSendSuccess},
-      unprocessable_entity: {"Validation errors", "application/json", JSendValidationFail}
+      ok: {"Registration accepted", "application/json", Schemas.JSendSuccess},
+      unprocessable_entity: {"Validation errors", "application/json", Schemas.JSendValidationFail}
     ]
 
   def create(conn, %{"user" => user_params}) do

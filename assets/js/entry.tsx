@@ -4,6 +4,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "@/lib/query-client";
 import { router } from "@/router";
@@ -15,6 +16,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <RouterProvider router={router} />
+            <Toaster position="top-center" />
           </TooltipProvider>
         </QueryClientProvider>
       </NuqsAdapter>

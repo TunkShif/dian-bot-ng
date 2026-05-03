@@ -4,10 +4,7 @@ defmodule DianWeb.UserSessionController do
 
   alias Dian.Accounts
   alias DianWeb.JSend
-  alias DianWeb.Schemas.JSendMessageFail
-  alias DianWeb.Schemas.JSendSuccess
-  alias DianWeb.Schemas.UserSessionCreateRequest
-  alias DianWeb.Schemas.UserSessionShowResponse
+  alias DianWeb.Schemas
   alias DianWeb.UserAuth
 
   action_fallback DianWeb.FallbackController
@@ -20,15 +17,12 @@ defmodule DianWeb.UserSessionController do
     description:
       "Requests a magic login link when only email is provided, or starts a password session when password is provided.",
     request_body:
-      {"User login params", "application/json", UserSessionCreateRequest, required: true},
+      {"User login params", "application/json", Schemas.UserSessionCreateRequest, required: true},
     responses: [
-      ok: {"Magic login link accepted", "application/json", JSendSuccess},
+      ok: {"Magic login link accepted", "application/json", Schemas.JSendSuccess},
       found: "Password login succeeded; redirects to the SPA",
-      unauthorized: {"Invalid password credentials", "application/json", JSendMessageFail}
+      unauthorized: {"Invalid password credentials", "application/json", Schemas.JSendMessageFail}
     ]
-
-  operation :confirm, false
-  operation :delete, false
 
   operation :show,
     operation_id: "get_current_user",
@@ -36,8 +30,11 @@ defmodule DianWeb.UserSessionController do
     description:
       "Returns the current session user when authenticated, or null when no user session exists.",
     responses: [
-      ok: {"Current user", "application/json", UserSessionShowResponse}
+      ok: {"Current user", "application/json", Schemas.UserSessionShowResponse}
     ]
+
+  operation :confirm, false
+  operation :delete, false
 
   # email + password login
   def create(conn, %{"user" => %{"email" => email, "password" => password} = user_params}) do

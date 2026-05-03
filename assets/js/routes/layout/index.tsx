@@ -1,8 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
+import { toast } from "sonner";
+import { getCurrentUserOptions } from "@/client/@tanstack/react-query.gen";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { queryClient } from "@/lib/query-client";
 import { AppSidebar } from "@/routes/layout/app-sidebar";
 import { SectionCards } from "@/routes/layout/section-cards";
 import { SiteHeader } from "@/routes/layout/site-header";
+
+export const loader = async () => {
+  const response = await queryClient.fetchQuery(getCurrentUserOptions());
+  if (!response.data.user) {
+    toast.error("you must login first");
+    return redirect("/login");
+  }
+  return {};
+};
 
 export const Component = () => {
   return (
