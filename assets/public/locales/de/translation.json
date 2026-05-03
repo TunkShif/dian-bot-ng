@@ -77,29 +77,7 @@
       "logOut": "Abmelden"
     },
     "dashboard": {
-      "title": "Übersicht",
-      "cards": {
-        "revenue": {
-          "label": "Umsatz",
-          "trend": "Der Umsatz steigt diesen Monat",
-          "detail": "Entwicklung der letzten 6 Monate"
-        },
-        "customers": {
-          "label": "Neue Kunden",
-          "trend": "Die Kundengewinnung ist gesunken",
-          "detail": "Kampagnenqualität und Conversion prüfen"
-        },
-        "accounts": {
-          "label": "Aktive Konten",
-          "trend": "Die Bindung bleibt stark",
-          "detail": "Engagement liegt über dem Ziel"
-        },
-        "growth": {
-          "label": "Wachstumsrate",
-          "trend": "Das Wachstum ist stabil",
-          "detail": "Liegt über der Prognose"
-        }
-      }
+      "title": "Übersicht"
     }
   }
 }

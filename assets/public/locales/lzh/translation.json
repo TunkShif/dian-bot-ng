@@ -77,29 +77,7 @@
       "logOut": "出"
     },
     "dashboard": {
-      "title": "總覽",
-      "cards": {
-        "revenue": {
-          "label": "入",
-          "trend": "是月收入有增",
-          "detail": "近六月之績"
-        },
-        "customers": {
-          "label": "新客",
-          "trend": "得客稍減",
-          "detail": "宜察策質與轉化"
-        },
-        "accounts": {
-          "label": "活戶",
-          "trend": "留存尚強",
-          "detail": "互動逾標"
-        },
-        "growth": {
-          "label": "增率",
-          "trend": "增勢平穩",
-          "detail": "行於預上"
-        }
-      }
+      "title": "總覽"
     }
   }
 }

@@ -77,29 +77,7 @@
       "logOut": "登出"
     },
     "dashboard": {
-      "title": "儀表板",
-      "cards": {
-        "revenue": {
-          "label": "收入",
-          "trend": "今個月收入上升",
-          "detail": "最近 6 個月表現"
-        },
-        "customers": {
-          "label": "新客戶",
-          "trend": "獲客有所回落",
-          "detail": "檢視活動質素同轉化"
-        },
-        "accounts": {
-          "label": "活躍帳戶",
-          "trend": "留存表現仍然強",
-          "detail": "互動高過目標"
-        },
-        "growth": {
-          "label": "增長率",
-          "trend": "增長保持穩定",
-          "detail": "走勢高過預測"
-        }
-      }
+      "title": "儀表板"
     }
   }
 }

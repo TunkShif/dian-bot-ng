@@ -77,29 +77,7 @@
       "logOut": "退出登录"
     },
     "dashboard": {
-      "title": "仪表盘",
-      "cards": {
-        "revenue": {
-          "label": "收入",
-          "trend": "本月收入持续增长",
-          "detail": "近 6 个月表现"
-        },
-        "customers": {
-          "label": "新客户",
-          "trend": "获客出现回落",
-          "detail": "关注活动质量与转化"
-        },
-        "accounts": {
-          "label": "活跃账号",
-          "trend": "留存表现稳定",
-          "detail": "互动指标高于目标"
-        },
-        "growth": {
-          "label": "增长率",
-          "trend": "增长节奏平稳",
-          "detail": "表现高于预测"
-        }
-      }
+      "title": "仪表盘"
     }
   }
 }

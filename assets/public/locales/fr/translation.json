@@ -77,29 +77,7 @@
       "logOut": "Se déconnecter"
     },
     "dashboard": {
-      "title": "Tableau de bord",
-      "cards": {
-        "revenue": {
-          "label": "Revenus",
-          "trend": "Les revenus progressent ce mois-ci",
-          "detail": "Performance des 6 derniers mois"
-        },
-        "customers": {
-          "label": "Nouveaux clients",
-          "trend": "L'acquisition client recule",
-          "detail": "Revoir la qualité et la conversion des campagnes"
-        },
-        "accounts": {
-          "label": "Comptes actifs",
-          "trend": "La rétention reste solide",
-          "detail": "L'engagement dépasse l'objectif"
-        },
-        "growth": {
-          "label": "Taux de croissance",
-          "trend": "La croissance est régulière",
-          "detail": "Au-dessus des prévisions"
-        }
-      }
+      "title": "Tableau de bord"
     }
   }
 }

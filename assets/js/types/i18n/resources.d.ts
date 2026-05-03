@@ -7,28 +7,6 @@ export default interface Resources {
       },
       "brandName": "LITTLE RED BOOK",
       "dashboard": {
-        "cards": {
-          "accounts": {
-            "detail": "Engagement is ahead of target",
-            "label": "Active accounts",
-            "trend": "Retention remains strong"
-          },
-          "customers": {
-            "detail": "Review campaign quality and conversion",
-            "label": "New customers",
-            "trend": "Customer acquisition dipped"
-          },
-          "growth": {
-            "detail": "Tracking ahead of forecast",
-            "label": "Growth rate",
-            "trend": "Growth is steady"
-          },
-          "revenue": {
-            "detail": "Trailing 6-month performance",
-            "label": "Revenue",
-            "trend": "Revenue is up this month"
-          }
-        },
         "title": "Dashboard"
       },
       "header": {

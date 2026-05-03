@@ -77,29 +77,7 @@
       "logOut": "Log out"
     },
     "dashboard": {
-      "title": "Dashboard",
-      "cards": {
-        "revenue": {
-          "label": "Revenue",
-          "trend": "Revenue is up this month",
-          "detail": "Trailing 6-month performance"
-        },
-        "customers": {
-          "label": "New customers",
-          "trend": "Customer acquisition dipped",
-          "detail": "Review campaign quality and conversion"
-        },
-        "accounts": {
-          "label": "Active accounts",
-          "trend": "Retention remains strong",
-          "detail": "Engagement is ahead of target"
-        },
-        "growth": {
-          "label": "Growth rate",
-          "trend": "Growth is steady",
-          "detail": "Tracking ahead of forecast"
-        }
-      }
+      "title": "Dashboard"
     }
   }
 }

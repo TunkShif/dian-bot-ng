@@ -77,29 +77,7 @@
       "logOut": "Çıkış yap"
     },
     "dashboard": {
-      "title": "Panel",
-      "cards": {
-        "revenue": {
-          "label": "Gelir",
-          "trend": "Gelir bu ay yükseldi",
-          "detail": "Son 6 aylık performans"
-        },
-        "customers": {
-          "label": "Yeni müşteriler",
-          "trend": "Müşteri kazanımı düştü",
-          "detail": "Kampanya kalitesini ve dönüşümü incele"
-        },
-        "accounts": {
-          "label": "Aktif hesaplar",
-          "trend": "Elde tutma güçlü kalıyor",
-          "detail": "Etkileşim hedefin üzerinde"
-        },
-        "growth": {
-          "label": "Büyüme oranı",
-          "trend": "Büyüme istikrarlı",
-          "detail": "Tahminin üzerinde ilerliyor"
-        }
-      }
+      "title": "Panel"
     }
   }
 }

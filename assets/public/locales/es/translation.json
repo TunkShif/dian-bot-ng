@@ -77,29 +77,7 @@
       "logOut": "Cerrar sesión"
     },
     "dashboard": {
-      "title": "Panel",
-      "cards": {
-        "revenue": {
-          "label": "Ingresos",
-          "trend": "Los ingresos suben este mes",
-          "detail": "Rendimiento de los últimos 6 meses"
-        },
-        "customers": {
-          "label": "Nuevos clientes",
-          "trend": "La adquisición de clientes bajó",
-          "detail": "Revisa la calidad y conversión de campañas"
-        },
-        "accounts": {
-          "label": "Cuentas activas",
-          "trend": "La retención sigue sólida",
-          "detail": "La interacción supera el objetivo"
-        },
-        "growth": {
-          "label": "Tasa de crecimiento",
-          "trend": "El crecimiento es estable",
-          "detail": "Por encima de la previsión"
-        }
-      }
+      "title": "Panel"
     }
   }
 }
