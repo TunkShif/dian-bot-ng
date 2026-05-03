@@ -1,6 +1,7 @@
 import { NotebookIcon } from "@phosphor-icons/react";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -29,8 +30,10 @@ export function AppSidebar({ navMenuExpansionState, ...props }: AppSidebarProps)
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!" render={<a href="/dashboard" />}>
-              <NotebookIcon className="size-5!" />
+            <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!" render={<Link to="/dashboard" />}>
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm shadow-primary/20">
+                <NotebookIcon className="size-5!" weight="bold" />
+              </span>
               <span className="text-base font-semibold">{t("app.brandName")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
