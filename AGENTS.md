@@ -15,7 +15,8 @@ This is a web application written using the Phoenix web framework (backend) and 
 ### JS and CSS guidelines
 
 - Prefer to use existing shadcn UI primitives to build composable components, following the design system.
-- Prefer to use `nuqs` for UI state management like selected tab, pagination, etc.  
+- Prefer to use `nuqs` for UI state management like selected tab, pagination, etc.
+- Static assets are managed by the frontend build pipeline. Only edit content under `assets/public`; treat Phoenix `priv/static` output as generated and ignore it.
 
 ### UI/UX & design guidelines
 

@@ -1,6 +1,7 @@
 {
   "auth": {
     "login": {
+      "brandName": "MY LITTLE RED BOOK",
       "imageAlt": "抽象波纹图案",
       "emailStep": {
         "title": "欢迎回来",
@@ -30,6 +31,9 @@
       },
       "legal": {
         "agreement": "点击继续，即表示你同意我们的 <terms>服务条款</terms> 和 <privacy>隐私政策</privacy>。"
+      },
+      "languageSwitch": {
+        "label": "切换语言"
       }
     }
   }

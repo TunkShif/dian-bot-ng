@@ -1,6 +1,7 @@
 {
   "auth": {
     "login": {
+      "brandName": "MY LITTLE RED BOOK",
       "imageAlt": "Abstract wave pattern",
       "emailStep": {
         "title": "Welcome",
@@ -30,6 +31,9 @@
       },
       "legal": {
         "agreement": "By clicking continue, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>."
+      },
+      "languageSwitch": {
+        "label": "Change language"
       }
     }
   }

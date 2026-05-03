@@ -3,6 +3,7 @@ export default interface Resources {
   "translation": {
     "auth": {
       "login": {
+        "brandName": "MY LITTLE RED BOOK",
         "emailInput": {
           "domain": "@qq.com",
           "placeholder": "123456789",
@@ -21,6 +22,9 @@ export default interface Resources {
           "password": "Password"
         },
         "imageAlt": "Abstract wave pattern",
+        "languageSwitch": {
+          "label": "Change language"
+        },
         "legal": {
           "agreement": "By clicking continue, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>."
         },
