@@ -44,7 +44,3 @@ npm-debug.log
 
 # Local Superpowers brainstorming artifacts
 /.superpowers/
-
-# Claude specific files, symlink to universal AGENTS specification
-.claude
-CLAUDE.md
