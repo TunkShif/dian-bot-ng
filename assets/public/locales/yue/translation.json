@@ -43,7 +43,7 @@
     }
   },
   "app": {
-    "brandName": "小紅書",
+    "brandName": "LITTLE RED BOOK",
     "auth": {
       "required": "請先登入再繼續。"
     },
@@ -51,26 +51,26 @@
       "title": "文件"
     },
     "nav": {
-      "quickCreate": "快速建立",
-      "inbox": "收件箱",
-      "dashboard": "儀表板",
-      "lifecycle": "生命週期",
-      "analytics": "數據分析",
-      "projects": "項目",
-      "team": "團隊",
-      "documents": "文件",
-      "dataLibrary": "數據庫",
-      "reports": "報告",
-      "wordAssistant": "寫作助手",
-      "settings": "設定",
-      "help": "幫助",
-      "search": "搜尋"
-    },
-    "actions": {
-      "more": "更多",
-      "open": "開啟",
-      "share": "分享",
-      "delete": "刪除"
+      "dashboard": "仪表盘",
+      "favoriteThreads": "收藏记录",
+      "hotRankings": "热门榜单",
+      "gameCenter": "游戏中心",
+      "liveMonitor": "在线监控",
+      "gameHistory": "历史记录",
+      "groupManagement": "群组管理",
+      "groupList": "群组列表",
+      "groupUsers": "群内用户",
+      "aiAssistant": "AI Intelligence",
+      "autoAnalysis": "自动分析",
+      "aiRankings": "推荐榜单",
+      "roastAlerts": "吐槽提醒",
+      "profile": "个人中心",
+      "myInfo": "我的信息",
+      "accountSettings": "设置",
+      "systemSettings": "系统设置",
+      "globalConfig": "全局配置",
+      "permissionManagement": "权限管理",
+      "featuredMessages": "精华消息"
     },
     "userMenu": {
       "account": "帳戶",

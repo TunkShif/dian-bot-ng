@@ -2,16 +2,10 @@
 export default interface Resources {
   "translation": {
     "app": {
-      "actions": {
-        "delete": "Delete",
-        "more": "More",
-        "open": "Open",
-        "share": "Share"
-      },
       "auth": {
         "required": "Please sign in to continue."
       },
-      "brandName": "Little Red Book",
+      "brandName": "LITTLE RED BOOK",
       "dashboard": {
         "cards": {
           "accounts": {
@@ -41,20 +35,26 @@ export default interface Resources {
         "title": "Documents"
       },
       "nav": {
-        "analytics": "Analytics",
+        "accountSettings": "Settings",
+        "aiAssistant": "AI Intelligence",
+        "aiRankings": "Recommended rankings",
+        "autoAnalysis": "Auto analysis",
         "dashboard": "Dashboard",
-        "dataLibrary": "Data library",
-        "documents": "Documents",
-        "help": "Help",
-        "inbox": "Inbox",
-        "lifecycle": "Lifecycle",
-        "projects": "Projects",
-        "quickCreate": "Quick create",
-        "reports": "Reports",
-        "search": "Search",
-        "settings": "Settings",
-        "team": "Team",
-        "wordAssistant": "Writing assistant"
+        "favoriteThreads": "Saved threads",
+        "featuredMessages": "Featured messages",
+        "gameCenter": "Game center",
+        "gameHistory": "History",
+        "globalConfig": "Global config",
+        "groupList": "Group list",
+        "groupManagement": "Group management",
+        "groupUsers": "Group users",
+        "hotRankings": "Hot rankings",
+        "liveMonitor": "Live monitor",
+        "myInfo": "My info",
+        "permissionManagement": "Permission management",
+        "profile": "Profile",
+        "roastAlerts": "Roast alerts",
+        "systemSettings": "System settings"
       },
       "userMenu": {
         "account": "Account",

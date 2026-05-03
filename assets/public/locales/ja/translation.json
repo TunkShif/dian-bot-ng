@@ -43,7 +43,7 @@
     }
   },
   "app": {
-    "brandName": "Little Red Book",
+    "brandName": "LITTLE RED BOOK",
     "auth": {
       "required": "続行するにはログインしてください。"
     },
@@ -51,26 +51,26 @@
       "title": "ドキュメント"
     },
     "nav": {
-      "quickCreate": "クイック作成",
-      "inbox": "受信箱",
-      "dashboard": "ダッシュボード",
-      "lifecycle": "ライフサイクル",
-      "analytics": "分析",
-      "projects": "プロジェクト",
-      "team": "チーム",
-      "documents": "ドキュメント",
-      "dataLibrary": "データライブラリ",
-      "reports": "レポート",
-      "wordAssistant": "文章アシスタント",
-      "settings": "設定",
-      "help": "ヘルプ",
-      "search": "検索"
-    },
-    "actions": {
-      "more": "その他",
-      "open": "開く",
-      "share": "共有",
-      "delete": "削除"
+      "dashboard": "Dashboard",
+      "favoriteThreads": "Saved threads",
+      "hotRankings": "Hot rankings",
+      "gameCenter": "Game center",
+      "liveMonitor": "Live monitor",
+      "gameHistory": "History",
+      "groupManagement": "Group management",
+      "groupList": "Group list",
+      "groupUsers": "Group users",
+      "aiAssistant": "AI Intelligence",
+      "autoAnalysis": "Auto analysis",
+      "aiRankings": "Recommended rankings",
+      "roastAlerts": "Roast alerts",
+      "profile": "Profile",
+      "myInfo": "My info",
+      "accountSettings": "Settings",
+      "systemSettings": "System settings",
+      "globalConfig": "Global config",
+      "permissionManagement": "Permission management",
+      "featuredMessages": "Featured messages"
     },
     "userMenu": {
       "account": "アカウント",

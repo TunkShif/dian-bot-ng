@@ -3,7 +3,6 @@ import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { redirect } from "react-router-dom";
-import { getCurrentUserOptions } from "@/client/@tanstack/react-query.gen";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,14 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/hooks/use-language";
-import { queryClient } from "@/lib/query-client";
+import { getCurrentUser } from "@/lib/user";
 import { AuthForm } from "@/routes/login/auth-form";
 
 const authStepParser = parseAsStringLiteral(["email", "methods"] as const).withDefault("email");
 
 export const loader = async () => {
-  const response = await queryClient.fetchQuery(getCurrentUserOptions());
-  if (response.data.user) {
+  const user = await getCurrentUser();
+  if (user) {
     return redirect("/dashboard");
   }
   return {};

@@ -43,7 +43,7 @@
     }
   },
   "app": {
-    "brandName": "Little Red Book",
+    "brandName": "LITTLE RED BOOK",
     "auth": {
       "required": "Войдите, чтобы продолжить."
     },
@@ -51,26 +51,26 @@
       "title": "Документы"
     },
     "nav": {
-      "quickCreate": "Быстро создать",
-      "inbox": "Входящие",
-      "dashboard": "Панель",
-      "lifecycle": "Жизненный цикл",
-      "analytics": "Аналитика",
-      "projects": "Проекты",
-      "team": "Команда",
-      "documents": "Документы",
-      "dataLibrary": "Библиотека данных",
-      "reports": "Отчеты",
-      "wordAssistant": "Помощник по текстам",
-      "settings": "Настройки",
-      "help": "Помощь",
-      "search": "Поиск"
-    },
-    "actions": {
-      "more": "Еще",
-      "open": "Открыть",
-      "share": "Поделиться",
-      "delete": "Удалить"
+      "dashboard": "Dashboard",
+      "favoriteThreads": "Saved threads",
+      "hotRankings": "Hot rankings",
+      "gameCenter": "Game center",
+      "liveMonitor": "Live monitor",
+      "gameHistory": "History",
+      "groupManagement": "Group management",
+      "groupList": "Group list",
+      "groupUsers": "Group users",
+      "aiAssistant": "AI Intelligence",
+      "autoAnalysis": "Auto analysis",
+      "aiRankings": "Recommended rankings",
+      "roastAlerts": "Roast alerts",
+      "profile": "Profile",
+      "myInfo": "My info",
+      "accountSettings": "Settings",
+      "systemSettings": "System settings",
+      "globalConfig": "Global config",
+      "permissionManagement": "Permission management",
+      "featuredMessages": "Featured messages"
     },
     "userMenu": {
       "account": "Аккаунт",

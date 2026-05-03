@@ -1,16 +1,15 @@
 import i18n from "i18next";
 import { Outlet, redirect } from "react-router-dom";
 import { toast } from "sonner";
-import { getCurrentUserOptions } from "@/client/@tanstack/react-query.gen";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { queryClient } from "@/lib/query-client";
+import { getCurrentUser } from "@/lib/user";
 import { AppSidebar } from "@/routes/layout/app-sidebar";
 import { SectionCards } from "@/routes/layout/section-cards";
 import { SiteHeader } from "@/routes/layout/site-header";
 
 export const loader = async () => {
-  const response = await queryClient.fetchQuery(getCurrentUserOptions());
-  if (!response.data.user) {
+  const user = await getCurrentUser();
+  if (!user) {
     toast.error(i18n.t("app.auth.required"));
     return redirect("/login");
   }

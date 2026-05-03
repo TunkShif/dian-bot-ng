@@ -43,7 +43,7 @@
     }
   },
   "app": {
-    "brandName": "Little Red Book",
+    "brandName": "LITTLE RED BOOK",
     "auth": {
       "required": "Please sign in to continue."
     },
@@ -51,26 +51,26 @@
       "title": "Documents"
     },
     "nav": {
-      "quickCreate": "Quick create",
-      "inbox": "Inbox",
       "dashboard": "Dashboard",
-      "lifecycle": "Lifecycle",
-      "analytics": "Analytics",
-      "projects": "Projects",
-      "team": "Team",
-      "documents": "Documents",
-      "dataLibrary": "Data library",
-      "reports": "Reports",
-      "wordAssistant": "Writing assistant",
-      "settings": "Settings",
-      "help": "Help",
-      "search": "Search"
-    },
-    "actions": {
-      "more": "More",
-      "open": "Open",
-      "share": "Share",
-      "delete": "Delete"
+      "favoriteThreads": "Saved threads",
+      "hotRankings": "Hot rankings",
+      "gameCenter": "Game center",
+      "liveMonitor": "Live monitor",
+      "gameHistory": "History",
+      "groupManagement": "Group management",
+      "groupList": "Group list",
+      "groupUsers": "Group users",
+      "aiAssistant": "AI Intelligence",
+      "autoAnalysis": "Auto analysis",
+      "aiRankings": "Recommended rankings",
+      "roastAlerts": "Roast alerts",
+      "profile": "Profile",
+      "myInfo": "My info",
+      "accountSettings": "Settings",
+      "systemSettings": "System settings",
+      "globalConfig": "Global config",
+      "permissionManagement": "Permission management",
+      "featuredMessages": "Featured messages"
     },
     "userMenu": {
       "account": "Account",
