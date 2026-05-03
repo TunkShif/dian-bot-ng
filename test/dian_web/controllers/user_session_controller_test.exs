@@ -94,6 +94,40 @@ defmodule DianWeb.UserSessionControllerTest do
     end
   end
 
+  describe "GET /api/users/me" do
+    test "returns the current session user", %{conn: conn, user: user} do
+      conn = conn |> log_in_user(user) |> get(~p"/api/users/me")
+
+      assert json_response(conn, 200) == %{
+               "status" => "success",
+               "data" => %{
+                 "user" => %{
+                   "id" => user.id,
+                   "email" => user.email,
+                   "qq_id" => Accounts.extract_qq_id_from(user.email)
+                 }
+               }
+             }
+    end
+
+    test "returns null when no user session exists", %{conn: conn} do
+      conn = get(conn, ~p"/api/users/me")
+
+      assert json_response(conn, 200) == %{
+               "status" => "success",
+               "data" => %{"user" => nil}
+             }
+    end
+
+    test "documents the current user response shape" do
+      schema = DianWeb.Schemas.UserSessionShowResponse.schema()
+      user_schema = schema.properties.data.properties.user.oneOf |> List.first()
+
+      assert user_schema.required == [:id, :email, :qq_id]
+      assert Map.keys(user_schema.properties) |> Enum.sort() == [:email, :id, :qq_id]
+    end
+  end
+
   describe "GET /redirects/users/login/:token" do
     test "logs confirmed user in", %{conn: conn, user: user} do
       {token, _hashed_token} = generate_user_magic_link_token(user)
