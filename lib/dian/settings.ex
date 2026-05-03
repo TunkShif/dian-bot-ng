@@ -38,11 +38,6 @@ defmodule Dian.Settings do
   defp user_in_enabled_groups?(qq_id) do
     group_ids = Repo.all(from g in "group_settings", where: g.enabled == true, select: g.group_id)
 
-    Enum.any?(group_ids, fn group_id ->
-      case DianBot.get_group_member_info(group_id, qq_id) do
-        {:ok, user} when user != nil -> true
-        _ -> false
-      end
-    end)
+    DianBot.find_group_member_in_groups(group_ids, qq_id) != nil
   end
 end

@@ -39,7 +39,7 @@ defmodule Dian.Accounts do
 
   defp fetch_and_maybe_cache_user_details(%User{} = user, cache_key) do
     qq_id = extract_qq_id_from(user.email)
-    member = find_group_member(user, qq_id)
+    member = DianBot.find_group_member_in_any_group(qq_id)
 
     details = build_user_details(member, user, qq_id)
 
@@ -51,19 +51,6 @@ defmodule Dian.Accounts do
     end
 
     details
-  end
-
-  defp find_group_member(%User{}, qq_id) do
-    with {:ok, groups} <- DianBot.get_group_list() do
-      Enum.find_value(groups, fn group ->
-        case DianBot.get_group_member_info(group.group_id, qq_id) do
-          {:ok, member} -> member
-          {:error, _reason} -> nil
-        end
-      end)
-    else
-      {:error, _reason} -> nil
-    end
   end
 
   defp build_user_details(member, %User{} = user, qq_id) do

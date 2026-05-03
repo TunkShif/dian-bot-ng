@@ -41,6 +41,28 @@ defmodule DianBot do
     end
   end
 
+  @spec find_group_member_in_groups([group_id()], user_id(), request_opts()) ::
+          group_member() | nil
+  def find_group_member_in_groups(group_ids, user_id, opts \\ []) when is_list(group_ids) do
+    Enum.find_value(group_ids, fn group_id ->
+      case get_group_member_info(group_id, user_id, opts) do
+        {:ok, member} -> member
+        {:error, _reason} -> nil
+      end
+    end)
+  end
+
+  @spec find_group_member_in_any_group(user_id(), request_opts()) :: group_member() | nil
+  def find_group_member_in_any_group(user_id, opts \\ []) do
+    with {:ok, groups} <- get_group_list(opts) do
+      groups
+      |> Enum.map(& &1.group_id)
+      |> find_group_member_in_groups(user_id, opts)
+    else
+      {:error, _reason} -> nil
+    end
+  end
+
   @spec get_group_member_list(group_id(), request_opts()) :: result([group_member()])
   def get_group_member_list(group_id, opts \\ []) do
     params = %{
