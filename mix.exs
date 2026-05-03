@@ -70,6 +70,7 @@ defmodule Dian.MixProject do
       {:websockex, "~> 0.5.1"},
       {:cachex, "~> 4.0"},
       {:open_api_spex, "~> 3.21"},
+      {:wax_, "~> 0.7"},
       {:bun, "~> 1.5 and >= 1.5.1", runtime: Mix.env() == :dev}
     ]
   end

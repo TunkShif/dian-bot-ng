@@ -26,6 +26,11 @@ config :dian, DianBot.Bot, client: DianBot.Client.Mock
 # In test we don't send emails
 config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Test
 
+config :wax_,
+  origin: "http://localhost:4002",
+  rp_id: :auto,
+  attestation: "none"
+
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
 

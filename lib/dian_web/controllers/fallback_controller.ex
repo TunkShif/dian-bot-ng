@@ -14,4 +14,35 @@ defmodule DianWeb.FallbackController do
     |> put_view(json: DianWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  # TODO: unified common error struct
+  def call(conn, {:error, :passkey_registration_challenge_not_found}) do
+    conn
+    |> put_status(:bad_request)
+    |> json(DianWeb.JSend.fail(%{message: "passkey registration challenge not found"}))
+  end
+
+  def call(conn, {:error, :invalid_passkey_registration_response}) do
+    conn
+    |> put_status(:bad_request)
+    |> json(DianWeb.JSend.fail(%{message: "invalid passkey registration response"}))
+  end
+
+  def call(conn, {:error, :passkey_authentication_challenge_not_found}) do
+    conn
+    |> put_status(:bad_request)
+    |> json(DianWeb.JSend.fail(%{message: "passkey authentication challenge not found"}))
+  end
+
+  def call(conn, {:error, :passkey_not_found}) do
+    conn
+    |> put_status(:unauthorized)
+    |> json(DianWeb.JSend.fail(%{message: "passkey not found"}))
+  end
+
+  def call(conn, {:error, :invalid_passkey_authentication_response}) do
+    conn
+    |> put_status(:unauthorized)
+    |> json(DianWeb.JSend.fail(%{message: "invalid passkey authentication response"}))
+  end
 end
