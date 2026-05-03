@@ -4,7 +4,9 @@ import "@vitejs/plugin-react/preamble";
 import { renderApp } from "@/entry";
 import "phoenix_html";
 import "vite/modulepreload-polyfill";
+import { setupI18n } from "@/lib/i18next";
 
+setupI18n();
 renderApp();
 
 // If you want to use Phoenix channels, run `mix help phx.gen.channel`

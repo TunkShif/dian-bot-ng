@@ -19,7 +19,7 @@
       "recommended": true,
       "a11y": {
         "useValidAnchor": "info",
-        "useAnchorContent": "info"
+        "useAnchorContent": "off"
       }
     }
   },

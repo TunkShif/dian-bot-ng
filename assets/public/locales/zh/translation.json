@@ -1,0 +1,36 @@
+{
+  "auth": {
+    "login": {
+      "imageAlt": "抽象波纹图案",
+      "emailStep": {
+        "title": "欢迎",
+        "description": "输入你的 QQ 邮箱以继续。",
+        "continue": "继续",
+        "qqHint": "只需输入 QQ 号码。我们会自动补全 @qq.com，并在下一步显示可用的登录方式。",
+        "noAccount": "还没有账号？点击这里",
+        "signUp": "注册"
+      },
+      "methodsStep": {
+        "title": "欢迎",
+        "description": "选择你想使用的登录方式。",
+        "signIn": "登录",
+        "separator": "或",
+        "emailLink": "发送邮箱登录链接",
+        "passkey": "使用通行密钥登录",
+        "useDifferentEmail": "使用其他邮箱"
+      },
+      "fields": {
+        "email": "邮箱",
+        "password": "密码"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "请输入 5 到 13 位数字",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "点击继续，即表示你同意我们的 <terms>服务条款</terms> 和 <privacy>隐私政策</privacy>。"
+      }
+    }
+  }
+}

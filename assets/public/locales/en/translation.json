@@ -1,0 +1,36 @@
+{
+  "auth": {
+    "login": {
+      "imageAlt": "Abstract wave pattern",
+      "emailStep": {
+        "title": "Welcome",
+        "description": "Enter your QQ email to continue.",
+        "continue": "Continue",
+        "qqHint": "Enter your QQ number only. We'll add @qq.com and show your available sign-in options next.",
+        "noAccount": "No account yet? Click here to",
+        "signUp": "Sign up"
+      },
+      "methodsStep": {
+        "title": "Welcome",
+        "description": "Choose how you want to continue.",
+        "signIn": "Sign in",
+        "separator": "Or",
+        "emailLink": "Send email link",
+        "passkey": "Sign in with passkey",
+        "useDifferentEmail": "Use a different email"
+      },
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "Enter 5 to 13 digits",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "By clicking continue, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>."
+      }
+    }
+  }
+}
