@@ -2,7 +2,6 @@ import {
   CameraIcon,
   ChartBarIcon,
   ChartLineIcon,
-  CommandIcon,
   DatabaseIcon,
   FileIcon,
   FileTextIcon,
@@ -10,6 +9,7 @@ import {
   GearIcon,
   ListIcon,
   MagnifyingGlassIcon,
+  NotebookIcon,
   QuestionIcon,
   SquaresFourIcon,
   UsersIcon,
@@ -152,8 +152,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!" render={<a href="#" />}>
-              <CommandIcon className="size-5!" />
-              <span className="text-base font-semibold">Acme Inc.</span>
+              <NotebookIcon className="size-5!" />
+              <span className="text-base font-semibold">LITTLE RED BOOK</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -1,4 +1,4 @@
-import { EnvelopeSimpleIcon, FingerprintIcon } from "@phosphor-icons/react";
+import { EnvelopeSimpleIcon, FingerprintIcon, NotebookIcon } from "@phosphor-icons/react";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { Trans, useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ export const Component = () => {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.24] bg-[linear-gradient(to_right,color-mix(in_oklch,var(--foreground)_10%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_10%,transparent)_1px,transparent_1px)] bg-size-[44px_44px]"
       />
+      <BrandMark />
       <div className="relative z-10 w-full max-w-sm md:max-w-4xl">
         <AuthForm
           step={step}
@@ -31,6 +32,19 @@ export const Component = () => {
           onResetEmail={() => setStep("email")}
         />
       </div>
+    </div>
+  );
+};
+
+const BrandMark = () => {
+  return (
+    <div className="absolute top-5 left-5 z-20 flex items-center gap-2.5 rounded-full border border-border/70 bg-background/80 px-3 py-2 text-foreground shadow-lg shadow-foreground/5 backdrop-blur-md transition-colors md:top-8 md:left-8">
+      <div className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm shadow-primary/20">
+        <NotebookIcon className="size-4.5" weight="bold" />
+      </div>
+      <span className="text-[0.68rem] font-semibold tracking-[0.18em] whitespace-nowrap text-foreground/80 uppercase select-none">
+        MY LITTLE RED BOOK
+      </span>
     </div>
   );
 };
