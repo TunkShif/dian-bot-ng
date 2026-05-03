@@ -89,10 +89,11 @@ defmodule Dian.MixProject do
       "assets.setup": ["bun.install --if-missing", "bun assets install"],
       "assets.build": [
         "openapi.spec.json --spec DianWeb.APISpec tmp/openapi.json",
+        "bun typegen",
         "bun vite build"
       ],
       "assets.deploy": ["assets.build"],
-      "assets.precommit": ["bun typecheck", "bun biome", "assets.build"],
+      "assets.precommit": ["bun precommit", "assets.build"],
       precommit: [
         "assets.precommit",
         "compile --warnings-as-errors",

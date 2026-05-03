@@ -2,6 +2,11 @@
 	"name": "dian-web",
 	"type": "module",
 	"private": true,
+  "scripts": {
+    "precommit": "bun run typegen && bun run check",
+    "check": "tsc --noEmit && biome check --write",
+    "typegen": "i18next-cli types"
+  },
 	"dependencies": {
 		"@base-ui/react": "^1.4.1",
 		"@fontsource-variable/figtree": "^5.2.10",
@@ -47,6 +52,7 @@
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.1",
+		"i18next-cli": "^1.56.9",
 		"phoenix_vite": "file:../deps/phoenix_vite",
 		"tailwindcss": "^4.1.0",
 		"typescript": "^6.0.3",

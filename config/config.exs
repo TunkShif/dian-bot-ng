@@ -10,8 +10,8 @@ import Config
 config :bun,
   version: "1.3.12",
   assets: [args: [], cd: Path.expand("../assets", __DIR__)],
-  biome: [args: ~w(x biome check --write), cd: Path.expand("../assets", __DIR__)],
-  typecheck: [args: ~w(x tsc --noEmit), cd: Path.expand("../assets", __DIR__)],
+  typegen: [args: ~w(run typegen), cd: Path.expand("../assets", __DIR__)],
+  precommit: [args: ~w(run precommit), cd: Path.expand("../assets", __DIR__)],
   vite: [
     args: ~w(x vite),
     cd: Path.expand("../assets", __DIR__),
