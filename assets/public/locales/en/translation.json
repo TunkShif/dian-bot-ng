@@ -89,7 +89,7 @@
       "password": {
         "title": "Password",
         "description": "Set a password for email and password sign-in.",
-        "helper": "Use at least 12 characters. Password saving is not connected yet.",
+        "helper": "Use 12 to 72 characters.",
         "submit": "Update password",
         "newPassword": {
           "label": "New password",
@@ -98,6 +98,18 @@
         "confirmPassword": {
           "label": "Confirm password",
           "placeholder": "Repeat the new password"
+        },
+        "validation": {
+          "passwordMin": "Password must be at least 12 characters.",
+          "passwordMax": "Password must be at most 72 characters.",
+          "confirmationMin": "Confirmation must be at least 12 characters.",
+          "confirmationMax": "Confirmation must be at most 72 characters.",
+          "passwordsMatch": "Passwords must match."
+        },
+        "update": {
+          "successTitle": "Password updated",
+          "successMessage": "Your password has been saved.",
+          "errorMessage": "We couldn't update your password. Please check it and try again."
         }
       },
       "passkeys": {

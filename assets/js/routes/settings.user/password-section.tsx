@@ -1,19 +1,71 @@
 import { CheckIcon, KeyIcon } from "@phosphor-icons/react";
-import { type FormEvent, useId } from "react";
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import * as z from "zod";
+import { updateUserSettingsMutation } from "@/client/@tanstack/react-query.gen";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 export const PasswordSection = () => {
   const { t } = useTranslation();
-  const newPasswordId = useId();
-  const confirmPasswordId = useId();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+  const passwordFormSchema = useMemo(
+    () =>
+      z
+        .object({
+          password: z
+            .string()
+            .min(12, t("app.settings.password.validation.passwordMin"))
+            .max(72, t("app.settings.password.validation.passwordMax")),
+          passwordConfirmation: z
+            .string()
+            .min(12, t("app.settings.password.validation.confirmationMin"))
+            .max(72, t("app.settings.password.validation.confirmationMax")),
+        })
+        .refine((value) => value.password === value.passwordConfirmation, {
+          message: t("app.settings.password.validation.passwordsMatch"),
+          path: ["passwordConfirmation"],
+        }),
+    [t],
+  );
+
+  const { mutate, isPending } = useMutation({
+    ...updateUserSettingsMutation(),
+    meta: {
+      successTitle: t("app.settings.password.update.successTitle"),
+      successMessage: t("app.settings.password.update.successMessage"),
+      errorMessage: t("app.settings.password.update.errorMessage"),
+    },
+  });
+
+  const form = useForm({
+    defaultValues: {
+      password: "",
+      passwordConfirmation: "",
+    },
+    validators: {
+      onSubmit: passwordFormSchema,
+    },
+    onSubmit: ({ value }) => {
+      mutate(
+        {
+          body: {
+            user: {
+              password: value.password,
+              password_confirmation: value.passwordConfirmation,
+            },
+          },
+        },
+        {
+          onSuccess: () => form.reset(),
+        },
+      );
+    },
+  });
 
   return (
     <Card>
@@ -25,41 +77,81 @@ export const PasswordSection = () => {
         <CardDescription>{t("app.settings.password.description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="max-w-2xl" onSubmit={handleSubmit}>
+        <form
+          className="max-w-2xl"
+          onSubmit={(event) => {
+            event.preventDefault();
+            form.handleSubmit();
+          }}
+        >
           <FieldSet>
             <FieldGroup>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field>
-                  <FieldLabel htmlFor={newPasswordId}>{t("app.settings.password.newPassword.label")}</FieldLabel>
-                  <Input
-                    id={newPasswordId}
-                    name="password"
-                    type="password"
-                    autoComplete="new-password"
-                    minLength={12}
-                    placeholder={t("app.settings.password.newPassword.placeholder")}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor={confirmPasswordId}>
-                    {t("app.settings.password.confirmPassword.label")}
-                  </FieldLabel>
-                  <Input
-                    id={confirmPasswordId}
-                    name="password_confirmation"
-                    type="password"
-                    autoComplete="new-password"
-                    minLength={12}
-                    placeholder={t("app.settings.password.confirmPassword.placeholder")}
-                  />
-                </Field>
+                <form.Field name="password">
+                  {(field) => {
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor={field.name}>{t("app.settings.password.newPassword.label")}</FieldLabel>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type="password"
+                          autoComplete="new-password"
+                          minLength={12}
+                          maxLength={72}
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          onChange={(event) => field.handleChange(event.target.value)}
+                          aria-invalid={isInvalid}
+                          disabled={isPending}
+                          placeholder={t("app.settings.password.newPassword.placeholder")}
+                        />
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                      </Field>
+                    );
+                  }}
+                </form.Field>
+                <form.Field name="passwordConfirmation">
+                  {(field) => {
+                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor={field.name}>{t("app.settings.password.confirmPassword.label")}</FieldLabel>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type="password"
+                          autoComplete="new-password"
+                          minLength={12}
+                          maxLength={72}
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          onChange={(event) => field.handleChange(event.target.value)}
+                          aria-invalid={isInvalid}
+                          disabled={isPending}
+                          placeholder={t("app.settings.password.confirmPassword.placeholder")}
+                        />
+                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                      </Field>
+                    );
+                  }}
+                </form.Field>
               </div>
+
               <FieldDescription>{t("app.settings.password.helper")}</FieldDescription>
+
               <div className="flex justify-start">
-                <Button type="submit">
-                  <CheckIcon data-icon="inline-start" />
-                  {t("app.settings.password.submit")}
-                </Button>
+                <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+                  {([canSubmit, isSubmitting]) => (
+                    <Button type="submit" disabled={!canSubmit || isSubmitting || isPending}>
+                      <CheckIcon data-icon="inline-start" />
+                      {t("app.settings.password.submit")}
+                    </Button>
+                  )}
+                </form.Subscribe>
               </div>
             </FieldGroup>
           </FieldSet>

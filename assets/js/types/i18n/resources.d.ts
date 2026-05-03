@@ -84,13 +84,25 @@ export default interface Resources {
             "placeholder": "Repeat the new password"
           },
           "description": "Set a password for email and password sign-in.",
-          "helper": "Use at least 12 characters. Password saving is not connected yet.",
+          "helper": "Use 12 to 72 characters.",
           "newPassword": {
             "label": "New password",
             "placeholder": "Enter a new password"
           },
           "submit": "Update password",
-          "title": "Password"
+          "title": "Password",
+          "update": {
+            "errorMessage": "We couldn't update your password. Please check it and try again.",
+            "successMessage": "Your password has been saved.",
+            "successTitle": "Password updated"
+          },
+          "validation": {
+            "confirmationMax": "Confirmation must be at most 72 characters.",
+            "confirmationMin": "Confirmation must be at least 12 characters.",
+            "passwordMax": "Password must be at most 72 characters.",
+            "passwordMin": "Password must be at least 12 characters.",
+            "passwordsMatch": "Passwords must match."
+          }
         },
         "title": "Account Settings"
       },
