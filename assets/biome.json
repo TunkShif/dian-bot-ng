@@ -9,10 +9,10 @@
     "includes": [
       "*.*js",
       "js/**",
+      "css/**",
       "!js/components/ui",
       "!js/client",
-      "!js/types/i18n",
-      "css/**"
+      "!js/types/i18n"
     ],
     "ignoreUnknown": false
   },

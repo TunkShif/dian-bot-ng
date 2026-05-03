@@ -4,7 +4,7 @@
 	"private": true,
   "scripts": {
     "precommit": "bun run typegen && bun run check",
-    "check": "tsc --noEmit && biome check --write",
+    "check": "tsc --noEmit && biome check --write && i18next-cli lint",
     "typegen": "i18next-cli types"
   },
 	"dependencies": {
