@@ -12,6 +12,8 @@ defmodule Dian.Accounts do
   @user_details_cache_key_prefix "accounts:user_details:"
   @user_details_cache_ttl :timer.hours(24)
 
+  # TODO: logging
+
   def extract_qq_id_from(email) when is_binary(email) do
     String.trim_trailing(email, "@qq.com")
   end

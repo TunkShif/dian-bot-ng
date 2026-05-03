@@ -27,6 +27,9 @@ config :dian, DianBot.Bot,
   endpoint: System.get_env("BOT_ENDPOINT"),
   access_token: System.get_env("BOT_ACCESS_TOKEN")
 
+# Configure Steam Client
+config :dian, Dian.Steam.Client, api_key: System.get_env("STEAM_API_KEY")
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||

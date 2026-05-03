@@ -15,11 +15,11 @@ defmodule DianBot.Client.Default do
   @topic "bot:event"
 
   def start_link(_opts) do
-    opts = Application.fetch_env!(:dian, @env_key)
+    config = Application.fetch_env!(:dian, @env_key)
 
     initial_state = %{pending: %{}}
-    endpoint = Keyword.fetch!(opts, :endpoint)
-    access_token = Keyword.fetch!(opts, :access_token)
+    endpoint = Keyword.fetch!(config, :endpoint)
+    access_token = Keyword.fetch!(config, :access_token)
     extra_headers = [{"Authorization", "Bearer #{access_token}"}]
 
     WebSockex.start_link(endpoint, __MODULE__, initial_state,
