@@ -19,32 +19,11 @@ defmodule DianWeb.Schemas.UserSessionShowResponse do
             oneOf: [
               %Schema{
                 type: :object,
-                required: [:id, :email],
+                required: [:id, :email, :qq_id],
                 properties: %{
                   id: %Schema{type: :integer, example: 1},
                   email: %Schema{type: :string, format: :email, example: "123456@qq.com"},
-                  confirmed_at: %Schema{
-                    type: :string,
-                    format: :"date-time",
-                    nullable: true,
-                    example: "2026-05-03T12:00:00Z"
-                  },
-                  authenticated_at: %Schema{
-                    type: :string,
-                    format: :"date-time",
-                    nullable: true,
-                    example: "2026-05-03T12:00:00Z"
-                  },
-                  inserted_at: %Schema{
-                    type: :string,
-                    format: :"date-time",
-                    example: "2026-05-03T12:00:00Z"
-                  },
-                  updated_at: %Schema{
-                    type: :string,
-                    format: :"date-time",
-                    example: "2026-05-03T12:00:00Z"
-                  }
+                  qq_id: %Schema{type: :string, example: "123456"}
                 }
               }
             ]
@@ -58,10 +37,7 @@ defmodule DianWeb.Schemas.UserSessionShowResponse do
         "user" => %{
           "id" => 1,
           "email" => "123456@qq.com",
-          "confirmed_at" => "2026-05-03T12:00:00Z",
-          "authenticated_at" => "2026-05-03T12:00:00Z",
-          "inserted_at" => "2026-05-03T12:00:00Z",
-          "updated_at" => "2026-05-03T12:00:00Z"
+          "qq_id" => "123456"
         }
       }
     }
