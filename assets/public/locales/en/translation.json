@@ -23,7 +23,17 @@
         "separator": "OR",
         "emailLink": "Send passwordless login link",
         "passkey": "Sign in with passkey",
-        "useDifferentEmail": "Use a different email"
+        "useDifferentEmail": "Use a different email",
+        "passwordLogin": {
+          "errorTitle": "Login failed",
+          "errorMessage": "Please check your email and password"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Login link sent",
+          "successMessage": "Check your email for the login link",
+          "errorTitle": "Failed to send",
+          "errorMessage": "Please check your email and try again"
+        }
       },
       "fields": {
         "email": "Email",

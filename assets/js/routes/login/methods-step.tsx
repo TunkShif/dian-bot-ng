@@ -19,38 +19,57 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // TODO: split into two mutations
-  // TODO: i18n
-  const { mutate, isPending } = useMutation({
+  const { mutate: loginWithPassword, isPending: isPasswordLoginPending } = useMutation({
     ...loginUserMutation(),
-    onSuccess: (_data, variables) => {
-      if (variables.body.user.password) {
-        navigate("/dashboard", { replace: true });
-      }
+    onSuccess: () => {
+      navigate("/dashboard", { replace: true });
     },
     meta: {
-      errorTitle: "登录出错",
-      errorMessage: "请检查您的邮箱和密码",
-      successMessage: "请查看邮箱中的登录链接",
+      errorTitle: t("auth.login.methodsStep.passwordLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passwordLogin.errorMessage"),
     },
   });
 
-  const loginUser = (password?: string) => {
-    const user = { email: `${input}@qq.com`, password, remember_me: "true" as const };
-    mutate({
-      body: { user },
-    });
-  };
+  const { mutate: loginWithoutPassword, isPending: isPasswordlessLoginPending } = useMutation({
+    ...loginUserMutation(),
+    meta: {
+      successTitle: t("auth.login.methodsStep.passwordlessLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passwordlessLogin.successMessage"),
+      errorTitle: t("auth.login.methodsStep.passwordlessLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passwordlessLogin.errorMessage"),
+    },
+  });
+
+  const isPending = isPasswordLoginPending || isPasswordlessLoginPending;
 
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!input) return;
     const formData = new FormData(event.currentTarget);
     const password = formData.get("password");
     if (!password) return;
-    loginUser(password.toString());
+    loginWithPassword({
+      body: {
+        user: {
+          email: `${input}@qq.com`,
+          password: password.toString(),
+          remember_me: "true" as const,
+        },
+      },
+    });
   };
 
-  const handleEmailRequest = () => loginUser();
+  const handleEmailRequest = () => {
+    if (!input) return;
+    loginWithoutPassword({
+      body: {
+        user: {
+          email: `${input}@qq.com`,
+          remember_me: "true" as const,
+        },
+      },
+    });
+  };
 
   return (
     <form className="p-6 md:p-8" onSubmit={handleSubmit}>

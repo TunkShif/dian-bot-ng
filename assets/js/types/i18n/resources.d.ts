@@ -149,6 +149,16 @@ export default interface Resources {
           "description": "Choose how you want to continue.",
           "emailLink": "Send passwordless login link",
           "passkey": "Sign in with passkey",
+          "passwordLogin": {
+            "errorMessage": "Please check your email and password",
+            "errorTitle": "Login failed"
+          },
+          "passwordlessLogin": {
+            "errorMessage": "Please check your email and try again",
+            "errorTitle": "Failed to send",
+            "successMessage": "Check your email for the login link",
+            "successTitle": "Login link sent"
+          },
           "separator": "OR",
           "signIn": "Sign in",
           "title": "Welcome",

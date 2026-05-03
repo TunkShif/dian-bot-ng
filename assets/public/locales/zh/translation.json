@@ -23,7 +23,17 @@
         "separator": "或",
         "emailLink": "发送免密登录链接",
         "passkey": "使用通行密钥登录",
-        "useDifferentEmail": "使用其他邮箱"
+        "useDifferentEmail": "使用其他邮箱",
+        "passwordLogin": {
+          "errorTitle": "登录失败",
+          "errorMessage": "请检查您的邮箱和密码"
+        },
+        "passwordlessLogin": {
+          "successTitle": "登录链接已发送",
+          "successMessage": "请查看邮箱中的登录链接",
+          "errorTitle": "发送失败",
+          "errorMessage": "请检查邮箱后重试"
+        }
       },
       "fields": {
         "email": "邮箱",
