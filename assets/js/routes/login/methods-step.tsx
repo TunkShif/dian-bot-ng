@@ -2,11 +2,11 @@ import { EnvelopeSimpleIcon, FingerprintIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import type { SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { loginUserMutation } from "@/client/@tanstack/react-query.gen";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { AuthHeader, QQEmailInput } from "@/routes/login/auth-step-fields";
 
 type MethodsStepProps = {
@@ -17,10 +17,17 @@ type MethodsStepProps = {
 
 export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
+  // TODO: split into two mutations
   // TODO: i18n
   const { mutate, isPending } = useMutation({
     ...loginUserMutation(),
+    onSuccess: (_data, variables) => {
+      if (variables.body.user.password) {
+        navigate("/dashboard", { replace: true });
+      }
+    },
     meta: {
       errorTitle: "登录出错",
       errorMessage: "请检查您的邮箱和密码",
@@ -29,7 +36,7 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
   });
 
   const loginUser = (password?: string) => {
-    const user = { email: `${input}@qq.com`, password, rember_me: true };
+    const user = { email: `${input}@qq.com`, password, remember_me: "true" as const };
     mutate({
       body: { user },
     });
@@ -74,17 +81,13 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
             {t("auth.login.methodsStep.emailLink")}
           </Button>
         </Field>
-        <Tooltip>
-          <TooltipTrigger>
-            <Field>
-              <Button variant="outline" type="button" disabled render={<div />} nativeButton={false}>
-                <FingerprintIcon data-icon="inline-start" />
-                {t("auth.login.methodsStep.passkey")}
-              </Button>
-            </Field>
-          </TooltipTrigger>
-          <TooltipContent>计划开发中，暂不可用</TooltipContent>
-        </Tooltip>
+
+        <Field>
+          <Button variant="outline" type="button" disabled={isPending}>
+            <FingerprintIcon data-icon="inline-start" />
+            {t("auth.login.methodsStep.passkey")}
+          </Button>
+        </Field>
 
         <FieldDescription className="text-center">
           <button
