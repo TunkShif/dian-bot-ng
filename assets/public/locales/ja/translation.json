@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "言語を変更"
+    },
     "auth": {
       "required": "続行するにはログインしてください。"
     },
@@ -51,21 +54,21 @@
       "title": "ドキュメント"
     },
     "nav": {
-      "dashboard": "Dashboard",
-      "gameCenter": "Game center",
-      "liveMonitor": "Live monitor",
-      "gameHistory": "History",
-      "groupManagement": "Group management",
-      "groupList": "Group list",
-      "groupUsers": "Group users",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "Auto analysis",
-      "aiRankings": "Recommended rankings",
-      "roastAlerts": "Roast alerts",
-      "systemSettings": "System settings",
-      "globalConfig": "Global config",
-      "permissionManagement": "Permission management",
-      "featuredMessages": "Featured messages"
+      "dashboard": "ダッシュボード",
+      "gameCenter": "ゲームセンター",
+      "liveMonitor": "ライブ監視",
+      "gameHistory": "ゲーム履歴",
+      "groupManagement": "グループ管理",
+      "groupList": "グループ一覧",
+      "groupUsers": "グループユーザー",
+      "aiAssistant": "AIアシスタント",
+      "autoAnalysis": "自動分析",
+      "aiRankings": "おすすめランキング",
+      "roastAlerts": "コメント通知",
+      "systemSettings": "システム設定",
+      "globalConfig": "全体設定",
+      "permissionManagement": "権限管理",
+      "featuredMessages": "注目メッセージ"
     },
     "userMenu": {
       "account": "アカウント",

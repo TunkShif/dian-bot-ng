@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "Dili değiştir"
+    },
     "auth": {
       "required": "Devam etmek için oturum açın."
     },
@@ -51,21 +54,21 @@
       "title": "Belgeler"
     },
     "nav": {
-      "dashboard": "Dashboard",
-      "gameCenter": "Game center",
-      "liveMonitor": "Live monitor",
-      "gameHistory": "History",
-      "groupManagement": "Group management",
-      "groupList": "Group list",
-      "groupUsers": "Group users",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "Auto analysis",
-      "aiRankings": "Recommended rankings",
-      "roastAlerts": "Roast alerts",
-      "systemSettings": "System settings",
-      "globalConfig": "Global config",
-      "permissionManagement": "Permission management",
-      "featuredMessages": "Featured messages"
+      "dashboard": "Kontrol paneli",
+      "gameCenter": "Oyun merkezi",
+      "liveMonitor": "Canlı izleme",
+      "gameHistory": "Oyun geçmişi",
+      "groupManagement": "Grup yönetimi",
+      "groupList": "Grup listesi",
+      "groupUsers": "Grup kullanıcıları",
+      "aiAssistant": "AI asistanı",
+      "autoAnalysis": "Otomatik analiz",
+      "aiRankings": "Önerilen sıralamalar",
+      "roastAlerts": "Yorum uyarıları",
+      "systemSettings": "Sistem ayarları",
+      "globalConfig": "Genel yapılandırma",
+      "permissionManagement": "İzin yönetimi",
+      "featuredMessages": "Öne çıkan mesajlar"
     },
     "userMenu": {
       "account": "Hesap",

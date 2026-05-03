@@ -73,6 +73,8 @@ bun i18next-cli status
 - Form labels, placeholders, input titles, aria labels, sr-only text, image alt text, menu items, empty states, errors, and success states.
 - Non-component modules that cannot use `useTranslation`.
 
+Before replacing apparent fallback text, check `references/reserved-locale-special-cases.md` for intentionally untranslated labels and locale-specific naming decisions.
+
 Usually do not run `bun i18next-cli types` manually because precommit handles it. Run it when TypeScript reports stale i18n key types after locale edits.
 
 ## Quick Reference

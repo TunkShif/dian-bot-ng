@@ -34,6 +34,9 @@ export default interface Resources {
       "header": {
         "title": "Documents"
       },
+      "languageSwitch": {
+        "label": "Change language"
+      },
       "nav": {
         "aiAssistant": "AI Intelligence",
         "aiRankings": "Recommended rankings",

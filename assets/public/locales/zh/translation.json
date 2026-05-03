@@ -20,7 +20,7 @@
         "title": "欢迎回来",
         "description": "选择你想使用的登录方式。",
         "signIn": "登录",
-        "separator": "OR",
+        "separator": "或",
         "emailLink": "发送免密登录链接",
         "passkey": "使用通行密钥登录",
         "useDifferentEmail": "使用其他邮箱"
@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "切换语言"
+    },
     "auth": {
       "required": "请先登录后再继续。"
     },

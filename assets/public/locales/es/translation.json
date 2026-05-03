@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "Cambiar idioma"
+    },
     "auth": {
       "required": "Inicia sesión para continuar."
     },
@@ -51,21 +54,21 @@
       "title": "Documentos"
     },
     "nav": {
-      "dashboard": "Dashboard",
-      "gameCenter": "Game center",
-      "liveMonitor": "Live monitor",
-      "gameHistory": "History",
-      "groupManagement": "Group management",
-      "groupList": "Group list",
-      "groupUsers": "Group users",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "Auto analysis",
-      "aiRankings": "Recommended rankings",
-      "roastAlerts": "Roast alerts",
-      "systemSettings": "System settings",
-      "globalConfig": "Global config",
-      "permissionManagement": "Permission management",
-      "featuredMessages": "Featured messages"
+      "dashboard": "Panel",
+      "gameCenter": "Centro de juegos",
+      "liveMonitor": "Monitor en vivo",
+      "gameHistory": "Historial de juegos",
+      "groupManagement": "Gestión de grupos",
+      "groupList": "Lista de grupos",
+      "groupUsers": "Usuarios del grupo",
+      "aiAssistant": "Asistente de IA",
+      "autoAnalysis": "Análisis automático",
+      "aiRankings": "Rankings recomendados",
+      "roastAlerts": "Alertas de críticas",
+      "systemSettings": "Ajustes del sistema",
+      "globalConfig": "Configuración global",
+      "permissionManagement": "Gestión de permisos",
+      "featuredMessages": "Mensajes destacados"
     },
     "userMenu": {
       "account": "Cuenta",

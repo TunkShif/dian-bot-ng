@@ -1,4 +1,11 @@
-import { BellIcon, CreditCardIcon, DotsThreeVerticalIcon, SignOutIcon, UserCircleIcon } from "@phosphor-icons/react";
+import {
+  BellIcon,
+  CreditCardIcon,
+  DotsThreeVerticalIcon,
+  GlobeIcon,
+  SignOutIcon,
+  UserCircleIcon,
+} from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -7,10 +14,16 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
+import { useLanguage } from "@/hooks/use-language";
 import type { User } from "@/lib/user";
 
 type NavUserProps = {
@@ -20,6 +33,8 @@ type NavUserProps = {
 export function NavUser({ user }: NavUserProps) {
   const { t } = useTranslation();
   const { isMobile } = useSidebar();
+  const { languages, currentLanguage, changeLanguage } = useLanguage();
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -65,6 +80,22 @@ export function NavUser({ user }: NavUserProps) {
                 {t("app.userMenu.notifications")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger aria-label={t("app.languageSwitch.label")}>
+                <GlobeIcon />
+                {t("app.languageSwitch.label")}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="min-w-36">
+                <DropdownMenuRadioGroup value={currentLanguage} onValueChange={changeLanguage}>
+                  {languages.map((language) => (
+                    <DropdownMenuRadioItem key={language.code} value={language.code}>
+                      {language.label}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <SignOutIcon />

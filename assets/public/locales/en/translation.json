@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "Change language"
+    },
     "auth": {
       "required": "Please sign in to continue."
     },

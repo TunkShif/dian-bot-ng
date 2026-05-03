@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "Sprache wechseln"
+    },
     "auth": {
       "required": "Bitte melde dich an, um fortzufahren."
     },
@@ -51,21 +54,21 @@
       "title": "Dokumente"
     },
     "nav": {
-      "dashboard": "Dashboard",
-      "gameCenter": "Game center",
-      "liveMonitor": "Live monitor",
-      "gameHistory": "History",
-      "groupManagement": "Group management",
-      "groupList": "Group list",
-      "groupUsers": "Group users",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "Auto analysis",
-      "aiRankings": "Recommended rankings",
-      "roastAlerts": "Roast alerts",
-      "systemSettings": "System settings",
-      "globalConfig": "Global config",
-      "permissionManagement": "Permission management",
-      "featuredMessages": "Featured messages"
+      "dashboard": "Übersicht",
+      "gameCenter": "Spielcenter",
+      "liveMonitor": "Live-Überwachung",
+      "gameHistory": "Spielverlauf",
+      "groupManagement": "Gruppenverwaltung",
+      "groupList": "Gruppenliste",
+      "groupUsers": "Gruppenmitglieder",
+      "aiAssistant": "KI-Assistent",
+      "autoAnalysis": "Automatische Analyse",
+      "aiRankings": "Empfohlene Ranglisten",
+      "roastAlerts": "Kommentarwarnungen",
+      "systemSettings": "Systemeinstellungen",
+      "globalConfig": "Globale Konfiguration",
+      "permissionManagement": "Berechtigungsverwaltung",
+      "featuredMessages": "Ausgewählte Nachrichten"
     },
     "userMenu": {
       "account": "Konto",
@@ -74,7 +77,7 @@
       "logOut": "Abmelden"
     },
     "dashboard": {
-      "title": "Dashboard",
+      "title": "Übersicht",
       "cards": {
         "revenue": {
           "label": "Umsatz",

@@ -26,7 +26,7 @@
         "useDifferentEmail": "Χρήση διαφορετικού email"
       },
       "fields": {
-        "email": "Email",
+        "email": "Ηλεκτρονικό ταχυδρομείο",
         "password": "Κωδικός πρόσβασης"
       },
       "emailInput": {
@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "Αλλαγή γλώσσας"
+    },
     "auth": {
       "required": "Συνδεθείτε για να συνεχίσετε."
     },
@@ -51,21 +54,21 @@
       "title": "Έγγραφα"
     },
     "nav": {
-      "dashboard": "Dashboard",
-      "gameCenter": "Game center",
-      "liveMonitor": "Live monitor",
-      "gameHistory": "History",
-      "groupManagement": "Group management",
-      "groupList": "Group list",
-      "groupUsers": "Group users",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "Auto analysis",
-      "aiRankings": "Recommended rankings",
-      "roastAlerts": "Roast alerts",
-      "systemSettings": "System settings",
-      "globalConfig": "Global config",
-      "permissionManagement": "Permission management",
-      "featuredMessages": "Featured messages"
+      "dashboard": "Πίνακας ελέγχου",
+      "gameCenter": "Κέντρο παιχνιδιών",
+      "liveMonitor": "Ζωντανή παρακολούθηση",
+      "gameHistory": "Ιστορικό παιχνιδιών",
+      "groupManagement": "Διαχείριση ομάδων",
+      "groupList": "Λίστα ομάδων",
+      "groupUsers": "Μέλη ομάδας",
+      "aiAssistant": "Βοηθός AI",
+      "autoAnalysis": "Αυτόματη ανάλυση",
+      "aiRankings": "Προτεινόμενες κατατάξεις",
+      "roastAlerts": "Ειδοποιήσεις σχολίων",
+      "systemSettings": "Ρυθμίσεις συστήματος",
+      "globalConfig": "Γενική διαμόρφωση",
+      "permissionManagement": "Διαχείριση δικαιωμάτων",
+      "featuredMessages": "Επιλεγμένα μηνύματα"
     },
     "userMenu": {
       "account": "Λογαριασμός",

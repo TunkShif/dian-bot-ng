@@ -44,6 +44,9 @@
   },
   "app": {
     "brandName": "LITTLE RED BOOK",
+    "languageSwitch": {
+      "label": "易語"
+    },
     "auth": {
       "required": "請先登入。"
     },
@@ -51,21 +54,21 @@
       "title": "文書"
     },
     "nav": {
-      "dashboard": "仪表盘",
-      "gameCenter": "游戏所",
-      "liveMonitor": "在线察看",
-      "gameHistory": "往录",
-      "groupManagement": "群组治理",
-      "groupList": "群组簿",
-      "groupUsers": "群中用户",
-      "aiAssistant": "AI Intelligence",
-      "autoAnalysis": "自动析",
-      "aiRankings": "推荐榜",
-      "roastAlerts": "吐槽警",
-      "systemSettings": "系统设置",
-      "globalConfig": "全局配置",
-      "permissionManagement": "权限管理",
-      "featuredMessages": "精华消息"
+      "dashboard": "總覽",
+      "gameCenter": "遊戲所",
+      "liveMonitor": "即時監察",
+      "gameHistory": "遊戲紀",
+      "groupManagement": "群組治理",
+      "groupList": "群組錄",
+      "groupUsers": "群中之人",
+      "aiAssistant": "機巧輔佐",
+      "autoAnalysis": "自動剖析",
+      "aiRankings": "薦榜",
+      "roastAlerts": "吐槽警示",
+      "systemSettings": "系統設定",
+      "globalConfig": "全域設定",
+      "permissionManagement": "權限治理",
+      "featuredMessages": "精華訊息"
     },
     "userMenu": {
       "account": "戶",
