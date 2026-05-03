@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "儀表板"
+    },
+    "settings": {
+      "eyebrow": "帳戶安全",
+      "title": "設定",
+      "description": "管理你點樣登入，保護帳戶存取安全。",
+      "actions": {
+        "cancel": "取消",
+        "retry": "再試"
+      },
+      "password": {
+        "title": "密碼",
+        "description": "設定用電郵同密碼登入嘅密碼。",
+        "helper": "最少用 12 個字元。密碼儲存仲未接駁。",
+        "submit": "更新密碼",
+        "newPassword": {
+          "label": "新密碼",
+          "placeholder": "輸入新密碼"
+        },
+        "confirmPassword": {
+          "label": "確認密碼",
+          "placeholder": "再輸入新密碼"
+        }
+      },
+      "passkeys": {
+        "title": "通行密鑰",
+        "description": "用裝置生物認證、安全密鑰或者密碼管理器更快登入。",
+        "add": "新增通行密鑰",
+        "neverUsed": "未用過",
+        "table": {
+          "name": "名稱",
+          "lastUsed": "上次使用",
+          "created": "建立時間",
+          "actions": "操作",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "未有通行密鑰",
+          "description": "新增通行密鑰後，可以唔使輸入密碼登入。"
+        },
+        "error": {
+          "title": "載入唔到通行密鑰",
+          "description": "刷新列表，或者等陣再試。"
+        },
+        "addDialog": {
+          "title": "新增通行密鑰",
+          "description": "開始瀏覽器註冊之前，先幫呢個通行密鑰改名。",
+          "label": "通行密鑰名稱",
+          "placeholder": "MacBook Touch ID",
+          "helper": "註冊流程仲未接駁。",
+          "submit": "開始設定"
+        },
+        "rename": {
+          "trigger": "重新命名通行密鑰",
+          "inputLabel": "通行密鑰名稱",
+          "save": "儲存通行密鑰名稱"
+        },
+        "delete": {
+          "trigger": "刪除通行密鑰",
+          "title": "刪除通行密鑰？",
+          "description": "呢個動作會由你帳戶移除 {{label}}。刪除流程仲未接駁。",
+          "submit": "刪除"
+        }
+      }
     }
   }
 }

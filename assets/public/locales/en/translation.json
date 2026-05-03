@@ -78,6 +78,68 @@
     },
     "dashboard": {
       "title": "Dashboard"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "description": "Manage how you sign in and keep access to your account protected.",
+      "actions": {
+        "cancel": "Cancel",
+        "retry": "Retry"
+      },
+      "password": {
+        "title": "Password",
+        "description": "Set a password for email and password sign-in.",
+        "helper": "Use at least 12 characters. Password saving is not connected yet.",
+        "submit": "Update password",
+        "newPassword": {
+          "label": "New password",
+          "placeholder": "Enter a new password"
+        },
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Repeat the new password"
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Use device biometrics, security keys, or password managers to sign in faster.",
+        "add": "Add passkey",
+        "neverUsed": "Never used",
+        "table": {
+          "name": "Name",
+          "lastUsed": "Last used",
+          "created": "Created",
+          "actions": "Actions",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "No passkeys yet",
+          "description": "Add a passkey to sign in without typing your password."
+        },
+        "error": {
+          "title": "Passkeys could not be loaded",
+          "description": "Refresh the list or try again in a moment."
+        },
+        "addDialog": {
+          "title": "Add passkey",
+          "description": "Name this passkey before starting browser registration.",
+          "label": "Passkey name",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Registration is not connected yet.",
+          "submit": "Start setup"
+        },
+        "rename": {
+          "trigger": "Rename passkey",
+          "inputLabel": "Passkey name",
+          "save": "Save passkey name"
+        },
+        "delete": {
+          "trigger": "Delete passkey",
+          "title": "Delete passkey?",
+          "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
+          "submit": "Delete"
+        }
+      }
     }
   }
 }

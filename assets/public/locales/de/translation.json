@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "Übersicht"
+    },
+    "settings": {
+      "eyebrow": "Kontosicherheit",
+      "title": "Einstellungen",
+      "description": "Verwalten Sie Ihre Anmeldemethoden und schützen Sie den Zugriff auf Ihr Konto.",
+      "actions": {
+        "cancel": "Abbrechen",
+        "retry": "Erneut versuchen"
+      },
+      "password": {
+        "title": "Passwort",
+        "description": "Legen Sie ein Passwort für die Anmeldung mit E-Mail und Passwort fest.",
+        "helper": "Verwenden Sie mindestens 12 Zeichen. Das Speichern des Passworts ist noch nicht verbunden.",
+        "submit": "Passwort aktualisieren",
+        "newPassword": {
+          "label": "Neues Passwort",
+          "placeholder": "Neues Passwort eingeben"
+        },
+        "confirmPassword": {
+          "label": "Passwort bestätigen",
+          "placeholder": "Neues Passwort wiederholen"
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Nutzen Sie Biometrie, Sicherheitsschlüssel oder Passwortmanager, um sich schneller anzumelden.",
+        "add": "Passkey hinzufügen",
+        "neverUsed": "Nie verwendet",
+        "table": {
+          "name": "Name",
+          "lastUsed": "Zuletzt verwendet",
+          "created": "Erstellt",
+          "actions": "Aktionen",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Noch keine Passkeys",
+          "description": "Fügen Sie einen Passkey hinzu, um sich ohne Passwort anzumelden."
+        },
+        "error": {
+          "title": "Passkeys konnten nicht geladen werden",
+          "description": "Aktualisieren Sie die Liste oder versuchen Sie es gleich erneut."
+        },
+        "addDialog": {
+          "title": "Passkey hinzufügen",
+          "description": "Benennen Sie diesen Passkey, bevor die Browser-Registrierung startet.",
+          "label": "Passkey-Name",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Die Registrierung ist noch nicht verbunden.",
+          "submit": "Einrichtung starten"
+        },
+        "rename": {
+          "trigger": "Passkey umbenennen",
+          "inputLabel": "Passkey-Name",
+          "save": "Passkey-Namen speichern"
+        },
+        "delete": {
+          "trigger": "Passkey löschen",
+          "title": "Passkey löschen?",
+          "description": "Dadurch wird {{label}} aus Ihrem Konto entfernt. Das Löschen ist noch nicht verbunden.",
+          "submit": "Löschen"
+        }
+      }
     }
   }
 }

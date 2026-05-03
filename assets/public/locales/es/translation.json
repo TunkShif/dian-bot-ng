@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "Panel"
+    },
+    "settings": {
+      "eyebrow": "Seguridad de la cuenta",
+      "title": "Ajustes",
+      "description": "Gestiona cómo inicias sesión y mantén protegido el acceso a tu cuenta.",
+      "actions": {
+        "cancel": "Cancelar",
+        "retry": "Reintentar"
+      },
+      "password": {
+        "title": "Contraseña",
+        "description": "Configura una contraseña para iniciar sesión con email y contraseña.",
+        "helper": "Usa al menos 12 caracteres. El guardado de contraseña aún no está conectado.",
+        "submit": "Actualizar contraseña",
+        "newPassword": {
+          "label": "Nueva contraseña",
+          "placeholder": "Introduce una nueva contraseña"
+        },
+        "confirmPassword": {
+          "label": "Confirmar contraseña",
+          "placeholder": "Repite la nueva contraseña"
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Usa biometría del dispositivo, llaves de seguridad o gestores de contraseñas para iniciar sesión más rápido.",
+        "add": "Añadir passkey",
+        "neverUsed": "Nunca usada",
+        "table": {
+          "name": "Nombre",
+          "lastUsed": "Último uso",
+          "created": "Creada",
+          "actions": "Acciones",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Aún no hay passkeys",
+          "description": "Añade una passkey para iniciar sesión sin escribir tu contraseña."
+        },
+        "error": {
+          "title": "No se pudieron cargar las passkeys",
+          "description": "Actualiza la lista o inténtalo de nuevo en un momento."
+        },
+        "addDialog": {
+          "title": "Añadir passkey",
+          "description": "Nombra esta passkey antes de iniciar el registro del navegador.",
+          "label": "Nombre de la passkey",
+          "placeholder": "MacBook Touch ID",
+          "helper": "El registro aún no está conectado.",
+          "submit": "Iniciar configuración"
+        },
+        "rename": {
+          "trigger": "Renombrar passkey",
+          "inputLabel": "Nombre de la passkey",
+          "save": "Guardar nombre de passkey"
+        },
+        "delete": {
+          "trigger": "Eliminar passkey",
+          "title": "¿Eliminar passkey?",
+          "description": "Esto eliminará {{label}} de tu cuenta. La eliminación aún no está conectada.",
+          "submit": "Eliminar"
+        }
+      }
     }
   }
 }

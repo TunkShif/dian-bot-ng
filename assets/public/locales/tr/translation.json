@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "Panel"
+    },
+    "settings": {
+      "eyebrow": "Hesap güvenliği",
+      "title": "Ayarlar",
+      "description": "Oturum açma yöntemlerinizi yönetin ve hesabınıza erişimi koruyun.",
+      "actions": {
+        "cancel": "İptal",
+        "retry": "Tekrar dene"
+      },
+      "password": {
+        "title": "Parola",
+        "description": "E-posta ve parola ile oturum açmak için parola belirleyin.",
+        "helper": "En az 12 karakter kullanın. Parola kaydetme henüz bağlı değil.",
+        "submit": "Parolayı güncelle",
+        "newPassword": {
+          "label": "Yeni parola",
+          "placeholder": "Yeni parola girin"
+        },
+        "confirmPassword": {
+          "label": "Parolayı onayla",
+          "placeholder": "Yeni parolayı tekrarlayın"
+        }
+      },
+      "passkeys": {
+        "title": "Passkeyler",
+        "description": "Daha hızlı oturum açmak için cihaz biyometrisi, güvenlik anahtarları veya parola yöneticileri kullanın.",
+        "add": "Passkey ekle",
+        "neverUsed": "Hiç kullanılmadı",
+        "table": {
+          "name": "Ad",
+          "lastUsed": "Son kullanım",
+          "created": "Oluşturuldu",
+          "actions": "İşlemler",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Henüz passkey yok",
+          "description": "Parolanızı yazmadan oturum açmak için bir passkey ekleyin."
+        },
+        "error": {
+          "title": "Passkeyler yüklenemedi",
+          "description": "Listeyi yenileyin veya birazdan tekrar deneyin."
+        },
+        "addDialog": {
+          "title": "Passkey ekle",
+          "description": "Tarayıcı kaydını başlatmadan önce bu passkey'e ad verin.",
+          "label": "Passkey adı",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Kayıt henüz bağlı değil.",
+          "submit": "Kurulumu başlat"
+        },
+        "rename": {
+          "trigger": "Passkey adını değiştir",
+          "inputLabel": "Passkey adı",
+          "save": "Passkey adını kaydet"
+        },
+        "delete": {
+          "trigger": "Passkey sil",
+          "title": "Passkey silinsin mi?",
+          "description": "Bu işlem {{label}} öğesini hesabınızdan kaldırır. Silme henüz bağlı değil.",
+          "submit": "Sil"
+        }
+      }
     }
   }
 }

@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "總覽"
+    },
+    "settings": {
+      "eyebrow": "帳戶之安",
+      "title": "設定",
+      "description": "治登入之法，護帳戶之通。",
+      "actions": {
+        "cancel": "罷",
+        "retry": "再試"
+      },
+      "password": {
+        "title": "密",
+        "description": "設密，以電郵與密登入。",
+        "helper": "宜十二字以上。存密之事尚未接。",
+        "submit": "更新密",
+        "newPassword": {
+          "label": "新密",
+          "placeholder": "輸新密"
+        },
+        "confirmPassword": {
+          "label": "驗密",
+          "placeholder": "復輸新密"
+        }
+      },
+      "passkeys": {
+        "title": "通行密鑰",
+        "description": "以裝置驗身、安全鑰、密碼器速登入。",
+        "add": "新增通行密鑰",
+        "neverUsed": "未用",
+        "table": {
+          "name": "名",
+          "lastUsed": "末用",
+          "created": "立時",
+          "actions": "行",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "尚無通行密鑰",
+          "description": "增通行密鑰，可免輸密而入。"
+        },
+        "error": {
+          "title": "通行密鑰載入未果",
+          "description": "可刷新，或少頃再試。"
+        },
+        "addDialog": {
+          "title": "新增通行密鑰",
+          "description": "啟瀏覽器註冊前，先名此鑰。",
+          "label": "通行密鑰名",
+          "placeholder": "MacBook Touch ID",
+          "helper": "註冊尚未接。",
+          "submit": "始設"
+        },
+        "rename": {
+          "trigger": "更名通行密鑰",
+          "inputLabel": "通行密鑰名",
+          "save": "存通行密鑰名"
+        },
+        "delete": {
+          "trigger": "刪通行密鑰",
+          "title": "刪通行密鑰？",
+          "description": "將自帳戶去 {{label}}。刪除尚未接。",
+          "submit": "刪"
+        }
+      }
     }
   }
 }

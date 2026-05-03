@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "ダッシュボード"
+    },
+    "settings": {
+      "eyebrow": "アカウントのセキュリティ",
+      "title": "設定",
+      "description": "サインイン方法を管理し、アカウントへのアクセスを保護します。",
+      "actions": {
+        "cancel": "キャンセル",
+        "retry": "再試行"
+      },
+      "password": {
+        "title": "パスワード",
+        "description": "メールとパスワードでサインインするためのパスワードを設定します。",
+        "helper": "12 文字以上を使用してください。パスワード保存はまだ接続されていません。",
+        "submit": "パスワードを更新",
+        "newPassword": {
+          "label": "新しいパスワード",
+          "placeholder": "新しいパスワードを入力"
+        },
+        "confirmPassword": {
+          "label": "パスワードの確認",
+          "placeholder": "新しいパスワードを再入力"
+        }
+      },
+      "passkeys": {
+        "title": "パスキー",
+        "description": "デバイスの生体認証、セキュリティキー、パスワードマネージャーでより速くサインインできます。",
+        "add": "パスキーを追加",
+        "neverUsed": "未使用",
+        "table": {
+          "name": "名前",
+          "lastUsed": "最終使用",
+          "created": "作成日",
+          "actions": "操作",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "パスキーはまだありません",
+          "description": "パスキーを追加すると、パスワード入力なしでサインインできます。"
+        },
+        "error": {
+          "title": "パスキーを読み込めませんでした",
+          "description": "一覧を更新するか、しばらくしてからもう一度お試しください。"
+        },
+        "addDialog": {
+          "title": "パスキーを追加",
+          "description": "ブラウザー登録を開始する前に、このパスキーに名前を付けます。",
+          "label": "パスキー名",
+          "placeholder": "MacBook Touch ID",
+          "helper": "登録はまだ接続されていません。",
+          "submit": "設定を開始"
+        },
+        "rename": {
+          "trigger": "パスキー名を変更",
+          "inputLabel": "パスキー名",
+          "save": "パスキー名を保存"
+        },
+        "delete": {
+          "trigger": "パスキーを削除",
+          "title": "パスキーを削除しますか？",
+          "description": "{{label}} をアカウントから削除します。削除はまだ接続されていません。",
+          "submit": "削除"
+        }
+      }
     }
   }
 }

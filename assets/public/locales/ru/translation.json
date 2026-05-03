@@ -78,6 +78,69 @@
     },
     "dashboard": {
       "title": "Панель"
+    },
+    "settings": {
+      "eyebrow": "Безопасность аккаунта",
+      "title": "Настройки",
+      "description": "Управляйте способами входа и защищайте доступ к аккаунту.",
+      "actions": {
+        "cancel": "Отмена",
+        "retry": "Повторить"
+      },
+      "password": {
+        "title": "Пароль",
+        "description": "Задайте пароль для входа по email и паролю.",
+        "helper": "Используйте не менее 12 символов. Сохранение пароля пока не подключено.",
+        "submit": "Обновить пароль",
+        "newPassword": {
+          "label": "Новый пароль",
+          "placeholder": "Введите новый пароль"
+        },
+        "confirmPassword": {
+          "label": "Подтвердите пароль",
+          "placeholder": "Повторите новый пароль"
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Используйте биометрию устройства, ключи безопасности или менеджеры паролей для более быстрого входа.",
+        "add": "Добавить passkey",
+        "neverUsed": "Не использовался",
+        "table": {
+          "name": "Название",
+          "lastUsed": "Последнее использование",
+          "created": "Создан",
+          "actions": "Действия",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Passkeys пока нет",
+          "description": "Добавьте passkey, чтобы входить без ввода пароля."
+        },
+        "error": {
+          "title": "Не удалось загрузить passkeys",
+          "description": "Обновите список или повторите попытку позже."
+        },
+        "addDialog": {
+          "title": "Добавить passkey",
+          "description": "Назовите этот passkey перед началом регистрации в браузере.",
+          "label": "Название passkey",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Регистрация пока не подключена.",
+          "submit": "Начать настройку"
+        },
+        "rename": {
+          "trigger": "Переименовать passkey",
+          "inputLabel": "Название passkey",
+          "save": "Сохранить название passkey"
+        },
+        "delete": {
+          "trigger": "Удалить passkey",
+          "title": "Удалить passkey?",
+          "description": "{{label}} будет удален из аккаунта. Удаление пока не подключено.",
+          "submit": "Удалить"
+        }
+      }
     }
   }
 }

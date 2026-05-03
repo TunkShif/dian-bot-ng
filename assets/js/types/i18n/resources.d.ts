@@ -32,6 +32,68 @@ export default interface Resources {
         "roastAlerts": "Roast alerts",
         "systemSettings": "System settings"
       },
+      "settings": {
+        "actions": {
+          "cancel": "Cancel",
+          "retry": "Retry"
+        },
+        "description": "Manage how you sign in and keep access to your account protected.",
+        "passkeys": {
+          "add": "Add passkey",
+          "addDialog": {
+            "description": "Name this passkey before starting browser registration.",
+            "helper": "Registration is not connected yet.",
+            "label": "Passkey name",
+            "placeholder": "MacBook Touch ID",
+            "submit": "Start setup",
+            "title": "Add passkey"
+          },
+          "delete": {
+            "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
+            "submit": "Delete",
+            "title": "Delete passkey?",
+            "trigger": "Delete passkey"
+          },
+          "description": "Use device biometrics, security keys, or password managers to sign in faster.",
+          "empty": {
+            "description": "Add a passkey to sign in without typing your password.",
+            "title": "No passkeys yet"
+          },
+          "error": {
+            "description": "Refresh the list or try again in a moment.",
+            "title": "Passkeys could not be loaded"
+          },
+          "neverUsed": "Never used",
+          "rename": {
+            "inputLabel": "Passkey name",
+            "save": "Save passkey name",
+            "trigger": "Rename passkey"
+          },
+          "table": {
+            "actions": "Actions",
+            "created": "Created",
+            "id": "ID {{id}}",
+            "lastUsed": "Last used",
+            "name": "Name"
+          },
+          "title": "Passkeys"
+        },
+        "password": {
+          "confirmPassword": {
+            "label": "Confirm password",
+            "placeholder": "Repeat the new password"
+          },
+          "description": "Set a password for email and password sign-in.",
+          "helper": "Use at least 12 characters. Password saving is not connected yet.",
+          "newPassword": {
+            "label": "New password",
+            "placeholder": "Enter a new password"
+          },
+          "submit": "Update password",
+          "title": "Password"
+        },
+        "title": "Account Settings"
+      },
       "userMenu": {
         "account": "Account",
         "billing": "Billing",
