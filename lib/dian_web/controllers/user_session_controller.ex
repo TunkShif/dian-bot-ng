@@ -2,6 +2,7 @@ defmodule DianWeb.UserSessionController do
   use DianWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
+  alias DianWeb.UserJson
   alias Dian.Accounts
   alias DianWeb.JSend
   alias DianWeb.Schemas
@@ -63,7 +64,7 @@ defmodule DianWeb.UserSessionController do
   # show current user
   def show(conn, _params) do
     maybe_user = conn.assigns.current_scope && conn.assigns.current_scope.user
-    JSend.success_json(conn, %{user: maybe_user})
+    JSend.success_json(conn, %{user: UserJson.one(maybe_user)})
   end
 
   # login via magic link

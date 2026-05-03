@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { AuthHeader, QQEmailInput } from "@/routes/login/auth-step-fields";
 
 type MethodsStepProps = {
@@ -38,12 +39,17 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
             {t("auth.login.methodsStep.emailLink")}
           </Button>
         </Field>
-        <Field>
-          <Button variant="outline" type="button">
-            <FingerprintIcon data-icon="inline-start" />
-            {t("auth.login.methodsStep.passkey")}
-          </Button>
-        </Field>
+        <Tooltip>
+          <TooltipTrigger>
+            <Field>
+              <Button variant="outline" type="button" disabled render={<div />} nativeButton={false}>
+                <FingerprintIcon data-icon="inline-start" />
+                {t("auth.login.methodsStep.passkey")}
+              </Button>
+            </Field>
+          </TooltipTrigger>
+          <TooltipContent>计划开发中，暂不可用</TooltipContent>
+        </Tooltip>
         <FieldDescription className="text-center">
           <button
             type="button"

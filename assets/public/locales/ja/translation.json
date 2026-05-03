@@ -9,7 +9,12 @@
         "continue": "続行",
         "qqHint": "QQ 番号のみを入力してください。@qq.com を追加し、次の手順で利用可能なサインイン方法を表示します。",
         "noAccount": "まだアカウントをお持ちでない場合は、こちらから",
-        "signUp": "登録"
+        "signUp": "登録",
+        "registration": {
+          "errorMessage": "アカウントを作成できませんでした。メールを確認してもう一度お試しください。",
+          "successTitle": "アカウントを作成しました",
+          "successMessage": "ログインリンクをメールで確認してください。"
+        }
       },
       "methodsStep": {
         "title": "ようこそ",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "言語を変更"
+      }
+    }
+  },
+  "app": {
+    "brandName": "Little Red Book",
+    "auth": {
+      "required": "続行するにはログインしてください。"
+    },
+    "header": {
+      "title": "ドキュメント"
+    },
+    "nav": {
+      "quickCreate": "クイック作成",
+      "inbox": "受信箱",
+      "dashboard": "ダッシュボード",
+      "lifecycle": "ライフサイクル",
+      "analytics": "分析",
+      "projects": "プロジェクト",
+      "team": "チーム",
+      "documents": "ドキュメント",
+      "dataLibrary": "データライブラリ",
+      "reports": "レポート",
+      "wordAssistant": "文章アシスタント",
+      "settings": "設定",
+      "help": "ヘルプ",
+      "search": "検索"
+    },
+    "actions": {
+      "more": "その他",
+      "open": "開く",
+      "share": "共有",
+      "delete": "削除"
+    },
+    "userMenu": {
+      "account": "アカウント",
+      "billing": "請求",
+      "notifications": "通知",
+      "logOut": "ログアウト"
+    },
+    "dashboard": {
+      "title": "ダッシュボード",
+      "cards": {
+        "revenue": {
+          "label": "収益",
+          "trend": "今月の収益は増加中",
+          "detail": "直近6か月のパフォーマンス"
+        },
+        "customers": {
+          "label": "新規顧客",
+          "trend": "顧客獲得が低下",
+          "detail": "キャンペーン品質と転換率を確認"
+        },
+        "accounts": {
+          "label": "アクティブアカウント",
+          "trend": "リテンションは堅調",
+          "detail": "エンゲージメントは目標を上回っています"
+        },
+        "growth": {
+          "label": "成長率",
+          "trend": "成長は安定しています",
+          "detail": "予測を上回って推移"
+        }
       }
     }
   }

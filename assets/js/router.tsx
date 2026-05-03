@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
+// TODO: error boundary
+
 export const router = createBrowserRouter(
   [
     {

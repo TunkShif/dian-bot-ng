@@ -12,12 +12,13 @@ export const AuthHeader = ({ title, description }: { title: string; description:
 
 type QQEmailInputProps = {
   id: string;
+  name?: string;
   readOnly?: boolean;
   value: string;
   onChange: (value: string) => void;
 };
 
-export const QQEmailInput = ({ id, readOnly, value, onChange }: QQEmailInputProps) => {
+export const QQEmailInput = ({ id, name, readOnly, value, onChange }: QQEmailInputProps) => {
   const { t } = useTranslation();
 
   return (
@@ -25,6 +26,7 @@ export const QQEmailInput = ({ id, readOnly, value, onChange }: QQEmailInputProp
       <InputGroupInput
         id={id}
         type="text"
+        name={name}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         inputMode="numeric"

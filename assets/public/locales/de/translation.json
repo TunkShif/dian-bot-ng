@@ -9,7 +9,12 @@
         "continue": "Weiter",
         "qqHint": "Gib nur deine QQ-Nummer ein. Wir ergänzen @qq.com und zeigen dir im nächsten Schritt die verfügbaren Anmeldeoptionen.",
         "noAccount": "Noch kein Konto? Klicke hier, um dich",
-        "signUp": "zu registrieren"
+        "signUp": "zu registrieren",
+        "registration": {
+          "errorMessage": "Dein Konto konnte nicht erstellt werden. Prüfe die E-Mail und versuche es erneut.",
+          "successTitle": "Konto erstellt",
+          "successMessage": "Prüfe deine E-Mail auf den Login-Link."
+        }
       },
       "methodsStep": {
         "title": "Willkommen",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "Sprache wechseln"
+      }
+    }
+  },
+  "app": {
+    "brandName": "Little Red Book",
+    "auth": {
+      "required": "Bitte melde dich an, um fortzufahren."
+    },
+    "header": {
+      "title": "Dokumente"
+    },
+    "nav": {
+      "quickCreate": "Schnell erstellen",
+      "inbox": "Posteingang",
+      "dashboard": "Dashboard",
+      "lifecycle": "Lebenszyklus",
+      "analytics": "Analysen",
+      "projects": "Projekte",
+      "team": "Team",
+      "documents": "Dokumente",
+      "dataLibrary": "Datenbibliothek",
+      "reports": "Berichte",
+      "wordAssistant": "Schreibassistent",
+      "settings": "Einstellungen",
+      "help": "Hilfe",
+      "search": "Suche"
+    },
+    "actions": {
+      "more": "Mehr",
+      "open": "Öffnen",
+      "share": "Teilen",
+      "delete": "Löschen"
+    },
+    "userMenu": {
+      "account": "Konto",
+      "billing": "Abrechnung",
+      "notifications": "Benachrichtigungen",
+      "logOut": "Abmelden"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "cards": {
+        "revenue": {
+          "label": "Umsatz",
+          "trend": "Der Umsatz steigt diesen Monat",
+          "detail": "Entwicklung der letzten 6 Monate"
+        },
+        "customers": {
+          "label": "Neue Kunden",
+          "trend": "Die Kundengewinnung ist gesunken",
+          "detail": "Kampagnenqualität und Conversion prüfen"
+        },
+        "accounts": {
+          "label": "Aktive Konten",
+          "trend": "Die Bindung bleibt stark",
+          "detail": "Engagement liegt über dem Ziel"
+        },
+        "growth": {
+          "label": "Wachstumsrate",
+          "trend": "Das Wachstum ist stabil",
+          "detail": "Liegt über der Prognose"
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import { DotsThreeOutlineIcon, FolderIcon, ShareIcon, TrashIcon } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,10 +28,11 @@ export function NavDocuments({
     icon: React.ReactNode;
   }[];
 }) {
+  const { t } = useTranslation();
   const { isMobile } = useSidebar();
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Documents</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("app.nav.documents")}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -41,7 +43,7 @@ export function NavDocuments({
             <DropdownMenu>
               <DropdownMenuTrigger render={<SidebarMenuAction showOnHover className="aria-expanded:bg-muted" />}>
                 <DotsThreeOutlineIcon />
-                <span className="sr-only">More</span>
+                <span className="sr-only">{t("app.actions.more")}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-24"
@@ -50,16 +52,16 @@ export function NavDocuments({
               >
                 <DropdownMenuItem>
                   <FolderIcon />
-                  <span>Open</span>
+                  <span>{t("app.actions.open")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <ShareIcon />
-                  <span>Share</span>
+                  <span>{t("app.actions.share")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
                   <TrashIcon />
-                  <span>Delete</span>
+                  <span>{t("app.actions.delete")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -68,7 +70,7 @@ export function NavDocuments({
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <DotsThreeOutlineIcon className="text-sidebar-foreground/70" />
-            <span>More</span>
+            <span>{t("app.actions.more")}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

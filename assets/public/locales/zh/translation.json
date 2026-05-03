@@ -9,7 +9,12 @@
         "continue": "继续",
         "qqHint": "只需输入 QQ 号码。我们会自动补全 @qq.com，并在下一步显示可用的登录方式。",
         "noAccount": "还没有账号？点击这里",
-        "signUp": "注册"
+        "signUp": "注册",
+        "registration": {
+          "errorMessage": "账号创建失败。请检查邮箱后重试。",
+          "successTitle": "注册成功",
+          "successMessage": "请查看邮箱中的登录链接。"
+        }
       },
       "methodsStep": {
         "title": "欢迎回来",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "切换语言"
+      }
+    }
+  },
+  "app": {
+    "brandName": "小红书",
+    "auth": {
+      "required": "请先登录后再继续。"
+    },
+    "header": {
+      "title": "文档"
+    },
+    "nav": {
+      "quickCreate": "快速创建",
+      "inbox": "收件箱",
+      "dashboard": "仪表盘",
+      "lifecycle": "生命周期",
+      "analytics": "数据分析",
+      "projects": "项目",
+      "team": "团队",
+      "documents": "文档",
+      "dataLibrary": "数据资料库",
+      "reports": "报告",
+      "wordAssistant": "写作助手",
+      "settings": "设置",
+      "help": "帮助",
+      "search": "搜索"
+    },
+    "actions": {
+      "more": "更多",
+      "open": "打开",
+      "share": "分享",
+      "delete": "删除"
+    },
+    "userMenu": {
+      "account": "账号",
+      "billing": "账单",
+      "notifications": "通知",
+      "logOut": "退出登录"
+    },
+    "dashboard": {
+      "title": "仪表盘",
+      "cards": {
+        "revenue": {
+          "label": "收入",
+          "trend": "本月收入持续增长",
+          "detail": "近 6 个月表现"
+        },
+        "customers": {
+          "label": "新客户",
+          "trend": "获客出现回落",
+          "detail": "关注活动质量与转化"
+        },
+        "accounts": {
+          "label": "活跃账号",
+          "trend": "留存表现稳定",
+          "detail": "互动指标高于目标"
+        },
+        "growth": {
+          "label": "增长率",
+          "trend": "增长节奏平稳",
+          "detail": "表现高于预测"
+        }
       }
     }
   }

@@ -27,7 +27,7 @@ const App = () => {
 export const renderApp = () => {
   const root = document.getElementById("root");
   if (!root) {
-    return console.error("Root element not found");
+    return console.error("Root element not found in current document, this is unexpected.");
   }
   ReactDOM.createRoot(root).render(
     <React.StrictMode>

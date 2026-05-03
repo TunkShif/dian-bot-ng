@@ -9,7 +9,12 @@
         "continue": "Devam et",
         "qqHint": "Yalnızca QQ numaranızı girin. @qq.com ekleyeceğiz ve bir sonraki adımda kullanılabilir oturum açma seçeneklerinizi göstereceğiz.",
         "noAccount": "Henüz hesabınız yok mu? Şuradan",
-        "signUp": "kaydolun"
+        "signUp": "kaydolun",
+        "registration": {
+          "errorMessage": "Hesabınızı oluşturamadık. E-postayı kontrol edip tekrar deneyin.",
+          "successTitle": "Hesap oluşturuldu",
+          "successMessage": "Giriş bağlantısı için e-postanızı kontrol edin."
+        }
       },
       "methodsStep": {
         "title": "Hoş geldiniz",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "Dili değiştir"
+      }
+    }
+  },
+  "app": {
+    "brandName": "Little Red Book",
+    "auth": {
+      "required": "Devam etmek için oturum açın."
+    },
+    "header": {
+      "title": "Belgeler"
+    },
+    "nav": {
+      "quickCreate": "Hızlı oluştur",
+      "inbox": "Gelen kutusu",
+      "dashboard": "Panel",
+      "lifecycle": "Yaşam döngüsü",
+      "analytics": "Analitik",
+      "projects": "Projeler",
+      "team": "Ekip",
+      "documents": "Belgeler",
+      "dataLibrary": "Veri kitaplığı",
+      "reports": "Raporlar",
+      "wordAssistant": "Yazı asistanı",
+      "settings": "Ayarlar",
+      "help": "Yardım",
+      "search": "Ara"
+    },
+    "actions": {
+      "more": "Daha fazla",
+      "open": "Aç",
+      "share": "Paylaş",
+      "delete": "Sil"
+    },
+    "userMenu": {
+      "account": "Hesap",
+      "billing": "Faturalandırma",
+      "notifications": "Bildirimler",
+      "logOut": "Çıkış yap"
+    },
+    "dashboard": {
+      "title": "Panel",
+      "cards": {
+        "revenue": {
+          "label": "Gelir",
+          "trend": "Gelir bu ay yükseldi",
+          "detail": "Son 6 aylık performans"
+        },
+        "customers": {
+          "label": "Yeni müşteriler",
+          "trend": "Müşteri kazanımı düştü",
+          "detail": "Kampanya kalitesini ve dönüşümü incele"
+        },
+        "accounts": {
+          "label": "Aktif hesaplar",
+          "trend": "Elde tutma güçlü kalıyor",
+          "detail": "Etkileşim hedefin üzerinde"
+        },
+        "growth": {
+          "label": "Büyüme oranı",
+          "trend": "Büyüme istikrarlı",
+          "detail": "Tahminin üzerinde ilerliyor"
+        }
       }
     }
   }

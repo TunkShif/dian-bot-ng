@@ -5,7 +5,9 @@ import { renderApp } from "@/entry";
 import "phoenix_html";
 import "vite/modulepreload-polyfill";
 import { setupI18n } from "@/lib/i18next";
+import { setupClient } from "@/lib/query-client";
 
+setupClient();
 setupI18n();
 renderApp();
 

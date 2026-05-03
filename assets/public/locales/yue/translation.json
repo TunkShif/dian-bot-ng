@@ -9,7 +9,12 @@
         "continue": "繼續",
         "qqHint": "只需要輸入 QQ 號碼。我哋會自動加上 @qq.com，並喺下一步顯示可用嘅登入方式。",
         "noAccount": "仲未有帳戶？撳呢度",
-        "signUp": "註冊"
+        "signUp": "註冊",
+        "registration": {
+          "errorMessage": "建立帳戶失敗。請檢查電郵再試。",
+          "successTitle": "註冊成功",
+          "successMessage": "請去電郵查看登入連結。"
+        }
       },
       "methodsStep": {
         "title": "歡迎返嚟",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "切換語言"
+      }
+    }
+  },
+  "app": {
+    "brandName": "小紅書",
+    "auth": {
+      "required": "請先登入再繼續。"
+    },
+    "header": {
+      "title": "文件"
+    },
+    "nav": {
+      "quickCreate": "快速建立",
+      "inbox": "收件箱",
+      "dashboard": "儀表板",
+      "lifecycle": "生命週期",
+      "analytics": "數據分析",
+      "projects": "項目",
+      "team": "團隊",
+      "documents": "文件",
+      "dataLibrary": "數據庫",
+      "reports": "報告",
+      "wordAssistant": "寫作助手",
+      "settings": "設定",
+      "help": "幫助",
+      "search": "搜尋"
+    },
+    "actions": {
+      "more": "更多",
+      "open": "開啟",
+      "share": "分享",
+      "delete": "刪除"
+    },
+    "userMenu": {
+      "account": "帳戶",
+      "billing": "帳單",
+      "notifications": "通知",
+      "logOut": "登出"
+    },
+    "dashboard": {
+      "title": "儀表板",
+      "cards": {
+        "revenue": {
+          "label": "收入",
+          "trend": "今個月收入上升",
+          "detail": "最近 6 個月表現"
+        },
+        "customers": {
+          "label": "新客戶",
+          "trend": "獲客有所回落",
+          "detail": "檢視活動質素同轉化"
+        },
+        "accounts": {
+          "label": "活躍帳戶",
+          "trend": "留存表現仍然強",
+          "detail": "互動高過目標"
+        },
+        "growth": {
+          "label": "增長率",
+          "trend": "增長保持穩定",
+          "detail": "走勢高過預測"
+        }
       }
     }
   }

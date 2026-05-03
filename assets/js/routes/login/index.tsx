@@ -2,6 +2,8 @@ import { NotebookIcon, TranslateIcon } from "@phosphor-icons/react";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { redirect } from "react-router-dom";
+import { getCurrentUserOptions } from "@/client/@tanstack/react-query.gen";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,9 +13,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/hooks/use-language";
+import { queryClient } from "@/lib/query-client";
 import { AuthForm } from "@/routes/login/auth-form";
 
 const authStepParser = parseAsStringLiteral(["email", "methods"] as const).withDefault("email");
+
+export const loader = async () => {
+  const response = await queryClient.fetchQuery(getCurrentUserOptions());
+  if (response.data.user) {
+    return redirect("/dashboard");
+  }
+  return {};
+};
 
 export const Component = () => {
   const { t } = useTranslation();

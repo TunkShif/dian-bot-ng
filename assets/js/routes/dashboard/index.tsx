@@ -1,3 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export const Component = () => {
-  return <div>Dashboard Placeholder</div>;
+  const { t } = useTranslation();
+
+  return <div>{t("app.dashboard.title")}</div>;
 };

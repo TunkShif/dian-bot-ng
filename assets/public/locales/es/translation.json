@@ -9,7 +9,12 @@
         "continue": "Continuar",
         "qqHint": "Introduce solo tu número QQ. Añadiremos @qq.com y mostraremos tus opciones de inicio de sesión disponibles en el siguiente paso.",
         "noAccount": "¿Aún no tienes cuenta? Haz clic aquí para",
-        "signUp": "registrarte"
+        "signUp": "registrarte",
+        "registration": {
+          "errorMessage": "No pudimos crear tu cuenta. Revisa el correo e inténtalo de nuevo.",
+          "successTitle": "Cuenta creada",
+          "successMessage": "Revisa tu correo para obtener el enlace de inicio de sesión."
+        }
       },
       "methodsStep": {
         "title": "Bienvenido",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "Cambiar idioma"
+      }
+    }
+  },
+  "app": {
+    "brandName": "Little Red Book",
+    "auth": {
+      "required": "Inicia sesión para continuar."
+    },
+    "header": {
+      "title": "Documentos"
+    },
+    "nav": {
+      "quickCreate": "Crear rápido",
+      "inbox": "Bandeja de entrada",
+      "dashboard": "Panel",
+      "lifecycle": "Ciclo de vida",
+      "analytics": "Analítica",
+      "projects": "Proyectos",
+      "team": "Equipo",
+      "documents": "Documentos",
+      "dataLibrary": "Biblioteca de datos",
+      "reports": "Informes",
+      "wordAssistant": "Asistente de escritura",
+      "settings": "Ajustes",
+      "help": "Ayuda",
+      "search": "Buscar"
+    },
+    "actions": {
+      "more": "Más",
+      "open": "Abrir",
+      "share": "Compartir",
+      "delete": "Eliminar"
+    },
+    "userMenu": {
+      "account": "Cuenta",
+      "billing": "Facturación",
+      "notifications": "Notificaciones",
+      "logOut": "Cerrar sesión"
+    },
+    "dashboard": {
+      "title": "Panel",
+      "cards": {
+        "revenue": {
+          "label": "Ingresos",
+          "trend": "Los ingresos suben este mes",
+          "detail": "Rendimiento de los últimos 6 meses"
+        },
+        "customers": {
+          "label": "Nuevos clientes",
+          "trend": "La adquisición de clientes bajó",
+          "detail": "Revisa la calidad y conversión de campañas"
+        },
+        "accounts": {
+          "label": "Cuentas activas",
+          "trend": "La retención sigue sólida",
+          "detail": "La interacción supera el objetivo"
+        },
+        "growth": {
+          "label": "Tasa de crecimiento",
+          "trend": "El crecimiento es estable",
+          "detail": "Por encima de la previsión"
+        }
       }
     }
   }

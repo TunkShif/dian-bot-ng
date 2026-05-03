@@ -1,4 +1,5 @@
 import { BellIcon, CreditCardIcon, DotsThreeVerticalIcon, SignOutIcon, UserCircleIcon } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const { t } = useTranslation();
   const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
@@ -55,21 +57,21 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserCircleIcon />
-                Account
+                {t("app.userMenu.account")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon />
-                Billing
+                {t("app.userMenu.billing")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon />
-                Notifications
+                {t("app.userMenu.notifications")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <SignOutIcon />
-              Log out
+              {t("app.userMenu.logOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

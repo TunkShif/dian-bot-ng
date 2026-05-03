@@ -9,7 +9,12 @@
         "continue": "Continue",
         "qqHint": "Enter your QQ number only. We'll add @qq.com and show your available sign-in options next.",
         "noAccount": "No account yet? Click here to",
-        "signUp": "Sign up"
+        "signUp": "Sign up",
+        "registration": {
+          "errorMessage": "We couldn't create your account. Please check the email and try again.",
+          "successTitle": "Account created",
+          "successMessage": "Check your email for the login link."
+        }
       },
       "methodsStep": {
         "title": "Welcome",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "Change language"
+      }
+    }
+  },
+  "app": {
+    "brandName": "Little Red Book",
+    "auth": {
+      "required": "Please sign in to continue."
+    },
+    "header": {
+      "title": "Documents"
+    },
+    "nav": {
+      "quickCreate": "Quick create",
+      "inbox": "Inbox",
+      "dashboard": "Dashboard",
+      "lifecycle": "Lifecycle",
+      "analytics": "Analytics",
+      "projects": "Projects",
+      "team": "Team",
+      "documents": "Documents",
+      "dataLibrary": "Data library",
+      "reports": "Reports",
+      "wordAssistant": "Writing assistant",
+      "settings": "Settings",
+      "help": "Help",
+      "search": "Search"
+    },
+    "actions": {
+      "more": "More",
+      "open": "Open",
+      "share": "Share",
+      "delete": "Delete"
+    },
+    "userMenu": {
+      "account": "Account",
+      "billing": "Billing",
+      "notifications": "Notifications",
+      "logOut": "Log out"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "cards": {
+        "revenue": {
+          "label": "Revenue",
+          "trend": "Revenue is up this month",
+          "detail": "Trailing 6-month performance"
+        },
+        "customers": {
+          "label": "New customers",
+          "trend": "Customer acquisition dipped",
+          "detail": "Review campaign quality and conversion"
+        },
+        "accounts": {
+          "label": "Active accounts",
+          "trend": "Retention remains strong",
+          "detail": "Engagement is ahead of target"
+        },
+        "growth": {
+          "label": "Growth rate",
+          "trend": "Growth is steady",
+          "detail": "Tracking ahead of forecast"
+        }
       }
     }
   }

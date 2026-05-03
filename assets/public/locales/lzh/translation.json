@@ -9,7 +9,12 @@
         "continue": "續",
         "qqHint": "但書 QQ 號可也。吾等將補 @qq.com，次步示可登入之法。",
         "noAccount": "未有帳乎？請按此以",
-        "signUp": "註冊"
+        "signUp": "註冊",
+        "registration": {
+          "errorMessage": "立戶未成。請核郵而復試。",
+          "successTitle": "註冊已成",
+          "successMessage": "請察郵中登入之鏈。"
+        }
       },
       "methodsStep": {
         "title": "幸會",
@@ -34,6 +39,68 @@
       },
       "languageSwitch": {
         "label": "易語"
+      }
+    }
+  },
+  "app": {
+    "brandName": "小紅書",
+    "auth": {
+      "required": "請先登入。"
+    },
+    "header": {
+      "title": "文書"
+    },
+    "nav": {
+      "quickCreate": "速作",
+      "inbox": "來函",
+      "dashboard": "總覽",
+      "lifecycle": "生週",
+      "analytics": "析數",
+      "projects": "事目",
+      "team": "眾",
+      "documents": "文書",
+      "dataLibrary": "數府",
+      "reports": "報牘",
+      "wordAssistant": "文助",
+      "settings": "設",
+      "help": "助",
+      "search": "尋"
+    },
+    "actions": {
+      "more": "更多",
+      "open": "啟",
+      "share": "分",
+      "delete": "刪"
+    },
+    "userMenu": {
+      "account": "戶",
+      "billing": "帳",
+      "notifications": "告",
+      "logOut": "出"
+    },
+    "dashboard": {
+      "title": "總覽",
+      "cards": {
+        "revenue": {
+          "label": "入",
+          "trend": "是月收入有增",
+          "detail": "近六月之績"
+        },
+        "customers": {
+          "label": "新客",
+          "trend": "得客稍減",
+          "detail": "宜察策質與轉化"
+        },
+        "accounts": {
+          "label": "活戶",
+          "trend": "留存尚強",
+          "detail": "互動逾標"
+        },
+        "growth": {
+          "label": "增率",
+          "trend": "增勢平穩",
+          "detail": "行於預上"
+        }
       }
     }
   }

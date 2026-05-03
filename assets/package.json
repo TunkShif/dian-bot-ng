@@ -2,11 +2,11 @@
 	"name": "dian-web",
 	"type": "module",
 	"private": true,
-  "scripts": {
-    "precommit": "bun run typegen && bun run check",
-    "check": "tsc --noEmit && biome check --write && i18next-cli lint",
-    "typegen": "i18next-cli types"
-  },
+	"scripts": {
+		"precommit": "bun run typegen && bun run check",
+		"check": "tsc --noEmit && biome check --write && i18next-cli lint",
+		"typegen": "i18next-cli types"
+	},
 	"dependencies": {
 		"@base-ui/react": "^1.4.1",
 		"@fontsource-variable/figtree": "^5.2.10",
@@ -31,6 +31,7 @@
 		"react-day-picker": "^9.14.0",
 		"react-dom": "^19.2.5",
 		"react-helmet-async": "^3.0.0",
+		"react-hook-form": "^7.75.0",
 		"react-i18next": "^17.0.6",
 		"react-resizable-panels": "^4.10.0",
 		"react-router-dom": "^7.14.2",
