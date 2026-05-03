@@ -52,8 +52,6 @@
     },
     "nav": {
       "dashboard": "Dashboard",
-      "favoriteThreads": "Saved threads",
-      "hotRankings": "Hot rankings",
       "gameCenter": "Game center",
       "liveMonitor": "Live monitor",
       "gameHistory": "History",
@@ -64,9 +62,6 @@
       "autoAnalysis": "Auto analysis",
       "aiRankings": "Recommended rankings",
       "roastAlerts": "Roast alerts",
-      "profile": "Profile",
-      "myInfo": "My info",
-      "accountSettings": "Settings",
       "systemSettings": "System settings",
       "globalConfig": "Global config",
       "permissionManagement": "Permission management",

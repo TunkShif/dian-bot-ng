@@ -1,20 +1,17 @@
 import {
-  BellRingingIcon,
-  ChartBarIcon,
-  ChartLineUpIcon,
+  AddressBookTabsIcon,
+  BrainIcon,
+  ChatCircleTextIcon,
   ClockCounterClockwiseIcon,
-  FloppyDiskBackIcon,
+  GameControllerIcon,
   GearSixIcon,
   HouseIcon,
-  ListBulletsIcon,
-  MedalIcon,
-  NoteIcon,
-  RobotIcon,
+  MegaphoneIcon,
+  MonitorPlayIcon,
+  RankingIcon,
   ShieldCheckIcon,
   SlidersHorizontalIcon,
   SparkleIcon,
-  TrophyIcon,
-  UserCircleIcon,
   UserListIcon,
   UsersThreeIcon,
 } from "@phosphor-icons/react";
@@ -43,29 +40,17 @@ export const navigationMenu: NavigationItem[] = [
   {
     titleKey: "app.nav.featuredMessages",
     url: "#",
-    icon: <ClockCounterClockwiseIcon />,
-    items: [
-      {
-        titleKey: "app.nav.favoriteThreads",
-        url: "#",
-        icon: <FloppyDiskBackIcon />,
-      },
-      {
-        titleKey: "app.nav.hotRankings",
-        url: "#",
-        icon: <MedalIcon />,
-      },
-    ],
+    icon: <ChatCircleTextIcon />,
   },
   {
     titleKey: "app.nav.gameCenter",
     url: "#",
-    icon: <TrophyIcon />,
+    icon: <GameControllerIcon />,
     items: [
       {
         titleKey: "app.nav.liveMonitor",
         url: "#",
-        icon: <ChartLineUpIcon />,
+        icon: <MonitorPlayIcon />,
       },
       {
         titleKey: "app.nav.gameHistory",
@@ -82,7 +67,7 @@ export const navigationMenu: NavigationItem[] = [
       {
         titleKey: "app.nav.groupList",
         url: "#",
-        icon: <ListBulletsIcon />,
+        icon: <AddressBookTabsIcon />,
       },
       {
         titleKey: "app.nav.groupUsers",
@@ -94,7 +79,7 @@ export const navigationMenu: NavigationItem[] = [
   {
     titleKey: "app.nav.aiAssistant",
     url: "#",
-    icon: <RobotIcon />,
+    icon: <BrainIcon />,
     items: [
       {
         titleKey: "app.nav.autoAnalysis",
@@ -104,29 +89,12 @@ export const navigationMenu: NavigationItem[] = [
       {
         titleKey: "app.nav.aiRankings",
         url: "#",
-        icon: <ChartBarIcon />,
+        icon: <RankingIcon />,
       },
       {
         titleKey: "app.nav.roastAlerts",
         url: "#",
-        icon: <BellRingingIcon />,
-      },
-    ],
-  },
-  {
-    titleKey: "app.nav.profile",
-    url: "#",
-    icon: <UserCircleIcon />,
-    items: [
-      {
-        titleKey: "app.nav.myInfo",
-        url: "#",
-        icon: <NoteIcon />,
-      },
-      {
-        titleKey: "app.nav.accountSettings",
-        url: "#",
-        icon: <SlidersHorizontalIcon />,
+        icon: <MegaphoneIcon />,
       },
     ],
   },
@@ -138,7 +106,7 @@ export const navigationMenu: NavigationItem[] = [
       {
         titleKey: "app.nav.globalConfig",
         url: "#",
-        icon: <GearSixIcon />,
+        icon: <SlidersHorizontalIcon />,
       },
       {
         titleKey: "app.nav.permissionManagement",

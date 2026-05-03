@@ -35,12 +35,10 @@ export default interface Resources {
         "title": "Documents"
       },
       "nav": {
-        "accountSettings": "Settings",
         "aiAssistant": "AI Intelligence",
         "aiRankings": "Recommended rankings",
         "autoAnalysis": "Auto analysis",
         "dashboard": "Dashboard",
-        "favoriteThreads": "Saved threads",
         "featuredMessages": "Featured messages",
         "gameCenter": "Game center",
         "gameHistory": "History",
@@ -48,11 +46,8 @@ export default interface Resources {
         "groupList": "Group list",
         "groupManagement": "Group management",
         "groupUsers": "Group users",
-        "hotRankings": "Hot rankings",
         "liveMonitor": "Live monitor",
-        "myInfo": "My info",
         "permissionManagement": "Permission management",
-        "profile": "Profile",
         "roastAlerts": "Roast alerts",
         "systemSettings": "System settings"
       },

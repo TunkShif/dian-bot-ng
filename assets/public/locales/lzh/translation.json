@@ -52,8 +52,6 @@
     },
     "nav": {
       "dashboard": "仪表盘",
-      "favoriteThreads": "收藏录",
-      "hotRankings": "热门榜",
       "gameCenter": "游戏所",
       "liveMonitor": "在线察看",
       "gameHistory": "往录",
@@ -64,9 +62,6 @@
       "autoAnalysis": "自动析",
       "aiRankings": "推荐榜",
       "roastAlerts": "吐槽警",
-      "profile": "个人中心",
-      "myInfo": "吾之信息",
-      "accountSettings": "设置",
       "systemSettings": "系统设置",
       "globalConfig": "全局配置",
       "permissionManagement": "权限管理",
