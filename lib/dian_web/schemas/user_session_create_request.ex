@@ -1,10 +1,10 @@
-defmodule DianWeb.Schemas.UserLoginRequest do
+defmodule DianWeb.Schemas.UserSessionCreateRequest do
   require OpenApiSpex
 
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "UserLoginRequest",
+    title: "UserSessionCreateRequest",
     description:
       "Login request. Include only email to request a magic link, or include password for password login.",
     type: :object,

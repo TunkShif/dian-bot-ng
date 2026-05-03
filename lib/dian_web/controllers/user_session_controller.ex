@@ -4,7 +4,10 @@ defmodule DianWeb.UserSessionController do
 
   alias Dian.Accounts
   alias DianWeb.JSend
-  alias DianWeb.Schemas.{JSendMessageFail, JSendSuccess, UserLoginRequest}
+  alias DianWeb.Schemas.JSendMessageFail
+  alias DianWeb.Schemas.JSendSuccess
+  alias DianWeb.Schemas.UserSessionCreateRequest
+  alias DianWeb.Schemas.UserSessionShowResponse
   alias DianWeb.UserAuth
 
   action_fallback DianWeb.FallbackController
@@ -16,7 +19,8 @@ defmodule DianWeb.UserSessionController do
     summary: "Log in user",
     description:
       "Requests a magic login link when only email is provided, or starts a password session when password is provided.",
-    request_body: {"User login params", "application/json", UserLoginRequest, required: true},
+    request_body:
+      {"User login params", "application/json", UserSessionCreateRequest, required: true},
     responses: [
       ok: {"Magic login link accepted", "application/json", JSendSuccess},
       found: "Password login succeeded; redirects to the SPA",
@@ -25,6 +29,15 @@ defmodule DianWeb.UserSessionController do
 
   operation :confirm, false
   operation :delete, false
+
+  operation :show,
+    operation_id: "get_current_user",
+    summary: "Show current user",
+    description:
+      "Returns the current session user when authenticated, or null when no user session exists.",
+    responses: [
+      ok: {"Current user", "application/json", UserSessionShowResponse}
+    ]
 
   # email + password login
   def create(conn, %{"user" => %{"email" => email, "password" => password} = user_params}) do
@@ -50,6 +63,13 @@ defmodule DianWeb.UserSessionController do
     JSend.success_json(conn)
   end
 
+  # show current user
+  def show(conn, _params) do
+    maybe_user = conn.assigns.current_scope && conn.assigns.current_scope.user
+    JSend.success_json(conn, %{user: maybe_user})
+  end
+
+  # login via magic link
   def confirm(conn, %{"token" => token} = user_params) do
     if token_user = Accounts.get_user_by_magic_link_token(token) do
       with {:ok, {user, _expired_tokens}} <- Accounts.login_user_by_magic_link(token) do

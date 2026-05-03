@@ -1,10 +1,10 @@
-defmodule DianWeb.Schemas.UserRegistrationRequest do
+defmodule DianWeb.Schemas.UserRegistrationCreateRequest do
   require OpenApiSpex
 
   alias OpenApiSpex.Schema
 
   OpenApiSpex.schema(%{
-    title: "UserRegistrationRequest",
+    title: "UserRegistrationCreateRequest",
     description: "Registration request for a QQ email account.",
     type: :object,
     required: [:user],

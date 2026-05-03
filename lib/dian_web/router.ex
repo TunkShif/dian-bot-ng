@@ -46,6 +46,7 @@ defmodule DianWeb.Router do
 
     post "/users/register", UserRegistrationController, :create
     post "/users/login", UserSessionController, :create
+    get "/users/me", UserSessionController, :show
   end
 
   ## SPA entrypoint
