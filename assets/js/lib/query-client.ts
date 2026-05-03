@@ -1,6 +1,7 @@
 import { MutationCache, QueryClient, type QueryKey } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { client } from "@/client/client.gen";
+import { getCsrfToken } from "@/lib/utils";
 
 declare module "@tanstack/react-query" {
   interface Register {
@@ -43,10 +44,7 @@ const mutationCache = new MutationCache({
 export const queryClient = new QueryClient({ mutationCache });
 
 export const setupClient = () => {
-  const csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
-  if (!csrfToken) {
-    return console.error("CSRF-Token not found in current document, this is unexpteced.");
-  }
+  const csrfToken = getCsrfToken();
   client.setConfig({
     baseUrl: window.location.origin,
     headers: {

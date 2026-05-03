@@ -25,6 +25,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { useLanguage } from "@/hooks/use-language";
 import type { User } from "@/lib/user";
+import { getCsrfToken } from "@/lib/utils";
 
 type NavUserProps = {
   user: User;
@@ -50,6 +51,7 @@ export function NavUser({ user }: NavUserProps) {
             </div>
             <DotsThreeVerticalIcon className="ml-auto size-4" />
           </DropdownMenuTrigger>
+
           <DropdownMenuContent className="min-w-56" side={isMobile ? "bottom" : "right"} align="end" sideOffset={4}>
             <DropdownMenuGroup>
               <DropdownMenuLabel className="p-0 font-normal">
@@ -65,7 +67,9 @@ export function NavUser({ user }: NavUserProps) {
                 </div>
               </DropdownMenuLabel>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserCircleIcon />
@@ -80,7 +84,9 @@ export function NavUser({ user }: NavUserProps) {
                 {t("app.userMenu.notifications")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuSub>
               <DropdownMenuSubTrigger aria-label={t("app.languageSwitch.label")}>
                 <GlobeIcon />
@@ -96,8 +102,19 @@ export function NavUser({ user }: NavUserProps) {
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+
+            <DropdownMenuItem
+              render={
+                <a
+                  href="/redirects/users/logout"
+                  data-method="DELETE"
+                  data-to="/redirects/users/logout"
+                  data-csrf={getCsrfToken()}
+                />
+              }
+            >
               <SignOutIcon />
               {t("app.userMenu.logOut")}
             </DropdownMenuItem>

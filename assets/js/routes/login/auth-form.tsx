@@ -36,7 +36,7 @@ export const AuthForm = ({
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.6]"
             />
           </div>
         </CardContent>
