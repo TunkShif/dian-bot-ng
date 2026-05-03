@@ -10,17 +10,36 @@ import { cn } from "@/lib/utils";
 
 const authFormParser = parseAsStringLiteral(["login", "register"] as const).withDefault("login");
 
-export const LoginPage = () => {
+export const Component = () => {
   const [selectedForm, setSelectedForm] = useQueryState("form", authFormParser);
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
-        {selectedForm === "register" ? (
-          <RegisterForm onSelectLogin={() => setSelectedForm("login")} />
-        ) : (
-          <LoginForm onSelectRegister={() => setSelectedForm("register")} />
-        )}
+        <div className="relative min-h-167.5 overflow-visible md:min-h-147.5">
+          <div
+            aria-hidden={selectedForm !== "login"}
+            className={cn(
+              "absolute inset-0 transition-all duration-300 ease-out",
+              selectedForm === "login"
+                ? "translate-y-0 scale-100 opacity-100 blur-0"
+                : "-translate-y-2 scale-[0.98] opacity-0 blur-[2px] pointer-events-none",
+            )}
+          >
+            <LoginForm onSelectRegister={() => setSelectedForm("register")} />
+          </div>
+          <div
+            aria-hidden={selectedForm !== "register"}
+            className={cn(
+              "absolute inset-0 transition-all duration-300 ease-out",
+              selectedForm === "register"
+                ? "translate-y-0 scale-100 opacity-100 blur-0"
+                : "translate-y-2 scale-[0.98] opacity-0 blur-[2px] pointer-events-none",
+            )}
+          >
+            <RegisterForm onSelectLogin={() => setSelectedForm("login")} />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -85,8 +104,8 @@ const LoginForm = ({ className, onSelectRegister, ...props }: LoginFormProps) =>
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="/placeholder.svg"
-              alt="placeholder for now"
+              src="/images/abstract-wave-pattern-bg.webp"
+              alt="warm gradient abstract wave pattern background"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>
@@ -104,7 +123,7 @@ const RegisterForm = ({ className, onSelectLogin, ...props }: RegisterFormProps)
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
-        <CardContent className="grid p-0 md:grid-cols-2">
+        <CardContent className="grid min-h-105 p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
@@ -135,7 +154,7 @@ const RegisterForm = ({ className, onSelectLogin, ...props }: RegisterFormProps)
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="/placeholder.svg"
+              src="/images/abstract-wave-pattern-bg.webp"
               alt="placeholder for now"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />

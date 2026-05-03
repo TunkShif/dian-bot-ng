@@ -4,7 +4,7 @@ import { AppSidebar } from "@/routes/layout/app-sidebar";
 import { SectionCards } from "@/routes/layout/section-cards";
 import { SiteHeader } from "@/routes/layout/site-header";
 
-export const AppShell = () => {
+export const Component = () => {
   return (
     <SidebarProvider
       style={

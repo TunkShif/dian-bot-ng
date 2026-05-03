@@ -1,3 +1,3 @@
-export const DashboardPage = () => {
+export const Component = () => {
   return <div>Dashboard Placeholder</div>;
 };
