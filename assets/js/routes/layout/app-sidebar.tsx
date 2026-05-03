@@ -14,8 +14,13 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { navigationMenu } from "@/menu";
 import { NavMain } from "@/routes/layout/nav-main";
 import { NavUser } from "@/routes/layout/nav-user";
+import type { NavMenuExpansionState } from "@/routes/layout/sidebar-storage";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  navMenuExpansionState: NavMenuExpansionState;
+};
+
+export function AppSidebar({ navMenuExpansionState, ...props }: AppSidebarProps) {
   const { t } = useTranslation();
   const currentUser = useCurrentUser();
 
@@ -32,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navigationMenu} />
+        <NavMain initialOpenState={navMenuExpansionState} items={navigationMenu} />
       </SidebarContent>
       <SidebarFooter>{currentUser ? <NavUser user={currentUser} /> : null}</SidebarFooter>
     </Sidebar>

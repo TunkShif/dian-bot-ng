@@ -1,4 +1,5 @@
 import { CaretDownIcon } from "@phosphor-icons/react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
@@ -12,9 +13,29 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import type { NavigationItem } from "@/menu";
+import { type NavMenuExpansionState, setStoredNavMenuExpansionState } from "@/routes/layout/sidebar-storage";
 
-export function NavMain({ items }: { items: NavigationItem[] }) {
+export function NavMain({
+  initialOpenState,
+  items,
+}: {
+  initialOpenState: NavMenuExpansionState;
+  items: NavigationItem[];
+}) {
   const { t } = useTranslation();
+  const [openState, setOpenState] = useState(initialOpenState);
+
+  const handleOpenChange = useCallback((titleKey: NavigationItem["titleKey"], open: boolean) => {
+    setOpenState((currentOpenState) => {
+      const nextOpenState = {
+        ...currentOpenState,
+        [titleKey]: open,
+      };
+
+      setStoredNavMenuExpansionState(window.localStorage, nextOpenState);
+      return nextOpenState;
+    });
+  }, []);
 
   return (
     <SidebarGroup>
@@ -34,8 +55,15 @@ export function NavMain({ items }: { items: NavigationItem[] }) {
               );
             }
 
+            const open = openState[item.titleKey] ?? true;
+
             return (
-              <Collapsible key={item.titleKey} defaultOpen render={<SidebarMenuItem />}>
+              <Collapsible
+                key={item.titleKey}
+                onOpenChange={(open) => handleOpenChange(item.titleKey, open)}
+                open={open}
+                render={<SidebarMenuItem />}
+              >
                 <CollapsibleTrigger render={<SidebarMenuButton tooltip={title} />}>
                   {item.icon}
                   <span>{title}</span>
