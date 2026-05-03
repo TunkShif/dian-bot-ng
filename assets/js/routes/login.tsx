@@ -14,8 +14,16 @@ export const Component = () => {
   const [step, setStep] = useQueryState("step", authStepParser);
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-4xl">
+    <div className="relative isolate flex min-h-svh flex-col items-center justify-center overflow-hidden bg-muted p-6 md:p-10">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,color-mix(in_oklch,var(--primary)_12%,transparent),transparent_58%),radial-gradient(ellipse_at_50%_100%,color-mix(in_oklch,var(--foreground)_6%,transparent),transparent_52%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.24] bg-[linear-gradient(to_right,color-mix(in_oklch,var(--foreground)_10%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_10%,transparent)_1px,transparent_1px)] bg-size-[44px_44px]"
+      />
+      <div className="relative z-10 w-full max-w-sm md:max-w-4xl">
         <AuthForm
           step={step}
           imageAlt={t("auth.login.imageAlt")}
