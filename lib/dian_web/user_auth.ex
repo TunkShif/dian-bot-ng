@@ -42,6 +42,16 @@ defmodule DianWeb.UserAuth do
   end
 
   @doc """
+  Creates a fresh session for the given user without redirecting.
+
+  This is useful for JSON endpoints that rotate credentials and need to keep the
+  authenticated API session active after old tokens are expired.
+  """
+  def create_user_session(conn, user, params \\ %{}) do
+    create_or_extend_session(conn, user, params)
+  end
+
+  @doc """
   Logs the user out.
 
   It clears all session data for safety. See renew_session.

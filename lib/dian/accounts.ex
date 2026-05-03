@@ -324,6 +324,10 @@ defmodule Dian.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  def update_user_password(%Scope{user: %User{} = user}, attrs) do
+    update_user_password(user, attrs)
+  end
+
   def update_user_password(user, attrs) do
     user
     |> User.password_changeset(attrs)

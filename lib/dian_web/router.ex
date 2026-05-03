@@ -51,6 +51,8 @@ defmodule DianWeb.Router do
     get "/passkeys", PasskeySessionController, :index
     patch "/passkeys/:id", PasskeySessionController, :update
     delete "/passkeys/:id", PasskeySessionController, :delete
+
+    patch "/users/settings", UserSettingsController, :update
   end
 
   ## SPA entrypoint
