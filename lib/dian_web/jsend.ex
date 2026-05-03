@@ -2,6 +2,8 @@ defmodule DianWeb.JSend do
   import Plug.Conn
   import Phoenix.Controller
 
+  # TODO: only opt in success and error with code for clear error type
+
   def success_json(conn, data \\ nil, status \\ :ok) do
     conn
     |> put_status(status)

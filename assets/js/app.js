@@ -4,8 +4,11 @@ import "@vitejs/plugin-react/preamble";
 import { renderApp } from "@/entry";
 import "phoenix_html";
 import "vite/modulepreload-polyfill";
+import topbar from "topbar";
 import { setupI18n } from "@/lib/i18next";
 import { setupClient } from "@/lib/query-client";
+
+topbar.config({ barColors: { 0: "rgb(139, 39, 37)" }, shadowColor: "rgba(0, 0, 0, .3)" });
 
 setupClient();
 setupI18n();

@@ -4,6 +4,8 @@ import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 import { SUPPORTED_LOCALES } from "@/lib/locales";
 
+// TODO: zod i18n
+
 export const setupI18n = () => {
   i18n
     .use(Backend)

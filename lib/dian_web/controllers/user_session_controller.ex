@@ -48,6 +48,8 @@ defmodule DianWeb.UserSessionController do
     end
   end
 
+  # TODO: error handling
+  # TODO: rate limit
   # magic link request
   def create(conn, %{"user" => %{"email" => email}}) do
     if user = Accounts.get_user_by_email(email) do

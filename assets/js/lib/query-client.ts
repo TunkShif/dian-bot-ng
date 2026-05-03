@@ -1,5 +1,6 @@
 import { MutationCache, QueryClient, type QueryKey } from "@tanstack/react-query";
 import { toast } from "sonner";
+import topbar from "topbar";
 import { client } from "@/client/client.gen";
 import { getCsrfToken } from "@/lib/utils";
 
@@ -17,7 +18,11 @@ declare module "@tanstack/react-query" {
 }
 
 const mutationCache = new MutationCache({
+  onMutate: (_variables, _mutation, _context) => {
+    topbar.show(300);
+  },
   onSuccess: (_data, _variables, _context, mutation) => {
+    console.log(mutation.meta);
     if (mutation.meta?.successMessage && !mutation.meta?.skipToast) {
       mutation.meta.successTitle
         ? toast.success(mutation.meta.successTitle, { description: mutation.meta.successMessage })
@@ -33,6 +38,7 @@ const mutationCache = new MutationCache({
     }
   },
   onSettled: (_data, _error, _variables, _context, mutation) => {
+    topbar.hide();
     if (mutation.meta?.invalidatesQuery) {
       queryClient.invalidateQueries({
         queryKey: mutation.meta.invalidatesQuery,
