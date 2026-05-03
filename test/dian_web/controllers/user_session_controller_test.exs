@@ -8,6 +8,7 @@ defmodule DianWeb.UserSessionControllerTest do
   alias Dian.Repo
 
   setup do
+    Cachex.clear(:dian_cache)
     stub_bot_group_member_info()
 
     %{unconfirmed_user: unconfirmed_user_fixture(), user: user_fixture()}
@@ -97,17 +98,38 @@ defmodule DianWeb.UserSessionControllerTest do
   describe "GET /api/users/me" do
     test "returns the current session user", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> get(~p"/api/users/me")
+      qq_id = Accounts.extract_qq_id_from(user.email)
 
       assert json_response(conn, 200) == %{
                "status" => "success",
                "data" => %{
                  "user" => %{
                    "id" => user.id,
-                   "email" => user.email,
-                   "qq_id" => Accounts.extract_qq_id_from(user.email)
+                   "qq_id" => qq_id,
+                   "nickname" => qq_id,
+                   "avatar_url" => "https://q1.qlogo.cn/g?b=qq&nk=#{qq_id}&s=640"
                  }
                }
              }
+    end
+
+    test "returns enriched current session user details", %{conn: conn, user: user} do
+      qq_id = Accounts.extract_qq_id_from(user.email)
+
+      Cachex.put(
+        :dian_cache,
+        "accounts:user_details:#{user.id}",
+        %{
+          id: user.id,
+          qq_id: qq_id,
+          nickname: "Controller User",
+          avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=#{qq_id}&s=640"
+        }
+      )
+
+      conn = conn |> log_in_user(user) |> get(~p"/api/users/me")
+
+      assert get_in(json_response(conn, 200), ["data", "user", "nickname"]) == "Controller User"
     end
 
     test "returns null when no user session exists", %{conn: conn} do
@@ -123,8 +145,14 @@ defmodule DianWeb.UserSessionControllerTest do
       schema = DianWeb.Schemas.UserSessionShowResponse.schema()
       user_schema = schema.properties.data.properties.user.oneOf |> List.first()
 
-      assert user_schema.required == [:id, :email, :qq_id]
-      assert Map.keys(user_schema.properties) |> Enum.sort() == [:email, :id, :qq_id]
+      assert user_schema.required == [:id, :qq_id, :nickname, :avatar_url]
+
+      assert Map.keys(user_schema.properties) |> Enum.sort() == [
+               :avatar_url,
+               :id,
+               :nickname,
+               :qq_id
+             ]
     end
   end
 

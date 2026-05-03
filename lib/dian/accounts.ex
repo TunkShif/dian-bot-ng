@@ -9,9 +9,75 @@ defmodule Dian.Accounts do
 
   alias Dian.Accounts.{User, UserToken, UserNotifier}
 
+  @user_details_cache_key_prefix "accounts:user_details:"
+  @user_details_cache_ttl :timer.hours(24)
+
   def extract_qq_id_from(email) when is_binary(email) do
     String.trim_trailing(email, "@qq.com")
   end
+
+  def build_user_avatar_url(qq_id, size \\ 640),
+    do: "https://q1.qlogo.cn/g?b=qq&nk=#{qq_id}&s=#{size}"
+
+  def get_user_details(%User{} = user) do
+    cache_key = user_details_cache_key(user)
+
+    case Cachex.get(:dian_cache, cache_key) do
+      {:ok, nil} ->
+        fetch_and_maybe_cache_user_details(user, cache_key)
+
+      {:ok, details} ->
+        details
+
+      {:error, _reason} ->
+        fetch_and_maybe_cache_user_details(user, cache_key)
+    end
+  end
+
+  defp user_details_cache_key(%User{} = user),
+    do: @user_details_cache_key_prefix <> to_string(user.id)
+
+  defp fetch_and_maybe_cache_user_details(%User{} = user, cache_key) do
+    qq_id = extract_qq_id_from(user.email)
+    member = find_group_member(user, qq_id)
+
+    details = build_user_details(member, user, qq_id)
+
+    if member do
+      Cachex.put(:dian_cache, cache_key, details, expire: @user_details_cache_ttl)
+    else
+      # TODO: Broadcast a PubSub event when an existing user can no longer be
+      # found in any bot group, so a worker can mark the user inactive or locked.
+    end
+
+    details
+  end
+
+  defp find_group_member(%User{}, qq_id) do
+    with {:ok, groups} <- DianBot.get_group_list() do
+      Enum.find_value(groups, fn group ->
+        case DianBot.get_group_member_info(group.group_id, qq_id) do
+          {:ok, member} -> member
+          {:error, _reason} -> nil
+        end
+      end)
+    else
+      {:error, _reason} -> nil
+    end
+  end
+
+  defp build_user_details(member, %User{} = user, qq_id) do
+    %{
+      id: user.id,
+      qq_id: qq_id,
+      nickname: member_nickname(member, qq_id),
+      avatar_url: build_user_avatar_url(qq_id)
+    }
+  end
+
+  defp member_nickname(nil, qq_id), do: qq_id
+  defp member_nickname(%{nickname: nickname}, qq_id) when nickname in [nil, ""], do: qq_id
+  defp member_nickname(%{nickname: nickname}, _qq_id), do: nickname
 
   ## Database getters
 

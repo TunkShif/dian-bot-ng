@@ -19,11 +19,16 @@ defmodule DianWeb.Schemas.UserSessionShowResponse do
             oneOf: [
               %Schema{
                 type: :object,
-                required: [:id, :email, :qq_id],
+                required: [:id, :qq_id, :nickname, :avatar_url],
                 properties: %{
                   id: %Schema{type: :integer, example: 1},
-                  email: %Schema{type: :string, format: :email, example: "123456@qq.com"},
-                  qq_id: %Schema{type: :string, example: "123456"}
+                  qq_id: %Schema{type: :string, example: "123456"},
+                  nickname: %Schema{type: :string, example: "Dian User"},
+                  avatar_url: %Schema{
+                    type: :string,
+                    format: :uri,
+                    example: "https://q1.qlogo.cn/g?b=qq&nk=123456&s=640"
+                  }
                 }
               }
             ]
@@ -36,8 +41,9 @@ defmodule DianWeb.Schemas.UserSessionShowResponse do
       "data" => %{
         "user" => %{
           "id" => 1,
-          "email" => "123456@qq.com",
-          "qq_id" => "123456"
+          "qq_id" => "123456",
+          "nickname" => "Dian User",
+          "avatar_url" => "https://q1.qlogo.cn/g?b=qq&nk=123456&s=640"
         }
       }
     }

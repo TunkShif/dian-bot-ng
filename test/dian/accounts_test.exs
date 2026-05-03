@@ -51,6 +51,165 @@ defmodule Dian.AccountsTest do
     end
   end
 
+  describe "get_user_details/1" do
+    setup do
+      Cachex.clear(:dian_cache)
+      :ok
+    end
+
+    test "returns enriched user details from the first matching group member" do
+      user = user_fixture(email: "12345@qq.com")
+
+      Mox.expect(DianBot.Client.Mock, :request, 3, fn
+        "get_group_list", %{}, [] ->
+          {:ok,
+           [
+             %{
+               "group_id" => 100,
+               "group_name" => "first",
+               "group_remark" => "",
+               "member_count" => 1
+             },
+             %{
+               "group_id" => 200,
+               "group_name" => "second",
+               "group_remark" => "",
+               "member_count" => 1
+             }
+           ]}
+
+        "get_group_member_info", %{group_id: 100, user_id: "12345", no_cache: false}, [] ->
+          {:error, :not_found}
+
+        "get_group_member_info", %{group_id: 200, user_id: "12345", no_cache: false}, [] ->
+          {:ok,
+           %{
+             "group_id" => 200,
+             "user_id" => 12345,
+             "nickname" => "Dian User",
+             "card" => "",
+             "join_time" => 0,
+             "last_sent_time" => 0,
+             "is_robot" => false,
+             "role" => "member",
+             "title" => ""
+           }}
+      end)
+
+      assert Accounts.get_user_details(user) == %{
+               id: user.id,
+               qq_id: "12345",
+               nickname: "Dian User",
+               avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=12345&s=640"
+             }
+
+      Mox.verify!()
+    end
+
+    test "returns fallback details when group member lookup does not find the user" do
+      user = user_fixture(email: "23456@qq.com")
+
+      Mox.expect(DianBot.Client.Mock, :request, 2, fn
+        "get_group_list", %{}, [] ->
+          {:ok,
+           [
+             %{
+               "group_id" => 100,
+               "group_name" => "first",
+               "group_remark" => "",
+               "member_count" => 1
+             }
+           ]}
+
+        "get_group_member_info", %{group_id: 100, user_id: "23456", no_cache: false}, [] ->
+          {:error, :not_found}
+      end)
+
+      assert Accounts.get_user_details(user) == %{
+               id: user.id,
+               qq_id: "23456",
+               nickname: "23456",
+               avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=23456&s=640"
+             }
+
+      Mox.verify!()
+    end
+
+    test "caches successful enriched user details" do
+      user = user_fixture(email: "34567@qq.com")
+
+      Mox.expect(DianBot.Client.Mock, :request, 2, fn
+        "get_group_list", %{}, [] ->
+          {:ok,
+           [
+             %{
+               "group_id" => 100,
+               "group_name" => "first",
+               "group_remark" => "",
+               "member_count" => 1
+             }
+           ]}
+
+        "get_group_member_info", %{group_id: 100, user_id: "34567", no_cache: false}, [] ->
+          {:ok,
+           %{
+             "group_id" => 100,
+             "user_id" => 34567,
+             "nickname" => "Cached User",
+             "card" => "",
+             "join_time" => 0,
+             "last_sent_time" => 0,
+             "is_robot" => false,
+             "role" => "member",
+             "title" => ""
+           }}
+      end)
+
+      assert %{nickname: "Cached User"} = Accounts.get_user_details(user)
+      assert %{nickname: "Cached User"} = Accounts.get_user_details(user)
+      assert {:ok, ttl} = Cachex.ttl(:dian_cache, "accounts:user_details:#{user.id}")
+      assert ttl > :timer.hours(23)
+
+      Mox.verify!()
+    end
+
+    test "caches successful group member lookup when the member has no nickname" do
+      user = user_fixture(email: "45678@qq.com")
+
+      Mox.expect(DianBot.Client.Mock, :request, 2, fn
+        "get_group_list", %{}, [] ->
+          {:ok,
+           [
+             %{
+               "group_id" => 100,
+               "group_name" => "first",
+               "group_remark" => "",
+               "member_count" => 1
+             }
+           ]}
+
+        "get_group_member_info", %{group_id: 100, user_id: "45678", no_cache: false}, [] ->
+          {:ok,
+           %{
+             "group_id" => 100,
+             "user_id" => 45678,
+             "nickname" => "",
+             "card" => "",
+             "join_time" => 0,
+             "last_sent_time" => 0,
+             "is_robot" => false,
+             "role" => "member",
+             "title" => ""
+           }}
+      end)
+
+      assert %{nickname: "45678"} = Accounts.get_user_details(user)
+      assert %{nickname: "45678"} = Accounts.get_user_details(user)
+
+      Mox.verify!()
+    end
+  end
+
   describe "register_user/1" do
     test "requires email to be set" do
       {:error, changeset} = Accounts.register_user(%{})
