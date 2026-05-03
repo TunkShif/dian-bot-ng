@@ -14,8 +14,8 @@
         "title": "Welcome",
         "description": "Choose how you want to continue.",
         "signIn": "Sign in",
-        "separator": "Or",
-        "emailLink": "Send email link",
+        "separator": "OR",
+        "emailLink": "Send passwordless login link",
         "passkey": "Sign in with passkey",
         "useDifferentEmail": "Use a different email"
       },
