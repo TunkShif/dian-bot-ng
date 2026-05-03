@@ -1,0 +1,40 @@
+{
+  "auth": {
+    "login": {
+      "brandName": "MY LITTLE RED BOOK",
+      "imageAlt": "Soyut dalga deseni",
+      "emailStep": {
+        "title": "Hoş geldiniz",
+        "description": "Devam etmek için QQ e-postanızı girin.",
+        "continue": "Devam et",
+        "qqHint": "Yalnızca QQ numaranızı girin. @qq.com ekleyeceğiz ve bir sonraki adımda kullanılabilir oturum açma seçeneklerinizi göstereceğiz.",
+        "noAccount": "Henüz hesabınız yok mu? Şuradan",
+        "signUp": "kaydolun"
+      },
+      "methodsStep": {
+        "title": "Hoş geldiniz",
+        "description": "Nasıl devam etmek istediğinizi seçin.",
+        "signIn": "Oturum aç",
+        "separator": "VEYA",
+        "emailLink": "Parolasız oturum açma bağlantısı gönder",
+        "passkey": "Passkey ile oturum aç",
+        "useDifferentEmail": "Farklı bir e-posta kullan"
+      },
+      "fields": {
+        "email": "E-posta",
+        "password": "Parola"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "5 ile 13 basamak arasında girin",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "Devam et'e tıklayarak <terms>Hizmet Şartları</terms> ve <privacy>Gizlilik Politikası</privacy>'nı kabul etmiş olursunuz."
+      },
+      "languageSwitch": {
+        "label": "Dili değiştir"
+      }
+    }
+  }
+}

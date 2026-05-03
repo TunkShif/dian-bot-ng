@@ -1,0 +1,40 @@
+{
+  "auth": {
+    "login": {
+      "brandName": "MY LITTLE RED BOOK",
+      "imageAlt": "Patron abstracto de ondas",
+      "emailStep": {
+        "title": "Bienvenido",
+        "description": "Introduce tu correo QQ para continuar.",
+        "continue": "Continuar",
+        "qqHint": "Introduce solo tu número QQ. Añadiremos @qq.com y mostraremos tus opciones de inicio de sesión disponibles en el siguiente paso.",
+        "noAccount": "¿Aún no tienes cuenta? Haz clic aquí para",
+        "signUp": "registrarte"
+      },
+      "methodsStep": {
+        "title": "Bienvenido",
+        "description": "Elige cómo quieres continuar.",
+        "signIn": "Iniciar sesión",
+        "separator": "O",
+        "emailLink": "Enviar enlace de inicio de sesión sin contraseña",
+        "passkey": "Iniciar sesión con passkey",
+        "useDifferentEmail": "Usar otro correo"
+      },
+      "fields": {
+        "email": "Correo",
+        "password": "Contraseña"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "Introduce de 5 a 13 dígitos",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "Al hacer clic en continuar, aceptas nuestros <terms>Términos de servicio</terms> y <privacy>Política de privacidad</privacy>."
+      },
+      "languageSwitch": {
+        "label": "Cambiar idioma"
+      }
+    }
+  }
+}

@@ -1,13 +1,19 @@
 import { defineConfig } from 'i18next-cli'
 
 export default defineConfig({
+  // Keep non-Chinese languages sorted by code, then append Chinese variants as: zh, yue, lzh.
   locales: [
+    "de",
+    "el",
     "en",
     "es",
-    "de",
     "fr",
     "ja",
-    "zh"
+    "ru",
+    "tr",
+    "zh",
+    "yue",
+    "lzh"
   ],
   extract: {
     input: "js/**/*.{js,jsx,ts,tsx}",

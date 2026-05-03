@@ -1,0 +1,40 @@
+{
+  "auth": {
+    "login": {
+      "brandName": "MY LITTLE RED BOOK",
+      "imageAlt": "抽象波紋圖案",
+      "emailStep": {
+        "title": "歡迎返嚟",
+        "description": "輸入你嘅 QQ 電郵繼續。",
+        "continue": "繼續",
+        "qqHint": "只需要輸入 QQ 號碼。我哋會自動加上 @qq.com，並喺下一步顯示可用嘅登入方式。",
+        "noAccount": "仲未有帳戶？撳呢度",
+        "signUp": "註冊"
+      },
+      "methodsStep": {
+        "title": "歡迎返嚟",
+        "description": "揀你想用嘅登入方式。",
+        "signIn": "登入",
+        "separator": "或者",
+        "emailLink": "傳送免密碼登入連結",
+        "passkey": "用通行密鑰登入",
+        "useDifferentEmail": "使用其他電郵"
+      },
+      "fields": {
+        "email": "電郵",
+        "password": "密碼"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "請輸入 5 至 13 位數字",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "撳繼續即表示你同意我哋嘅 <terms>服務條款</terms> 同 <privacy>私隱政策</privacy>。"
+      },
+      "languageSwitch": {
+        "label": "切換語言"
+      }
+    }
+  }
+}

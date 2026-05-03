@@ -1,0 +1,40 @@
+{
+  "auth": {
+    "login": {
+      "brandName": "MY LITTLE RED BOOK",
+      "imageAlt": "抽象波紋之圖",
+      "emailStep": {
+        "title": "幸會",
+        "description": "請書 QQ 郵以續。",
+        "continue": "續",
+        "qqHint": "但書 QQ 號可也。吾等將補 @qq.com，次步示可登入之法。",
+        "noAccount": "未有帳乎？請按此以",
+        "signUp": "註冊"
+      },
+      "methodsStep": {
+        "title": "幸會",
+        "description": "請擇所以續者。",
+        "signIn": "登入",
+        "separator": "或",
+        "emailLink": "寄無密登入之鏈",
+        "passkey": "以通行密鑰登入",
+        "useDifferentEmail": "易郵"
+      },
+      "fields": {
+        "email": "郵",
+        "password": "密"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "請入五至十三數",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "按續，則為允吾等之 <terms>服務條款</terms> 與 <privacy>隱私之策</privacy>。"
+      },
+      "languageSwitch": {
+        "label": "易語"
+      }
+    }
+  }
+}

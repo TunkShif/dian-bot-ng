@@ -1,0 +1,40 @@
+{
+  "auth": {
+    "login": {
+      "brandName": "MY LITTLE RED BOOK",
+      "imageAlt": "抽象的な波模様",
+      "emailStep": {
+        "title": "ようこそ",
+        "description": "続行するには QQ メールを入力してください。",
+        "continue": "続行",
+        "qqHint": "QQ 番号のみを入力してください。@qq.com を追加し、次の手順で利用可能なサインイン方法を表示します。",
+        "noAccount": "まだアカウントをお持ちでない場合は、こちらから",
+        "signUp": "登録"
+      },
+      "methodsStep": {
+        "title": "ようこそ",
+        "description": "続行方法を選択してください。",
+        "signIn": "サインイン",
+        "separator": "または",
+        "emailLink": "パスワードなしのログインリンクを送信",
+        "passkey": "パスキーでサインイン",
+        "useDifferentEmail": "別のメールを使用"
+      },
+      "fields": {
+        "email": "メール",
+        "password": "パスワード"
+      },
+      "emailInput": {
+        "placeholder": "123456789",
+        "title": "5 から 13 桁で入力してください",
+        "domain": "@qq.com"
+      },
+      "legal": {
+        "agreement": "続行をクリックすると、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。"
+      },
+      "languageSwitch": {
+        "label": "言語を変更"
+      }
+    }
+  }
+}
