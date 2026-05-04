@@ -14,6 +14,6 @@ defmodule DianBot.Client do
   @spec impl() :: module()
   def impl do
     Application.fetch_env!(:dian, DianBot.Bot)
-    |> Keyword.get(:client, DianBot.Client.Default)
+    |> Keyword.get(:client, DianBot.Client.WebSocket)
   end
 end

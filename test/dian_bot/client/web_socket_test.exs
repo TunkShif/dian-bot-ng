@@ -1,7 +1,7 @@
-defmodule DianBot.Client.DefaultTest do
+defmodule DianBot.Client.WebSocketTest do
   use ExUnit.Case, async: true
 
-  alias DianBot.Client.Default
+  alias DianBot.Client.WebSocket
 
   test "successful response sends ok result and removes pending request" do
     ref = make_ref()
@@ -9,7 +9,7 @@ defmodule DianBot.Client.DefaultTest do
     state = %{pending: %{request_id => {self(), ref}}}
 
     assert {:ok, %{pending: %{}}} =
-             Default.handle_frame(
+             WebSocket.handle_frame(
                {:text,
                 Jason.encode!(%{
                   "echo" => request_id,
@@ -29,7 +29,7 @@ defmodule DianBot.Client.DefaultTest do
     state = %{pending: %{request_id => {self(), ref}}}
 
     assert {:ok, %{pending: %{}}} =
-             Default.handle_frame(
+             WebSocket.handle_frame(
                {:text,
                 Jason.encode!(%{
                   "echo" => request_id,
@@ -52,7 +52,7 @@ defmodule DianBot.Client.DefaultTest do
     state = %{pending: %{request_id => {self(), ref}}}
 
     assert {:ok, %{pending: %{}}} =
-             Default.handle_cast({:cancel_request, request_id, ref}, state)
+             WebSocket.handle_cast({:cancel_request, request_id, ref}, state)
   end
 
   test "cancellation with different ref keeps pending request" do
@@ -62,7 +62,7 @@ defmodule DianBot.Client.DefaultTest do
     state = %{pending: %{request_id => {self(), ref}}}
 
     assert {:ok, ^state} =
-             Default.handle_cast({:cancel_request, request_id, other_ref}, state)
+             WebSocket.handle_cast({:cancel_request, request_id, other_ref}, state)
   end
 
   test "late response for cancelled request is ignored" do
@@ -70,7 +70,7 @@ defmodule DianBot.Client.DefaultTest do
     state = %{pending: %{}}
 
     assert {:ok, %{pending: %{}}} =
-             Default.handle_frame(
+             WebSocket.handle_frame(
                {:text,
                 Jason.encode!(%{
                   "echo" => "cancelled-request",

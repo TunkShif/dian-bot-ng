@@ -18,7 +18,6 @@ defmodule DianBot.GroupMember do
     :user_id,
     :group_id,
     :nickname,
-    # extract from "card"
     :display_name,
     :join_time,
     :last_sent_time,

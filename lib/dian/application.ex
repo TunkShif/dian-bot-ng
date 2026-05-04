@@ -39,7 +39,7 @@ defmodule Dian.Application do
 
   defp maybe_bot_client() do
     case DianBot.Client.impl() do
-      DianBot.Client.Default -> [DianBot.Client.Default]
+      DianBot.Client.WebSocket -> [DianBot.Client.WebSocket]
       _ -> []
     end
   end

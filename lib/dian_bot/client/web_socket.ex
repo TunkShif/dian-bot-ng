@@ -1,18 +1,16 @@
-defmodule DianBot.Client.Default do
+defmodule DianBot.Client.WebSocket do
   use WebSockex
 
   require Logger
 
   alias DianBot.Event
-  alias Phoenix.PubSub
+  alias DianBot.EventBus
+  alias DianBot.OneBot
 
-  @env_key DianBot.Bot
   @behaviour DianBot.Client
 
+  @env_key DianBot.Bot
   @default_timeout 5_000
-
-  @pubsub Dian.PubSub
-  @topic "bot:event"
 
   def start_link(_opts) do
     config = Application.fetch_env!(:dian, @env_key)
@@ -63,11 +61,7 @@ defmodule DianBot.Client.Default do
 
   @impl true
   def handle_cast({:request, caller, request_id, action, params}, state) do
-    payload = %{
-      "echo" => request_id,
-      "action" => action,
-      "params" => params
-    }
+    payload = OneBot.build_request(request_id, action, params)
 
     new_state = put_in(state.pending[request_id], caller)
 
@@ -84,15 +78,24 @@ defmodule DianBot.Client.Default do
     {:ok, %{state | pending: pending}}
   end
 
-  defp handle_message(%{"post_type" => _event_type} = payload, state) do
+  defp handle_message(payload, state) do
+    case OneBot.classify_payload(payload) do
+      :event -> handle_event(payload, state)
+      :response -> handle_response(payload, state)
+      :ignored -> handle_ignored(payload, state)
+    end
+  end
+
+  defp handle_event(payload, state) do
     if event = Event.build(payload) do
-      PubSub.broadcast!(@pubsub, @topic, event)
+      EventBus.broadcast(event)
     end
 
     {:ok, state}
   end
 
-  defp handle_message(%{"echo" => request_id} = payload, state) do
+  defp handle_response(payload, state) do
+    request_id = Map.fetch!(payload, "echo")
     {caller, pending} = Map.pop(state.pending, request_id)
 
     case caller do
@@ -100,12 +103,12 @@ defmodule DianBot.Client.Default do
         {:ok, state}
 
       {pid, ref} ->
-        send(pid, {:response, ref, response_result(payload)})
+        send(pid, {:response, ref, OneBot.response_result(payload)})
         {:ok, %{state | pending: pending}}
     end
   end
 
-  defp handle_message(payload, state) do
+  defp handle_ignored(payload, state) do
     Logger.debug("ignored incoming websocket payload: #{inspect(payload)}")
     {:ok, state}
   end
@@ -113,13 +116,5 @@ defmodule DianBot.Client.Default do
   defp default_timeout() do
     Application.fetch_env!(:dian, @env_key)
     |> Keyword.get(:timeout, @default_timeout)
-  end
-
-  defp response_result(%{"status" => "ok", "retcode" => 0} = payload) do
-    {:ok, Map.get(payload, "data")}
-  end
-
-  defp response_result(payload) do
-    {:error, Map.drop(payload, ["data", "echo"])}
   end
 end
