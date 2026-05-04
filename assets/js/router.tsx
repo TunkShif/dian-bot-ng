@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import { Component, loader as rootLoader } from "@/routes/root";
 
 // TODO: error boundary
-// TODO: add server flash data toast
 
 export const router = createBrowserRouter(
   [
     {
+      loader: rootLoader,
+      Component,
       children: [
         {
           path: "/login",

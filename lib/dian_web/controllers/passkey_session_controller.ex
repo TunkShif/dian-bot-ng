@@ -30,7 +30,8 @@ defmodule DianWeb.PasskeySessionController do
       {"Passkey authentication response", "application/json", Schemas.PasskeyCredentialRequest,
        required: true},
     responses: [
-      found: "Passkey login succeeded; redirects to the SPA",
+      ok:
+        {"Passkey login succeeded; session cookie set", "application/json", Schemas.JSendSuccess},
       bad_request:
         {"Missing authentication challenge", "application/json", Schemas.JSendMessageFail},
       unauthorized: {"Invalid passkey response", "application/json", Schemas.JSendMessageFail}
@@ -87,8 +88,8 @@ defmodule DianWeb.PasskeySessionController do
          {:ok, user} <- Accounts.complete_passkey_login(challenge, params) do
       conn
       |> delete_session(:webauthn_authentication_challenge)
-      |> put_flash(:info, "flash.welcome")
-      |> UserAuth.log_in_user(user, params)
+      |> UserAuth.create_user_session(user, params)
+      |> JSend.success_json()
     else
       nil -> {:error, :passkey_authentication_challenge_not_found}
       {:error, :invalid_webauthn_response} -> {:error, :invalid_passkey_authentication_response}

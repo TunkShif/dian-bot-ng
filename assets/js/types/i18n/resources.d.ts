@@ -114,6 +114,13 @@ export default interface Resources {
       }
     },
     "auth": {
+      "flash": {
+        "logout": "Logged out",
+        "setPassword": "Account created",
+        "setPasswordAction": "Settings",
+        "setPasswordDescription": "Create a password or passkey in your account settings.",
+        "welcome": "Welcome back"
+      },
       "login": {
         "brandName": "MY LITTLE RED BOOK",
         "emailInput": {
@@ -151,11 +158,15 @@ export default interface Resources {
           "passkey": "Sign in with passkey",
           "passkeyLogin": {
             "errorMessage": "We couldn't verify your passkey. Please try again or use another method.",
-            "errorTitle": "Passkey sign-in failed"
+            "errorTitle": "Passkey sign-in failed",
+            "successMessage": "Welcome back",
+            "successTitle": "Signed in successfully"
           },
           "passwordLogin": {
             "errorMessage": "Please check your email and password",
-            "errorTitle": "Login failed"
+            "errorTitle": "Login failed",
+            "successMessage": "Welcome back",
+            "successTitle": "Signed in successfully"
           },
           "passwordlessLogin": {
             "errorMessage": "Please check your email and try again",

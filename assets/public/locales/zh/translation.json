@@ -25,6 +25,8 @@
         "passkey": "使用通行密钥登录",
         "useDifferentEmail": "使用其他邮箱",
         "passwordLogin": {
+          "successTitle": "登录成功",
+          "successMessage": "欢迎回来",
           "errorTitle": "登录失败",
           "errorMessage": "请检查您的邮箱和密码"
         },
@@ -35,6 +37,8 @@
           "errorMessage": "请检查邮箱后重试"
         },
         "passkeyLogin": {
+          "successTitle": "登录成功",
+          "successMessage": "欢迎回来",
           "errorTitle": "通行密钥登录失败",
           "errorMessage": "无法验证你的通行密钥。请重试或使用其他方式。"
         }
@@ -54,6 +58,13 @@
       "languageSwitch": {
         "label": "切换语言"
       }
+    },
+    "flash": {
+      "welcome": "欢迎回来",
+      "logout": "已退出登录",
+      "setPassword": "账号创建成功",
+      "setPasswordDescription": "建议您接下来前往账户设置页面创建密码或通行密钥",
+      "setPasswordAction": "进入"
     }
   },
   "app": {

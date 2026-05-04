@@ -28,6 +28,8 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
       redirect();
     },
     meta: {
+      successTitle: t("auth.login.methodsStep.passwordLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passwordLogin.successMessage"),
       errorTitle: t("auth.login.methodsStep.passwordLogin.errorTitle"),
       errorMessage: t("auth.login.methodsStep.passwordLogin.errorMessage"),
     },
@@ -48,6 +50,8 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
       redirect();
     },
     meta: {
+      successTitle: t("auth.login.methodsStep.passkeyLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passkeyLogin.successMessage"),
       errorTitle: t("auth.login.methodsStep.passkeyLogin.errorTitle"),
       errorMessage: t("auth.login.methodsStep.passkeyLogin.errorMessage"),
     },

@@ -25,6 +25,8 @@
         "passkey": "Sign in with passkey",
         "useDifferentEmail": "Use a different email",
         "passwordLogin": {
+          "successTitle": "Signed in successfully",
+          "successMessage": "Welcome back",
           "errorTitle": "Login failed",
           "errorMessage": "Please check your email and password"
         },
@@ -35,6 +37,8 @@
           "errorMessage": "Please check your email and try again"
         },
         "passkeyLogin": {
+          "successTitle": "Signed in successfully",
+          "successMessage": "Welcome back",
           "errorTitle": "Passkey sign-in failed",
           "errorMessage": "We couldn't verify your passkey. Please try again or use another method."
         }
@@ -54,6 +58,13 @@
       "languageSwitch": {
         "label": "Change language"
       }
+    },
+    "flash": {
+      "welcome": "Welcome back",
+      "logout": "Logged out",
+      "setPassword": "Account created",
+      "setPasswordDescription": "Create a password or passkey in your account settings.",
+      "setPasswordAction": "Settings"
     }
   },
   "app": {

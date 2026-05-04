@@ -22,7 +22,6 @@ const mutationCache = new MutationCache({
     topbar.show(300);
   },
   onSuccess: (_data, _variables, _context, mutation) => {
-    console.log(mutation.meta);
     if (mutation.meta?.successMessage && !mutation.meta?.skipToast) {
       mutation.meta.successTitle
         ? toast.success(mutation.meta.successTitle, { description: mutation.meta.successMessage })
