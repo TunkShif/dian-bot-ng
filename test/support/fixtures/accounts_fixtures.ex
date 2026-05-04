@@ -7,6 +7,7 @@ defmodule Dian.AccountsFixtures do
   import Ecto.Query
 
   alias Dian.Accounts
+  alias Dian.Accounts.Passkey
   alias Dian.Accounts.Scope
 
   def unique_user_email, do: "#{10000 + System.unique_integer([:positive])}@qq.com"
@@ -48,6 +49,20 @@ defmodule Dian.AccountsFixtures do
 
   def user_scope_fixture(user) do
     Scope.for_user(user)
+  end
+
+  def passkey_fixture(user \\ user_fixture(), attrs \\ %{}) do
+    attrs =
+      Enum.into(attrs, %{
+        label: "Test passkey",
+        credential_id: :crypto.strong_rand_bytes(32),
+        user_handle: :crypto.hash(:sha256, "user-#{user.id}"),
+        public_key: :erlang.term_to_binary(%{1 => 2}),
+        sign_count: 0,
+        user_id: user.id
+      })
+
+    Dian.Repo.insert!(struct(Passkey, attrs))
   end
 
   def set_password(user) do

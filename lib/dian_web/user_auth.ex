@@ -33,12 +33,21 @@ defmodule DianWeb.UserAuth do
   or falls back to the `signed_in_path/1`.
   """
   def log_in_user(conn, user, params \\ %{}) do
-    # TODO: consider making this work with SPA route redirects
     user_return_to = get_session(conn, :user_return_to)
 
     conn
     |> create_or_extend_session(user, params)
-    |> redirect(to: user_return_to || signed_in_path(conn))
+    |> redirect(to: user_return_to || signed_in_path(conn, params["flash"]))
+  end
+
+  @doc """
+  Creates a fresh session for the given user without redirecting.
+
+  This is useful for JSON endpoints that rotate credentials and need to keep the
+  authenticated API session active after old tokens are expired.
+  """
+  def create_user_session(conn, user, params \\ %{}) do
+    create_or_extend_session(conn, user, params)
   end
 
   @doc """
@@ -57,7 +66,7 @@ defmodule DianWeb.UserAuth do
     conn
     |> renew_session(nil)
     |> delete_resp_cookie(@remember_me_cookie, @remember_me_options)
-    |> redirect(to: ~p"/app/login")
+    |> redirect(to: ~p"/app/login?flash=logout")
   end
 
   @doc """
@@ -196,6 +205,8 @@ defmodule DianWeb.UserAuth do
   end
 
   defp signed_in_path(_conn), do: ~p"/app/dashboard"
+  defp signed_in_path(_conn, flash) when is_binary(flash), do: ~p"/app/dashboard?flash=#{flash}"
+  defp signed_in_path(conn, _flash), do: signed_in_path(conn)
 
   @doc """
   Plug for routes that require the user to be authenticated.

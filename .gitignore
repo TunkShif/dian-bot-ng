@@ -41,3 +41,6 @@ npm-debug.log
 
 # Auto generated openapi spec client code
 /assets/js/client/
+
+# Local Superpowers brainstorming artifacts
+/.superpowers/

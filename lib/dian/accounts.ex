@@ -4,10 +4,10 @@ defmodule Dian.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias Dian.Settings
-  alias Dian.Repo
 
-  alias Dian.Accounts.{User, UserToken, UserNotifier}
+  alias Dian.Accounts.{Passkey, Scope, User, UserNotifier, UserToken}
+  alias Dian.Repo
+  alias Dian.Settings
 
   @user_details_cache_key_prefix "accounts:user_details:"
   @user_details_cache_ttl :timer.hours(24)
@@ -167,6 +167,84 @@ defmodule Dian.Accounts do
     end)
   end
 
+  def begin_passkey_registration(%Scope{user: %User{} = user}) do
+    challenge = Wax.new_registration_challenge()
+    user_handle = passkey_user_handle(user)
+
+    options = %{
+      challenge: Base.url_encode64(challenge.bytes, padding: false),
+      rp: %{id: challenge.rp_id, name: Application.spec(:dian, :description) |> to_string},
+      user: %{
+        id: Base.url_encode64(user_handle, padding: false),
+        name: user.email,
+        displayName: extract_qq_id_from(user.email)
+      },
+      pubKeyCredParams: [%{type: "public-key", alg: -7}],
+      timeout: 60_000,
+      authenticatorSelection: %{
+        residentKey: "required",
+        requireResidentKey: true,
+        userVerification: "preferred"
+      }
+    }
+
+    {challenge, options}
+  end
+
+  def complete_passkey_registration(%Scope{user: %User{} = user}, challenge, params) do
+    with {:ok, attestation_object} <- fetch_base64url(params, ["response", "attestationObject"]),
+         {:ok, client_data_json} <- fetch_base64url(params, ["response", "clientDataJSON"]),
+         {:ok, {auth_data, _attestation_result}} <-
+           Wax.register(attestation_object, client_data_json, challenge),
+         %{credential_id: credential_id, credential_public_key: public_key} <-
+           auth_data.attested_credential_data do
+      label = passkey_label(params)
+
+      %Passkey{}
+      |> Passkey.registration_changeset(
+        %{
+          label: label,
+          credential_id: credential_id,
+          user_handle: passkey_user_handle(user),
+          public_key: :erlang.term_to_binary(public_key),
+          sign_count: auth_data.sign_count
+        },
+        Scope.for_user(user)
+      )
+      |> Repo.insert()
+    else
+      {:error, %Ecto.Changeset{} = changeset} -> {:error, changeset}
+      _ -> {:error, :invalid_webauthn_response}
+    end
+  end
+
+  def list_user_passkeys(%Scope{user: %User{id: user_id}}) do
+    Passkey
+    |> where([p], p.user_id == ^user_id)
+    |> order_by([p], desc: p.last_used_at, desc: p.inserted_at)
+    |> Repo.all()
+  end
+
+  def update_user_passkey(%Scope{user: %User{id: user_id}}, passkey_id, attrs) do
+    with %Passkey{} = passkey <- Repo.get_by(Passkey, id: passkey_id, user_id: user_id) do
+      passkey
+      |> Passkey.label_changeset(attrs)
+      |> Repo.update()
+    else
+      nil -> {:error, :not_found}
+    end
+  end
+
+  def delete_user_passkey(%Scope{user: %User{id: user_id}}, passkey_id) do
+    with %Passkey{} = passkey <- Repo.get_by(Passkey, id: passkey_id, user_id: user_id),
+         {:ok, _passkey} <- Repo.delete(passkey) do
+      :ok
+    else
+      nil -> {:error, :not_found}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
   ## Settings
 
   @doc """
@@ -248,6 +326,10 @@ defmodule Dian.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  def update_user_password(%Scope{user: %User{} = user}, attrs) do
+    update_user_password(user, attrs)
+  end
+
   def update_user_password(user, attrs) do
     user
     |> User.password_changeset(attrs)
@@ -358,6 +440,87 @@ defmodule Dian.Accounts do
     {encoded_token, user_token} = UserToken.build_email_token(user, "login")
     Repo.insert!(user_token)
     UserNotifier.deliver_login_instructions(user, magic_link_url_fun.(encoded_token))
+  end
+
+  def begin_passkey_login() do
+    challenge = Wax.new_authentication_challenge()
+
+    options = %{
+      challenge: Base.url_encode64(challenge.bytes, padding: false),
+      rpId: challenge.rp_id,
+      timeout: 60_000,
+      userVerification: challenge.user_verification
+    }
+
+    {challenge, options}
+  end
+
+  def complete_passkey_login(challenge, params) do
+    with {:ok, user_handle} <- fetch_base64url(params, ["response", "userHandle"]),
+         passkeys when passkeys != [] <- list_passkeys_by_user_handle(user_handle),
+         {:ok, credential_id} <- fetch_base64url(params, ["rawId"]),
+         {:ok, authenticator_data} <- fetch_base64url(params, ["response", "authenticatorData"]),
+         {:ok, client_data_json} <- fetch_base64url(params, ["response", "clientDataJSON"]),
+         {:ok, signature} <- fetch_base64url(params, ["response", "signature"]),
+         credentials = credentials_for_passkeys(passkeys),
+         {:ok, auth_data} <-
+           Wax.authenticate(
+             credential_id,
+             authenticator_data,
+             signature,
+             client_data_json,
+             challenge,
+             credentials
+           ),
+         %Passkey{} = passkey <- Enum.find(passkeys, &(&1.credential_id == credential_id)),
+         {:ok, passkey} <- mark_passkey_used(passkey, auth_data),
+         %User{} = user <- Repo.get(User, passkey.user_id) do
+      {:ok, user}
+    else
+      [] -> {:error, :passkey_not_found}
+      nil -> {:error, :passkey_not_found}
+      {:error, %Ecto.Changeset{} = changeset} -> {:error, changeset}
+      _ -> {:error, :invalid_webauthn_response}
+    end
+  end
+
+  defp passkey_user_handle(%User{id: user_id}), do: :crypto.hash(:sha256, "user-#{user_id}")
+
+  defp passkey_label(%{"label" => label}) when is_binary(label) and label != "", do: label
+  defp passkey_label(_params), do: "Passkey"
+
+  defp list_passkeys_by_user_handle(user_handle) when is_binary(user_handle) do
+    Passkey
+    |> where([p], p.user_handle == ^user_handle)
+    |> Repo.all()
+  end
+
+  defp credentials_for_passkeys(passkeys) do
+    Enum.map(passkeys, fn passkey ->
+      {passkey.credential_id, :erlang.binary_to_term(passkey.public_key)}
+    end)
+  end
+
+  defp mark_passkey_used(passkey, auth_data) do
+    passkey
+    |> Passkey.usage_changeset(%{
+      last_used_at: DateTime.utc_now(:second),
+      sign_count: auth_data.sign_count
+    })
+    |> Repo.update()
+    |> case do
+      {:ok, passkey} -> {:ok, passkey}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  defp fetch_base64url(params, path) do
+    with value when is_binary(value) <- get_in(params, path),
+         {:ok, decoded} <- Base.url_decode64(value, padding: false) do
+      {:ok, decoded}
+    else
+      _ -> {:error, :invalid_base64url}
+    end
   end
 
   @doc """

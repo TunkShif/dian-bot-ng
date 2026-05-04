@@ -23,7 +23,25 @@
         "separator": "VEYA",
         "emailLink": "Parolasız oturum açma bağlantısı gönder",
         "passkey": "Passkey ile oturum aç",
-        "useDifferentEmail": "Farklı bir e-posta kullan"
+        "useDifferentEmail": "Farklı bir e-posta kullan",
+        "passwordLogin": {
+          "successTitle": "Oturum açıldı",
+          "successMessage": "Tekrar hoş geldiniz",
+          "errorTitle": "Oturum açılamadı",
+          "errorMessage": "Lütfen e-posta ve parolanızı kontrol edin"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Oturum açma bağlantısı gönderildi",
+          "successMessage": "Giriş bağlantısı için e-postanızı kontrol edin",
+          "errorTitle": "Gönderilemedi",
+          "errorMessage": "E-postanızı kontrol edip tekrar deneyin"
+        },
+        "passkeyLogin": {
+          "successTitle": "Oturum açıldı",
+          "successMessage": "Tekrar hoş geldiniz",
+          "errorTitle": "Passkey ile oturum açılamadı",
+          "errorMessage": "Passkey doğrulanamadı. Lütfen tekrar deneyin veya başka bir yöntem kullanın."
+        }
       },
       "fields": {
         "email": "E-posta",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Dili değiştir"
       }
+    },
+    "flash": {
+      "welcome": "Tekrar hoş geldiniz",
+      "logout": "Çıkış yapıldı",
+      "setPassword": "Hesap oluşturuldu",
+      "setPasswordDescription": "Hesap ayarlarınızda bir parola veya passkey oluşturun.",
+      "setPasswordAction": "Ayarlar"
     }
   },
   "app": {
@@ -77,27 +102,112 @@
       "logOut": "Çıkış yap"
     },
     "dashboard": {
-      "title": "Panel",
-      "cards": {
-        "revenue": {
-          "label": "Gelir",
-          "trend": "Gelir bu ay yükseldi",
-          "detail": "Son 6 aylık performans"
+      "title": "Panel"
+    },
+    "settings": {
+      "title": "Ayarlar",
+      "description": "Oturum açma yöntemlerinizi yönetin ve hesabınıza erişimi koruyun.",
+      "actions": {
+        "cancel": "İptal",
+        "retry": "Tekrar dene"
+      },
+      "password": {
+        "title": "Parola",
+        "description": "E-posta ve parola ile oturum açmak için parola belirleyin.",
+        "helper": "12 ila 72 karakter kullanın.",
+        "submit": "Parolayı güncelle",
+        "newPassword": {
+          "label": "Yeni parola",
+          "placeholder": "Yeni parola girin"
         },
-        "customers": {
-          "label": "Yeni müşteriler",
-          "trend": "Müşteri kazanımı düştü",
-          "detail": "Kampanya kalitesini ve dönüşümü incele"
+        "confirmPassword": {
+          "label": "Parolayı onayla",
+          "placeholder": "Yeni parolayı tekrarlayın"
         },
-        "accounts": {
-          "label": "Aktif hesaplar",
-          "trend": "Elde tutma güçlü kalıyor",
-          "detail": "Etkileşim hedefin üzerinde"
+        "validation": {
+          "passwordMin": "Parola en az 12 karakter olmalıdır.",
+          "passwordMax": "Parola en fazla 72 karakter olmalıdır.",
+          "confirmationMin": "Onay en az 12 karakter olmalıdır.",
+          "confirmationMax": "Onay en fazla 72 karakter olmalıdır.",
+          "passwordsMatch": "Parolalar eşleşmelidir."
         },
-        "growth": {
-          "label": "Büyüme oranı",
-          "trend": "Büyüme istikrarlı",
-          "detail": "Tahminin üzerinde ilerliyor"
+        "update": {
+          "successTitle": "Parola güncellendi",
+          "successMessage": "Parolanız kaydedildi.",
+          "errorMessage": "Parolanız güncellenemedi. Lütfen kontrol edip tekrar deneyin."
+        }
+      },
+      "passkeys": {
+        "title": "Passkeyler",
+        "description": "Daha hızlı oturum açmak için cihaz biyometrisi, güvenlik anahtarları veya parola yöneticileri kullanın.",
+        "add": "Passkey ekle",
+        "neverUsed": "Hiç kullanılmadı",
+        "table": {
+          "name": "Ad",
+          "lastUsed": "Son kullanım",
+          "created": "Oluşturuldu",
+          "actions": "İşlemler",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Henüz passkey yok",
+          "description": "Parolanızı yazmadan oturum açmak için bir passkey ekleyin."
+        },
+        "error": {
+          "title": "Passkeyler yüklenemedi",
+          "description": "Listeyi yenileyin veya birazdan tekrar deneyin."
+        },
+        "addDialog": {
+          "title": "Passkey ekle",
+          "description": "Tarayıcı kaydını başlatmadan önce bu passkey'e ad verin.",
+          "label": "Passkey adı",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Daha sonra tanıyabilmek için passkey'inize bir ad verin.",
+          "submit": "Kurulumu başlat"
+        },
+        "rename": {
+          "trigger": "Passkey adını değiştir",
+          "inputLabel": "Passkey adı",
+          "save": "Passkey adını kaydet"
+        },
+        "delete": {
+          "trigger": "Passkey sil",
+          "title": "Passkey silinsin mi?",
+          "description": "Bu işlem {{label}} öğesini hesabınızdan kaldırır. Silme henüz bağlı değil.",
+          "submit": "Sil"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "Kurtarma modu",
+      "goBack": "Geri dön",
+      "dashboard": "Panele git",
+      "login": "Girişe git",
+      "details": "Hata detayları",
+      "fallback": {
+        "title": "Bir şeyler ters gitti",
+        "description": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+      },
+      "status": {
+        "400": {
+          "title": "Geçersiz istek",
+          "description": "İstek geçersizdi. Lütfen kontrol edip tekrar deneyin."
+        },
+        "401": {
+          "title": "Oturum açmanız gerekiyor",
+          "description": "Bu sayfaya erişmek için lütfen oturum açın."
+        },
+        "403": {
+          "title": "Erişim reddedildi",
+          "description": "Bu sayfayı görüntüleme izniniz yok."
+        },
+        "404": {
+          "title": "Sayfa bulunamadı",
+          "description": "Aradığınız sayfa mevcut değil."
+        },
+        "500": {
+          "title": "Sunucu hatası",
+          "description": "Bizim tarafımızda bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin."
         }
       }
     }

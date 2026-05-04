@@ -23,7 +23,25 @@
         "separator": "或",
         "emailLink": "寄無密登入之鏈",
         "passkey": "以通行密鑰登入",
-        "useDifferentEmail": "易郵"
+        "useDifferentEmail": "易郵",
+        "passwordLogin": {
+          "successTitle": "登入已成",
+          "successMessage": "歡迎歸來",
+          "errorTitle": "登入未成",
+          "errorMessage": "請核郵與密"
+        },
+        "passwordlessLogin": {
+          "successTitle": "登入之鏈已寄",
+          "successMessage": "請察郵中登入之鏈",
+          "errorTitle": "寄鏈未成",
+          "errorMessage": "請核郵而復試"
+        },
+        "passkeyLogin": {
+          "successTitle": "登入已成",
+          "successMessage": "歡迎歸來",
+          "errorTitle": "通行密鑰登入未成",
+          "errorMessage": "未能驗君之通行密鑰。請復試或易法。"
+        }
       },
       "fields": {
         "email": "郵",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "易語"
       }
+    },
+    "flash": {
+      "welcome": "歡迎歸來",
+      "logout": "已出",
+      "setPassword": "立戶已成",
+      "setPasswordDescription": "宜往帳戶設定立密或通行密鑰",
+      "setPasswordAction": "入"
     }
   },
   "app": {
@@ -77,27 +102,112 @@
       "logOut": "出"
     },
     "dashboard": {
-      "title": "總覽",
-      "cards": {
-        "revenue": {
-          "label": "入",
-          "trend": "是月收入有增",
-          "detail": "近六月之績"
+      "title": "總覽"
+    },
+    "settings": {
+      "title": "設定",
+      "description": "治登入之法，護帳戶之通。",
+      "actions": {
+        "cancel": "罷",
+        "retry": "再試"
+      },
+      "password": {
+        "title": "密",
+        "description": "設密，以電郵與密登入。",
+        "helper": "宜十二至七十二字。",
+        "submit": "更新密",
+        "newPassword": {
+          "label": "新密",
+          "placeholder": "輸新密"
         },
-        "customers": {
-          "label": "新客",
-          "trend": "得客稍減",
-          "detail": "宜察策質與轉化"
+        "confirmPassword": {
+          "label": "驗密",
+          "placeholder": "復輸新密"
         },
-        "accounts": {
-          "label": "活戶",
-          "trend": "留存尚強",
-          "detail": "互動逾標"
+        "validation": {
+          "passwordMin": "密需十二字以上。",
+          "passwordMax": "密不得逾七十二字。",
+          "confirmationMin": "驗密需十二字以上。",
+          "confirmationMax": "驗密不得逾七十二字。",
+          "passwordsMatch": "兩密須一致。"
         },
-        "growth": {
-          "label": "增率",
-          "trend": "增勢平穩",
-          "detail": "行於預上"
+        "update": {
+          "successTitle": "密已更新",
+          "successMessage": "君之密已存。",
+          "errorMessage": "更新密未成。請核而復試。"
+        }
+      },
+      "passkeys": {
+        "title": "通行密鑰",
+        "description": "以裝置驗身、安全鑰、密碼器速登入。",
+        "add": "新增通行密鑰",
+        "neverUsed": "未用",
+        "table": {
+          "name": "名",
+          "lastUsed": "末用",
+          "created": "立時",
+          "actions": "行",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "尚無通行密鑰",
+          "description": "增通行密鑰，可免輸密而入。"
+        },
+        "error": {
+          "title": "通行密鑰載入未果",
+          "description": "可刷新，或少頃再試。"
+        },
+        "addDialog": {
+          "title": "新增通行密鑰",
+          "description": "啟瀏覽器註冊前，先名此鑰。",
+          "label": "通行密鑰名",
+          "placeholder": "MacBook Touch ID",
+          "helper": "名君之通行密鑰，以備後識。",
+          "submit": "始設"
+        },
+        "rename": {
+          "trigger": "更名通行密鑰",
+          "inputLabel": "通行密鑰名",
+          "save": "存通行密鑰名"
+        },
+        "delete": {
+          "trigger": "刪通行密鑰",
+          "title": "刪通行密鑰？",
+          "description": "將自帳戶去 {{label}}。刪除尚未接。",
+          "submit": "刪"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "恢復之法",
+      "goBack": "歸",
+      "dashboard": "往總覽",
+      "login": "往登入",
+      "details": "誤詳",
+      "fallback": {
+        "title": "有誤",
+        "description": "意外之誤。請復試。"
+      },
+      "status": {
+        "400": {
+          "title": "請有誤",
+          "description": "請有誤，請核而復試。"
+        },
+        "401": {
+          "title": "須登入",
+          "description": "請登入而後覽此頁。"
+        },
+        "403": {
+          "title": "禁入",
+          "description": "君無權覽此頁。"
+        },
+        "404": {
+          "title": "頁無存",
+          "description": "君所尋之頁不存。"
+        },
+        "500": {
+          "title": "伺服有誤",
+          "description": "吾端有誤。請稍後復試。"
         }
       }
     }

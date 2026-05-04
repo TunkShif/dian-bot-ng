@@ -7,29 +7,40 @@ export default interface Resources {
       },
       "brandName": "LITTLE RED BOOK",
       "dashboard": {
-        "cards": {
-          "accounts": {
-            "detail": "Engagement is ahead of target",
-            "label": "Active accounts",
-            "trend": "Retention remains strong"
-          },
-          "customers": {
-            "detail": "Review campaign quality and conversion",
-            "label": "New customers",
-            "trend": "Customer acquisition dipped"
-          },
-          "growth": {
-            "detail": "Tracking ahead of forecast",
-            "label": "Growth rate",
-            "trend": "Growth is steady"
-          },
-          "revenue": {
-            "detail": "Trailing 6-month performance",
-            "label": "Revenue",
-            "trend": "Revenue is up this month"
-          }
-        },
         "title": "Dashboard"
+      },
+      "errorBoundary": {
+        "dashboard": "Go to dashboard",
+        "details": "Error details",
+        "eyebrow": "Recovery mode",
+        "fallback": {
+          "description": "An unexpected error occurred. Please try again.",
+          "title": "Something went wrong"
+        },
+        "goBack": "Go back",
+        "login": "Go to login",
+        "status": {
+          "400": {
+            "description": "The request was invalid. Please check and try again.",
+            "title": "Bad request"
+          },
+          "401": {
+            "description": "Please sign in to access this page.",
+            "title": "Sign in required"
+          },
+          "403": {
+            "description": "You don't have permission to view this page.",
+            "title": "Access denied"
+          },
+          "404": {
+            "description": "The page you're looking for doesn't exist.",
+            "title": "Page not found"
+          },
+          "500": {
+            "description": "Something went wrong on our end. Please try again later.",
+            "title": "Server error"
+          }
+        }
       },
       "header": {
         "title": "Documents"
@@ -54,6 +65,80 @@ export default interface Resources {
         "roastAlerts": "Roast alerts",
         "systemSettings": "System settings"
       },
+      "settings": {
+        "actions": {
+          "cancel": "Cancel",
+          "retry": "Retry"
+        },
+        "description": "Manage how you sign in and keep access to your account protected.",
+        "passkeys": {
+          "add": "Add passkey",
+          "addDialog": {
+            "description": "Name this passkey before starting browser registration.",
+            "helper": "Name your passkey so you can recognise it later.",
+            "label": "Passkey name",
+            "placeholder": "MacBook Touch ID",
+            "submit": "Start setup",
+            "title": "Add passkey"
+          },
+          "delete": {
+            "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
+            "submit": "Delete",
+            "title": "Delete passkey?",
+            "trigger": "Delete passkey"
+          },
+          "description": "Use device biometrics, security keys, or password managers to sign in faster.",
+          "empty": {
+            "description": "Add a passkey to sign in without typing your password.",
+            "title": "No passkeys yet"
+          },
+          "error": {
+            "description": "Refresh the list or try again in a moment.",
+            "title": "Passkeys could not be loaded"
+          },
+          "neverUsed": "Never used",
+          "rename": {
+            "inputLabel": "Passkey name",
+            "save": "Save passkey name",
+            "trigger": "Rename passkey"
+          },
+          "table": {
+            "actions": "Actions",
+            "created": "Created",
+            "id": "ID {{id}}",
+            "lastUsed": "Last used",
+            "name": "Name"
+          },
+          "title": "Passkeys"
+        },
+        "password": {
+          "confirmPassword": {
+            "label": "Confirm password",
+            "placeholder": "Repeat the new password"
+          },
+          "description": "Set a password for email and password sign-in.",
+          "helper": "Use 12 to 72 characters.",
+          "newPassword": {
+            "label": "New password",
+            "placeholder": "Enter a new password"
+          },
+          "submit": "Update password",
+          "title": "Password",
+          "update": {
+            "errorMessage": "We couldn't update your password. Please check it and try again.",
+            "successMessage": "Your password has been saved.",
+            "successTitle": "Password updated"
+          },
+          "validation": {
+            "confirmationMax": "Confirmation must be at most 72 characters.",
+            "confirmationMin": "Confirmation must be at least 12 characters.",
+            "passwordMax": "Password must be at most 72 characters.",
+            "passwordMin": "Password must be at least 12 characters.",
+            "passwordsMatch": "Passwords must match."
+          }
+        },
+        "title": "Account Settings"
+      },
       "userMenu": {
         "account": "Account",
         "billing": "Billing",
@@ -62,6 +147,13 @@ export default interface Resources {
       }
     },
     "auth": {
+      "flash": {
+        "logout": "Logged out",
+        "setPassword": "Account created",
+        "setPasswordAction": "Settings",
+        "setPasswordDescription": "Create a password or passkey in your account settings.",
+        "welcome": "Welcome back"
+      },
       "login": {
         "brandName": "MY LITTLE RED BOOK",
         "emailInput": {
@@ -97,6 +189,24 @@ export default interface Resources {
           "description": "Choose how you want to continue.",
           "emailLink": "Send passwordless login link",
           "passkey": "Sign in with passkey",
+          "passkeyLogin": {
+            "errorMessage": "We couldn't verify your passkey. Please try again or use another method.",
+            "errorTitle": "Passkey sign-in failed",
+            "successMessage": "Welcome back",
+            "successTitle": "Signed in successfully"
+          },
+          "passwordLogin": {
+            "errorMessage": "Please check your email and password",
+            "errorTitle": "Login failed",
+            "successMessage": "Welcome back",
+            "successTitle": "Signed in successfully"
+          },
+          "passwordlessLogin": {
+            "errorMessage": "Please check your email and try again",
+            "errorTitle": "Failed to send",
+            "successMessage": "Check your email for the login link",
+            "successTitle": "Login link sent"
+          },
           "separator": "OR",
           "signIn": "Sign in",
           "title": "Welcome",

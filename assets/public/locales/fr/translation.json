@@ -23,7 +23,25 @@
         "separator": "OU",
         "emailLink": "Envoyer un lien de connexion sans mot de passe",
         "passkey": "Se connecter avec une passkey",
-        "useDifferentEmail": "Utiliser un autre e-mail"
+        "useDifferentEmail": "Utiliser un autre e-mail",
+        "passwordLogin": {
+          "successTitle": "Connecté avec succès",
+          "successMessage": "Bon retour",
+          "errorTitle": "Échec de la connexion",
+          "errorMessage": "Vérifiez votre e-mail et votre mot de passe"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Lien de connexion envoyé",
+          "successMessage": "Consultez votre e-mail pour le lien de connexion",
+          "errorTitle": "Échec de l'envoi",
+          "errorMessage": "Vérifiez votre e-mail et réessayez"
+        },
+        "passkeyLogin": {
+          "successTitle": "Connecté avec succès",
+          "successMessage": "Bon retour",
+          "errorTitle": "Échec de la connexion par passkey",
+          "errorMessage": "Impossible de vérifier votre passkey. Réessayez ou utilisez une autre méthode."
+        }
       },
       "fields": {
         "email": "E-mail",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Changer de langue"
       }
+    },
+    "flash": {
+      "welcome": "Bon retour",
+      "logout": "Déconnecté",
+      "setPassword": "Compte créé",
+      "setPasswordDescription": "Créez un mot de passe ou une passkey dans les paramètres de votre compte.",
+      "setPasswordAction": "Paramètres"
     }
   },
   "app": {
@@ -77,27 +102,112 @@
       "logOut": "Se déconnecter"
     },
     "dashboard": {
-      "title": "Tableau de bord",
-      "cards": {
-        "revenue": {
-          "label": "Revenus",
-          "trend": "Les revenus progressent ce mois-ci",
-          "detail": "Performance des 6 derniers mois"
+      "title": "Tableau de bord"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "description": "Gérez vos méthodes de connexion et protégez l'accès à votre compte.",
+      "actions": {
+        "cancel": "Annuler",
+        "retry": "Réessayer"
+      },
+      "password": {
+        "title": "Mot de passe",
+        "description": "Définissez un mot de passe pour la connexion par e-mail et mot de passe.",
+        "helper": "Utilisez 12 à 72 caractères.",
+        "submit": "Mettre à jour le mot de passe",
+        "newPassword": {
+          "label": "Nouveau mot de passe",
+          "placeholder": "Saisir un nouveau mot de passe"
         },
-        "customers": {
-          "label": "Nouveaux clients",
-          "trend": "L'acquisition client recule",
-          "detail": "Revoir la qualité et la conversion des campagnes"
+        "confirmPassword": {
+          "label": "Confirmer le mot de passe",
+          "placeholder": "Répéter le nouveau mot de passe"
         },
-        "accounts": {
-          "label": "Comptes actifs",
-          "trend": "La rétention reste solide",
-          "detail": "L'engagement dépasse l'objectif"
+        "validation": {
+          "passwordMin": "Le mot de passe doit comporter au moins 12 caractères.",
+          "passwordMax": "Le mot de passe doit comporter au plus 72 caractères.",
+          "confirmationMin": "La confirmation doit comporter au moins 12 caractères.",
+          "confirmationMax": "La confirmation doit comporter au plus 72 caractères.",
+          "passwordsMatch": "Les mots de passe doivent correspondre."
         },
-        "growth": {
-          "label": "Taux de croissance",
-          "trend": "La croissance est régulière",
-          "detail": "Au-dessus des prévisions"
+        "update": {
+          "successTitle": "Mot de passe mis à jour",
+          "successMessage": "Votre mot de passe a été enregistré.",
+          "errorMessage": "Impossible de mettre à jour votre mot de passe. Vérifiez-le et réessayez."
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Utilisez la biométrie, des clés de sécurité ou un gestionnaire de mots de passe pour vous connecter plus vite.",
+        "add": "Ajouter une passkey",
+        "neverUsed": "Jamais utilisée",
+        "table": {
+          "name": "Nom",
+          "lastUsed": "Dernière utilisation",
+          "created": "Créée",
+          "actions": "Actions",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "Aucune passkey",
+          "description": "Ajoutez une passkey pour vous connecter sans saisir votre mot de passe."
+        },
+        "error": {
+          "title": "Impossible de charger les passkeys",
+          "description": "Actualisez la liste ou réessayez dans un instant."
+        },
+        "addDialog": {
+          "title": "Ajouter une passkey",
+          "description": "Nommez cette passkey avant de lancer l'enregistrement dans le navigateur.",
+          "label": "Nom de la passkey",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Nommez votre passkey pour la reconnaître plus tard.",
+          "submit": "Commencer"
+        },
+        "rename": {
+          "trigger": "Renommer la passkey",
+          "inputLabel": "Nom de la passkey",
+          "save": "Enregistrer le nom"
+        },
+        "delete": {
+          "trigger": "Supprimer la passkey",
+          "title": "Supprimer la passkey ?",
+          "description": "Cela retirera {{label}} de votre compte. La suppression n'est pas encore connectée.",
+          "submit": "Supprimer"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "Mode de récupération",
+      "goBack": "Retour",
+      "dashboard": "Aller au tableau de bord",
+      "login": "Aller à la connexion",
+      "details": "Détails de l'erreur",
+      "fallback": {
+        "title": "Quelque chose s'est mal passé",
+        "description": "Une erreur inattendue s'est produite. Veuillez réessayer."
+      },
+      "status": {
+        "400": {
+          "title": "Requête incorrecte",
+          "description": "La requête était invalide. Vérifiez-la et réessayez."
+        },
+        "401": {
+          "title": "Connexion requise",
+          "description": "Connectez-vous pour accéder à cette page."
+        },
+        "403": {
+          "title": "Accès refusé",
+          "description": "Vous n'avez pas la permission de voir cette page."
+        },
+        "404": {
+          "title": "Page introuvable",
+          "description": "La page que vous cherchez n'existe pas."
+        },
+        "500": {
+          "title": "Erreur du serveur",
+          "description": "Quelque chose s'est mal passé de notre côté. Veuillez réessayer plus tard."
         }
       }
     }

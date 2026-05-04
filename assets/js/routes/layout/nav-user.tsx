@@ -7,6 +7,7 @@ import {
   UserCircleIcon,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -71,7 +72,7 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem render={<Link to="/settings/user" />}>
                 <UserCircleIcon />
                 {t("app.userMenu.account")}
               </DropdownMenuItem>

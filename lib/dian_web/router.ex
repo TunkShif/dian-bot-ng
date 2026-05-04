@@ -23,15 +23,6 @@ defmodule DianWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: DianWeb.APISpec
   end
 
-  # TODO: refactor to adapt this later
-  # scope "/", DianWeb do
-  #   pipe_through [:browser, :require_authenticated_user]
-  #
-  #   get "/users/settings", UserSettingsController, :edit
-  #   put "/users/settings", UserSettingsController, :update
-  #   get "/users/settings/confirm-email/:token", UserSettingsController, :confirm_email
-  # end
-
   ## Authentication routes
   scope "/redirects/", DianWeb do
     pipe_through [:browser]
@@ -47,6 +38,21 @@ defmodule DianWeb.Router do
     post "/users/register", UserRegistrationController, :create
     post "/users/login", UserSessionController, :create
     get "/users/me", UserSessionController, :show
+
+    post "/passkeys/login/begin", PasskeySessionController, :begin
+    post "/passkeys/login/complete", PasskeySessionController, :complete
+  end
+
+  scope "/api", DianWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    post "/passkeys/registration/begin", PasskeyRegistrationController, :begin
+    post "/passkeys/registration/complete", PasskeyRegistrationController, :complete
+    get "/passkeys", PasskeySessionController, :index
+    patch "/passkeys/:id", PasskeySessionController, :update
+    delete "/passkeys/:id", PasskeySessionController, :delete
+
+    patch "/users/settings", UserSettingsController, :update
   end
 
   ## SPA entrypoint

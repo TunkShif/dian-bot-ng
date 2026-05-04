@@ -23,7 +23,25 @@
         "separator": "OR",
         "emailLink": "Send passwordless login link",
         "passkey": "Sign in with passkey",
-        "useDifferentEmail": "Use a different email"
+        "useDifferentEmail": "Use a different email",
+        "passwordLogin": {
+          "successTitle": "Signed in successfully",
+          "successMessage": "Welcome back",
+          "errorTitle": "Login failed",
+          "errorMessage": "Please check your email and password"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Login link sent",
+          "successMessage": "Check your email for the login link",
+          "errorTitle": "Failed to send",
+          "errorMessage": "Please check your email and try again"
+        },
+        "passkeyLogin": {
+          "successTitle": "Signed in successfully",
+          "successMessage": "Welcome back",
+          "errorTitle": "Passkey sign-in failed",
+          "errorMessage": "We couldn't verify your passkey. Please try again or use another method."
+        }
       },
       "fields": {
         "email": "Email",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Change language"
       }
+    },
+    "flash": {
+      "welcome": "Welcome back",
+      "logout": "Logged out",
+      "setPassword": "Account created",
+      "setPasswordDescription": "Create a password or passkey in your account settings.",
+      "setPasswordAction": "Settings"
     }
   },
   "app": {
@@ -76,28 +101,113 @@
       "notifications": "Notifications",
       "logOut": "Log out"
     },
+    "errorBoundary": {
+      "eyebrow": "Recovery mode",
+      "goBack": "Go back",
+      "dashboard": "Go to dashboard",
+      "login": "Go to login",
+      "details": "Error details",
+      "fallback": {
+        "title": "Something went wrong",
+        "description": "An unexpected error occurred. Please try again."
+      },
+      "status": {
+        "400": {
+          "title": "Bad request",
+          "description": "The request was invalid. Please check and try again."
+        },
+        "401": {
+          "title": "Sign in required",
+          "description": "Please sign in to access this page."
+        },
+        "403": {
+          "title": "Access denied",
+          "description": "You don't have permission to view this page."
+        },
+        "404": {
+          "title": "Page not found",
+          "description": "The page you're looking for doesn't exist."
+        },
+        "500": {
+          "title": "Server error",
+          "description": "Something went wrong on our end. Please try again later."
+        }
+      }
+    },
     "dashboard": {
-      "title": "Dashboard",
-      "cards": {
-        "revenue": {
-          "label": "Revenue",
-          "trend": "Revenue is up this month",
-          "detail": "Trailing 6-month performance"
+      "title": "Dashboard"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "description": "Manage how you sign in and keep access to your account protected.",
+      "actions": {
+        "cancel": "Cancel",
+        "retry": "Retry"
+      },
+      "password": {
+        "title": "Password",
+        "description": "Set a password for email and password sign-in.",
+        "helper": "Use 12 to 72 characters.",
+        "submit": "Update password",
+        "newPassword": {
+          "label": "New password",
+          "placeholder": "Enter a new password"
         },
-        "customers": {
-          "label": "New customers",
-          "trend": "Customer acquisition dipped",
-          "detail": "Review campaign quality and conversion"
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Repeat the new password"
         },
-        "accounts": {
-          "label": "Active accounts",
-          "trend": "Retention remains strong",
-          "detail": "Engagement is ahead of target"
+        "validation": {
+          "passwordMin": "Password must be at least 12 characters.",
+          "passwordMax": "Password must be at most 72 characters.",
+          "confirmationMin": "Confirmation must be at least 12 characters.",
+          "confirmationMax": "Confirmation must be at most 72 characters.",
+          "passwordsMatch": "Passwords must match."
         },
-        "growth": {
-          "label": "Growth rate",
-          "trend": "Growth is steady",
-          "detail": "Tracking ahead of forecast"
+        "update": {
+          "successTitle": "Password updated",
+          "successMessage": "Your password has been saved.",
+          "errorMessage": "We couldn't update your password. Please check it and try again."
+        }
+      },
+      "passkeys": {
+        "title": "Passkeys",
+        "description": "Use device biometrics, security keys, or password managers to sign in faster.",
+        "add": "Add passkey",
+        "neverUsed": "Never used",
+        "table": {
+          "name": "Name",
+          "lastUsed": "Last used",
+          "created": "Created",
+          "actions": "Actions",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "No passkeys yet",
+          "description": "Add a passkey to sign in without typing your password."
+        },
+        "error": {
+          "title": "Passkeys could not be loaded",
+          "description": "Refresh the list or try again in a moment."
+        },
+        "addDialog": {
+          "title": "Add passkey",
+          "description": "Name this passkey before starting browser registration.",
+          "label": "Passkey name",
+          "placeholder": "MacBook Touch ID",
+          "helper": "Name your passkey so you can recognise it later.",
+          "submit": "Start setup"
+        },
+        "rename": {
+          "trigger": "Rename passkey",
+          "inputLabel": "Passkey name",
+          "save": "Save passkey name"
+        },
+        "delete": {
+          "trigger": "Delete passkey",
+          "title": "Delete passkey?",
+          "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
+          "submit": "Delete"
         }
       }
     }

@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-
-// TODO: error boundary
-// TODO: add server flash data toast
+import { Component, ErrorBoundary, loader as rootLoader } from "@/routes/root";
 
 export const router = createBrowserRouter(
   [
     {
+      loader: rootLoader,
+      Component,
+      ErrorBoundary,
       children: [
         {
           path: "/login",
@@ -17,6 +18,10 @@ export const router = createBrowserRouter(
             {
               path: "/dashboard",
               lazy: () => import("@/routes/dashboard"),
+            },
+            {
+              path: "/settings/user",
+              lazy: () => import("@/routes/settings.user"),
             },
           ],
         },

@@ -6,7 +6,7 @@ defmodule Dian.AccountsTest do
 
   import Dian.AccountsFixtures
   import Dian.SettingsFixtures
-  alias Dian.Accounts.{User, UserToken}
+  alias Dian.Accounts.{Passkey, User, UserToken}
   alias Dian.Settings.GlobalSetting
 
   describe "get_user_by_email/1" do
@@ -276,6 +276,54 @@ defmodule Dian.AccountsTest do
 
       assert %GlobalSetting{superadmin_user_id: user_id} = Repo.get(GlobalSetting, 1)
       assert user_id == first_user.id
+    end
+  end
+
+  describe "passkeys" do
+    setup do
+      user = user_fixture()
+      %{scope: user_scope_fixture(user), user: user}
+    end
+
+    test "begins passkey registration with WebAuthn creation options", %{scope: scope, user: user} do
+      {challenge, options} = Accounts.begin_passkey_registration(scope)
+
+      assert %Wax.Challenge{type: :attestation} = challenge
+      assert {:ok, challenge_bytes} = Base.url_decode64(options.challenge, padding: false)
+      assert challenge_bytes == challenge.bytes
+      assert options.user.name == user.email
+      assert options.user.displayName == Accounts.extract_qq_id_from(user.email)
+      assert options.authenticatorSelection.residentKey == "required"
+      assert options.authenticatorSelection.userVerification == "preferred"
+    end
+
+    test "does not complete passkey registration with invalid WebAuthn data", %{scope: scope} do
+      {challenge, _options} = Accounts.begin_passkey_registration(scope)
+
+      assert {:error, :invalid_webauthn_response} =
+               Accounts.complete_passkey_registration(scope, challenge, %{
+                 "response" => %{
+                   "attestationObject" => "bad",
+                   "clientDataJSON" => "bad"
+                 }
+               })
+
+      assert Repo.all(Passkey) == []
+    end
+
+    test "lists, renames, and deletes scoped passkeys", %{scope: scope, user: user} do
+      passkey = passkey_fixture(user, label: "Old label")
+
+      assert [listed] = Accounts.list_user_passkeys(scope)
+      assert listed.id == passkey.id
+
+      assert {:ok, renamed} =
+               Accounts.update_user_passkey(scope, passkey.id, %{"label" => "New label"})
+
+      assert renamed.label == "New label"
+
+      assert :ok = Accounts.delete_user_passkey(scope, passkey.id)
+      assert Accounts.list_user_passkeys(scope) == []
     end
   end
 

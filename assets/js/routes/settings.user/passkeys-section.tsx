@@ -1,0 +1,51 @@
+import { FingerprintIcon } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+import { type FormEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { listPasskeysOptions } from "@/client/@tanstack/react-query.gen";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AddPasskeyDialog } from "@/routes/settings.user/add-passkey-dialog";
+import { PasskeysEmptyState } from "@/routes/settings.user/passkeys-empty-state";
+import { PasskeysErrorState } from "@/routes/settings.user/passkeys-error-state";
+import { PasskeysLoadingState } from "@/routes/settings.user/passkeys-loading-state";
+import { PasskeysTable } from "@/routes/settings.user/passkeys-table";
+
+export const PasskeysSection = () => {
+  const { t } = useTranslation();
+  const [editingPasskeyId, setEditingPasskeyId] = useState<number | null>(null);
+  const passkeysQuery = useQuery(listPasskeysOptions());
+  const passkeys = passkeysQuery.data?.data.passkeys ?? [];
+
+  const handleInertSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <FingerprintIcon className="size-5" weight="duotone" />
+        </div>
+        <CardTitle>{t("app.settings.passkeys.title")}</CardTitle>
+        <CardDescription>{t("app.settings.passkeys.description")}</CardDescription>
+        <CardAction>
+          <AddPasskeyDialog />
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        {passkeysQuery.isLoading ? <PasskeysLoadingState /> : null}
+        {passkeysQuery.isError ? <PasskeysErrorState onRetry={() => void passkeysQuery.refetch()} /> : null}
+        {passkeysQuery.isSuccess && passkeys.length === 0 ? <PasskeysEmptyState /> : null}
+        {passkeysQuery.isSuccess && passkeys.length > 0 ? (
+          <PasskeysTable
+            editingPasskeyId={editingPasskeyId}
+            onEditCancel={() => setEditingPasskeyId(null)}
+            onEditStart={setEditingPasskeyId}
+            onInertSubmit={handleInertSubmit}
+            passkeys={passkeys}
+          />
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+};

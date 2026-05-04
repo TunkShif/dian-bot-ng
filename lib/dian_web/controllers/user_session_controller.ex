@@ -19,9 +19,10 @@ defmodule DianWeb.UserSessionController do
     request_body:
       {"User login params", "application/json", Schemas.UserSessionCreateRequest, required: true},
     responses: [
-      ok: {"Magic login link accepted", "application/json", Schemas.JSendSuccess},
-      found: "Password login succeeded; redirects to the SPA",
-      unauthorized: {"Invalid password credentials", "application/json", Schemas.JSendMessageFail}
+      ok: {"Login succeeded or magic link accepted", "application/json", Schemas.JSendSuccess},
+      unauthorized:
+        {"Invalid password credentials", "application/json", Schemas.JSendMessageFail},
+      not_found: {"Email not found for magic link", "application/json", Schemas.JSendMessageFail}
     ]
 
   operation :show,
@@ -40,26 +41,28 @@ defmodule DianWeb.UserSessionController do
   def create(conn, %{"user" => %{"email" => email, "password" => password} = user_params}) do
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn
-      |> put_flash(:info, "flash.welcome")
-      |> UserAuth.log_in_user(user, user_params)
+      |> UserAuth.create_user_session(user, user_params)
+      |> JSend.success_json()
     else
       conn
       |> JSend.fail_json(%{message: "failed to login"}, :unauthorized)
     end
   end
 
-  # TODO: error handling
   # TODO: rate limit
   # magic link request
   def create(conn, %{"user" => %{"email" => email}}) do
-    if user = Accounts.get_user_by_email(email) do
-      Accounts.deliver_login_instructions(
-        user,
-        &url(~p"/redirects/users/login/#{&1}")
-      )
+    with user when not is_nil(user) <- Accounts.get_user_by_email(email),
+         {:ok, _user} <-
+           Accounts.deliver_login_instructions(
+             user,
+             &url(~p"/redirects/users/login/#{&1}")
+           ) do
+      JSend.success_json(conn)
+    else
+      nil -> JSend.fail_json(conn, %{message: "invalid email"}, :not_found)
+      {:error, _reason} = error -> error
     end
-
-    JSend.success_json(conn)
   end
 
   # show current user
@@ -76,23 +79,22 @@ defmodule DianWeb.UserSessionController do
   def confirm(conn, %{"token" => token} = user_params) do
     if token_user = Accounts.get_user_by_magic_link_token(token) do
       with {:ok, {user, _expired_tokens}} <- Accounts.login_user_by_magic_link(token) do
-        message =
-          if token_user.confirmed_at, do: "flash.welcome", else: "flash.set_password_prompt"
+        flash =
+          if token_user.confirmed_at, do: "welcome", else: "set_password"
+
+        user_params = Map.put(user_params, "flash", flash)
 
         conn
-        |> put_flash(:info, message)
         |> UserAuth.log_in_user(user, user_params)
       end
     else
       conn
-      |> put_flash(:error, "flash.invalid_token")
-      |> redirect(to: ~p"/app/login")
+      |> redirect(to: ~p"/app/login?flash=invalid_token")
     end
   end
 
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "flash.logout")
     |> UserAuth.log_out_user()
   end
 end

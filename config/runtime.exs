@@ -42,6 +42,14 @@ if config_env() == :prod do
     database: database_path,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "5")
 
+  # Configure Wax WebAuthn
+  config :wax_,
+    # Full URL of your frontend/API — must include https:// and no trailing slash
+    origin: System.fetch_env!("WEBAUTHN_ORIGIN"),
+    # Just the domain, no port, no scheme
+    rp_id: System.fetch_env!("WEBAUTHN_RP_ID"),
+    attestation: "none"
+
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
   # want to use a different value for prod and you most likely don't want

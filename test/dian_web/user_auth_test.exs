@@ -112,7 +112,7 @@ defmodule DianWeb.UserAuthTest do
       refute get_session(conn, :user_token)
       refute conn.cookies[@remember_me_cookie]
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == ~p"/app/login"
+      assert redirected_to(conn) == ~p"/app/login?flash=logout"
       refute Accounts.get_user_by_session_token(user_token)
     end
 
@@ -120,7 +120,7 @@ defmodule DianWeb.UserAuthTest do
       conn = conn |> fetch_cookies() |> UserAuth.log_out_user()
       refute get_session(conn, :user_token)
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == ~p"/app/login"
+      assert redirected_to(conn) == ~p"/app/login?flash=logout"
     end
   end
 

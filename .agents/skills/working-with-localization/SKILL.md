@@ -14,6 +14,8 @@ Localization lives only in the frontend `assets` app. Treat every user-facing fr
 - Only localize frontend code under `assets`.
 - Supported locales are defined in `assets/i18next.config.ts` and `assets/js/lib/locales.ts`; keep both lists aligned.
 - Locale strings live in `assets/public/locales/{locale}/{namespace}.json`; currently this app uses `translation.json`.
+- When implementing new features, add new translation keys only to `en` and `zh` by default. Add keys to every supported locale only when the user explicitly requests full locale translation coverage.
+- When editing an existing key that already exists in multiple locales, preserve the existing locale coverage for that key unless the change is part of a new feature copy path.
 
 ## Key Structure Convention
 
@@ -85,6 +87,7 @@ Usually do not run `bun i18next-cli types` manually because precommit handles it
 | Add app sidebar/nav text | Add under `app.nav.*` |
 | Add reusable button/menu verb | Add under `app.actions.*` |
 | Add unauthenticated redirect copy | Add under `app.auth.*` |
+| Add new feature copy | Add keys to `en` and `zh` only unless full locale coverage is explicitly requested |
 | Component copy | Use `useTranslation()` |
 | Loader/action/toast copy | Use `i18n.t(...)` |
 | After frontend changes | Check for hardcoded text and run i18next lint/status |
@@ -95,4 +98,5 @@ Usually do not run `bun i18next-cli types` manually because precommit handles it
 - Adding English text directly in JSX, loaders, actions, toast calls, aria labels, or placeholders.
 - Creating keys from the current sentence, which forces key churn when copy changes.
 - Hiding feature copy in `app.*` when only one route owns it.
-- Forgetting locale parity: every key added to English needs corresponding entries in every locale file, even if initially translated by tooling.
+- Adding new feature keys to every locale by default. For new features, use only `en` and `zh` unless the user explicitly asks for full locale translations.
+- Breaking existing locale coverage when editing established keys that already exist across multiple locale files.

@@ -2,12 +2,13 @@ import { EnvelopeSimpleIcon, FingerprintIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import type { SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { loginUserMutation } from "@/client/@tanstack/react-query.gen";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { AuthHeader, QQEmailInput } from "@/routes/login/auth-step-fields";
+import { usePasskeyLoginMutation } from "@/routes/login/use-passkey-login-mutation";
 
 type MethodsStepProps = {
   input: string;
@@ -17,33 +18,75 @@ type MethodsStepProps = {
 
 export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  // TODO: i18n
-  const { mutate, isPending } = useMutation({
+  const redirect = () => navigate("/dashboard", { replace: true });
+
+  const { mutate: loginWithPassword, isPending: isPasswordLoginPending } = useMutation({
     ...loginUserMutation(),
+    onSuccess: () => {
+      redirect();
+    },
     meta: {
-      errorTitle: "登录出错",
-      errorMessage: "请检查您的邮箱和密码",
-      successMessage: "请查看邮箱中的登录链接",
+      successTitle: t("auth.login.methodsStep.passwordLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passwordLogin.successMessage"),
+      errorTitle: t("auth.login.methodsStep.passwordLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passwordLogin.errorMessage"),
     },
   });
 
-  const loginUser = (password?: string) => {
-    const user = { email: `${input}@qq.com`, password, rember_me: true };
-    mutate({
-      body: { user },
-    });
-  };
+  const { mutate: loginWithoutPassword, isPending: isPasswordlessLoginPending } = useMutation({
+    ...loginUserMutation(),
+    meta: {
+      successTitle: t("auth.login.methodsStep.passwordlessLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passwordlessLogin.successMessage"),
+      errorTitle: t("auth.login.methodsStep.passwordlessLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passwordlessLogin.errorMessage"),
+    },
+  });
+
+  const { mutate: loginWithPasskey, isPending: isPasskeyLoginPending } = usePasskeyLoginMutation({
+    onSuccess: () => {
+      redirect();
+    },
+    meta: {
+      successTitle: t("auth.login.methodsStep.passkeyLogin.successTitle"),
+      successMessage: t("auth.login.methodsStep.passkeyLogin.successMessage"),
+      errorTitle: t("auth.login.methodsStep.passkeyLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passkeyLogin.errorMessage"),
+    },
+  });
+
+  const isPending = isPasswordLoginPending || isPasswordlessLoginPending || isPasskeyLoginPending;
 
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!input) return;
     const formData = new FormData(event.currentTarget);
     const password = formData.get("password");
     if (!password) return;
-    loginUser(password.toString());
+    loginWithPassword({
+      body: {
+        user: {
+          email: `${input}@qq.com`,
+          password: password.toString(),
+          remember_me: "true" as const,
+        },
+      },
+    });
   };
 
-  const handleEmailRequest = () => loginUser();
+  const handleEmailRequest = () => {
+    if (!input) return;
+    loginWithoutPassword({
+      body: {
+        user: {
+          email: `${input}@qq.com`,
+          remember_me: "true" as const,
+        },
+      },
+    });
+  };
 
   return (
     <form className="p-6 md:p-8" onSubmit={handleSubmit}>
@@ -74,17 +117,13 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
             {t("auth.login.methodsStep.emailLink")}
           </Button>
         </Field>
-        <Tooltip>
-          <TooltipTrigger>
-            <Field>
-              <Button variant="outline" type="button" disabled render={<div />} nativeButton={false}>
-                <FingerprintIcon data-icon="inline-start" />
-                {t("auth.login.methodsStep.passkey")}
-              </Button>
-            </Field>
-          </TooltipTrigger>
-          <TooltipContent>计划开发中，暂不可用</TooltipContent>
-        </Tooltip>
+
+        <Field>
+          <Button variant="outline" type="button" disabled={isPending} onClick={() => loginWithPasskey()}>
+            <FingerprintIcon data-icon="inline-start" />
+            {t("auth.login.methodsStep.passkey")}
+          </Button>
+        </Field>
 
         <FieldDescription className="text-center">
           <button

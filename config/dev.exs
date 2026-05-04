@@ -83,6 +83,14 @@ config :phoenix_live_view,
   # Enable helpful, but potentially expensive runtime checks
   enable_expensive_runtime_checks: true
 
+# Configure Wax WebAuthn
+config :wax_,
+  origin: "http://localhost:4000",
+  # derives "localhost" automatically
+  rp_id: :auto,
+  # no attestation needed locally
+  attestation: "none"
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 

@@ -23,7 +23,25 @@
         "separator": "または",
         "emailLink": "パスワードなしのログインリンクを送信",
         "passkey": "パスキーでサインイン",
-        "useDifferentEmail": "別のメールを使用"
+        "useDifferentEmail": "別のメールを使用",
+        "passwordLogin": {
+          "successTitle": "ログインしました",
+          "successMessage": "おかえりなさい",
+          "errorTitle": "ログインに失敗しました",
+          "errorMessage": "メールアドレスとパスワードを確認してください"
+        },
+        "passwordlessLogin": {
+          "successTitle": "ログインリンクを送信しました",
+          "successMessage": "メールでログインリンクを確認してください",
+          "errorTitle": "送信に失敗しました",
+          "errorMessage": "メールを確認してもう一度お試しください"
+        },
+        "passkeyLogin": {
+          "successTitle": "ログインしました",
+          "successMessage": "おかえりなさい",
+          "errorTitle": "パスキーログインに失敗しました",
+          "errorMessage": "パスキーを確認できませんでした。再試行するか、別の方法をお使いください。"
+        }
       },
       "fields": {
         "email": "メール",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "言語を変更"
       }
+    },
+    "flash": {
+      "welcome": "おかえりなさい",
+      "logout": "ログアウトしました",
+      "setPassword": "アカウントを作成しました",
+      "setPasswordDescription": "アカウント設定でパスワードまたはパスキーを作成してください。",
+      "setPasswordAction": "設定"
     }
   },
   "app": {
@@ -77,27 +102,112 @@
       "logOut": "ログアウト"
     },
     "dashboard": {
-      "title": "ダッシュボード",
-      "cards": {
-        "revenue": {
-          "label": "収益",
-          "trend": "今月の収益は増加中",
-          "detail": "直近6か月のパフォーマンス"
+      "title": "ダッシュボード"
+    },
+    "settings": {
+      "title": "設定",
+      "description": "サインイン方法を管理し、アカウントへのアクセスを保護します。",
+      "actions": {
+        "cancel": "キャンセル",
+        "retry": "再試行"
+      },
+      "password": {
+        "title": "パスワード",
+        "description": "メールとパスワードでサインインするためのパスワードを設定します。",
+        "helper": "12〜72文字で入力してください。",
+        "submit": "パスワードを更新",
+        "newPassword": {
+          "label": "新しいパスワード",
+          "placeholder": "新しいパスワードを入力"
         },
-        "customers": {
-          "label": "新規顧客",
-          "trend": "顧客獲得が低下",
-          "detail": "キャンペーン品質と転換率を確認"
+        "confirmPassword": {
+          "label": "パスワードの確認",
+          "placeholder": "新しいパスワードを再入力"
         },
-        "accounts": {
-          "label": "アクティブアカウント",
-          "trend": "リテンションは堅調",
-          "detail": "エンゲージメントは目標を上回っています"
+        "validation": {
+          "passwordMin": "パスワードは12文字以上必要です。",
+          "passwordMax": "パスワードは72文字以内で入力してください。",
+          "confirmationMin": "確認パスワードは12文字以上必要です。",
+          "confirmationMax": "確認パスワードは72文字以内で入力してください。",
+          "passwordsMatch": "パスワードが一致しません。"
         },
-        "growth": {
-          "label": "成長率",
-          "trend": "成長は安定しています",
-          "detail": "予測を上回って推移"
+        "update": {
+          "successTitle": "パスワードを更新しました",
+          "successMessage": "パスワードが保存されました。",
+          "errorMessage": "パスワードを更新できませんでした。確認して再試行してください。"
+        }
+      },
+      "passkeys": {
+        "title": "パスキー",
+        "description": "デバイスの生体認証、セキュリティキー、パスワードマネージャーでより速くサインインできます。",
+        "add": "パスキーを追加",
+        "neverUsed": "未使用",
+        "table": {
+          "name": "名前",
+          "lastUsed": "最終使用",
+          "created": "作成日",
+          "actions": "操作",
+          "id": "ID {{id}}"
+        },
+        "empty": {
+          "title": "パスキーはまだありません",
+          "description": "パスキーを追加すると、パスワード入力なしでサインインできます。"
+        },
+        "error": {
+          "title": "パスキーを読み込めませんでした",
+          "description": "一覧を更新するか、しばらくしてからもう一度お試しください。"
+        },
+        "addDialog": {
+          "title": "パスキーを追加",
+          "description": "ブラウザー登録を開始する前に、このパスキーに名前を付けます。",
+          "label": "パスキー名",
+          "placeholder": "MacBook Touch ID",
+          "helper": "あとで識別できるようにパスキーに名前を付けてください。",
+          "submit": "設定を開始"
+        },
+        "rename": {
+          "trigger": "パスキー名を変更",
+          "inputLabel": "パスキー名",
+          "save": "パスキー名を保存"
+        },
+        "delete": {
+          "trigger": "パスキーを削除",
+          "title": "パスキーを削除しますか？",
+          "description": "{{label}} をアカウントから削除します。削除はまだ接続されていません。",
+          "submit": "削除"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "復旧モード",
+      "goBack": "戻る",
+      "dashboard": "ダッシュボードへ",
+      "login": "ログインへ",
+      "details": "エラー詳細",
+      "fallback": {
+        "title": "問題が発生しました",
+        "description": "予期しないエラーが発生しました。もう一度お試しください。"
+      },
+      "status": {
+        "400": {
+          "title": "不正なリクエスト",
+          "description": "リクエストが無効です。確認して再試行してください。"
+        },
+        "401": {
+          "title": "ログインが必要です",
+          "description": "このページにアクセスするにはログインしてください。"
+        },
+        "403": {
+          "title": "アクセスが拒否されました",
+          "description": "このページを表示する権限がありません。"
+        },
+        "404": {
+          "title": "ページが見つかりません",
+          "description": "お探しのページは存在しません。"
+        },
+        "500": {
+          "title": "サーバーエラー",
+          "description": "サーバー側で問題が発生しました。後でもう一度お試しください。"
         }
       }
     }

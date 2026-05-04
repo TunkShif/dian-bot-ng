@@ -15,7 +15,7 @@ defmodule DianWeb.UserSessionControllerTest do
   end
 
   describe "POST /api/users/login - email and password" do
-    test "logs the user in and redirects to the SPA dashboard", %{conn: conn, user: user} do
+    test "logs the user in and returns JSON with session cookie", %{conn: conn, user: user} do
       user = set_password(user)
 
       conn =
@@ -24,8 +24,7 @@ defmodule DianWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/app/dashboard"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.welcome"
+      assert json_response(conn, 200) == %{"status" => "success", "data" => nil}
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -41,10 +40,13 @@ defmodule DianWeb.UserSessionControllerTest do
         })
 
       assert conn.resp_cookies["_dian_web_user_remember_me"]
-      assert redirected_to(conn) == ~p"/app/dashboard"
+      assert json_response(conn, 200) == %{"status" => "success", "data" => nil}
     end
 
-    test "logs the user in with return to", %{conn: conn, user: user} do
+    test "logs the user in and returns JSON (return_to only affects redirect-based logins)", %{
+      conn: conn,
+      user: user
+    } do
       user = set_password(user)
 
       conn =
@@ -57,8 +59,7 @@ defmodule DianWeb.UserSessionControllerTest do
           }
         })
 
-      assert redirected_to(conn) == "/foo/bar"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.welcome"
+      assert json_response(conn, 200) == %{"status" => "success", "data" => nil}
     end
 
     test "returns jsend fail with invalid credentials", %{conn: conn, user: user} do
@@ -85,13 +86,16 @@ defmodule DianWeb.UserSessionControllerTest do
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "login"
     end
 
-    test "returns success when the email does not exist", %{conn: conn} do
+    test "returns fail when the email does not exist", %{conn: conn} do
       conn =
         post(conn, ~p"/api/users/login", %{
           "user" => %{"email" => unique_user_email()}
         })
 
-      assert json_response(conn, 200) == %{"status" => "success", "data" => nil}
+      assert json_response(conn, 404) == %{
+               "status" => "fail",
+               "data" => %{"message" => "invalid email"}
+             }
     end
   end
 
@@ -163,8 +167,7 @@ defmodule DianWeb.UserSessionControllerTest do
       conn = get(conn, ~p"/redirects/users/login/#{token}")
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/app/dashboard"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.welcome"
+      assert redirected_to(conn) == ~p"/app/dashboard?flash=welcome"
     end
 
     test "confirms and logs unconfirmed user in", %{conn: conn, unconfirmed_user: user} do
@@ -174,16 +177,14 @@ defmodule DianWeb.UserSessionControllerTest do
       conn = get(conn, ~p"/redirects/users/login/#{token}")
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/app/dashboard"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.set_password_prompt"
+      assert redirected_to(conn) == ~p"/app/dashboard?flash=set_password"
       assert Accounts.get_user!(user.id).confirmed_at
     end
 
     test "redirects to SPA login for invalid token", %{conn: conn} do
       conn = get(conn, ~p"/redirects/users/login/invalid-token")
 
-      assert redirected_to(conn) == ~p"/app/login"
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "flash.invalid_token"
+      assert redirected_to(conn) == ~p"/app/login?flash=invalid_token"
     end
   end
 
@@ -191,17 +192,15 @@ defmodule DianWeb.UserSessionControllerTest do
     test "logs the user out", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> delete(~p"/redirects/users/logout")
 
-      assert redirected_to(conn) == ~p"/app/login"
+      assert redirected_to(conn) == ~p"/app/login?flash=logout"
       refute get_session(conn, :user_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.logout"
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, ~p"/redirects/users/logout")
 
-      assert redirected_to(conn) == ~p"/app/login"
+      assert redirected_to(conn) == ~p"/app/login?flash=logout"
       refute get_session(conn, :user_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "flash.logout"
     end
   end
 end
