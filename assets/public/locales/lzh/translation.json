@@ -23,7 +23,25 @@
         "separator": "或",
         "emailLink": "寄無密登入之鏈",
         "passkey": "以通行密鑰登入",
-        "useDifferentEmail": "易郵"
+        "useDifferentEmail": "易郵",
+        "passwordLogin": {
+          "successTitle": "登入已成",
+          "successMessage": "歡迎歸來",
+          "errorTitle": "登入未成",
+          "errorMessage": "請核郵與密"
+        },
+        "passwordlessLogin": {
+          "successTitle": "登入之鏈已寄",
+          "successMessage": "請察郵中登入之鏈",
+          "errorTitle": "寄鏈未成",
+          "errorMessage": "請核郵而復試"
+        },
+        "passkeyLogin": {
+          "successTitle": "登入已成",
+          "successMessage": "歡迎歸來",
+          "errorTitle": "通行密鑰登入未成",
+          "errorMessage": "未能驗君之通行密鑰。請復試或易法。"
+        }
       },
       "fields": {
         "email": "郵",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "易語"
       }
+    },
+    "flash": {
+      "welcome": "歡迎歸來",
+      "logout": "已出",
+      "setPassword": "立戶已成",
+      "setPasswordDescription": "宜往帳戶設定立密或通行密鑰",
+      "setPasswordAction": "入"
     }
   },
   "app": {
@@ -80,7 +105,6 @@
       "title": "總覽"
     },
     "settings": {
-      "eyebrow": "帳戶之安",
       "title": "設定",
       "description": "治登入之法，護帳戶之通。",
       "actions": {
@@ -90,7 +114,7 @@
       "password": {
         "title": "密",
         "description": "設密，以電郵與密登入。",
-        "helper": "宜十二字以上。存密之事尚未接。",
+        "helper": "宜十二至七十二字。",
         "submit": "更新密",
         "newPassword": {
           "label": "新密",
@@ -99,6 +123,18 @@
         "confirmPassword": {
           "label": "驗密",
           "placeholder": "復輸新密"
+        },
+        "validation": {
+          "passwordMin": "密需十二字以上。",
+          "passwordMax": "密不得逾七十二字。",
+          "confirmationMin": "驗密需十二字以上。",
+          "confirmationMax": "驗密不得逾七十二字。",
+          "passwordsMatch": "兩密須一致。"
+        },
+        "update": {
+          "successTitle": "密已更新",
+          "successMessage": "君之密已存。",
+          "errorMessage": "更新密未成。請核而復試。"
         }
       },
       "passkeys": {
@@ -126,7 +162,7 @@
           "description": "啟瀏覽器註冊前，先名此鑰。",
           "label": "通行密鑰名",
           "placeholder": "MacBook Touch ID",
-          "helper": "註冊尚未接。",
+          "helper": "名君之通行密鑰，以備後識。",
           "submit": "始設"
         },
         "rename": {
@@ -139,6 +175,39 @@
           "title": "刪通行密鑰？",
           "description": "將自帳戶去 {{label}}。刪除尚未接。",
           "submit": "刪"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "恢復之法",
+      "goBack": "歸",
+      "dashboard": "往總覽",
+      "login": "往登入",
+      "details": "誤詳",
+      "fallback": {
+        "title": "有誤",
+        "description": "意外之誤。請復試。"
+      },
+      "status": {
+        "400": {
+          "title": "請有誤",
+          "description": "請有誤，請核而復試。"
+        },
+        "401": {
+          "title": "須登入",
+          "description": "請登入而後覽此頁。"
+        },
+        "403": {
+          "title": "禁入",
+          "description": "君無權覽此頁。"
+        },
+        "404": {
+          "title": "頁無存",
+          "description": "君所尋之頁不存。"
+        },
+        "500": {
+          "title": "伺服有誤",
+          "description": "吾端有誤。請稍後復試。"
         }
       }
     }

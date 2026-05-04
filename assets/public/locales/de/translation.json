@@ -23,7 +23,25 @@
         "separator": "ODER",
         "emailLink": "Passwortlosen Anmeldelink senden",
         "passkey": "Mit Passkey anmelden",
-        "useDifferentEmail": "Andere E-Mail verwenden"
+        "useDifferentEmail": "Andere E-Mail verwenden",
+        "passwordLogin": {
+          "successTitle": "Erfolgreich angemeldet",
+          "successMessage": "Willkommen zurück",
+          "errorTitle": "Anmeldung fehlgeschlagen",
+          "errorMessage": "Bitte überprüfe deine E-Mail und dein Passwort"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Anmeldelink gesendet",
+          "successMessage": "Prüfe deine E-Mail auf den Anmeldelink",
+          "errorTitle": "Senden fehlgeschlagen",
+          "errorMessage": "Bitte überprüfe deine E-Mail und versuche es erneut"
+        },
+        "passkeyLogin": {
+          "successTitle": "Erfolgreich angemeldet",
+          "successMessage": "Willkommen zurück",
+          "errorTitle": "Passkey-Anmeldung fehlgeschlagen",
+          "errorMessage": "Dein Passkey konnte nicht verifiziert werden. Versuche es erneut oder nutze eine andere Methode."
+        }
       },
       "fields": {
         "email": "E-Mail",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Sprache wechseln"
       }
+    },
+    "flash": {
+      "welcome": "Willkommen zurück",
+      "logout": "Abgemeldet",
+      "setPassword": "Konto erstellt",
+      "setPasswordDescription": "Erstelle ein Passwort oder einen Passkey in deinen Kontoeinstellungen.",
+      "setPasswordAction": "Einstellungen"
     }
   },
   "app": {
@@ -80,7 +105,6 @@
       "title": "Übersicht"
     },
     "settings": {
-      "eyebrow": "Kontosicherheit",
       "title": "Einstellungen",
       "description": "Verwalten Sie Ihre Anmeldemethoden und schützen Sie den Zugriff auf Ihr Konto.",
       "actions": {
@@ -90,7 +114,7 @@
       "password": {
         "title": "Passwort",
         "description": "Legen Sie ein Passwort für die Anmeldung mit E-Mail und Passwort fest.",
-        "helper": "Verwenden Sie mindestens 12 Zeichen. Das Speichern des Passworts ist noch nicht verbunden.",
+        "helper": "Verwende 12 bis 72 Zeichen.",
         "submit": "Passwort aktualisieren",
         "newPassword": {
           "label": "Neues Passwort",
@@ -99,6 +123,18 @@
         "confirmPassword": {
           "label": "Passwort bestätigen",
           "placeholder": "Neues Passwort wiederholen"
+        },
+        "validation": {
+          "passwordMin": "Das Passwort muss mindestens 12 Zeichen lang sein.",
+          "passwordMax": "Das Passwort darf höchstens 72 Zeichen lang sein.",
+          "confirmationMin": "Die Bestätigung muss mindestens 12 Zeichen lang sein.",
+          "confirmationMax": "Die Bestätigung darf höchstens 72 Zeichen lang sein.",
+          "passwordsMatch": "Die Passwörter müssen übereinstimmen."
+        },
+        "update": {
+          "successTitle": "Passwort aktualisiert",
+          "successMessage": "Dein Passwort wurde gespeichert.",
+          "errorMessage": "Das Passwort konnte nicht aktualisiert werden. Bitte überprüfe es und versuche es erneut."
         }
       },
       "passkeys": {
@@ -126,7 +162,7 @@
           "description": "Benennen Sie diesen Passkey, bevor die Browser-Registrierung startet.",
           "label": "Passkey-Name",
           "placeholder": "MacBook Touch ID",
-          "helper": "Die Registrierung ist noch nicht verbunden.",
+          "helper": "Gib deinem Passkey einen Namen, damit du ihn später wiedererkennst.",
           "submit": "Einrichtung starten"
         },
         "rename": {
@@ -137,8 +173,41 @@
         "delete": {
           "trigger": "Passkey löschen",
           "title": "Passkey löschen?",
-          "description": "Dadurch wird {{label}} aus Ihrem Konto entfernt. Das Löschen ist noch nicht verbunden.",
+          "description": "Dies entfernt {{label}} aus deinem Konto. Das Löschen ist noch nicht verbunden.",
           "submit": "Löschen"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "Wiederherstellungsmodus",
+      "goBack": "Zurück",
+      "dashboard": "Zur Übersicht",
+      "login": "Zur Anmeldung",
+      "details": "Fehlerdetails",
+      "fallback": {
+        "title": "Etwas ist schiefgelaufen",
+        "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut."
+      },
+      "status": {
+        "400": {
+          "title": "Ungültige Anfrage",
+          "description": "Die Anfrage war ungültig. Bitte überprüfe sie und versuche es erneut."
+        },
+        "401": {
+          "title": "Anmeldung erforderlich",
+          "description": "Bitte melde dich an, um auf diese Seite zuzugreifen."
+        },
+        "403": {
+          "title": "Zugriff verweigert",
+          "description": "Du hast keine Berechtigung, diese Seite anzusehen."
+        },
+        "404": {
+          "title": "Seite nicht gefunden",
+          "description": "Die gesuchte Seite existiert nicht."
+        },
+        "500": {
+          "title": "Serverfehler",
+          "description": "Bei uns ist etwas schiefgelaufen. Bitte versuche es später erneut."
         }
       }
     }

@@ -23,7 +23,25 @@
         "separator": "或者",
         "emailLink": "傳送免密碼登入連結",
         "passkey": "用通行密鑰登入",
-        "useDifferentEmail": "使用其他電郵"
+        "useDifferentEmail": "使用其他電郵",
+        "passwordLogin": {
+          "successTitle": "登入成功",
+          "successMessage": "歡迎返嚟",
+          "errorTitle": "登入失敗",
+          "errorMessage": "請檢查你嘅電郵同密碼"
+        },
+        "passwordlessLogin": {
+          "successTitle": "登入連結已傳送",
+          "successMessage": "請去電郵查看登入連結",
+          "errorTitle": "傳送失敗",
+          "errorMessage": "請檢查電郵後再試"
+        },
+        "passkeyLogin": {
+          "successTitle": "登入成功",
+          "successMessage": "歡迎返嚟",
+          "errorTitle": "通行密鑰登入失敗",
+          "errorMessage": "驗證唔到你嘅通行密鑰。請再試或者用其他方式。"
+        }
       },
       "fields": {
         "email": "電郵",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "切換語言"
       }
+    },
+    "flash": {
+      "welcome": "歡迎返嚟",
+      "logout": "已登出",
+      "setPassword": "帳戶建立成功",
+      "setPasswordDescription": "建議你去帳戶設定頁面建立密碼或通行密鑰",
+      "setPasswordAction": "進入"
     }
   },
   "app": {
@@ -80,7 +105,6 @@
       "title": "儀表板"
     },
     "settings": {
-      "eyebrow": "帳戶安全",
       "title": "設定",
       "description": "管理你點樣登入，保護帳戶存取安全。",
       "actions": {
@@ -90,7 +114,7 @@
       "password": {
         "title": "密碼",
         "description": "設定用電郵同密碼登入嘅密碼。",
-        "helper": "最少用 12 個字元。密碼儲存仲未接駁。",
+        "helper": "請用 12 至 72 個字元。",
         "submit": "更新密碼",
         "newPassword": {
           "label": "新密碼",
@@ -99,6 +123,18 @@
         "confirmPassword": {
           "label": "確認密碼",
           "placeholder": "再輸入新密碼"
+        },
+        "validation": {
+          "passwordMin": "密碼最少要 12 個字元。",
+          "passwordMax": "密碼最多 72 個字元。",
+          "confirmationMin": "確認密碼最少要 12 個字元。",
+          "confirmationMax": "確認密碼最多 72 個字元。",
+          "passwordsMatch": "兩次輸入嘅密碼必須一致。"
+        },
+        "update": {
+          "successTitle": "密碼已更新",
+          "successMessage": "你嘅密碼已儲存。",
+          "errorMessage": "更新唔到密碼。請檢查後再試。"
         }
       },
       "passkeys": {
@@ -126,7 +162,7 @@
           "description": "開始瀏覽器註冊之前，先幫呢個通行密鑰改名。",
           "label": "通行密鑰名稱",
           "placeholder": "MacBook Touch ID",
-          "helper": "註冊流程仲未接駁。",
+          "helper": "幫你嘅通行密鑰改名，方便日後認得返。",
           "submit": "開始設定"
         },
         "rename": {
@@ -139,6 +175,39 @@
           "title": "刪除通行密鑰？",
           "description": "呢個動作會由你帳戶移除 {{label}}。刪除流程仲未接駁。",
           "submit": "刪除"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "恢復模式",
+      "goBack": "返去",
+      "dashboard": "去儀表板",
+      "login": "去登入",
+      "details": "錯誤詳情",
+      "fallback": {
+        "title": "出咗啲問題",
+        "description": "發生咗意外錯誤。請再試。"
+      },
+      "status": {
+        "400": {
+          "title": "請求無效",
+          "description": "請求無效，請檢查後再試。"
+        },
+        "401": {
+          "title": "需要登入",
+          "description": "請登入後再訪問呢個頁面。"
+        },
+        "403": {
+          "title": "拒絕存取",
+          "description": "你冇權限睇呢個頁面。"
+        },
+        "404": {
+          "title": "搵唔到頁面",
+          "description": "你搵緊嘅頁面唔存在。"
+        },
+        "500": {
+          "title": "伺服器錯誤",
+          "description": "伺服器出咗啲問題。請遲啲再試。"
         }
       }
     }

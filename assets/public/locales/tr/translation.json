@@ -23,7 +23,25 @@
         "separator": "VEYA",
         "emailLink": "Parolasız oturum açma bağlantısı gönder",
         "passkey": "Passkey ile oturum aç",
-        "useDifferentEmail": "Farklı bir e-posta kullan"
+        "useDifferentEmail": "Farklı bir e-posta kullan",
+        "passwordLogin": {
+          "successTitle": "Oturum açıldı",
+          "successMessage": "Tekrar hoş geldiniz",
+          "errorTitle": "Oturum açılamadı",
+          "errorMessage": "Lütfen e-posta ve parolanızı kontrol edin"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Oturum açma bağlantısı gönderildi",
+          "successMessage": "Giriş bağlantısı için e-postanızı kontrol edin",
+          "errorTitle": "Gönderilemedi",
+          "errorMessage": "E-postanızı kontrol edip tekrar deneyin"
+        },
+        "passkeyLogin": {
+          "successTitle": "Oturum açıldı",
+          "successMessage": "Tekrar hoş geldiniz",
+          "errorTitle": "Passkey ile oturum açılamadı",
+          "errorMessage": "Passkey doğrulanamadı. Lütfen tekrar deneyin veya başka bir yöntem kullanın."
+        }
       },
       "fields": {
         "email": "E-posta",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Dili değiştir"
       }
+    },
+    "flash": {
+      "welcome": "Tekrar hoş geldiniz",
+      "logout": "Çıkış yapıldı",
+      "setPassword": "Hesap oluşturuldu",
+      "setPasswordDescription": "Hesap ayarlarınızda bir parola veya passkey oluşturun.",
+      "setPasswordAction": "Ayarlar"
     }
   },
   "app": {
@@ -80,7 +105,6 @@
       "title": "Panel"
     },
     "settings": {
-      "eyebrow": "Hesap güvenliği",
       "title": "Ayarlar",
       "description": "Oturum açma yöntemlerinizi yönetin ve hesabınıza erişimi koruyun.",
       "actions": {
@@ -90,7 +114,7 @@
       "password": {
         "title": "Parola",
         "description": "E-posta ve parola ile oturum açmak için parola belirleyin.",
-        "helper": "En az 12 karakter kullanın. Parola kaydetme henüz bağlı değil.",
+        "helper": "12 ila 72 karakter kullanın.",
         "submit": "Parolayı güncelle",
         "newPassword": {
           "label": "Yeni parola",
@@ -99,6 +123,18 @@
         "confirmPassword": {
           "label": "Parolayı onayla",
           "placeholder": "Yeni parolayı tekrarlayın"
+        },
+        "validation": {
+          "passwordMin": "Parola en az 12 karakter olmalıdır.",
+          "passwordMax": "Parola en fazla 72 karakter olmalıdır.",
+          "confirmationMin": "Onay en az 12 karakter olmalıdır.",
+          "confirmationMax": "Onay en fazla 72 karakter olmalıdır.",
+          "passwordsMatch": "Parolalar eşleşmelidir."
+        },
+        "update": {
+          "successTitle": "Parola güncellendi",
+          "successMessage": "Parolanız kaydedildi.",
+          "errorMessage": "Parolanız güncellenemedi. Lütfen kontrol edip tekrar deneyin."
         }
       },
       "passkeys": {
@@ -126,7 +162,7 @@
           "description": "Tarayıcı kaydını başlatmadan önce bu passkey'e ad verin.",
           "label": "Passkey adı",
           "placeholder": "MacBook Touch ID",
-          "helper": "Kayıt henüz bağlı değil.",
+          "helper": "Daha sonra tanıyabilmek için passkey'inize bir ad verin.",
           "submit": "Kurulumu başlat"
         },
         "rename": {
@@ -139,6 +175,39 @@
           "title": "Passkey silinsin mi?",
           "description": "Bu işlem {{label}} öğesini hesabınızdan kaldırır. Silme henüz bağlı değil.",
           "submit": "Sil"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "Kurtarma modu",
+      "goBack": "Geri dön",
+      "dashboard": "Panele git",
+      "login": "Girişe git",
+      "details": "Hata detayları",
+      "fallback": {
+        "title": "Bir şeyler ters gitti",
+        "description": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+      },
+      "status": {
+        "400": {
+          "title": "Geçersiz istek",
+          "description": "İstek geçersizdi. Lütfen kontrol edip tekrar deneyin."
+        },
+        "401": {
+          "title": "Oturum açmanız gerekiyor",
+          "description": "Bu sayfaya erişmek için lütfen oturum açın."
+        },
+        "403": {
+          "title": "Erişim reddedildi",
+          "description": "Bu sayfayı görüntüleme izniniz yok."
+        },
+        "404": {
+          "title": "Sayfa bulunamadı",
+          "description": "Aradığınız sayfa mevcut değil."
+        },
+        "500": {
+          "title": "Sunucu hatası",
+          "description": "Bizim tarafımızda bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin."
         }
       }
     }

@@ -23,7 +23,25 @@
         "separator": "O",
         "emailLink": "Enviar enlace de inicio de sesión sin contraseña",
         "passkey": "Iniciar sesión con passkey",
-        "useDifferentEmail": "Usar otro correo"
+        "useDifferentEmail": "Usar otro correo",
+        "passwordLogin": {
+          "successTitle": "Sesión iniciada",
+          "successMessage": "Bienvenido de nuevo",
+          "errorTitle": "Error al iniciar sesión",
+          "errorMessage": "Revisa tu correo y contraseña"
+        },
+        "passwordlessLogin": {
+          "successTitle": "Enlace de inicio enviado",
+          "successMessage": "Revisa tu correo para el enlace de inicio de sesión",
+          "errorTitle": "Error al enviar",
+          "errorMessage": "Revisa tu correo e inténtalo de nuevo"
+        },
+        "passkeyLogin": {
+          "successTitle": "Sesión iniciada",
+          "successMessage": "Bienvenido de nuevo",
+          "errorTitle": "Error al iniciar con passkey",
+          "errorMessage": "No pudimos verificar tu passkey. Inténtalo de nuevo o usa otro método."
+        }
       },
       "fields": {
         "email": "Correo",
@@ -40,6 +58,13 @@
       "languageSwitch": {
         "label": "Cambiar idioma"
       }
+    },
+    "flash": {
+      "welcome": "Bienvenido de nuevo",
+      "logout": "Sesión cerrada",
+      "setPassword": "Cuenta creada",
+      "setPasswordDescription": "Crea una contraseña o passkey en la configuración de tu cuenta.",
+      "setPasswordAction": "Ajustes"
     }
   },
   "app": {
@@ -80,7 +105,6 @@
       "title": "Panel"
     },
     "settings": {
-      "eyebrow": "Seguridad de la cuenta",
       "title": "Ajustes",
       "description": "Gestiona cómo inicias sesión y mantén protegido el acceso a tu cuenta.",
       "actions": {
@@ -90,7 +114,7 @@
       "password": {
         "title": "Contraseña",
         "description": "Configura una contraseña para iniciar sesión con email y contraseña.",
-        "helper": "Usa al menos 12 caracteres. El guardado de contraseña aún no está conectado.",
+        "helper": "Usa de 12 a 72 caracteres.",
         "submit": "Actualizar contraseña",
         "newPassword": {
           "label": "Nueva contraseña",
@@ -99,6 +123,18 @@
         "confirmPassword": {
           "label": "Confirmar contraseña",
           "placeholder": "Repite la nueva contraseña"
+        },
+        "validation": {
+          "passwordMin": "La contraseña debe tener al menos 12 caracteres.",
+          "passwordMax": "La contraseña debe tener como máximo 72 caracteres.",
+          "confirmationMin": "La confirmación debe tener al menos 12 caracteres.",
+          "confirmationMax": "La confirmación debe tener como máximo 72 caracteres.",
+          "passwordsMatch": "Las contraseñas deben coincidir."
+        },
+        "update": {
+          "successTitle": "Contraseña actualizada",
+          "successMessage": "Tu contraseña ha sido guardada.",
+          "errorMessage": "No pudimos actualizar tu contraseña. Revísala e inténtalo de nuevo."
         }
       },
       "passkeys": {
@@ -126,7 +162,7 @@
           "description": "Nombra esta passkey antes de iniciar el registro del navegador.",
           "label": "Nombre de la passkey",
           "placeholder": "MacBook Touch ID",
-          "helper": "El registro aún no está conectado.",
+          "helper": "Nombra tu passkey para reconocerla más tarde.",
           "submit": "Iniciar configuración"
         },
         "rename": {
@@ -139,6 +175,39 @@
           "title": "¿Eliminar passkey?",
           "description": "Esto eliminará {{label}} de tu cuenta. La eliminación aún no está conectada.",
           "submit": "Eliminar"
+        }
+      }
+    },
+    "errorBoundary": {
+      "eyebrow": "Modo de recuperación",
+      "goBack": "Volver",
+      "dashboard": "Ir al panel",
+      "login": "Ir al inicio de sesión",
+      "details": "Detalles del error",
+      "fallback": {
+        "title": "Algo salió mal",
+        "description": "Ocurrió un error inesperado. Inténtalo de nuevo."
+      },
+      "status": {
+        "400": {
+          "title": "Solicitud incorrecta",
+          "description": "La solicitud no es válida. Revísala e inténtalo de nuevo."
+        },
+        "401": {
+          "title": "Inicio de sesión requerido",
+          "description": "Inicia sesión para acceder a esta página."
+        },
+        "403": {
+          "title": "Acceso denegado",
+          "description": "No tienes permiso para ver esta página."
+        },
+        "404": {
+          "title": "Página no encontrada",
+          "description": "La página que buscas no existe."
+        },
+        "500": {
+          "title": "Error del servidor",
+          "description": "Algo salió mal de nuestro lado. Inténtalo de nuevo más tarde."
         }
       }
     }
