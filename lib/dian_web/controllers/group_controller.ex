@@ -3,6 +3,7 @@ defmodule DianWeb.GroupController do
   use OpenApiSpex.ControllerSpecs
 
   alias Dian.Groups
+  alias DianWeb.GroupJSON
   alias DianWeb.JSend
   alias DianWeb.Schemas
 
@@ -50,12 +51,14 @@ defmodule DianWeb.GroupController do
 
   def index(conn, _params) do
     with {:ok, groups} <- Groups.list_groups(conn.assigns.current_scope) do
-      JSend.success_json(conn, %{groups: groups})
+      JSend.success_json(conn, %{groups: GroupJSON.many(groups)})
     end
   end
 
   def show(conn, %{"id" => group_id}) do
     with {:ok, group} <- Groups.get_group(conn.assigns.current_scope, group_id) do
+      members = group |> Map.get(:members, []) |> Enum.map(&GroupJSON.member/1)
+      group = group |> GroupJSON.one() |> Map.put(:members, members)
       JSend.success_json(conn, %{group: group})
     end
   end

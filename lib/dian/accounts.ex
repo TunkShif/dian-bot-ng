@@ -21,6 +21,9 @@ defmodule Dian.Accounts do
   def build_user_avatar_url(qq_id, size \\ 640),
     do: "https://q1.qlogo.cn/g?b=qq&nk=#{qq_id}&s=#{size}"
 
+  def build_group_avatar_url(group_id, size \\ 640),
+    do: "https://p.qlogo.cn/gh/#{group_id}/#{group_id}/#{size}/"
+
   def get_user_details(%User{} = user) do
     cache_key = user_details_cache_key(user)
 

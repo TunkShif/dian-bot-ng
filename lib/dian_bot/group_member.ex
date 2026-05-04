@@ -1,4 +1,6 @@
 defmodule DianBot.GroupMember do
+  alias Dian.Accounts
+
   @type role :: String.t()
   @type sex :: String.t()
 
@@ -7,6 +9,7 @@ defmodule DianBot.GroupMember do
           user_id: integer(),
           nickname: String.t(),
           display_name: String.t(),
+          avatar_url: String.t(),
           join_time: integer(),
           last_sent_time: integer(),
           is_robot: boolean(),
@@ -19,6 +22,7 @@ defmodule DianBot.GroupMember do
     :group_id,
     :nickname,
     :display_name,
+    :avatar_url,
     :join_time,
     :last_sent_time,
     :is_robot,
@@ -29,11 +33,14 @@ defmodule DianBot.GroupMember do
 
   @spec build(map()) :: t()
   def build(data) when is_map(data) do
+    user_id = data["user_id"]
+
     %__MODULE__{
-      user_id: data["user_id"],
+      user_id: user_id,
       group_id: data["group_id"],
       nickname: data["nickname"],
       display_name: data["card"],
+      avatar_url: Accounts.build_user_avatar_url(user_id),
       join_time: data["join_time"],
       last_sent_time: data["last_sent_time"],
       is_robot: data["is_robot"],

@@ -19,6 +19,7 @@ defmodule DianWeb.Schemas.GroupListResponse do
             items: %Schema{
               type: :object,
               required: [
+                :avatar_url,
                 :group_id,
                 :group_name,
                 :group_remark,
@@ -27,6 +28,7 @@ defmodule DianWeb.Schemas.GroupListResponse do
                 :is_admin
               ],
               properties: %{
+                avatar_url: %Schema{type: :string, example: "https://p.qlogo.cn/gh/100/100/640/"},
                 group_id: %Schema{type: :integer, example: 100},
                 group_name: %Schema{type: :string, example: "Dian Group"},
                 group_remark: %Schema{type: :string, nullable: true, example: ""},

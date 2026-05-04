@@ -17,6 +17,7 @@ defmodule DianWeb.Schemas.GroupResponse do
           group: %Schema{
             type: :object,
             required: [
+              :avatar_url,
               :group_id,
               :group_name,
               :group_remark,
@@ -26,6 +27,7 @@ defmodule DianWeb.Schemas.GroupResponse do
               :members
             ],
             properties: %{
+              avatar_url: %Schema{type: :string, example: "https://p.qlogo.cn/gh/100/100/640/"},
               group_id: %Schema{type: :integer, example: 100},
               group_name: %Schema{type: :string, example: "Dian Group"},
               group_remark: %Schema{type: :string, nullable: true, example: ""},
@@ -41,6 +43,7 @@ defmodule DianWeb.Schemas.GroupResponse do
                     :group_id,
                     :nickname,
                     :display_name,
+                    :avatar_url,
                     :join_time,
                     :last_sent_time,
                     :is_robot,
@@ -52,6 +55,10 @@ defmodule DianWeb.Schemas.GroupResponse do
                     group_id: %Schema{type: :integer, example: 100},
                     nickname: %Schema{type: :string, example: "Dian User"},
                     display_name: %Schema{type: :string, nullable: true, example: "Dian User"},
+                    avatar_url: %Schema{
+                      type: :string,
+                      example: "https://q1.qlogo.cn/g?b=qq&nk=12345&s=640"
+                    },
                     join_time: %Schema{type: :integer, example: 1_700_000_000},
                     last_sent_time: %Schema{type: :integer, example: 1_700_000_000},
                     is_robot: %Schema{type: :boolean, example: false},

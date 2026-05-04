@@ -49,6 +49,7 @@ defmodule DianWeb.APISpecTest do
            ])
            |> Map.keys()
            |> Enum.sort() == [
+             :avatar_url,
              :enabled,
              :group_id,
              :group_name,
@@ -68,6 +69,7 @@ defmodule DianWeb.APISpecTest do
            ])
            |> Map.keys()
            |> Enum.sort() == [
+             :avatar_url,
              :display_name,
              :group_id,
              :is_robot,
