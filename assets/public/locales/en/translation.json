@@ -101,6 +101,39 @@
       "notifications": "Notifications",
       "logOut": "Log out"
     },
+    "errorBoundary": {
+      "eyebrow": "Recovery mode",
+      "goBack": "Go back",
+      "dashboard": "Go to dashboard",
+      "login": "Go to login",
+      "details": "Error details",
+      "fallback": {
+        "title": "Something went wrong",
+        "description": "An unexpected error occurred. Please try again."
+      },
+      "status": {
+        "400": {
+          "title": "Bad request",
+          "description": "The request was invalid. Please check and try again."
+        },
+        "401": {
+          "title": "Sign in required",
+          "description": "Please sign in to access this page."
+        },
+        "403": {
+          "title": "Access denied",
+          "description": "You don't have permission to view this page."
+        },
+        "404": {
+          "title": "Page not found",
+          "description": "The page you're looking for doesn't exist."
+        },
+        "500": {
+          "title": "Server error",
+          "description": "Something went wrong on our end. Please try again later."
+        }
+      }
+    },
     "dashboard": {
       "title": "Dashboard"
     },

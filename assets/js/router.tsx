@@ -1,13 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Component, loader as rootLoader } from "@/routes/root";
-
-// TODO: error boundary
+import { Component, ErrorBoundary, loader as rootLoader } from "@/routes/root";
 
 export const router = createBrowserRouter(
   [
     {
       loader: rootLoader,
       Component,
+      ErrorBoundary,
       children: [
         {
           path: "/login",

@@ -9,6 +9,39 @@ export default interface Resources {
       "dashboard": {
         "title": "Dashboard"
       },
+      "errorBoundary": {
+        "dashboard": "Go to dashboard",
+        "details": "Error details",
+        "eyebrow": "Recovery mode",
+        "fallback": {
+          "description": "An unexpected error occurred. Please try again.",
+          "title": "Something went wrong"
+        },
+        "goBack": "Go back",
+        "login": "Go to login",
+        "status": {
+          "400": {
+            "description": "The request was invalid. Please check and try again.",
+            "title": "Bad request"
+          },
+          "401": {
+            "description": "Please sign in to access this page.",
+            "title": "Sign in required"
+          },
+          "403": {
+            "description": "You don't have permission to view this page.",
+            "title": "Access denied"
+          },
+          "404": {
+            "description": "The page you're looking for doesn't exist.",
+            "title": "Page not found"
+          },
+          "500": {
+            "description": "Something went wrong on our end. Please try again later.",
+            "title": "Server error"
+          }
+        }
+      },
       "header": {
         "title": "Documents"
       },
