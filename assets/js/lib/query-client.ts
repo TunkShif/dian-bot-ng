@@ -8,7 +8,7 @@ declare module "@tanstack/react-query" {
   interface Register {
     mutationMeta: {
       skipToast?: boolean;
-      invalidatesQuery?: QueryKey;
+      invalidatesQueries?: QueryKey[];
       successTitle?: string;
       successMessage?: string;
       errorTitle?: string;
@@ -38,9 +38,9 @@ const mutationCache = new MutationCache({
   },
   onSettled: (_data, _error, _variables, _context, mutation) => {
     topbar.hide();
-    if (mutation.meta?.invalidatesQuery) {
-      queryClient.invalidateQueries({
-        queryKey: mutation.meta.invalidatesQuery,
+    if (mutation.meta?.invalidatesQueries) {
+      mutation.meta.invalidatesQueries.forEach((queryKey) => {
+        queryClient.invalidateQueries({ queryKey });
       });
     }
   },

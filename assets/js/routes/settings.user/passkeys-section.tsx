@@ -26,7 +26,7 @@ export const PasskeysSection = () => {
   const { mutate: updateMutate } = useMutation({
     ...updatePasskeyMutation(),
     meta: {
-      invalidatesQuery: listPasskeysQueryKey(),
+      invalidatesQueries: [listPasskeysQueryKey()],
       successMessage: t("app.settings.passkeys.rename.successMessage"),
       errorMessage: t("app.settings.passkeys.rename.errorMessage"),
     },
@@ -35,7 +35,7 @@ export const PasskeysSection = () => {
   const { mutate: deleteMutate } = useMutation({
     ...deletePasskeyMutation(),
     meta: {
-      invalidatesQuery: listPasskeysQueryKey(),
+      invalidatesQueries: [listPasskeysQueryKey()],
       successMessage: t("app.settings.passkeys.delete.successMessage"),
       errorMessage: t("app.settings.passkeys.delete.errorMessage"),
     },
