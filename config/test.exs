@@ -23,6 +23,12 @@ config :dian, DianWeb.Endpoint,
 # In test we don't connect to real bot server
 config :dian, DianBot.Bot, client: DianBot.Client.Mock
 
+# In test we don't connect to real Steam API
+config :dian, Dian.Steam, client: Dian.Steam.Client.Mock
+
+config :dian, Dian.Steam.Client.Default,
+  req_options: [plug: {Req.Test, Dian.Steam.Client.Default}]
+
 # In test we don't send emails
 config :dian, Dian.Mailer, adapter: Swoosh.Adapters.Test
 

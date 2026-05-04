@@ -11,6 +11,18 @@ defmodule Dian.Steam.PlayerSummary do
     :playing_game_name
   ]
 
+  @type t :: %__MODULE__{
+          steam_id: String.t() | nil,
+          name: String.t() | nil,
+          profile_url: String.t() | nil,
+          avatar_url: String.t() | nil,
+          state: :offline | :online | :busy | :away | :snooze | nil,
+          last_logoff: integer() | nil,
+          created_at: integer() | nil,
+          playing_game_id: String.t() | nil,
+          playing_game_name: String.t() | nil
+        }
+
   def build(params) do
     %__MODULE__{
       steam_id: params["steamid"],

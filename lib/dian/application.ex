@@ -16,6 +16,7 @@ defmodule Dian.Application do
         {DNSCluster, query: Application.get_env(:dian, :dns_cluster_query) || :ignore},
         {Phoenix.PubSub, name: Dian.PubSub},
         {Cachex, [:dian_cache]},
+        Dian.SteamWatcher.Supervisor,
         # Start a worker by calling: Dian.Worker.start_link(arg)
         # {Dian.Worker, arg},
         # Start to serve requests, typically the last entry

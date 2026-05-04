@@ -6,6 +6,7 @@ defmodule Dian.Steam do
   import Ecto.Query, warn: false
 
   alias Dian.Repo
+  alias Dian.Steam.Client
   alias Dian.Steam.SteamPlayer
 
   @doc """
@@ -61,5 +62,19 @@ defmodule Dian.Steam do
   """
   def change_steam_player(%SteamPlayer{} = steam_player, attrs \\ %{}) do
     SteamPlayer.changeset(steam_player, attrs)
+  end
+
+  @doc """
+  Fetches one Steam player summary from the configured Steam client.
+  """
+  def get_player_summary(steam_id) when is_binary(steam_id) do
+    Client.get_player_summary(steam_id)
+  end
+
+  @doc """
+  Fetches Steam player summaries from the configured Steam client.
+  """
+  def get_player_summaries(steam_ids) when is_list(steam_ids) do
+    Client.get_player_summaries(steam_ids)
   end
 end

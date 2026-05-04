@@ -107,4 +107,42 @@ defmodule Dian.SteamTest do
       assert Ecto.Changeset.get_change(changeset, :display_name) == "Updated"
     end
   end
+
+  describe "get_player_summary/1" do
+    test "delegates to the configured Steam client" do
+      summary = %Steam.PlayerSummary{
+        steam_id: "76561198000000000",
+        playing_game_id: "730",
+        playing_game_name: "Counter-Strike 2"
+      }
+
+      Mox.expect(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198000000000" ->
+        summary
+      end)
+
+      assert Steam.get_player_summary("76561198000000000") == summary
+
+      Mox.verify!()
+    end
+  end
+
+  describe "get_player_summaries/1" do
+    test "delegates to the configured Steam client" do
+      summaries = [
+        %Steam.PlayerSummary{
+          steam_id: "76561198000000000",
+          playing_game_id: "730",
+          playing_game_name: "Counter-Strike 2"
+        }
+      ]
+
+      Mox.expect(Dian.Steam.Client.Mock, :get_player_summaries, fn ["76561198000000000"] ->
+        {:ok, summaries}
+      end)
+
+      assert Steam.get_player_summaries(["76561198000000000"]) == {:ok, summaries}
+
+      Mox.verify!()
+    end
+  end
 end
