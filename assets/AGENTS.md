@@ -23,6 +23,7 @@ These instructions apply to the `assets` frontend workspace.
 
 - Build form components with TanStack Form, Zod, and TanStack Query mutations.
 - Use Zod schemas for validation and TanStack Query mutations for submit side effects.
+- In React 19, do not type submit handlers with `FormEvent<T>`; it is deprecated. Use `SubmitEvent<HTMLFormElement>` instead.
 - Refer to `add-passkey-dialog.tsx` as the example pattern for form structure, validation, mutation handling, and UI composition.
 
 ## Routes
@@ -39,3 +40,4 @@ These instructions apply to the `assets` frontend workspace.
 - Put common reusable components in `js/components/`.
 - Shadcn UI primitives live in `js/components/ui/`.
 - Usually do not change files in `js/components/ui/`; prefer composing those primitives from feature or shared components instead.
+- TanStack Query mutation success/error toasts and query invalidation are managed globally through mutation `meta`. Check `js/lib/query-client.ts` for the registered `mutationMeta` type before adding local toast or invalidation handling.

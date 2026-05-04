@@ -201,13 +201,20 @@
         "rename": {
           "trigger": "Rename passkey",
           "inputLabel": "Passkey name",
-          "save": "Save passkey name"
+          "save": "Save passkey name",
+          "validation": {
+            "required": "Enter a passkey name."
+          },
+          "successMessage": "Passkey renamed.",
+          "errorMessage": "Could not rename passkey. Please try again."
         },
         "delete": {
           "trigger": "Delete passkey",
           "title": "Delete passkey?",
-          "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
-          "submit": "Delete"
+          "description": "This will remove {{label}} from your account.",
+          "submit": "Delete",
+          "successMessage": "Passkey deleted.",
+          "errorMessage": "Could not delete passkey. Please try again."
         }
       }
     }

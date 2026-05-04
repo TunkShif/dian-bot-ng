@@ -201,13 +201,20 @@
         "rename": {
           "trigger": "重命名通行密钥",
           "inputLabel": "通行密钥名称",
-          "save": "保存通行密钥名称"
+          "save": "保存通行密钥名称",
+          "validation": {
+            "required": "请输入通行密钥名称。"
+          },
+          "successMessage": "通行密钥已重命名。",
+          "errorMessage": "无法重命名通行密钥，请重试。"
         },
         "delete": {
           "trigger": "删除通行密钥",
           "title": "删除通行密钥？",
-          "description": "这会从你的账号中移除 {{label}}。删除流程尚未接入。",
-          "submit": "删除"
+          "description": "这会从你的账号中移除 {{label}}。",
+          "submit": "删除",
+          "successMessage": "通行密钥已删除。",
+          "errorMessage": "无法删除通行密钥，请重试。"
         }
       }
     }

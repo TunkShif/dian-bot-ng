@@ -1,25 +1,33 @@
-import type { FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PasskeyRow } from "@/routes/settings.user/passkey-row";
 import type { Passkey } from "@/routes/settings.user/types";
 
 type PasskeysTableProps = {
+  deletingPasskeyId: number | null;
   editingPasskeyId: number | null;
+  updatingPasskeyId: number | null;
+  onDeletePasskey: (id: number, onDeleted: () => void) => void;
   onEditCancel: () => void;
   onEditStart: (id: number) => void;
-  onInertSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onUpdatePasskey: (id: number, label: string) => void;
   passkeys: Passkey[];
 };
 
 export const PasskeysTable = ({
+  deletingPasskeyId,
   editingPasskeyId,
+  updatingPasskeyId,
+  onDeletePasskey,
   onEditCancel,
   onEditStart,
-  onInertSubmit,
+  onUpdatePasskey,
   passkeys,
 }: PasskeysTableProps) => {
   const { t } = useTranslation();
+  const isDeletePending = deletingPasskeyId !== null;
+  const isRenamePending = updatingPasskeyId !== null;
+  const isMutationPending = isDeletePending || isRenamePending;
 
   return (
     <Table>
@@ -32,16 +40,26 @@ export const PasskeysTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {passkeys.map((passkey) => (
-          <PasskeyRow
-            isEditing={editingPasskeyId === passkey.id}
-            key={passkey.id}
-            onEditCancel={onEditCancel}
-            onEditStart={onEditStart}
-            onInertSubmit={onInertSubmit}
-            passkey={passkey}
-          />
-        ))}
+        {passkeys.map((passkey) => {
+          const isEditing = editingPasskeyId === passkey.id;
+          const isUpdating = updatingPasskeyId === passkey.id;
+
+          return (
+            <PasskeyRow
+              disableDelete={isMutationPending}
+              disableRename={isMutationPending || (editingPasskeyId !== null && !isEditing)}
+              isDeleting={deletingPasskeyId === passkey.id}
+              isEditing={isEditing}
+              isUpdating={isUpdating}
+              key={passkey.id}
+              onDeletePasskey={onDeletePasskey}
+              onEditCancel={onEditCancel}
+              onEditStart={onEditStart}
+              onUpdatePasskey={onUpdatePasskey}
+              passkey={passkey}
+            />
+          );
+        })}
       </TableBody>
     </Table>
   );

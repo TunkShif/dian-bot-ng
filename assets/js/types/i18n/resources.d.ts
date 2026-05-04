@@ -82,8 +82,10 @@ export default interface Resources {
             "title": "Add passkey"
           },
           "delete": {
-            "description": "This will remove {{label}} from your account. Deletion is not connected yet.",
+            "description": "This will remove {{label}} from your account.",
+            "errorMessage": "Could not delete passkey. Please try again.",
             "submit": "Delete",
+            "successMessage": "Passkey deleted.",
             "title": "Delete passkey?",
             "trigger": "Delete passkey"
           },
@@ -98,9 +100,14 @@ export default interface Resources {
           },
           "neverUsed": "Never used",
           "rename": {
+            "errorMessage": "Could not rename passkey. Please try again.",
             "inputLabel": "Passkey name",
             "save": "Save passkey name",
-            "trigger": "Rename passkey"
+            "successMessage": "Passkey renamed.",
+            "trigger": "Rename passkey",
+            "validation": {
+              "required": "Enter a passkey name."
+            }
           },
           "table": {
             "actions": "Actions",

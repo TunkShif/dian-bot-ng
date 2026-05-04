@@ -1,5 +1,6 @@
-import { CheckIcon, FingerprintIcon, PencilSimpleIcon, XIcon } from "@phosphor-icons/react";
-import type { FormEvent } from "react";
+import { CheckIcon, FingerprintIcon, PencilSimpleIcon, SpinnerGapIcon, XIcon } from "@phosphor-icons/react";
+import type { KeyboardEvent, SubmitEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,34 +11,107 @@ import type { Passkey } from "@/routes/settings.user/types";
 import { formatSettingsDate } from "@/routes/settings.user/utils";
 
 type PasskeyRowProps = {
+  disableDelete: boolean;
+  disableRename: boolean;
+  isDeleting: boolean;
   isEditing: boolean;
+  isUpdating: boolean;
+  onDeletePasskey: (id: number, onDeleted: () => void) => void;
   onEditCancel: () => void;
   onEditStart: (id: number) => void;
-  onInertSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onUpdatePasskey: (id: number, label: string) => void;
   passkey: Passkey;
 };
 
-export const PasskeyRow = ({ isEditing, onEditCancel, onEditStart, onInertSubmit, passkey }: PasskeyRowProps) => {
+export const PasskeyRow = ({
+  disableDelete,
+  disableRename,
+  isDeleting,
+  isEditing,
+  isUpdating,
+  onDeletePasskey,
+  onEditCancel,
+  onEditStart,
+  onUpdatePasskey,
+  passkey,
+}: PasskeyRowProps) => {
   const { t } = useTranslation();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [label, setLabel] = useState(passkey.label);
+  const [showValidation, setShowValidation] = useState(false);
+  const trimmedLabel = label.trim();
+  const isLabelEmpty = trimmedLabel.length === 0;
+
+  useEffect(() => {
+    if (!isEditing) {
+      setLabel(passkey.label);
+      setShowValidation(false);
+      return;
+    }
+
+    setLabel(passkey.label);
+    setShowValidation(false);
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    });
+  }, [isEditing, passkey.label]);
+
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isLabelEmpty) {
+      setShowValidation(true);
+      inputRef.current?.focus();
+      return;
+    }
+
+    onUpdatePasskey(passkey.id, trimmedLabel);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      onEditCancel();
+    }
+  };
 
   return (
     <TableRow>
       <TableCell className="min-w-56">
         {isEditing ? (
-          <form className="flex min-w-64 items-center gap-2" onSubmit={onInertSubmit}>
-            <Input
-              aria-label={t("app.settings.passkeys.rename.inputLabel")}
-              defaultValue={passkey.label}
-              name="label"
-            />
-            <Button type="submit" size="icon-sm">
-              <CheckIcon />
-              <span className="sr-only">{t("app.settings.passkeys.rename.save")}</span>
-            </Button>
-            <Button type="button" size="icon-sm" variant="ghost" onClick={onEditCancel}>
-              <XIcon />
-              <span className="sr-only">{t("app.settings.actions.cancel")}</span>
-            </Button>
+          <form className="grid min-w-64 gap-1.5" onSubmit={handleSubmit}>
+            <div className="flex items-center gap-2">
+              <Input
+                aria-describedby={showValidation && isLabelEmpty ? `passkey-${passkey.id}-label-error` : undefined}
+                aria-invalid={showValidation && isLabelEmpty}
+                aria-label={t("app.settings.passkeys.rename.inputLabel")}
+                disabled={isUpdating}
+                name="label"
+                onChange={(event) => {
+                  setLabel(event.target.value);
+                  if (event.target.value.trim()) {
+                    setShowValidation(false);
+                  }
+                }}
+                onKeyDown={handleKeyDown}
+                ref={inputRef}
+                value={label}
+              />
+              <Button type="submit" size="icon-sm" disabled={isUpdating || isLabelEmpty}>
+                {isUpdating ? <SpinnerGapIcon className="animate-spin" /> : <CheckIcon />}
+                <span className="sr-only">{t("app.settings.passkeys.rename.save")}</span>
+              </Button>
+              <Button type="button" size="icon-sm" variant="ghost" disabled={isUpdating} onClick={onEditCancel}>
+                <XIcon />
+                <span className="sr-only">{t("app.settings.actions.cancel")}</span>
+              </Button>
+            </div>
+            {showValidation && isLabelEmpty ? (
+              <p id={`passkey-${passkey.id}-label-error`} className="px-3 text-xs text-destructive">
+                {t("app.settings.passkeys.rename.validation.required")}
+              </p>
+            ) : null}
           </form>
         ) : (
           <div className="flex items-center gap-3">
@@ -63,11 +137,22 @@ export const PasskeyRow = ({ isEditing, onEditCancel, onEditStart, onInertSubmit
       <TableCell>{formatSettingsDate(passkey.inserted_at)}</TableCell>
       <TableCell>
         <div className="flex justify-end gap-1">
-          <Button type="button" size="icon-sm" variant="ghost" onClick={() => onEditStart(passkey.id)}>
+          <Button
+            type="button"
+            size="icon-sm"
+            variant="ghost"
+            disabled={disableRename}
+            onClick={() => onEditStart(passkey.id)}
+          >
             <PencilSimpleIcon />
             <span className="sr-only">{t("app.settings.passkeys.rename.trigger")}</span>
           </Button>
-          <PasskeyDeleteDialog passkey={passkey} />
+          <PasskeyDeleteDialog
+            disabled={disableDelete}
+            isDeleting={isDeleting}
+            onDelete={onDeletePasskey}
+            passkey={passkey}
+          />
         </div>
       </TableCell>
     </TableRow>

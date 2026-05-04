@@ -1,8 +1,13 @@
 import { FingerprintIcon } from "@phosphor-icons/react";
-import { useQuery } from "@tanstack/react-query";
-import { type FormEvent, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { listPasskeysOptions } from "@/client/@tanstack/react-query.gen";
+import {
+  deletePasskeyMutation,
+  listPasskeysOptions,
+  listPasskeysQueryKey,
+  updatePasskeyMutation,
+} from "@/client/@tanstack/react-query.gen";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AddPasskeyDialog } from "@/routes/settings.user/add-passkey-dialog";
 import { PasskeysEmptyState } from "@/routes/settings.user/passkeys-empty-state";
@@ -12,12 +17,58 @@ import { PasskeysTable } from "@/routes/settings.user/passkeys-table";
 
 export const PasskeysSection = () => {
   const { t } = useTranslation();
+  const [deletingPasskeyId, setDeletingPasskeyId] = useState<number | null>(null);
   const [editingPasskeyId, setEditingPasskeyId] = useState<number | null>(null);
+  const [updatingPasskeyId, setUpdatingPasskeyId] = useState<number | null>(null);
   const passkeysQuery = useQuery(listPasskeysOptions());
   const passkeys = passkeysQuery.data?.data.passkeys ?? [];
 
-  const handleInertSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { mutate: updateMutate } = useMutation({
+    ...updatePasskeyMutation(),
+    meta: {
+      invalidatesQuery: listPasskeysQueryKey(),
+      successMessage: t("app.settings.passkeys.rename.successMessage"),
+      errorMessage: t("app.settings.passkeys.rename.errorMessage"),
+    },
+  });
+
+  const { mutate: deleteMutate } = useMutation({
+    ...deletePasskeyMutation(),
+    meta: {
+      invalidatesQuery: listPasskeysQueryKey(),
+      successMessage: t("app.settings.passkeys.delete.successMessage"),
+      errorMessage: t("app.settings.passkeys.delete.errorMessage"),
+    },
+  });
+
+  const handleUpdatePasskey = (id: number, label: string) => {
+    if (updatingPasskeyId !== null) {
+      return;
+    }
+
+    setUpdatingPasskeyId(id);
+    updateMutate(
+      { path: { id }, body: { label } },
+      {
+        onSuccess: () => setEditingPasskeyId(null),
+        onSettled: () => setUpdatingPasskeyId(null),
+      },
+    );
+  };
+
+  const handleDeletePasskey = (id: number, onDeleted: () => void) => {
+    if (deletingPasskeyId !== null || updatingPasskeyId !== null) {
+      return;
+    }
+
+    setDeletingPasskeyId(id);
+    deleteMutate(
+      { path: { id } },
+      {
+        onSuccess: onDeleted,
+        onSettled: () => setDeletingPasskeyId(null),
+      },
+    );
   };
 
   return (
@@ -38,10 +89,13 @@ export const PasskeysSection = () => {
         {passkeysQuery.isSuccess && passkeys.length === 0 ? <PasskeysEmptyState /> : null}
         {passkeysQuery.isSuccess && passkeys.length > 0 ? (
           <PasskeysTable
+            deletingPasskeyId={deletingPasskeyId}
             editingPasskeyId={editingPasskeyId}
+            updatingPasskeyId={updatingPasskeyId}
+            onDeletePasskey={handleDeletePasskey}
             onEditCancel={() => setEditingPasskeyId(null)}
             onEditStart={setEditingPasskeyId}
-            onInertSubmit={handleInertSubmit}
+            onUpdatePasskey={handleUpdatePasskey}
             passkeys={passkeys}
           />
         ) : null}
