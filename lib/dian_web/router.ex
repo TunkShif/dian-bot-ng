@@ -52,6 +52,10 @@ defmodule DianWeb.Router do
     patch "/passkeys/:id", PasskeySessionController, :update
     delete "/passkeys/:id", PasskeySessionController, :delete
 
+    get "/groups", GroupController, :index
+    get "/groups/:id", GroupController, :show
+    patch "/groups/:id", GroupController, :update
+
     patch "/users/settings", UserSettingsController, :update
   end
 

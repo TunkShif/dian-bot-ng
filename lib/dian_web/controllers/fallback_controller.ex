@@ -15,6 +15,12 @@ defmodule DianWeb.FallbackController do
     |> render(:"404")
   end
 
+  def call(conn, {:error, :forbidden}) do
+    conn
+    |> put_status(:forbidden)
+    |> json(DianWeb.JSend.fail(%{message: "forbidden"}))
+  end
+
   # TODO: unified common error struct
   def call(conn, {:error, :passkey_registration_challenge_not_found}) do
     conn

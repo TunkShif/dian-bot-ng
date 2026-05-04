@@ -22,6 +22,7 @@ defmodule DianBot.GroupMember do
     :join_time,
     :last_sent_time,
     :is_robot,
+    # TODO: make role enum atoms
     :role,
     :title
   ]
@@ -39,5 +40,9 @@ defmodule DianBot.GroupMember do
       role: data["role"],
       title: data["title"]
     }
+  end
+
+  def admin?(%__MODULE__{} = member) do
+    member.role in ["owner", "admin"]
   end
 end

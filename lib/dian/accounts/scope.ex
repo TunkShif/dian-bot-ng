@@ -16,9 +16,10 @@ defmodule Dian.Accounts.Scope do
   growing application requirements.
   """
 
+  alias Dian.Accounts
   alias Dian.Accounts.User
 
-  defstruct user: nil
+  defstruct user: nil, qq_id: nil
 
   @doc """
   Creates a scope for the given user.
@@ -26,7 +27,7 @@ defmodule Dian.Accounts.Scope do
   Returns nil if no user is given.
   """
   def for_user(%User{} = user) do
-    %__MODULE__{user: user}
+    %__MODULE__{user: user, qq_id: Accounts.extract_qq_id_from(user.email)}
   end
 
   def for_user(nil), do: nil
