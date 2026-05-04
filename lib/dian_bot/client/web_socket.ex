@@ -36,16 +36,35 @@ defmodule DianBot.Client.WebSocket do
 
     ref = make_ref()
     request_id = Ecto.UUID.generate()
+    start_time = System.monotonic_time(:millisecond)
     cast({:request, {self(), ref}, request_id, action, params})
 
-    receive do
-      {:response, ^ref, result} ->
-        result
-    after
-      timeout ->
-        cast({:cancel_request, request_id, ref})
-        {:error, :timeout}
-    end
+    {result, metadata} =
+      receive do
+        {:response, ^ref, result} ->
+          {result, %{success: true}}
+      after
+        timeout ->
+          Logger.warning("bot request timed out",
+            event: "request_timeout",
+            bot_action: action,
+            timeout_ms: timeout
+          )
+
+          cast({:cancel_request, request_id, ref})
+          {{:error, :timeout}, %{success: false}}
+      end
+
+    :telemetry.execute(
+      [:dian, :bot, :websocket, :request],
+      %{duration: System.monotonic_time(:millisecond) - start_time},
+      Map.merge(metadata, %{
+        component: :onebot_websocket,
+        bot_action: action
+      })
+    )
+
+    result
   end
 
   @impl true
@@ -54,7 +73,11 @@ defmodule DianBot.Client.WebSocket do
       handle_message(payload, state)
     else
       {:error, reason} ->
-        Logger.warning("ignored invalid websocket payload: #{inspect(reason)}")
+        Logger.warning("invalid ws payload dropped",
+          event: "invalid_payload",
+          error: Exception.message(reason)
+        )
+
         {:ok, state}
     end
   end
@@ -79,7 +102,18 @@ defmodule DianBot.Client.WebSocket do
   end
 
   defp handle_message(payload, state) do
-    case OneBot.classify_payload(payload) do
+    payload_class = OneBot.classify_payload(payload)
+
+    :telemetry.execute(
+      [:dian, :bot, :websocket, :message],
+      %{count: 1},
+      %{
+        component: :onebot_websocket,
+        payload_class: payload_class
+      }
+    )
+
+    case payload_class do
       :event -> handle_event(payload, state)
       :response -> handle_response(payload, state)
       :ignored -> handle_ignored(payload, state)
@@ -109,7 +143,13 @@ defmodule DianBot.Client.WebSocket do
   end
 
   defp handle_ignored(payload, state) do
-    Logger.debug("ignored incoming websocket payload: #{inspect(payload)}")
+    Logger.debug("ws message ignored",
+      event: "message_ignored",
+      has_echo: Map.has_key?(payload, "echo"),
+      post_type: payload["post_type"],
+      message_type: payload["message_type"]
+    )
+
     {:ok, state}
   end
 

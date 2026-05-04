@@ -75,6 +75,24 @@ defmodule DianWeb.Telemetry do
           "The time the connection spent waiting before being checked out for the query"
       ),
 
+      # Steam Client Metrics (via req_telemetry handler in Dian.Application)
+      summary("dian.steam.client.request.duration",
+        tags: [:component, :operation, :success],
+        unit: :millisecond,
+        description: "Duration of Steam API requests"
+      ),
+
+      # Bot WebSocket Metrics
+      counter("dian.bot.websocket.message.count",
+        tags: [:component, :payload_class],
+        description: "Count of incoming websocket messages by payload class"
+      ),
+      summary("dian.bot.websocket.request.duration",
+        tags: [:component, :bot_action, :success],
+        unit: :millisecond,
+        description: "Duration of bot request/response round-trips"
+      ),
+
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),

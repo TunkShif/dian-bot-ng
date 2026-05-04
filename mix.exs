@@ -71,6 +71,8 @@ defmodule Dian.MixProject do
       {:cachex, "~> 4.0"},
       {:open_api_spex, "~> 3.21"},
       {:wax_, "~> 0.7"},
+      {:logger_json, "~> 7.0"},
+      {:req_telemetry, "~> 0.1"},
       {:bun, "~> 1.5 and >= 1.5.1", runtime: Mix.env() == :dev}
     ]
   end

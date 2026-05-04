@@ -7,6 +7,9 @@ defmodule Dian.Application do
 
   @impl true
   def start(_type, _args) do
+    Dian.Steam.Client.Telemetry.attach()
+    DianBot.Client.WebSocket.Telemetry.attach()
+
     children =
       [
         DianWeb.Telemetry,

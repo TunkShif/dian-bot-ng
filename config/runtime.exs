@@ -31,6 +31,21 @@ config :dian, DianBot.Bot,
 config :dian, Dian.Steam.Client, api_key: System.get_env("STEAM_API_KEY")
 
 if config_env() == :prod do
+  config :logger, :default_handler,
+    formatter:
+      LoggerJSON.Formatters.Basic.new(
+        metadata: [
+          :request_id,
+          :component,
+          :event,
+          :user_id,
+          :steam_id,
+          :bot_action,
+          :status,
+          :duration_ms
+        ]
+      )
+
   database_path =
     System.get_env("DATABASE_PATH") ||
       raise """

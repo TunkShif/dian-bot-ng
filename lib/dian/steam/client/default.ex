@@ -1,6 +1,8 @@
 defmodule Dian.Steam.Client.Default do
   @behaviour Dian.Steam.Client
 
+  require Logger
+
   alias Dian.Steam.PlayerSummary
 
   @endpoint "https://api.steampowered.com"
@@ -16,15 +18,34 @@ defmodule Dian.Steam.Client.Default do
 
   @impl true
   def get_player_summaries(steam_ids) when is_list(steam_ids) do
-    with {:ok, response} <-
-           Req.get(req(),
-             url: "/ISteamUser/GetPlayerSummaries/v0002/",
-             params: [steamids: Enum.join(steam_ids, ",")]
-           ),
-         {:ok, data} <- handle_response(response) do
-      summaries = data["response"]["players"] |> Enum.map(&PlayerSummary.build/1)
-      {:ok, summaries}
+    result =
+      with {:ok, response} <-
+             Req.get(req(),
+               url: "/ISteamUser/GetPlayerSummaries/v0002/",
+               params: [steamids: Enum.join(steam_ids, ",")],
+               telemetry: [
+                 metadata: %{operation: :get_player_summaries, steam_ids_count: length(steam_ids)}
+               ]
+             ),
+           {:ok, data} <- handle_response(response) do
+        summaries = data["response"]["players"] |> Enum.map(&PlayerSummary.build/1)
+        {:ok, summaries}
+      end
+
+    case result do
+      {:error, reason} ->
+        Logger.warning("steam api request failed",
+          event: "request_failed",
+          operation: :get_player_summaries,
+          error: reason,
+          steam_ids_count: length(steam_ids)
+        )
+
+      _ ->
+        :ok
     end
+
+    result
   end
 
   def get_player_achievements do
@@ -45,14 +66,13 @@ defmodule Dian.Steam.Client.Default do
     ]
     |> Keyword.merge(req_options)
     |> Req.new()
+    |> ReqTelemetry.attach(metadata: %{component: :steam_client})
   end
 
   defp handle_response(%Req.Response{status: status, body: body}) when status == 200 do
     {:ok, body}
   end
 
-  # TODO: add logging, error handling
-  # TODO: Add more cases when encountering errors
   defp handle_response(_response) do
     {:error, :request_error}
   end

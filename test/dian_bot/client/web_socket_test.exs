@@ -1,7 +1,20 @@
 defmodule DianBot.Client.WebSocketTest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   alias DianBot.Client.WebSocket
+
+  test "invalid json frame is logged and ignored" do
+    state = %{pending: %{}}
+
+    log =
+      capture_log(fn ->
+        assert {:ok, ^state} = WebSocket.handle_frame({:text, "not-json"}, state)
+      end)
+
+    assert log =~ "invalid ws payload dropped"
+  end
 
   test "successful response sends ok result and removes pending request" do
     ref = make_ref()
