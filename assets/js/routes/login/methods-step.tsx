@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { AuthHeader, QQEmailInput } from "@/routes/login/auth-step-fields";
+import { usePasskeyLoginMutation } from "@/routes/login/use-passkey-login-mutation";
 
 type MethodsStepProps = {
   input: string;
@@ -19,10 +20,12 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const redirect = () => navigate("/dashboard", { replace: true });
+
   const { mutate: loginWithPassword, isPending: isPasswordLoginPending } = useMutation({
     ...loginUserMutation(),
     onSuccess: () => {
-      navigate("/dashboard", { replace: true });
+      redirect();
     },
     meta: {
       errorTitle: t("auth.login.methodsStep.passwordLogin.errorTitle"),
@@ -40,7 +43,17 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
     },
   });
 
-  const isPending = isPasswordLoginPending || isPasswordlessLoginPending;
+  const { mutate: loginWithPasskey, isPending: isPasskeyLoginPending } = usePasskeyLoginMutation({
+    onSuccess: () => {
+      redirect();
+    },
+    meta: {
+      errorTitle: t("auth.login.methodsStep.passkeyLogin.errorTitle"),
+      errorMessage: t("auth.login.methodsStep.passkeyLogin.errorMessage"),
+    },
+  });
+
+  const isPending = isPasswordLoginPending || isPasswordlessLoginPending || isPasskeyLoginPending;
 
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -102,7 +115,7 @@ export const MethodsStep = ({ input, onResetEmail, onInputChange }: MethodsStepP
         </Field>
 
         <Field>
-          <Button variant="outline" type="button" disabled={isPending}>
+          <Button variant="outline" type="button" disabled={isPending} onClick={() => loginWithPasskey()}>
             <FingerprintIcon data-icon="inline-start" />
             {t("auth.login.methodsStep.passkey")}
           </Button>

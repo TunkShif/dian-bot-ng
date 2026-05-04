@@ -12,3 +12,14 @@ export const getCsrfToken = () => {
   }
   return csrfToken ?? "";
 };
+
+export const toBase64Url = (buffer: ArrayBuffer) =>
+  btoa(String.fromCharCode(...new Uint8Array(buffer)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+
+export const fromBase64Url = (str: string) => {
+  const b64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)).buffer;
+};

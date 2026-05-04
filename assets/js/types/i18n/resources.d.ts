@@ -42,7 +42,7 @@ export default interface Resources {
           "add": "Add passkey",
           "addDialog": {
             "description": "Name this passkey before starting browser registration.",
-            "helper": "Registration is not connected yet.",
+            "helper": "Name your passkey so you can recognise it later.",
             "label": "Passkey name",
             "placeholder": "MacBook Touch ID",
             "submit": "Start setup",
@@ -149,6 +149,10 @@ export default interface Resources {
           "description": "Choose how you want to continue.",
           "emailLink": "Send passwordless login link",
           "passkey": "Sign in with passkey",
+          "passkeyLogin": {
+            "errorMessage": "We couldn't verify your passkey. Please try again or use another method.",
+            "errorTitle": "Passkey sign-in failed"
+          },
           "passwordLogin": {
             "errorMessage": "Please check your email and password",
             "errorTitle": "Login failed"

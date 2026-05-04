@@ -29,7 +29,7 @@ export const PasskeysSection = () => {
         <CardTitle>{t("app.settings.passkeys.title")}</CardTitle>
         <CardDescription>{t("app.settings.passkeys.description")}</CardDescription>
         <CardAction>
-          <AddPasskeyDialog onInertSubmit={handleInertSubmit} />
+          <AddPasskeyDialog />
         </CardAction>
       </CardHeader>
       <CardContent>

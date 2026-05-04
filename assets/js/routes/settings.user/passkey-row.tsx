@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { formatSettingsDate } from "@/routes/settings.user/format-date";
 import { PasskeyDeleteDialog } from "@/routes/settings.user/passkey-delete-dialog";
 import type { Passkey } from "@/routes/settings.user/types";
+import { formatSettingsDate } from "@/routes/settings.user/utils";
 
 type PasskeyRowProps = {
   isEditing: boolean;

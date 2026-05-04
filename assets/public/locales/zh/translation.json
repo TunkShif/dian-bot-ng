@@ -33,6 +33,10 @@
           "successMessage": "请查看邮箱中的登录链接",
           "errorTitle": "发送失败",
           "errorMessage": "请检查邮箱后重试"
+        },
+        "passkeyLogin": {
+          "errorTitle": "通行密钥登录失败",
+          "errorMessage": "无法验证你的通行密钥。请重试或使用其他方式。"
         }
       },
       "fields": {
@@ -147,7 +151,7 @@
           "description": "在开始浏览器注册前，为这个通行密钥命名。",
           "label": "通行密钥名称",
           "placeholder": "MacBook Touch ID",
-          "helper": "注册流程尚未接入。",
+          "helper": "为你的通行密钥命名，方便日后识别。",
           "submit": "开始设置"
         },
         "rename": {

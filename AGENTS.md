@@ -1,4 +1,4 @@
-This is a web application written using the Phoenix web framework (backend) and React Router v6 (frontend SPA).
+This is a web application written using the Phoenix web framework (backend) and React Router v6 (frontend SPA), using `mix` and `bun` toolchain.
 
 ## Project guidelines
 

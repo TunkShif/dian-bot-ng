@@ -17,7 +17,8 @@ defmodule DianWeb.PasskeySessionController do
     summary: "Begin passkey login",
     description: "Creates WebAuthn public key credential request options for passkey login.",
     responses: [
-      ok: {"Passkey authentication options", "application/json", Schemas.PasskeyBeginResponse}
+      ok:
+        {"Passkey authentication options", "application/json", Schemas.PasskeyLoginBeginResponse}
     ]
 
   operation :complete,

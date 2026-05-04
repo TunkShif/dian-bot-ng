@@ -17,7 +17,9 @@ defmodule DianWeb.PasskeyRegistrationController do
     description:
       "Creates WebAuthn public key credential creation options for the authenticated user.",
     responses: [
-      ok: {"Passkey registration options", "application/json", Schemas.PasskeyBeginResponse},
+      ok:
+        {"Passkey registration options", "application/json",
+         Schemas.PasskeyRegistrationBeginResponse},
       unauthorized: {"Authentication required", "application/json", Schemas.JSendMessageFail}
     ]
 

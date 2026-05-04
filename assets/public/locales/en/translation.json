@@ -33,6 +33,10 @@
           "successMessage": "Check your email for the login link",
           "errorTitle": "Failed to send",
           "errorMessage": "Please check your email and try again"
+        },
+        "passkeyLogin": {
+          "errorTitle": "Passkey sign-in failed",
+          "errorMessage": "We couldn't verify your passkey. Please try again or use another method."
         }
       },
       "fields": {
@@ -147,7 +151,7 @@
           "description": "Name this passkey before starting browser registration.",
           "label": "Passkey name",
           "placeholder": "MacBook Touch ID",
-          "helper": "Registration is not connected yet.",
+          "helper": "Name your passkey so you can recognise it later.",
           "submit": "Start setup"
         },
         "rename": {
