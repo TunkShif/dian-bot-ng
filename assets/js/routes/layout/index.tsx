@@ -103,6 +103,7 @@ type AppShellProps = {
 const AppShell = ({ navMenuExpansionState, children, contentClassName = "py-4 md:py-6" }: AppShellProps) => {
   return (
     <SidebarProvider
+      className="h-svh overflow-hidden"
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -111,12 +112,12 @@ const AppShell = ({ navMenuExpansionState, children, contentClassName = "py-4 md
       }
     >
       <AppSidebar navMenuExpansionState={navMenuExpansionState} variant="inset" />
-      <SidebarInset>
+      <SidebarInset className="min-w-0 overflow-hidden">
         <SiteHeader />
 
-        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
           <div className="@container/main flex min-h-0 flex-1 flex-col gap-2">
-            <div className={`flex min-h-0 flex-col gap-4 md:gap-6 ${contentClassName}`}>{children}</div>
+            <div className={`flex min-h-0 flex-1 flex-col gap-4 md:gap-6 ${contentClassName}`}>{children}</div>
           </div>
         </div>
       </SidebarInset>

@@ -1,6 +1,7 @@
 import { CaretDownIcon } from "@phosphor-icons/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
@@ -47,7 +48,7 @@ export function NavMain({
             if (!item.items?.length) {
               return (
                 <SidebarMenuItem key={item.titleKey}>
-                  <SidebarMenuButton tooltip={title} render={<a href={item.url} />}>
+                  <SidebarMenuButton tooltip={title} render={<Link to={item.url} />}>
                     {item.icon}
                     <span>{title}</span>
                   </SidebarMenuButton>
