@@ -86,6 +86,7 @@
       "groupManagement": "Group management",
       "groupList": "Group list",
       "groupUsers": "Group users",
+      "groups": "Groups",
       "aiAssistant": "AI Intelligence",
       "autoAnalysis": "Auto analysis",
       "aiRankings": "Recommended rankings",
@@ -136,6 +137,122 @@
     },
     "dashboard": {
       "title": "Dashboard"
+    },
+    "groups": {
+      "title": "Group Management",
+      "description": "Review visible groups, inspect members, and control where DianBot is enabled.",
+      "actions": {
+        "retry": "Retry"
+      },
+      "summary": {
+        "total": "Total",
+        "enabled": "Enabled",
+        "admin": "Admin"
+      },
+      "filters": {
+        "searchLabel": "Search groups",
+        "searchPlaceholder": "Search name or ID",
+        "statusLabel": "Filter by status",
+        "accessLabel": "Filter by permission",
+        "status": {
+          "all": "All status",
+          "enabled": "Enabled",
+          "disabled": "Disabled"
+        },
+        "access": {
+          "all": "All access",
+          "admin": "Admin only",
+          "member": "Member only"
+        }
+      },
+      "status": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
+      "access": {
+        "admin": "Admin",
+        "member": "Member"
+      },
+      "list": {
+        "title": "Groups",
+        "description": "Find the groups you need and review their bot status at a glance.",
+        "table": {
+          "group": "Group",
+          "members": "Members",
+          "status": "Status",
+          "access": "Access"
+        },
+        "empty": {
+          "title": "No groups found",
+          "description": "Adjust the filters to find another group."
+        },
+        "error": {
+          "title": "Groups could not be loaded",
+          "description": "Refresh the list or try again in a moment."
+        }
+      },
+      "details": {
+        "noSelection": "Select a group to view details.",
+        "error": {
+          "title": "Group details could not be loaded",
+          "description": "Refresh the group details or try again in a moment."
+        }
+      },
+      "settings": {
+        "title": "Bot availability",
+        "description": "Enable this group to allow bot commands and push notifications.",
+        "adminOnlyDescription": "Only group admins can change bot availability.",
+        "enabledLabel": "Toggle bot availability",
+        "update": {
+          "successMessage": "Group settings updated.",
+          "errorMessage": "Could not update group settings. Please try again."
+        }
+      },
+      "members": {
+        "title": "Members",
+        "count": "{{count}} members",
+        "robot": "Bot",
+        "filters": {
+          "searchLabel": "Search members",
+          "searchPlaceholder": "Search name or QQ ID",
+          "roleLabel": "Filter by member role",
+          "role": {
+            "all": "All roles",
+            "owner": "Owner",
+            "admin": "Admin",
+            "member": "Member",
+            "robot": "Bot"
+          }
+        },
+        "table": {
+          "member": "Member",
+          "role": "Role",
+          "joined": "Joined"
+        },
+        "empty": {
+          "title": "No members found",
+          "description": "Adjust the filters to find another member."
+        },
+        "roles": {
+          "owner": "Owner",
+          "admin": "Admin",
+          "member": "Member"
+        },
+        "pagination": {
+          "page": "Page",
+          "of": "of",
+          "total": "{{count}} members",
+          "previous": "Previous",
+          "next": "Next"
+        }
+      },
+      "pagination": {
+        "page": "Page",
+        "of": "of",
+        "total": "{{count}} groups",
+        "previous": "Previous",
+        "next": "Next"
+      }
     },
     "settings": {
       "title": "Account Settings",

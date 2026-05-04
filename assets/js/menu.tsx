@@ -1,5 +1,4 @@
 import {
-  AddressBookTabsIcon,
   BrainIcon,
   ChatCircleTextIcon,
   ClockCounterClockwiseIcon,
@@ -12,7 +11,6 @@ import {
   ShieldCheckIcon,
   SlidersHorizontalIcon,
   SparkleIcon,
-  UserListIcon,
   UsersThreeIcon,
 } from "@phosphor-icons/react";
 import type * as React from "react";
@@ -60,21 +58,9 @@ export const navigationMenu: NavigationItem[] = [
     ],
   },
   {
-    titleKey: "app.nav.groupManagement",
-    url: "#",
+    titleKey: "app.nav.groups",
+    url: "/groups",
     icon: <UsersThreeIcon />,
-    items: [
-      {
-        titleKey: "app.nav.groupList",
-        url: "#",
-        icon: <AddressBookTabsIcon />,
-      },
-      {
-        titleKey: "app.nav.groupUsers",
-        url: "#",
-        icon: <UserListIcon />,
-      },
-    ],
   },
   {
     titleKey: "app.nav.aiAssistant",

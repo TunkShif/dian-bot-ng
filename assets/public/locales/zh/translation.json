@@ -86,6 +86,7 @@
       "groupManagement": "群组管理",
       "groupList": "群组列表",
       "groupUsers": "群内用户",
+      "groups": "群组",
       "aiAssistant": "AI Intelligence",
       "autoAnalysis": "自动分析",
       "aiRankings": "推荐榜单",
@@ -136,6 +137,122 @@
     },
     "dashboard": {
       "title": "仪表盘"
+    },
+    "groups": {
+      "title": "群组管理",
+      "description": "查看可见群组、成员列表，并控制 DianBot 在哪些群组中启用。",
+      "actions": {
+        "retry": "重试"
+      },
+      "summary": {
+        "total": "总数",
+        "enabled": "已启用",
+        "admin": "可管理"
+      },
+      "filters": {
+        "searchLabel": "搜索群组",
+        "searchPlaceholder": "搜索名称或 ID",
+        "statusLabel": "按状态筛选",
+        "accessLabel": "按权限筛选",
+        "status": {
+          "all": "全部状态",
+          "enabled": "已启用",
+          "disabled": "未启用"
+        },
+        "access": {
+          "all": "全部权限",
+          "admin": "仅管理员",
+          "member": "仅成员"
+        }
+      },
+      "status": {
+        "enabled": "已启用",
+        "disabled": "未启用"
+      },
+      "access": {
+        "admin": "管理员",
+        "member": "成员"
+      },
+      "list": {
+        "title": "群组",
+        "description": "快速找到需要的群组，并查看机器人启用状态。",
+        "table": {
+          "group": "群组",
+          "members": "成员",
+          "status": "状态",
+          "access": "权限"
+        },
+        "empty": {
+          "title": "没有找到群组",
+          "description": "调整筛选条件后再试。"
+        },
+        "error": {
+          "title": "无法加载群组",
+          "description": "刷新列表，或稍后再试。"
+        }
+      },
+      "details": {
+        "noSelection": "选择一个群组查看详情。",
+        "error": {
+          "title": "无法加载群组详情",
+          "description": "刷新群组详情，或稍后再试。"
+        }
+      },
+      "settings": {
+        "title": "机器人可用性",
+        "description": "启用后，该群组可使用机器人功能并接收推送通知。",
+        "adminOnlyDescription": "只有群管理员可以修改机器人可用性。",
+        "enabledLabel": "切换机器人可用性",
+        "update": {
+          "successMessage": "群组设置已更新。",
+          "errorMessage": "无法更新群组设置，请重试。"
+        }
+      },
+      "members": {
+        "title": "成员",
+        "count": "{{count}} 位成员",
+        "robot": "机器人",
+        "filters": {
+          "searchLabel": "搜索成员",
+          "searchPlaceholder": "搜索名称或 QQ 号",
+          "roleLabel": "按成员角色筛选",
+          "role": {
+            "all": "全部角色",
+            "owner": "群主",
+            "admin": "管理员",
+            "member": "成员",
+            "robot": "机器人"
+          }
+        },
+        "table": {
+          "member": "成员",
+          "role": "角色",
+          "joined": "加入时间"
+        },
+        "empty": {
+          "title": "没有找到成员",
+          "description": "调整筛选条件后再试。"
+        },
+        "roles": {
+          "owner": "群主",
+          "admin": "管理员",
+          "member": "成员"
+        },
+        "pagination": {
+          "page": "第",
+          "of": "/",
+          "total": "共 {{count}} 位成员",
+          "previous": "上一页",
+          "next": "下一页"
+        }
+      },
+      "pagination": {
+        "page": "第",
+        "of": "/",
+        "total": "共 {{count}} 个群组",
+        "previous": "上一页",
+        "next": "下一页"
+      }
     },
     "settings": {
       "title": "账户设置",

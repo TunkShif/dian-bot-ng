@@ -20,6 +20,10 @@ export const router = createBrowserRouter(
               lazy: () => import("@/routes/dashboard"),
             },
             {
+              path: "/groups",
+              lazy: () => import("@/routes/groups"),
+            },
+            {
               path: "/settings/user",
               lazy: () => import("@/routes/settings.user"),
             },

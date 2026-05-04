@@ -42,6 +42,122 @@ export default interface Resources {
           }
         }
       },
+      "groups": {
+        "access": {
+          "admin": "Admin",
+          "member": "Member"
+        },
+        "actions": {
+          "retry": "Retry"
+        },
+        "description": "Review visible groups, inspect members, and control where DianBot is enabled.",
+        "details": {
+          "error": {
+            "description": "Refresh the group details or try again in a moment.",
+            "title": "Group details could not be loaded"
+          },
+          "noSelection": "Select a group to view details."
+        },
+        "filters": {
+          "access": {
+            "admin": "Admin only",
+            "all": "All access",
+            "member": "Member only"
+          },
+          "accessLabel": "Filter by permission",
+          "searchLabel": "Search groups",
+          "searchPlaceholder": "Search name or ID",
+          "status": {
+            "all": "All status",
+            "disabled": "Disabled",
+            "enabled": "Enabled"
+          },
+          "statusLabel": "Filter by status"
+        },
+        "list": {
+          "description": "Find the groups you need and review their bot status at a glance.",
+          "empty": {
+            "description": "Adjust the filters to find another group.",
+            "title": "No groups found"
+          },
+          "error": {
+            "description": "Refresh the list or try again in a moment.",
+            "title": "Groups could not be loaded"
+          },
+          "table": {
+            "access": "Access",
+            "group": "Group",
+            "members": "Members",
+            "status": "Status"
+          },
+          "title": "Groups"
+        },
+        "members": {
+          "count": "{{count}} members",
+          "empty": {
+            "description": "Adjust the filters to find another member.",
+            "title": "No members found"
+          },
+          "filters": {
+            "role": {
+              "admin": "Admin",
+              "all": "All roles",
+              "member": "Member",
+              "owner": "Owner",
+              "robot": "Bot"
+            },
+            "roleLabel": "Filter by member role",
+            "searchLabel": "Search members",
+            "searchPlaceholder": "Search name or QQ ID"
+          },
+          "pagination": {
+            "next": "Next",
+            "of": "of",
+            "page": "Page",
+            "previous": "Previous",
+            "total": "{{count}} members"
+          },
+          "robot": "Bot",
+          "roles": {
+            "admin": "Admin",
+            "member": "Member",
+            "owner": "Owner"
+          },
+          "table": {
+            "joined": "Joined",
+            "member": "Member",
+            "role": "Role"
+          },
+          "title": "Members"
+        },
+        "pagination": {
+          "next": "Next",
+          "of": "of",
+          "page": "Page",
+          "previous": "Previous",
+          "total": "{{count}} groups"
+        },
+        "settings": {
+          "adminOnlyDescription": "Only group admins can change bot availability.",
+          "description": "Enable this group to allow bot commands and push notifications.",
+          "enabledLabel": "Toggle bot availability",
+          "title": "Bot availability",
+          "update": {
+            "errorMessage": "Could not update group settings. Please try again.",
+            "successMessage": "Group settings updated."
+          }
+        },
+        "status": {
+          "disabled": "Disabled",
+          "enabled": "Enabled"
+        },
+        "summary": {
+          "admin": "Admin",
+          "enabled": "Enabled",
+          "total": "Total"
+        },
+        "title": "Group Management"
+      },
       "header": {
         "title": "Documents"
       },
@@ -60,6 +176,7 @@ export default interface Resources {
         "groupList": "Group list",
         "groupManagement": "Group management",
         "groupUsers": "Group users",
+        "groups": "Groups",
         "liveMonitor": "Live monitor",
         "permissionManagement": "Permission management",
         "roastAlerts": "Roast alerts",
