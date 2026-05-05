@@ -16,7 +16,7 @@ This is a web application written using the Phoenix web framework (backend) and 
 ### JS and CSS guidelines
 
 - For frontend-specific rules under `assets/`, also read and follow @assets/AGENTS.md.
-- Prefer to use existing shadcn UI primitives to build composable components, following the design system.
+- Prefer to use existing shadcn UI primitives to build composable components, matching the design system. You may use the `shadcn` skill for detailed instructions.
 - Prefer to use `nuqs` for UI state management like selected tab, pagination, etc.
 - Static assets are managed by the frontend build pipeline. Only edit content under `assets/public`; treat Phoenix `priv/static` output as generated and ignore it.
 - After frontend code changes, check whether any user-facing text needs to be extracted to locale strings. For details, refer to `working-with-localization` skill.
