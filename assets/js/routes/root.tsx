@@ -1,8 +1,17 @@
 import { ArrowLeftIcon, HouseIcon, NotebookIcon, SignInIcon, WarningOctagonIcon } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, type LoaderFunctionArgs, Outlet, useLoaderData, useNavigate, useRouteError } from "react-router-dom";
+import {
+  Link,
+  type LoaderFunctionArgs,
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useRouteError,
+} from "react-router-dom";
 import { toast } from "sonner";
+import topbar from "topbar";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { formatRouteErrorDetails, getRouteErrorTranslationKeys } from "@/lib/route-error";
@@ -26,6 +35,7 @@ export const Component = () => {
   const { flash } = useLoaderData<RootLoaderData>();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (flash === null) return;
@@ -57,6 +67,17 @@ export const Component = () => {
       toast.dismiss(id);
     };
   }, [flash, navigate, t]);
+
+  useEffect(() => {
+    if (navigation.state === "loading") {
+      topbar.show();
+    } else {
+      topbar.hide();
+    }
+    return () => {
+      topbar.hide();
+    };
+  }, [navigation.state]);
 
   return <Outlet />;
 };
