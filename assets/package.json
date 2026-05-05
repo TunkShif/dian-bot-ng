@@ -2,7 +2,7 @@
 	"name": "dian-web",
 	"type": "module",
 	"private": true,
-  "packageManager": "bun@1.3.12",
+	"packageManager": "bun@1.3.12",
 	"scripts": {
 		"precommit": "bun run typegen && bun run check",
 		"check": "tsc --noEmit && biome check --write && i18next-cli lint",

@@ -37,22 +37,22 @@ export const navigationMenu: NavigationItem[] = [
   },
   {
     titleKey: "app.nav.featuredMessages",
-    url: "#",
+    url: "/messages",
     icon: <ChatCircleTextIcon />,
   },
   {
     titleKey: "app.nav.gameCenter",
-    url: "#",
+    url: "/games",
     icon: <GameControllerIcon />,
     items: [
       {
         titleKey: "app.nav.liveMonitor",
-        url: "#",
+        url: "/games/monitor",
         icon: <MonitorPlayIcon />,
       },
       {
         titleKey: "app.nav.gameHistory",
-        url: "#",
+        url: "/games/history",
         icon: <ClockCounterClockwiseIcon />,
       },
     ],
@@ -64,39 +64,39 @@ export const navigationMenu: NavigationItem[] = [
   },
   {
     titleKey: "app.nav.aiAssistant",
-    url: "#",
+    url: "/ai/",
     icon: <BrainIcon />,
     items: [
       {
         titleKey: "app.nav.autoAnalysis",
-        url: "#",
+        url: "/ai/foo",
         icon: <SparkleIcon />,
       },
       {
         titleKey: "app.nav.aiRankings",
-        url: "#",
+        url: "/ai/bar",
         icon: <RankingIcon />,
       },
       {
         titleKey: "app.nav.roastAlerts",
-        url: "#",
+        url: "/ai/baz",
         icon: <MegaphoneIcon />,
       },
     ],
   },
   {
     titleKey: "app.nav.systemSettings",
-    url: "#",
+    url: "/settings",
     icon: <GearSixIcon />,
     items: [
       {
         titleKey: "app.nav.globalConfig",
-        url: "#",
+        url: "/settings/system",
         icon: <SlidersHorizontalIcon />,
       },
       {
         titleKey: "app.nav.permissionManagement",
-        url: "#",
+        url: "/settings/permissions",
         icon: <ShieldCheckIcon />,
       },
     ],
