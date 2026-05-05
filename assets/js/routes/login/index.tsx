@@ -17,6 +17,8 @@ import { AuthForm } from "@/routes/login/auth-form";
 
 const authStepParser = parseAsStringLiteral(["email", "methods"] as const).withDefault("email");
 
+export const handle = { pageTitleKey: "auth.login.pageTitle" } as const;
+
 export const loader = async () => {
   const user = await getCurrentUser();
   if (user) {

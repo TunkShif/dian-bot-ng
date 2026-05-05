@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { PasskeysSection } from "@/routes/settings.user/passkeys-section";
 import { PasswordSection } from "@/routes/settings.user/password-section";
 
+export const handle = { pageTitleKey: "app.settings.pageTitle" } as const;
+
 export const Component = () => {
   const { t } = useTranslation();
 

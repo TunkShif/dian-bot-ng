@@ -1,6 +1,7 @@
 {
   "auth": {
     "login": {
+      "pageTitle": "登录",
       "brandName": "MY LITTLE RED BOOK",
       "imageAlt": "抽象波纹图案",
       "emailStep": {
@@ -136,9 +137,11 @@
       }
     },
     "dashboard": {
+      "pageTitle": "仪表盘",
       "title": "仪表盘"
     },
     "groups": {
+      "pageTitle": "群组管理",
       "title": "群组管理",
       "description": "查看可见群组、成员列表，并控制 DianBot 在哪些群组中启用。",
       "actions": {
@@ -255,6 +258,7 @@
       }
     },
     "settings": {
+      "pageTitle": "账户设置",
       "title": "账户设置",
       "description": "管理登录方式，并保护账号访问安全。",
       "actions": {

@@ -1,6 +1,7 @@
 {
   "auth": {
     "login": {
+      "pageTitle": "Sign In",
       "brandName": "MY LITTLE RED BOOK",
       "imageAlt": "Abstract wave pattern",
       "emailStep": {
@@ -136,9 +137,11 @@
       }
     },
     "dashboard": {
+      "pageTitle": "Dashboard",
       "title": "Dashboard"
     },
     "groups": {
+      "pageTitle": "Group Management",
       "title": "Group Management",
       "description": "Review visible groups, inspect members, and control where DianBot is enabled.",
       "actions": {
@@ -255,6 +258,7 @@
       }
     },
     "settings": {
+      "pageTitle": "Account Settings",
       "title": "Account Settings",
       "description": "Manage how you sign in and keep access to your account protected.",
       "actions": {

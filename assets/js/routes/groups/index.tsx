@@ -19,6 +19,8 @@ const statusParser = parseAsStringLiteral(["all", "enabled", "disabled"] as cons
 const accessParser = parseAsStringLiteral(["all", "admin", "member"] as const).withDefault("all");
 const pageParser = parseAsInteger.withDefault(1);
 
+export const handle = { pageTitleKey: "app.groups.pageTitle" } as const;
+
 export const Component = () => {
   const { t } = useTranslation();
   const [selectedGroupId, setSelectedGroupId] = useQueryState("group", parseAsString);

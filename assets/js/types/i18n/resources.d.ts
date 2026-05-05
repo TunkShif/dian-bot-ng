@@ -7,6 +7,7 @@ export default interface Resources {
       },
       "brandName": "LITTLE RED BOOK",
       "dashboard": {
+        "pageTitle": "Dashboard",
         "title": "Dashboard"
       },
       "errorBoundary": {
@@ -130,6 +131,7 @@ export default interface Resources {
           },
           "title": "Members"
         },
+        "pageTitle": "Group Management",
         "pagination": {
           "next": "Next",
           "of": "of",
@@ -188,6 +190,7 @@ export default interface Resources {
           "retry": "Retry"
         },
         "description": "Manage how you sign in and keep access to your account protected.",
+        "pageTitle": "Account Settings",
         "passkeys": {
           "add": "Add passkey",
           "addDialog": {
@@ -335,7 +338,8 @@ export default interface Resources {
           "signIn": "Sign in",
           "title": "Welcome",
           "useDifferentEmail": "Use a different email"
-        }
+        },
+        "pageTitle": "Sign In"
       }
     }
   }
