@@ -77,6 +77,8 @@ export const filterMembers = (members: GroupMember[], filters: MemberFilters) =>
   });
 };
 
+export const getAvatarFallback = (value: string) => value.trim().slice(0, 1).toUpperCase() || "?";
+
 export const paginateMembers = (members: GroupMember[], page: number, pageSize = MEMBERS_PAGE_SIZE) => {
   const totalPages = Math.max(1, Math.ceil(members.length / pageSize));
   const safePage = Math.min(Math.max(page, 1), totalPages);
