@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
-import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { GroupAccessFilter, GroupStatusFilter } from "@/routes/groups/types";
 
 type GroupFiltersProps = {
@@ -23,6 +23,20 @@ export const GroupFilters = ({
 }: GroupFiltersProps) => {
   const { t } = useTranslation();
 
+  const statusOptions = [
+    { value: "all", label: t("app.groups.filters.status.all") },
+    { value: "enabled", label: t("app.groups.filters.status.enabled") },
+    { value: "disabled", label: t("app.groups.filters.status.disabled") },
+  ];
+  const statusLabelMap = Object.fromEntries(statusOptions.map((o) => [o.value, o.label]));
+
+  const accessOptions = [
+    { value: "all", label: t("app.groups.filters.access.all") },
+    { value: "admin", label: t("app.groups.filters.access.admin") },
+    { value: "member", label: t("app.groups.filters.access.member") },
+  ];
+  const accessLabelMap = Object.fromEntries(accessOptions.map((o) => [o.value, o.label]));
+
   return (
     <div className="grid gap-3 md:grid-cols-2 2xl:grid-cols-[minmax(180px,1fr)_minmax(8.5rem,0.45fr)_minmax(8.5rem,0.45fr)]">
       <label className="relative block md:col-span-2 2xl:col-span-1" htmlFor="groups-search-input">
@@ -36,26 +50,30 @@ export const GroupFilters = ({
           className="pl-9"
         />
       </label>
-      <NativeSelect
-        value={status}
-        onChange={(event) => onStatusChange(event.target.value as GroupStatusFilter)}
-        aria-label={t("app.groups.filters.statusLabel")}
-        className="w-full min-w-0"
-      >
-        <NativeSelectOption value="all">{t("app.groups.filters.status.all")}</NativeSelectOption>
-        <NativeSelectOption value="enabled">{t("app.groups.filters.status.enabled")}</NativeSelectOption>
-        <NativeSelectOption value="disabled">{t("app.groups.filters.status.disabled")}</NativeSelectOption>
-      </NativeSelect>
-      <NativeSelect
-        value={access}
-        onChange={(event) => onAccessChange(event.target.value as GroupAccessFilter)}
-        aria-label={t("app.groups.filters.accessLabel")}
-        className="w-full min-w-0"
-      >
-        <NativeSelectOption value="all">{t("app.groups.filters.access.all")}</NativeSelectOption>
-        <NativeSelectOption value="admin">{t("app.groups.filters.access.admin")}</NativeSelectOption>
-        <NativeSelectOption value="member">{t("app.groups.filters.access.member")}</NativeSelectOption>
-      </NativeSelect>
+      <Select value={status} onValueChange={(value) => onStatusChange(value as GroupStatusFilter)}>
+        <SelectTrigger className="w-full min-w-0" aria-label={t("app.groups.filters.statusLabel")}>
+          <SelectValue>{(value) => statusLabelMap[value as string] ?? value}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {statusOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select value={access} onValueChange={(value) => onAccessChange(value as GroupAccessFilter)}>
+        <SelectTrigger className="w-full min-w-0" aria-label={t("app.groups.filters.accessLabel")}>
+          <SelectValue>{(value) => accessLabelMap[value as string] ?? value}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {accessOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };
