@@ -51,4 +51,16 @@ defmodule DianWeb.FallbackController do
     |> put_status(:unauthorized)
     |> json(DianWeb.JSend.fail(%{message: "invalid passkey authentication response"}))
   end
+
+  def call(conn, {:error, :not_bound}) do
+    conn
+    |> put_status(:not_found)
+    |> json(DianWeb.JSend.fail(%{message: "no Steam binding found for this QQ ID"}))
+  end
+
+  def call(conn, {:error, :steam_api_error}) do
+    conn
+    |> put_status(:bad_gateway)
+    |> json(DianWeb.JSend.fail(%{message: "failed to fetch Steam player summary"}))
+  end
 end

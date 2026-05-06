@@ -40,8 +40,22 @@ defmodule Dian.Groups do
     superadmin? = Settings.superadmin_user?(user.id)
 
     with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?, no_cache: true),
-         :ok <- authorize_group_admin(member, superadmin?) do
+         :ok <- verify_admin_member(member, superadmin?) do
       Settings.update_group_setting(group_id, Map.take(attrs, ["enabled"]))
+    end
+  end
+
+  @doc """
+  Authorizes that the current scope's user is a group admin for the given group.
+
+  Returns `:ok` if the user is a superadmin or a group admin, `{:error, :forbidden}` otherwise.
+  """
+  def authorize_group_admin(%Scope{user: %User{} = user, qq_id: qq_id}, group_id)
+      when is_binary(qq_id) do
+    superadmin? = Settings.superadmin_user?(user.id)
+
+    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?) do
+      verify_admin_member(member, superadmin?)
     end
   end
 
@@ -69,13 +83,13 @@ defmodule Dian.Groups do
   defp authorize_group_access(%GroupMember{}, false), do: :ok
   defp authorize_group_access(_member, false), do: {:error, :forbidden}
 
-  defp authorize_group_admin(_member, true), do: :ok
+  defp verify_admin_member(_member, true), do: :ok
 
-  defp authorize_group_admin(%GroupMember{} = member, false) do
+  defp verify_admin_member(%GroupMember{} = member, false) do
     if GroupMember.admin?(member), do: :ok, else: {:error, :forbidden}
   end
 
-  defp authorize_group_admin(_member, false), do: {:error, :forbidden}
+  defp verify_admin_member(_member, false), do: {:error, :forbidden}
 
   defp group_admin?(_member, true), do: true
   defp group_admin?(%GroupMember{} = member, false), do: GroupMember.admin?(member)

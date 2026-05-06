@@ -5,6 +5,8 @@ defmodule Dian.Steam do
 
   import Ecto.Query, warn: false
 
+  alias Ecto.Multi
+  alias Dian.Groups
   alias Dian.Repo
   alias Dian.Steam.Client
   alias Dian.Steam.SteamPlayer
@@ -76,5 +78,76 @@ defmodule Dian.Steam do
   """
   def get_player_summaries(steam_ids) when is_list(steam_ids) do
     Client.get_player_summaries(steam_ids)
+  end
+
+  @doc """
+  Looks up a Steam binding by qq_id and fetches the player summary.
+
+  Returns `{:ok, %PlayerSummary{}}` when a binding exists and the Steam API responds,
+  `{:error, :not_bound}` when no binding exists for the given qq_id,
+  or `{:error, :steam_api_error}` when the binding exists but the Steam API fails.
+  """
+  def get_bound_player_summary_by_qq_id(qq_id) when is_binary(qq_id) do
+    case get_steam_player_by_qq_id(qq_id) do
+      nil ->
+        {:error, :not_bound}
+
+      %SteamPlayer{steam_id: steam_id} ->
+        case get_player_summary(steam_id) do
+          nil -> {:error, :steam_api_error}
+          summary -> {:ok, summary}
+        end
+    end
+  end
+
+  @doc """
+  Upserts a Steam binding: one steam_id maps to one qq_id and vice-versa.
+
+  Conflicting existing bindings (same steam_id or same qq_id pointing to a
+  different counterpart) are deleted atomically before the new binding is
+  inserted, all within a single `Ecto.Multi` transaction.
+
+  Returns `{:ok, %SteamPlayer{}}` on success or `{:error, %Ecto.Changeset{}}` on failure.
+  """
+  def upsert_binding(qq_id, steam_id) when is_binary(qq_id) and is_binary(steam_id) do
+    Multi.new()
+    |> Multi.delete_all(:remove_by_qq_id, from(sp in SteamPlayer, where: sp.qq_id == ^qq_id))
+    |> Multi.delete_all(
+      :remove_by_steam_id,
+      from(sp in SteamPlayer, where: sp.steam_id == ^steam_id)
+    )
+    |> Multi.insert(
+      :insert,
+      SteamPlayer.changeset(%SteamPlayer{}, %{qq_id: qq_id, steam_id: steam_id})
+    )
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{insert: steam_player}} -> {:ok, steam_player}
+      {:error, :insert, changeset, _changes} -> {:error, changeset}
+    end
+  end
+
+  @doc """
+  Binds the authenticated user's own QQ ID to a Steam ID.
+
+  Derives the qq_id from the current scope and delegates to `upsert_binding/2`.
+  """
+  def bind_self(%Dian.Accounts.Scope{qq_id: qq_id}, steam_id)
+      when is_binary(qq_id) and is_binary(steam_id) do
+    upsert_binding(qq_id, steam_id)
+  end
+
+  @doc """
+  Binds a group member's QQ ID to a Steam ID after verifying the caller
+  is a group admin for the given group.
+
+  Delegates authorization to `Dian.Groups.authorize_group_admin/2` and
+  the write to `upsert_binding/2`.
+  """
+  def bind_member(scope, group_id, qq_id, steam_id)
+      when is_binary(group_id) and is_binary(qq_id) and is_binary(steam_id) do
+    with :ok <- Groups.authorize_group_admin(scope, group_id) do
+      upsert_binding(qq_id, steam_id)
+    end
   end
 end
