@@ -55,7 +55,7 @@ export const GroupMemberSteamSummary = ({ groupId, member, canManageSteam }: Gro
           ) : (
             <div className="rounded-2xl border border-border/70 bg-popover/95 p-4 shadow-2xl ring-1 ring-foreground/5 backdrop-blur-sm">
               <div className="flex items-start gap-3">
-                <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <div className="flex size-10 items-center justify-center rounded-xl shrink-0 bg-primary/10 text-primary">
                   <LinkSimpleIcon className="size-5" weight="duotone" />
                 </div>
                 <div className="space-y-1">
