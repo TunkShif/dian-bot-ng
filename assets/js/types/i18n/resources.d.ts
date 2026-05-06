@@ -264,6 +264,44 @@ export default interface Resources {
             "passwordsMatch": "Passwords must match."
           }
         },
+        "steam": {
+          "bind": {
+            "back": "Back",
+            "confirm": "Confirm linking",
+            "description": "Enter your 17-digit Steam ID to look up and link your account.",
+            "errorMessage": "Could not link Steam account. Please try again.",
+            "lookup": "Look up",
+            "lookupError": "Could not find a Steam profile for this ID. Please check and try again.",
+            "lookupServiceError": "Could not look up this Steam profile right now. Please try again.",
+            "steamId": {
+              "helper": "Your 17-digit Steam ID starting with 7656.",
+              "label": "Steam ID",
+              "placeholder": "76561198012345678"
+            },
+            "successMessage": "Your Steam account has been linked successfully.",
+            "successTitle": "Steam account linked",
+            "title": "Link Steam Account",
+            "trigger": "Link Steam"
+          },
+          "description": "Link your Steam account to enable game status tracking and notifications.",
+          "error": {
+            "description": "Try again in a moment.",
+            "title": "Steam profile could not be loaded"
+          },
+          "notBound": {
+            "description": "Link your Steam account to see your profile here.",
+            "title": "No Steam account linked"
+          },
+          "playing": "Playing {{game}}",
+          "state": {
+            "away": "Away",
+            "busy": "Busy",
+            "offline": "Offline",
+            "online": "Online",
+            "snooze": "Snooze"
+          },
+          "title": "Steam Account"
+        },
         "title": "Account Settings"
       },
       "userMenu": {

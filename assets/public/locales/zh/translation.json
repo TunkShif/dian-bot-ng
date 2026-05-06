@@ -337,6 +337,44 @@
           "successMessage": "通行密钥已删除。",
           "errorMessage": "无法删除通行密钥，请重试。"
         }
+      },
+      "steam": {
+        "title": "Steam 账号",
+        "description": "绑定你的 Steam 账号以启用游戏状态追踪和通知。",
+        "playing": "正在玩 {{game}}",
+        "state": {
+          "online": "在线",
+          "busy": "忙碌",
+          "away": "离开",
+          "snooze": "打盹",
+          "offline": "离线"
+        },
+        "notBound": {
+          "title": "未绑定 Steam 账号",
+          "description": "绑定 Steam 账号后，你的个人资料将显示在此处。"
+        },
+        "error": {
+          "title": "无法加载 Steam 资料",
+          "description": "请稍后再试。"
+        },
+        "bind": {
+          "trigger": "绑定 Steam",
+          "title": "绑定 Steam 账号",
+          "description": "输入你的 17 位 Steam ID 以查找并绑定账号。",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "以 7656 开头的 17 位 Steam ID。"
+          },
+          "lookup": "查找",
+          "lookupError": "未找到该 Steam ID 对应的个人资料，请检查后重试。",
+          "lookupServiceError": "当前无法查找该 Steam 资料，请稍后重试。",
+          "back": "返回",
+          "confirm": "确认绑定",
+          "successTitle": "Steam 账号已绑定",
+          "successMessage": "你的 Steam 账号已成功绑定。",
+          "errorMessage": "无法绑定 Steam 账号，请重试。"
+        }
       }
     }
   }

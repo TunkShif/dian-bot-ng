@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PasskeysSection } from "@/routes/settings.user/passkeys-section";
 import { PasswordSection } from "@/routes/settings.user/password-section";
+import { SteamSection } from "@/routes/settings.user/steam-section";
 
 export const handle = { pageTitleKey: "app.settings.pageTitle" } as const;
 
@@ -20,6 +21,7 @@ export const Component = () => {
         </div>
       </header>
 
+      <SteamSection />
       <PasswordSection />
       <PasskeysSection />
     </main>

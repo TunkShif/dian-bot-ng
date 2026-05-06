@@ -337,6 +337,44 @@
           "successMessage": "Passkey deleted.",
           "errorMessage": "Could not delete passkey. Please try again."
         }
+      },
+      "steam": {
+        "title": "Steam Account",
+        "description": "Link your Steam account to enable game status tracking and notifications.",
+        "playing": "Playing {{game}}",
+        "state": {
+          "online": "Online",
+          "busy": "Busy",
+          "away": "Away",
+          "snooze": "Snooze",
+          "offline": "Offline"
+        },
+        "notBound": {
+          "title": "No Steam account linked",
+          "description": "Link your Steam account to see your profile here."
+        },
+        "error": {
+          "title": "Steam profile could not be loaded",
+          "description": "Try again in a moment."
+        },
+        "bind": {
+          "trigger": "Link Steam",
+          "title": "Link Steam Account",
+          "description": "Enter your 17-digit Steam ID to look up and link your account.",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "Your 17-digit Steam ID starting with 7656."
+          },
+          "lookup": "Look up",
+          "lookupError": "Could not find a Steam profile for this ID. Please check and try again.",
+          "lookupServiceError": "Could not look up this Steam profile right now. Please try again.",
+          "back": "Back",
+          "confirm": "Confirm linking",
+          "successTitle": "Steam account linked",
+          "successMessage": "Your Steam account has been linked successfully.",
+          "errorMessage": "Could not link Steam account. Please try again."
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 # Frontend Agent Instructions
 
-These instructions apply to the `assets` frontend workspace.
+These instructions apply to the `assets` frontend workspace. Currently we have no testing infrastructure for the frontend, so skip testing for frontend.
 
 ## Tooling
 
@@ -40,4 +40,16 @@ These instructions apply to the `assets` frontend workspace.
 - Put common reusable components in `js/components/`.
 - Shadcn UI primitives live in `js/components/ui/`.
 - Usually do not change files in `js/components/ui/`; prefer composing those primitives from feature or shared components instead.
-- TanStack Query mutation success/error toasts and query invalidation are managed globally through mutation `meta`. Check `js/lib/query-client.ts` for the registered `mutationMeta` type before adding local toast or invalidation handling.
+
+## TanStack Query Conventions
+
+- Prefer the auto-generated TanStack Query helpers from `js/client/@tanstack/react-query.gen` for query options, mutation options, and query keys.
+- Use generated `...Options()` helpers with `useQuery`, and generated `...Mutation()` helpers with `useMutation`.
+- Use generated `...QueryKey()` helpers for cache invalidation. Do not rely on handwritten query keys or internal generated key structure.
+- Prefer mutation `meta` (see `js/lib/query-client.ts`) for success/error toasts and query invalidation when the behavior is static.
+- Use `onSuccess`, `onError`, or `onSettled` callbacks when invalidation or side effects depend on runtime mutation variables or require more flexible control flow.
+- For route-level query UIs, follow the existing pattern used in groups and passkeys:
+  - extract dedicated loading state components
+  - extract dedicated error state components with retry where appropriate
+  - extract dedicated empty state components when applicable
+  - keep the main section/page component focused on selecting between loading, error, empty, and success states
