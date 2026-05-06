@@ -230,7 +230,28 @@
         "table": {
           "member": "Member",
           "role": "Role",
-          "joined": "Joined"
+          "joined": "Joined",
+          "steam": "Steam",
+          "actions": "Actions"
+        },
+        "actions": {
+          "openMenu": "Open member actions",
+          "bindSteam": "Bind Steam",
+          "rebindSteam": "Rebind Steam"
+        },
+        "steam": {
+          "notLinked": "Not linked",
+          "linked": "Linked",
+          "bindDialog": {
+            "title": "Bind Steam for {{member}}",
+            "description": "Look up a Steam account and link it to this group member.",
+            "confirm": "Confirm binding"
+          },
+          "rebindDialog": {
+            "title": "Rebind Steam for {{member}}",
+            "description": "Look up another Steam account to replace this member's current binding.",
+            "confirm": "Confirm rebinding"
+          }
         },
         "empty": {
           "title": "No members found",

@@ -2,6 +2,7 @@ defmodule Dian.GroupsTest do
   use Dian.DataCase
 
   import Dian.AccountsFixtures
+  import Dian.SteamFixtures
 
   alias Dian.Accounts.Scope
   alias Dian.Groups
@@ -65,6 +66,35 @@ defmodule Dian.GroupsTest do
       end)
 
       assert {:error, :forbidden} = Groups.update_group(scope, "100", %{"enabled" => true})
+
+      Mox.verify!()
+    end
+  end
+
+  describe "get_group/2" do
+    test "includes local steam binding summaries for members" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+      steam_id = unique_steam_id()
+      steam_player_fixture(qq_id: "20001", steam_id: steam_id, display_name: "PlayerOne")
+
+      Mox.expect(DianBot.Client.Mock, :request, 3, fn
+        "get_group_member_info", %{group_id: "100", user_id: "12345", no_cache: false}, [] ->
+          {:ok, member_payload("100", 12345, "admin")}
+
+        "get_group_info", %{group_id: "100"}, [] ->
+          {:ok, group_payload("100", "visible")}
+
+        "get_group_member_list", %{group_id: "100"}, [] ->
+          {:ok, [member_payload("100", 12345, "admin"), member_payload("100", 20001, "member")]}
+      end)
+
+      assert {:ok, group} = Groups.get_group(scope, "100")
+
+      assert [%{user_id: 12345, steam_player: nil}, %{user_id: 20001, steam_player: steam_player}] =
+               group.members
+
+      assert %{steam_id: ^steam_id, display_name: "PlayerOne"} = steam_player
 
       Mox.verify!()
     end

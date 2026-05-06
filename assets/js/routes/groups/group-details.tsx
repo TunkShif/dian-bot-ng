@@ -132,7 +132,11 @@ export const GroupDetails = ({ group }: GroupDetailsProps) => {
             <MemberListEmpty />
           ) : (
             <>
-              <MembersTable members={paginatedMembers.members} />
+              <MembersTable
+                members={paginatedMembers.members}
+                groupId={group.group_id.toString()}
+                canManageSteam={group.is_admin}
+              />
               <MemberPagination
                 page={paginatedMembers.page}
                 totalPages={paginatedMembers.totalPages}

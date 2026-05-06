@@ -1,6 +1,6 @@
 defmodule DianWeb.GroupJSON do
   alias DianBot.Group
-  alias DianBot.GroupMember
+  alias Dian.Steam.SteamPlayer
 
   def one(%Group{} = group) do
     %{
@@ -16,18 +16,28 @@ defmodule DianWeb.GroupJSON do
 
   def many(groups), do: Enum.map(groups, &one/1)
 
-  def member(%GroupMember{} = member) do
+  def member(member) when is_map(member) do
     %{
-      user_id: member.user_id,
-      group_id: member.group_id,
-      nickname: member.nickname,
-      display_name: member.display_name,
-      avatar_url: member.avatar_url,
-      join_time: member.join_time,
-      last_sent_time: member.last_sent_time,
-      is_robot: member.is_robot,
-      role: member.role,
-      title: member.title
+      user_id: Map.get(member, :user_id),
+      group_id: Map.get(member, :group_id),
+      nickname: Map.get(member, :nickname),
+      display_name: Map.get(member, :display_name),
+      avatar_url: Map.get(member, :avatar_url),
+      join_time: Map.get(member, :join_time),
+      last_sent_time: Map.get(member, :last_sent_time),
+      is_robot: Map.get(member, :is_robot),
+      role: Map.get(member, :role),
+      title: Map.get(member, :title),
+      steam_player: steam_player_summary(Map.get(member, :steam_player))
+    }
+  end
+
+  defp steam_player_summary(nil), do: nil
+
+  defp steam_player_summary(%SteamPlayer{} = steam_player) do
+    %{
+      steam_id: steam_player.steam_id,
+      display_name: steam_player.display_name
     }
   end
 end

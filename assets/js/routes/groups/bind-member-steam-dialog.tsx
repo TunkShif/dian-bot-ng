@@ -1,4 +1,4 @@
-import { CheckIcon, LinkSimpleIcon, MagnifyingGlassIcon, SpinnerGapIcon } from "@phosphor-icons/react";
+import { CheckIcon, MagnifyingGlassIcon, SpinnerGapIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,21 +12,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { hasHttpStatus, steamIdSchema, useBindSelfSteamMutation, useSteamPlayerLookup } from "@/lib/steam";
+import { hasHttpStatus, steamIdSchema, useBindMemberSteamMutation, useSteamPlayerLookup } from "@/lib/steam";
+import type { GroupMember } from "@/routes/groups/types";
 
-export const BindSteamDialog = () => {
+type BindMemberSteamDialogProps = {
+  groupId: string;
+  member: GroupMember;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export const BindMemberSteamDialog = ({ groupId, member, open, onOpenChange }: BindMemberSteamDialogProps) => {
   const { t } = useTranslation();
-  const user = useCurrentUser();
-  const [open, setOpen] = useState(false);
+  const bindMutation = useBindMemberSteamMutation(groupId);
+  const memberName = member.display_name || member.nickname;
   const [lookupId, setLookupId] = useState<string | null>(null);
-
-  const lookupQuery = useSteamPlayerLookup(lookupId);
-  const bindMutation = useBindSelfSteamMutation(user?.qq_id ?? null);
+  const lookupResult = useSteamPlayerLookup(lookupId);
 
   const form = useForm({
     defaultValues: { steam_id: "" },
@@ -41,24 +45,25 @@ export const BindSteamDialog = () => {
 
     bindMutation.mutate(
       {
+        path: { group_id: groupId, qq_id: member.user_id.toString() },
         body: {
           steam_id: lookupId,
-          display_name: lookupQuery.data?.name ?? null,
+          display_name: lookupResult.data?.name ?? null,
         },
       },
       {
         onSuccess: () => {
           form.reset();
           setLookupId(null);
-          setOpen(false);
+          onOpenChange(false);
         },
       },
     );
   };
 
-  const handleOpenChange = (value: boolean) => {
-    setOpen(value);
-    if (!value) {
+  const handleDialogChange = (nextOpen: boolean) => {
+    onOpenChange(nextOpen);
+    if (!nextOpen) {
       setLookupId(null);
       form.reset();
     }
@@ -68,18 +73,20 @@ export const BindSteamDialog = () => {
     setLookupId(null);
   };
 
-  const isPending = bindMutation.isPending;
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<Button type="button" />}>
-        <LinkSimpleIcon data-icon="inline-start" />
-        {t("app.settings.steam.bind.trigger")}
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleDialogChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("app.settings.steam.bind.title")}</DialogTitle>
-          <DialogDescription>{t("app.settings.steam.bind.description")}</DialogDescription>
+          <DialogTitle>
+            {member.steam_player
+              ? t("app.groups.members.steam.rebindDialog.title", { member: memberName })
+              : t("app.groups.members.steam.bindDialog.title", { member: memberName })}
+          </DialogTitle>
+          <DialogDescription>
+            {member.steam_player
+              ? t("app.groups.members.steam.rebindDialog.description", { member: memberName })
+              : t("app.groups.members.steam.bindDialog.description", { member: memberName })}
+          </DialogDescription>
         </DialogHeader>
 
         {lookupId === null ? (
@@ -104,9 +111,9 @@ export const BindSteamDialog = () => {
                         onBlur={field.handleBlur}
                         onChange={(event) => field.handleChange(event.target.value)}
                         placeholder={t("app.settings.steam.bind.steamId.placeholder")}
-                        disabled={isPending}
+                        disabled={bindMutation.isPending}
                       />
-                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
                       <FieldDescription>{t("app.settings.steam.bind.steamId.helper")}</FieldDescription>
                     </Field>
                   );
@@ -129,34 +136,36 @@ export const BindSteamDialog = () => {
           </form>
         ) : (
           <div className="flex flex-col gap-4">
-            {lookupQuery.isLoading ? (
+            {lookupResult.isLoading ? (
               <div className="flex items-center justify-center py-8">
                 <SpinnerGapIcon className="size-6 animate-spin text-muted-foreground" />
               </div>
-            ) : lookupQuery.isError ? (
+            ) : lookupResult.isError ? (
               <div className="rounded-lg border border-destructive/50 bg-destructive/5 p-4 text-sm text-destructive">
-                {hasHttpStatus(lookupQuery.error, 404)
+                {hasHttpStatus(lookupResult.error, 404)
                   ? t("app.settings.steam.bind.lookupError")
                   : t("app.settings.steam.bind.lookupServiceError")}
               </div>
-            ) : lookupQuery.data ? (
-              <SteamPlayerSummaryCard player={lookupQuery.data} />
+            ) : lookupResult.data ? (
+              <SteamPlayerSummaryCard player={lookupResult.data} />
             ) : null}
 
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={handleBack} disabled={isPending}>
+              <Button type="button" variant="outline" onClick={handleBack} disabled={bindMutation.isPending}>
                 {t("app.settings.steam.bind.back")}
               </Button>
-              {lookupQuery.data && (
-                <Button type="button" onClick={handleConfirm} disabled={isPending}>
-                  {isPending ? (
+              {lookupResult.data ? (
+                <Button type="button" onClick={handleConfirm} disabled={bindMutation.isPending}>
+                  {bindMutation.isPending ? (
                     <SpinnerGapIcon data-icon="inline-start" className="animate-spin" />
                   ) : (
                     <CheckIcon data-icon="inline-start" />
                   )}
-                  {t("app.settings.steam.bind.confirm")}
+                  {member.steam_player
+                    ? t("app.groups.members.steam.rebindDialog.confirm")
+                    : t("app.groups.members.steam.bindDialog.confirm")}
                 </Button>
-              )}
+              ) : null}
             </DialogFooter>
           </div>
         )}

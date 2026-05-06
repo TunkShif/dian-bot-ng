@@ -4,15 +4,19 @@ import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { GroupMemberSteamSummary } from "@/routes/groups/group-member-steam-summary";
+import { MemberActionsMenu } from "@/routes/groups/member-actions-menu";
 import { MemberRoleBadge } from "@/routes/groups/member-role-badge";
 import type { GroupMember } from "@/routes/groups/types";
 import { getAvatarFallback } from "@/routes/groups/utils";
 
 type MembersTableProps = {
   members: GroupMember[];
+  groupId: string;
+  canManageSteam: boolean;
 };
 
-export const MembersTable = ({ members }: MembersTableProps) => {
+export const MembersTable = ({ members, groupId, canManageSteam }: MembersTableProps) => {
   const { t, i18n } = useTranslation();
   const dateFormatter = useMemo(
     () =>
@@ -30,6 +34,10 @@ export const MembersTable = ({ members }: MembersTableProps) => {
             <TableHead>{t("app.groups.members.table.member")}</TableHead>
             <TableHead className="hidden sm:table-cell">{t("app.groups.members.table.role")}</TableHead>
             <TableHead className="hidden md:table-cell">{t("app.groups.members.table.joined")}</TableHead>
+            <TableHead className="hidden lg:table-cell">{t("app.groups.members.table.steam")}</TableHead>
+            {canManageSteam ? (
+              <TableHead className="w-12 text-right">{t("app.groups.members.table.actions")}</TableHead>
+            ) : null}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -54,6 +62,9 @@ export const MembersTable = ({ members }: MembersTableProps) => {
                       ) : null}
                     </div>
                     <div className="truncate text-xs text-muted-foreground">{member.user_id}</div>
+                    <div className="pt-1 lg:hidden">
+                      <GroupMemberSteamSummary steamPlayer={member.steam_player} />
+                    </div>
                   </div>
                 </div>
               </TableCell>
@@ -63,6 +74,14 @@ export const MembersTable = ({ members }: MembersTableProps) => {
               <TableCell className="hidden md:table-cell text-muted-foreground">
                 {dateFormatter.format(new Date(member.join_time * 1000))}
               </TableCell>
+              <TableCell className="hidden lg:table-cell">
+                <GroupMemberSteamSummary steamPlayer={member.steam_player} />
+              </TableCell>
+              {canManageSteam ? (
+                <TableCell className="text-right">
+                  <MemberActionsMenu groupId={groupId} member={member} />
+                </TableCell>
+              ) : null}
             </TableRow>
           ))}
         </TableBody>

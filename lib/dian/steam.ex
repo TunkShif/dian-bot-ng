@@ -37,6 +37,16 @@ defmodule Dian.Steam do
   end
 
   @doc """
+  Returns Steam player bindings for the given QQ IDs keyed by qq_id.
+  """
+  def get_steam_players_by_qq_ids(qq_ids) when is_list(qq_ids) do
+    SteamPlayer
+    |> where([sp], sp.qq_id in ^qq_ids)
+    |> Repo.all()
+    |> Map.new(&{&1.qq_id, &1})
+  end
+
+  @doc """
   Binds a Steam ID to a QQ ID.
 
   Returns `{:ok, %SteamPlayer{}}` on success or `{:error, %Ecto.Changeset{}}` on failure.
@@ -110,7 +120,10 @@ defmodule Dian.Steam do
 
   Returns `{:ok, %SteamPlayer{}}` on success or `{:error, %Ecto.Changeset{}}` on failure.
   """
-  def upsert_binding(qq_id, steam_id) when is_binary(qq_id) and is_binary(steam_id) do
+  def upsert_binding(qq_id, steam_id, display_name \\ nil)
+
+  def upsert_binding(qq_id, steam_id, display_name)
+      when is_binary(qq_id) and is_binary(steam_id) do
     Multi.new()
     |> Multi.delete_all(:remove_by_qq_id, from(sp in SteamPlayer, where: sp.qq_id == ^qq_id))
     |> Multi.delete_all(
@@ -119,7 +132,11 @@ defmodule Dian.Steam do
     )
     |> Multi.insert(
       :insert,
-      SteamPlayer.changeset(%SteamPlayer{}, %{qq_id: qq_id, steam_id: steam_id})
+      SteamPlayer.changeset(%SteamPlayer{}, %{
+        qq_id: qq_id,
+        steam_id: steam_id,
+        display_name: display_name
+      })
     )
     |> Repo.transaction()
     |> case do
@@ -133,9 +150,11 @@ defmodule Dian.Steam do
 
   Derives the qq_id from the current scope and delegates to `upsert_binding/2`.
   """
-  def bind_self(%Dian.Accounts.Scope{qq_id: qq_id}, steam_id)
+  def bind_self(scope, steam_id, display_name \\ nil)
+
+  def bind_self(%Dian.Accounts.Scope{qq_id: qq_id}, steam_id, display_name)
       when is_binary(qq_id) and is_binary(steam_id) do
-    upsert_binding(qq_id, steam_id)
+    upsert_binding(qq_id, steam_id, display_name)
   end
 
   @doc """
@@ -145,11 +164,13 @@ defmodule Dian.Steam do
   Delegates authorization to `Dian.Groups.authorize_group_admin/2` and
   the write to `upsert_binding/2`.
   """
-  def bind_member(scope, group_id, qq_id, steam_id)
+  def bind_member(scope, group_id, qq_id, steam_id, display_name \\ nil)
+
+  def bind_member(scope, group_id, qq_id, steam_id, display_name)
       when is_binary(group_id) and is_binary(qq_id) and is_binary(steam_id) do
     with :ok <- Groups.authorize_group_admin(scope, group_id),
          :ok <- verify_group_member(group_id, qq_id) do
-      upsert_binding(qq_id, steam_id)
+      upsert_binding(qq_id, steam_id, display_name)
     end
   end
 

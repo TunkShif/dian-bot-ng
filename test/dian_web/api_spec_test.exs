@@ -77,6 +77,7 @@ defmodule DianWeb.APISpecTest do
              :last_sent_time,
              :nickname,
              :role,
+             :steam_player,
              :title,
              :user_id
            ]

@@ -98,6 +98,15 @@ defmodule Dian.Steam.BindingTest do
 
       refute Steam.get_steam_player_by_steam_id(old_steam_id)
     end
+
+    test "persists the looked-up display_name when provided" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+      steam_id = unique_steam_id()
+
+      assert {:ok, %SteamPlayer{qq_id: "12345", steam_id: ^steam_id, display_name: "PlayerOne"}} =
+               Steam.bind_self(scope, steam_id, "PlayerOne")
+    end
   end
 
   describe "bind_member/4" do
@@ -261,6 +270,33 @@ defmodule Dian.Steam.BindingTest do
                Steam.bind_member(scope, "100", target_qq_id, new_steam_id)
 
       refute Steam.get_steam_player_by_steam_id(old_steam_id)
+
+      Mox.verify!()
+    end
+
+    test "persists the looked-up display_name when provided" do
+      actor = group_user_fixture("10001")
+      scope = Scope.for_user(actor)
+      target_qq_id = "20001"
+      steam_id = unique_steam_id()
+
+      Mox.expect(DianBot.Client.Mock, :request, 2, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "10001", no_cache: true},
+        [no_cache: true] ->
+          {:ok, member_payload("100", 10001, "admin")}
+
+        "get_group_member_info", %{group_id: "100", user_id: "20001", no_cache: false}, [] ->
+          {:ok, member_payload("100", 20001, "member")}
+      end)
+
+      assert {:ok,
+              %SteamPlayer{
+                qq_id: ^target_qq_id,
+                steam_id: ^steam_id,
+                display_name: "PlayerOne"
+              }} =
+               Steam.bind_member(scope, "100", target_qq_id, steam_id, "PlayerOne")
 
       Mox.verify!()
     end

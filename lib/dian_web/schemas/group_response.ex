@@ -48,7 +48,8 @@ defmodule DianWeb.Schemas.GroupResponse do
                     :last_sent_time,
                     :is_robot,
                     :role,
-                    :title
+                    :title,
+                    :steam_player
                   ],
                   properties: %{
                     user_id: %Schema{type: :integer, example: 12345},
@@ -67,7 +68,16 @@ defmodule DianWeb.Schemas.GroupResponse do
                       enum: ["owner", "admin", "member"],
                       example: "member"
                     },
-                    title: %Schema{type: :string, nullable: true, example: ""}
+                    title: %Schema{type: :string, nullable: true, example: ""},
+                    steam_player: %Schema{
+                      type: :object,
+                      nullable: true,
+                      required: [:steam_id, :display_name],
+                      properties: %{
+                        steam_id: %Schema{type: :string, example: "76561198012345678"},
+                        display_name: %Schema{type: :string, nullable: true, example: "PlayerOne"}
+                      }
+                    }
                   }
                 }
               }

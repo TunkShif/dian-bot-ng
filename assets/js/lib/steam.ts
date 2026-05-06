@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import i18n from "i18next";
+import * as z from "zod";
 import type { SteamPlayerSummaryResponse } from "@/client";
 import {
   bindSteamPlayerMemberMutation,
   bindSteamPlayerSelfMutation,
+  showGroupQueryKey,
   showSteamPlayerByQqIdOptions,
   showSteamPlayerByQqIdQueryKey,
   showSteamPlayerBySteamIdOptions,
@@ -13,6 +15,14 @@ import {
 export type SteamPlayerSummary = NonNullable<SteamPlayerSummaryResponse["data"]["player"]>;
 
 export const STEAM_ID_REGEX = /^7656\d{13}$/;
+export const steamIdFieldSchema = z
+  .string()
+  .min(17, "Steam ID must be 17 characters")
+  .max(17, "Steam ID must be 17 characters")
+  .regex(STEAM_ID_REGEX, "Must be a valid Steam ID starting with 7656");
+export const steamIdSchema = z.object({
+  steam_id: steamIdFieldSchema,
+});
 
 type HttpErrorLike = {
   status?: number;
@@ -73,12 +83,20 @@ export const useBindSelfSteamMutation = (qqId: string | null) => {
   });
 };
 
-export const useBindMemberSteamMutation = () => {
+export const useBindMemberSteamMutation = (groupId: string | null) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     ...bindSteamPlayerMemberMutation(),
     onSuccess: (_data, variables) => {
+      if (groupId) {
+        void queryClient.invalidateQueries({
+          queryKey: showGroupQueryKey({
+            path: { id: groupId },
+          }),
+        });
+      }
+
       void queryClient.invalidateQueries({
         queryKey: showSteamPlayerByQqIdQueryKey({
           path: { qq_id: variables.path.qq_id },

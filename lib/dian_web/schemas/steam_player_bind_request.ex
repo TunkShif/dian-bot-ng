@@ -13,6 +13,12 @@ defmodule DianWeb.Schemas.SteamPlayerBindRequest do
         type: :string,
         description: "17-digit Steam ID",
         example: "76561198012345678"
+      },
+      display_name: %Schema{
+        type: :string,
+        nullable: true,
+        description: "Steam persona name resolved by the client lookup step",
+        example: "PlayerOne"
       }
     }
   })

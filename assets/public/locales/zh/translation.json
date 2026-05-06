@@ -230,7 +230,28 @@
         "table": {
           "member": "成员",
           "role": "角色",
-          "joined": "加入时间"
+          "joined": "加入时间",
+          "steam": "Steam",
+          "actions": "操作"
+        },
+        "actions": {
+          "openMenu": "打开成员操作菜单",
+          "bindSteam": "绑定 Steam",
+          "rebindSteam": "重新绑定 Steam"
+        },
+        "steam": {
+          "notLinked": "未绑定",
+          "linked": "已绑定",
+          "bindDialog": {
+            "title": "为 {{member}} 绑定 Steam",
+            "description": "查找 Steam 账号并将其绑定到该群成员。",
+            "confirm": "确认绑定"
+          },
+          "rebindDialog": {
+            "title": "为 {{member}} 重新绑定 Steam",
+            "description": "查找新的 Steam 账号以替换该成员当前绑定。",
+            "confirm": "确认重新绑定"
+          }
         },
         "empty": {
           "title": "没有找到成员",

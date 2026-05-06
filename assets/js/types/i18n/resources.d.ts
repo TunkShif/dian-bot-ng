@@ -94,6 +94,11 @@ export default interface Resources {
           "title": "Groups"
         },
         "members": {
+          "actions": {
+            "bindSteam": "Bind Steam",
+            "openMenu": "Open member actions",
+            "rebindSteam": "Rebind Steam"
+          },
           "count": "{{count}} members",
           "empty": {
             "description": "Adjust the filters to find another member.",
@@ -124,10 +129,26 @@ export default interface Resources {
             "member": "Member",
             "owner": "Owner"
           },
+          "steam": {
+            "bindDialog": {
+              "confirm": "Confirm binding",
+              "description": "Look up a Steam account and link it to this group member.",
+              "title": "Bind Steam for {{member}}"
+            },
+            "linked": "Linked",
+            "notLinked": "Not linked",
+            "rebindDialog": {
+              "confirm": "Confirm rebinding",
+              "description": "Look up another Steam account to replace this member's current binding.",
+              "title": "Rebind Steam for {{member}}"
+            }
+          },
           "table": {
+            "actions": "Actions",
             "joined": "Joined",
             "member": "Member",
-            "role": "Role"
+            "role": "Role",
+            "steam": "Steam"
           },
           "title": "Members"
         },

@@ -2,6 +2,7 @@ defmodule Dian.Groups do
   alias Dian.Accounts.Scope
   alias Dian.Accounts.User
   alias Dian.Settings
+  alias Dian.Steam
   alias DianBot.GroupMember
 
   def list_groups(%Scope{user: %User{} = user, qq_id: qq_id}) when is_binary(qq_id) do
@@ -26,10 +27,13 @@ defmodule Dian.Groups do
          :ok <- authorize_group_access(member, superadmin?),
          {:ok, group} <- DianBot.get_group_info(group_id),
          {:ok, members} <- DianBot.get_group_member_list(group_id) do
+      steam_players_by_qq_id =
+        members |> Enum.map(&to_string(&1.user_id)) |> Steam.get_steam_players_by_qq_ids()
+
       group =
         group
         |> enrich_group(group_admin?(member, superadmin?))
-        |> Map.put(:members, members)
+        |> Map.put(:members, attach_member_steam_players(members, steam_players_by_qq_id))
 
       {:ok, group}
     end
@@ -94,4 +98,10 @@ defmodule Dian.Groups do
   defp group_admin?(_member, true), do: true
   defp group_admin?(%GroupMember{} = member, false), do: GroupMember.admin?(member)
   defp group_admin?(_member, false), do: false
+
+  defp attach_member_steam_players(members, steam_players_by_qq_id) do
+    Enum.map(members, fn member ->
+      Map.put(member, :steam_player, Map.get(steam_players_by_qq_id, to_string(member.user_id)))
+    end)
+  end
 end

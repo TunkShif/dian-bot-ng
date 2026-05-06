@@ -111,15 +111,25 @@ defmodule DianWeb.SteamPlayerController do
     end
   end
 
-  def bind_self(conn, %{"steam_id" => steam_id}) do
-    with {:ok, steam_player} <- Steam.bind_self(conn.assigns.current_scope, steam_id) do
+  def bind_self(conn, %{"steam_id" => steam_id} = params) do
+    with {:ok, steam_player} <-
+           Steam.bind_self(conn.assigns.current_scope, steam_id, Map.get(params, "display_name")) do
       JSend.success_json(conn, %{binding: SteamPlayerJSON.binding(steam_player)})
     end
   end
 
-  def bind_member(conn, %{"group_id" => group_id, "qq_id" => qq_id, "steam_id" => steam_id}) do
+  def bind_member(
+        conn,
+        %{"group_id" => group_id, "qq_id" => qq_id, "steam_id" => steam_id} = params
+      ) do
     with {:ok, steam_player} <-
-           Steam.bind_member(conn.assigns.current_scope, group_id, qq_id, steam_id) do
+           Steam.bind_member(
+             conn.assigns.current_scope,
+             group_id,
+             qq_id,
+             steam_id,
+             Map.get(params, "display_name")
+           ) do
       JSend.success_json(conn, %{binding: SteamPlayerJSON.binding(steam_player)})
     end
   end
