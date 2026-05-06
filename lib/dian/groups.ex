@@ -35,12 +35,8 @@ defmodule Dian.Groups do
     end
   end
 
-  def update_group(%Scope{user: %User{} = user, qq_id: qq_id}, group_id, attrs)
-      when is_binary(qq_id) and is_map(attrs) do
-    superadmin? = Settings.superadmin_user?(user.id)
-
-    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?, no_cache: true),
-         :ok <- verify_admin_member(member, superadmin?) do
+  def update_group(scope, group_id, attrs) when is_map(attrs) do
+    with :ok <- authorize_group_admin(scope, group_id) do
       Settings.update_group_setting(group_id, Map.take(attrs, ["enabled"]))
     end
   end
@@ -54,7 +50,7 @@ defmodule Dian.Groups do
       when is_binary(qq_id) do
     superadmin? = Settings.superadmin_user?(user.id)
 
-    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?) do
+    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?, no_cache: true) do
       verify_admin_member(member, superadmin?)
     end
   end

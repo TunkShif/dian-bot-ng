@@ -93,9 +93,10 @@ defmodule Dian.Steam do
         {:error, :not_bound}
 
       %SteamPlayer{steam_id: steam_id} ->
-        case get_player_summary(steam_id) do
-          nil -> {:error, :steam_api_error}
-          summary -> {:ok, summary}
+        case get_player_summaries([steam_id]) do
+          {:ok, []} -> {:error, :not_found}
+          {:ok, [summary]} -> {:ok, summary}
+          {:error, _reason} -> {:error, :steam_api_error}
         end
     end
   end
@@ -146,8 +147,16 @@ defmodule Dian.Steam do
   """
   def bind_member(scope, group_id, qq_id, steam_id)
       when is_binary(group_id) and is_binary(qq_id) and is_binary(steam_id) do
-    with :ok <- Groups.authorize_group_admin(scope, group_id) do
+    with :ok <- Groups.authorize_group_admin(scope, group_id),
+         :ok <- verify_group_member(group_id, qq_id) do
       upsert_binding(qq_id, steam_id)
+    end
+  end
+
+  defp verify_group_member(group_id, qq_id) do
+    case DianBot.get_group_member_info(group_id, qq_id) do
+      {:ok, _member} -> :ok
+      {:error, _reason} -> {:error, :not_found}
     end
   end
 end
