@@ -70,6 +70,96 @@ defmodule Dian.GroupsTest do
     end
   end
 
+  describe "authorize_group_admin/2" do
+    test "returns :ok when user is a group admin" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "12345", no_cache: true},
+        [no_cache: true] ->
+          {:ok, member_payload("100", 12345, "admin")}
+      end)
+
+      assert :ok = Groups.authorize_group_admin(scope, "100")
+
+      Mox.verify!()
+    end
+
+    test "returns :ok when user is a superadmin" do
+      user = user_fixture(email: "12345@qq.com")
+      Repo.update_all(GlobalSetting, set: [superadmin_user_id: user.id])
+      scope = Scope.for_user(user)
+
+      assert :ok = Groups.authorize_group_admin(scope, "100")
+    end
+
+    test "returns forbidden when user is a regular member" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "12345", no_cache: true},
+        [no_cache: true] ->
+          {:ok, member_payload("100", 12345, "member")}
+      end)
+
+      assert {:error, :forbidden} = Groups.authorize_group_admin(scope, "100")
+
+      Mox.verify!()
+    end
+
+    test "returns forbidden when user is not a group member" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "12345", no_cache: true},
+        [no_cache: true] ->
+          {:error, :not_found}
+      end)
+
+      assert {:error, :forbidden} = Groups.authorize_group_admin(scope, "100")
+
+      Mox.verify!()
+    end
+
+    test "propagates upstream member lookup errors" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "12345", no_cache: true},
+        [no_cache: true] ->
+          {:error, :timeout}
+      end)
+
+      assert {:error, :timeout} = Groups.authorize_group_admin(scope, "100")
+
+      Mox.verify!()
+    end
+
+    test "performs uncached member lookup for mutating authorization" do
+      user = group_user_fixture("12345")
+      scope = Scope.for_user(user)
+
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "12345", no_cache: true},
+        [no_cache: true] ->
+          {:ok, member_payload("100", 12345, "admin")}
+      end)
+
+      assert :ok = Groups.authorize_group_admin(scope, "100")
+
+      Mox.verify!()
+    end
+  end
+
   defp group_payload(group_id, name) do
     %{
       "group_id" => group_id,

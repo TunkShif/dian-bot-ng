@@ -156,7 +156,8 @@ defmodule Dian.Steam do
   defp verify_group_member(group_id, qq_id) do
     case DianBot.get_group_member_info(group_id, qq_id) do
       {:ok, _member} -> :ok
-      {:error, _reason} -> {:error, :not_found}
+      {:error, :not_found} -> {:error, :not_found}
+      {:error, reason} -> {:error, reason}
     end
   end
 end

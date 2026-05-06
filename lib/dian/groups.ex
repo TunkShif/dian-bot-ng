@@ -50,8 +50,12 @@ defmodule Dian.Groups do
       when is_binary(qq_id) do
     superadmin? = Settings.superadmin_user?(user.id)
 
-    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?, no_cache: true) do
-      verify_admin_member(member, superadmin?)
+    with {:ok, member} <- get_current_member(group_id, qq_id, superadmin?, no_cache: true),
+         :ok <- verify_admin_member(member, superadmin?) do
+      :ok
+    else
+      {:error, :not_found} -> {:error, :forbidden}
+      {:error, reason} -> {:error, reason}
     end
   end
 
