@@ -260,7 +260,17 @@
     "settings": {
       "pageTitle": "Account Settings",
       "title": "Account Settings",
-      "description": "Manage how you sign in and keep access to your account protected.",
+      "description": "Manage sign-in methods, account security, and connected gaming accounts.",
+      "sections": {
+        "connectedAccounts": {
+          "title": "Connected Accounts",
+          "description": "Link external gaming accounts used for status tracking and activity features."
+        },
+        "accountSecurity": {
+          "title": "Account Security",
+          "description": "Update credentials and sign-in methods that protect access to your account."
+        }
+      },
       "actions": {
         "cancel": "Cancel",
         "retry": "Retry"
@@ -342,6 +352,7 @@
         "title": "Steam Account",
         "description": "Link your Steam account to enable game status tracking and notifications.",
         "playing": "Playing {{game}}",
+        "profileLink": "View Steam Profile",
         "state": {
           "online": "Online",
           "busy": "Busy",

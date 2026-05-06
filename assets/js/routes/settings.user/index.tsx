@@ -21,9 +21,26 @@ export const Component = () => {
         </div>
       </header>
 
-      <SteamSection />
-      <PasswordSection />
-      <PasskeysSection />
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <h2 className="font-heading text-lg font-semibold tracking-normal text-foreground">
+            {t("app.settings.sections.connectedAccounts.title")}
+          </h2>
+          <p className="text-sm text-muted-foreground">{t("app.settings.sections.connectedAccounts.description")}</p>
+        </div>
+        <SteamSection />
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <h2 className="font-heading text-lg font-semibold tracking-normal text-foreground">
+            {t("app.settings.sections.accountSecurity.title")}
+          </h2>
+          <p className="text-sm text-muted-foreground">{t("app.settings.sections.accountSecurity.description")}</p>
+        </div>
+        <PasswordSection />
+        <PasskeysSection />
+      </section>
     </main>
   );
 };

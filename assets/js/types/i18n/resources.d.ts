@@ -189,7 +189,7 @@ export default interface Resources {
           "cancel": "Cancel",
           "retry": "Retry"
         },
-        "description": "Manage how you sign in and keep access to your account protected.",
+        "description": "Manage sign-in methods, account security, and connected gaming accounts.",
         "pageTitle": "Account Settings",
         "passkeys": {
           "add": "Add passkey",
@@ -264,6 +264,16 @@ export default interface Resources {
             "passwordsMatch": "Passwords must match."
           }
         },
+        "sections": {
+          "accountSecurity": {
+            "description": "Update credentials and sign-in methods that protect access to your account.",
+            "title": "Account Security"
+          },
+          "connectedAccounts": {
+            "description": "Link external gaming accounts used for status tracking and activity features.",
+            "title": "Connected Accounts"
+          }
+        },
         "steam": {
           "bind": {
             "back": "Back",
@@ -293,6 +303,7 @@ export default interface Resources {
             "title": "No Steam account linked"
           },
           "playing": "Playing {{game}}",
+          "profileLink": "View Steam Profile",
           "state": {
             "away": "Away",
             "busy": "Busy",

@@ -260,7 +260,17 @@
     "settings": {
       "pageTitle": "账户设置",
       "title": "账户设置",
-      "description": "管理登录方式，并保护账号访问安全。",
+      "description": "管理登录方式、账号安全，以及已连接的游戏账号。",
+      "sections": {
+        "connectedAccounts": {
+          "title": "已连接账号",
+          "description": "绑定用于状态追踪和活动功能的外部游戏账号。"
+        },
+        "accountSecurity": {
+          "title": "账号安全",
+          "description": "更新用于保护账号访问的凭据和登录方式。"
+        }
+      },
       "actions": {
         "cancel": "取消",
         "retry": "重试"
@@ -342,6 +352,7 @@
         "title": "Steam 账号",
         "description": "绑定你的 Steam 账号以启用游戏状态追踪和通知。",
         "playing": "正在玩 {{game}}",
+        "profileLink": "查看 Steam 资料",
         "state": {
           "online": "在线",
           "busy": "忙碌",

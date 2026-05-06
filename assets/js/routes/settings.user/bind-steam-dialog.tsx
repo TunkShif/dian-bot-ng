@@ -1,4 +1,4 @@
-import { CheckIcon, MagnifyingGlassIcon, SpinnerGapIcon } from "@phosphor-icons/react";
+import { CheckIcon, LinkSimpleIcon, MagnifyingGlassIcon, SpinnerGapIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -77,7 +77,7 @@ export const BindSteamDialog = () => {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<Button type="button" />}>
-        <MagnifyingGlassIcon data-icon="inline-start" />
+        <LinkSimpleIcon data-icon="inline-start" />
         {t("app.settings.steam.bind.trigger")}
       </DialogTrigger>
       <DialogContent>
