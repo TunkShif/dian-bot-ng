@@ -16,6 +16,7 @@ defmodule DianWeb.Schemas.SteamPlayerSummaryResponse do
         properties: %{
           player: %Schema{
             type: :object,
+            nullable: true,
             required: [:steam_id, :name, :profile_url, :avatar_url, :state],
             properties: %{
               steam_id: %Schema{type: :string, example: "76561198012345678"},

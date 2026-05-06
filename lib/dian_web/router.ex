@@ -58,10 +58,10 @@ defmodule DianWeb.Router do
 
     patch "/users/settings", UserSettingsController, :update
 
-    get "/steam/players/:steam_id", SteamPlayerController, :show
-    get "/steam/players/by-qq/:qq_id", SteamPlayerController, :show
-    put "/steam/players/self", SteamPlayerController, :update
-    put "/steam/players/group-members/:group_id/:qq_id", SteamPlayerController, :update
+    get "/steam/players/:steam_id", SteamPlayerController, :show_by_steam_id
+    get "/steam/players/by-qq/:qq_id", SteamPlayerController, :show_by_qq_id
+    put "/steam/players/self", SteamPlayerController, :bind_self
+    put "/steam/players/group-members/:group_id/:qq_id", SteamPlayerController, :bind_member
   end
 
   ## SPA entrypoint

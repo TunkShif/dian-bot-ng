@@ -6,7 +6,8 @@ defmodule Dian.Steam.Client.Default do
   alias Dian.Steam.PlayerSummary
 
   @endpoint "https://api.steampowered.com"
-  @env_key Dian.Steam.Client
+  @steam_env_key Dian.Steam
+  @client_env_key __MODULE__
 
   @impl true
   def get_player_summary(steam_id) do
@@ -53,8 +54,8 @@ defmodule Dian.Steam.Client.Default do
   end
 
   defp req do
-    api_key = Application.fetch_env!(:dian, @env_key) |> Keyword.fetch!(:api_key)
-    req_options = Application.get_env(:dian, __MODULE__, []) |> Keyword.get(:req_options, [])
+    api_key = Application.fetch_env!(:dian, @steam_env_key) |> Keyword.fetch!(:api_key)
+    req_options = Application.get_env(:dian, @client_env_key, []) |> Keyword.get(:req_options, [])
 
     [
       base_url: @endpoint,

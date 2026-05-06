@@ -1,5 +1,5 @@
 defmodule Dian.Steam.Client.DefaultTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias Dian.Steam.Client.Default
   alias Dian.Steam.PlayerSummary

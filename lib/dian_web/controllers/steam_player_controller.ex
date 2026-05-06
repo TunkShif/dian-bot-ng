@@ -11,17 +11,31 @@ defmodule DianWeb.SteamPlayerController do
 
   tags ["steam"]
 
-  operation :show,
-    operation_id: "show_steam_player",
-    summary: "Show Steam player summary",
-    description: "Returns the Steam player summary for a given steam_id or QQ ID.",
+  operation :show_by_steam_id,
+    operation_id: "show_steam_player_by_steam_id",
+    summary: "Show Steam player summary by Steam ID",
+    description: "Returns the Steam player summary for a given Steam ID.",
     parameters: [
       steam_id: [
         in: :path,
         type: :string,
         description: "17-digit Steam ID",
         example: "76561198012345678"
-      ],
+      ]
+    ],
+    responses: [
+      ok: {"Steam player summary", "application/json", Schemas.SteamPlayerSummaryResponse},
+      not_found: {"Steam player not found", "application/json", Schemas.JSendMessageFail},
+      bad_gateway: {"Steam API unavailable", "application/json", Schemas.JSendMessageFail},
+      unauthorized: {"Authentication required", "application/json", Schemas.JSendMessageFail}
+    ]
+
+  operation :show_by_qq_id,
+    operation_id: "show_steam_player_by_qq_id",
+    summary: "Show Steam player summary by QQ ID",
+    description:
+      "Returns the Steam player summary for a QQ ID. When no Steam account is bound, the response succeeds with a null player.",
+    parameters: [
       qq_id: [
         in: :path,
         type: :string,
@@ -32,25 +46,39 @@ defmodule DianWeb.SteamPlayerController do
     responses: [
       ok: {"Steam player summary", "application/json", Schemas.SteamPlayerSummaryResponse},
       not_found: {"Steam player not found", "application/json", Schemas.JSendMessageFail},
+      bad_gateway: {"Steam API unavailable", "application/json", Schemas.JSendMessageFail},
       unauthorized: {"Authentication required", "application/json", Schemas.JSendMessageFail}
     ]
 
-  operation :update,
-    operation_id: "update_steam_player",
-    summary: "Bind a Steam account",
+  operation :bind_self,
+    operation_id: "bind_steam_player_self",
+    summary: "Bind Steam account to current user",
     description:
-      "Binds a QQ ID to a Steam ID. Replaces any existing binding for the same QQ ID or Steam ID.",
+      "Binds the current user to a Steam ID. Replaces any existing binding for the same user or Steam ID.",
+    request_body:
+      {"Steam bind params", "application/json", Schemas.SteamPlayerBindRequest, required: true},
+    responses: [
+      ok: {"Steam binding created", "application/json", Schemas.SteamPlayerBindingResponse},
+      unauthorized: {"Authentication required", "application/json", Schemas.JSendMessageFail},
+      unprocessable_entity: {"Validation errors", "application/json", Schemas.JSendValidationFail}
+    ]
+
+  operation :bind_member,
+    operation_id: "bind_steam_player_member",
+    summary: "Bind Steam account to a group member",
+    description:
+      "Binds a group member to a Steam ID. Requires group admin privileges. Replaces any existing binding for the same QQ ID or Steam ID.",
     parameters: [
       group_id: [
         in: :path,
         type: :string,
-        description: "DianBot group ID (admin bind only)",
+        description: "DianBot group ID",
         example: "100"
       ],
       qq_id: [
         in: :path,
         type: :string,
-        description: "QQ ID of the group member to bind (admin bind only)",
+        description: "QQ ID of the group member to bind",
         example: "123456789"
       ]
     ],
@@ -63,28 +91,35 @@ defmodule DianWeb.SteamPlayerController do
       unprocessable_entity: {"Validation errors", "application/json", Schemas.JSendValidationFail}
     ]
 
-  def show(conn, %{"qq_id" => qq_id}) do
+  def show_by_steam_id(conn, %{"steam_id" => steam_id}) do
+    case Steam.get_player_summaries([steam_id]) do
+      {:ok, [summary]} ->
+        JSend.success_json(conn, %{player: SteamPlayerJSON.summary(summary)})
+
+      {:ok, []} ->
+        {:error, :not_found}
+
+      {:error, _reason} ->
+        {:error, :steam_api_error}
+    end
+  end
+
+  def show_by_qq_id(conn, %{"qq_id" => qq_id}) do
     with {:ok, summary} <- Steam.get_bound_player_summary_by_qq_id(qq_id) do
-      JSend.success_json(conn, %{player: SteamPlayerJSON.summary(summary)})
+      player = if summary, do: SteamPlayerJSON.summary(summary), else: nil
+      JSend.success_json(conn, %{player: player})
     end
   end
 
-  def show(conn, %{"steam_id" => steam_id}) do
-    case Steam.get_player_summary(steam_id) do
-      nil -> {:error, :not_found}
-      summary -> JSend.success_json(conn, %{player: SteamPlayerJSON.summary(summary)})
-    end
-  end
-
-  def update(conn, %{"group_id" => group_id, "qq_id" => qq_id, "steam_id" => steam_id}) do
-    with {:ok, steam_player} <-
-           Steam.bind_member(conn.assigns.current_scope, group_id, qq_id, steam_id) do
+  def bind_self(conn, %{"steam_id" => steam_id}) do
+    with {:ok, steam_player} <- Steam.bind_self(conn.assigns.current_scope, steam_id) do
       JSend.success_json(conn, %{binding: SteamPlayerJSON.binding(steam_player)})
     end
   end
 
-  def update(conn, %{"steam_id" => steam_id}) do
-    with {:ok, steam_player} <- Steam.bind_self(conn.assigns.current_scope, steam_id) do
+  def bind_member(conn, %{"group_id" => group_id, "qq_id" => qq_id, "steam_id" => steam_id}) do
+    with {:ok, steam_player} <-
+           Steam.bind_member(conn.assigns.current_scope, group_id, qq_id, steam_id) do
       JSend.success_json(conn, %{binding: SteamPlayerJSON.binding(steam_player)})
     end
   end

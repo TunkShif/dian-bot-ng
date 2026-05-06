@@ -31,8 +31,8 @@ defmodule DianWeb.SteamPlayerControllerTest do
         state: :online
       }
 
-      Mox.expect(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198000000000" ->
-        summary
+      Mox.expect(Dian.Steam.Client.Mock, :get_player_summaries, fn ["76561198000000000"] ->
+        {:ok, [summary]}
       end)
 
       conn = get(conn, "/api/steam/players/76561198000000000")
@@ -52,13 +52,25 @@ defmodule DianWeb.SteamPlayerControllerTest do
     end
 
     test "returns 404 when Steam profile not found", %{conn: conn} do
-      Mox.expect(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198000000000" ->
-        nil
+      Mox.expect(Dian.Steam.Client.Mock, :get_player_summaries, fn ["76561198000000000"] ->
+        {:ok, []}
       end)
 
       conn = get(conn, "/api/steam/players/76561198000000000")
 
       assert %{"status" => "fail"} = json_response(conn, 404)
+
+      Mox.verify!()
+    end
+
+    test "returns 502 when Steam lookup has transport failure", %{conn: conn} do
+      Mox.expect(Dian.Steam.Client.Mock, :get_player_summaries, fn ["76561198000000000"] ->
+        {:error, :request_error}
+      end)
+
+      conn = get(conn, "/api/steam/players/76561198000000000")
+
+      assert %{"status" => "fail"} = json_response(conn, 502)
 
       Mox.verify!()
     end
@@ -136,10 +148,10 @@ defmodule DianWeb.SteamPlayerControllerTest do
       Mox.verify!()
     end
 
-    test "returns 404 when no binding exists for qq_id", %{conn: conn} do
+    test "returns 200 with null player when no binding exists for qq_id", %{conn: conn} do
       conn = get(conn, "/api/steam/players/by-qq/99999")
 
-      assert %{"status" => "fail"} = json_response(conn, 404)
+      assert %{"status" => "success", "data" => %{"player" => nil}} = json_response(conn, 200)
     end
   end
 

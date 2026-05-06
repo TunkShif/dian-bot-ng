@@ -84,13 +84,13 @@ defmodule Dian.Steam do
   Looks up a Steam binding by qq_id and fetches the player summary.
 
   Returns `{:ok, %PlayerSummary{}}` when a binding exists and the Steam API responds,
-  `{:error, :not_bound}` when no binding exists for the given qq_id,
+  `{:ok, nil}` when no binding exists for the given qq_id,
   or `{:error, :steam_api_error}` when the binding exists but the Steam API fails.
   """
   def get_bound_player_summary_by_qq_id(qq_id) when is_binary(qq_id) do
     case get_steam_player_by_qq_id(qq_id) do
       nil ->
-        {:error, :not_bound}
+        {:ok, nil}
 
       %SteamPlayer{steam_id: steam_id} ->
         case get_player_summaries([steam_id]) do

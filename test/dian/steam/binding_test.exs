@@ -312,8 +312,8 @@ defmodule Dian.Steam.BindingTest do
       Mox.verify!()
     end
 
-    test "returns not_bound when no binding exists for qq_id" do
-      assert {:error, :not_bound} = Steam.get_bound_player_summary_by_qq_id("99999")
+    test "returns ok with nil player when no binding exists for qq_id" do
+      assert {:ok, nil} = Steam.get_bound_player_summary_by_qq_id("99999")
     end
   end
 end

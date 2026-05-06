@@ -28,7 +28,7 @@ config :dian, DianBot.Bot,
   access_token: System.get_env("BOT_ACCESS_TOKEN")
 
 # Configure Steam Client
-config :dian, Dian.Steam.Client, api_key: System.get_env("STEAM_API_KEY")
+config :dian, Dian.Steam, api_key: System.get_env("STEAM_API_KEY")
 
 if config_env() == :prod do
   config :logger, :default_handler,
