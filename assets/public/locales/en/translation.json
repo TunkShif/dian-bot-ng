@@ -242,6 +242,11 @@
         "steam": {
           "notLinked": "Not linked",
           "linked": "Linked",
+          "preview": {
+            "title": "No Steam account linked",
+            "description": "Bind a Steam account for this member to show profile details and current game activity here.",
+            "error": "Could not load this Steam profile right now."
+          },
           "bindDialog": {
             "title": "Bind Steam for {{member}}",
             "description": "Look up a Steam account and link it to this group member.",

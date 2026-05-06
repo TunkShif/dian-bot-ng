@@ -63,7 +63,7 @@ export const MembersTable = ({ members, groupId, canManageSteam }: MembersTableP
                     </div>
                     <div className="truncate text-xs text-muted-foreground">{member.user_id}</div>
                     <div className="pt-1 lg:hidden">
-                      <GroupMemberSteamSummary steamPlayer={member.steam_player} />
+                      <GroupMemberSteamSummary groupId={groupId} member={member} canManageSteam={canManageSteam} />
                     </div>
                   </div>
                 </div>
@@ -75,7 +75,7 @@ export const MembersTable = ({ members, groupId, canManageSteam }: MembersTableP
                 {dateFormatter.format(new Date(member.join_time * 1000))}
               </TableCell>
               <TableCell className="hidden lg:table-cell">
-                <GroupMemberSteamSummary steamPlayer={member.steam_player} />
+                <GroupMemberSteamSummary groupId={groupId} member={member} canManageSteam={canManageSteam} />
               </TableCell>
               {canManageSteam ? (
                 <TableCell className="text-right">

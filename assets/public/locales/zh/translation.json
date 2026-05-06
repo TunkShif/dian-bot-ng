@@ -242,6 +242,11 @@
         "steam": {
           "notLinked": "未绑定",
           "linked": "已绑定",
+          "preview": {
+            "title": "尚未绑定 Steam 账号",
+            "description": "为该成员绑定 Steam 后，这里会显示资料信息和当前游戏状态。",
+            "error": "暂时无法加载该 Steam 资料。"
+          },
           "bindDialog": {
             "title": "为 {{member}} 绑定 Steam",
             "description": "查找 Steam 账号并将其绑定到该群成员。",

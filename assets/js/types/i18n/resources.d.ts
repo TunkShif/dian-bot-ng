@@ -137,6 +137,11 @@ export default interface Resources {
             },
             "linked": "Linked",
             "notLinked": "Not linked",
+            "preview": {
+              "description": "Bind a Steam account for this member to show profile details and current game activity here.",
+              "error": "Could not load this Steam profile right now.",
+              "title": "No Steam account linked"
+            },
             "rebindDialog": {
               "confirm": "Confirm rebinding",
               "description": "Look up another Steam account to replace this member's current binding.",
