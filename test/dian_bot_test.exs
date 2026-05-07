@@ -27,6 +27,41 @@ defmodule DianBotTest do
   end
 
   describe "find_group_member_in_groups/2" do
+    test "normalizes member-not-found errors to not_found" do
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info", %{group_id: 100, user_id: "12345", no_cache: false}, [] ->
+          {:error,
+           %{
+             "message" => "群(100)成员12345不存在",
+             "retcode" => 1200,
+             "status" => "failed",
+             "stream" => "normal-action",
+             "wording" => "群(100)成员12345不存在"
+           }}
+      end)
+
+      assert {:error, :not_found} = DianBot.get_group_member_info(100, "12345")
+
+      Mox.verify!()
+    end
+
+    test "normalizes wording-only member-not-found errors to not_found" do
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "get_group_member_info", %{group_id: 100, user_id: "12345", no_cache: false}, [] ->
+          {:error,
+           %{
+             "retcode" => 1200,
+             "status" => "failed",
+             "stream" => "normal-action",
+             "wording" => "群(100)成员12345不存在"
+           }}
+      end)
+
+      assert {:error, :not_found} = DianBot.get_group_member_info(100, "12345")
+
+      Mox.verify!()
+    end
+
     test "returns the first successful group member lookup" do
       Mox.expect(DianBot.Client.Mock, :request, 2, fn
         "get_group_member_info", %{group_id: 100, user_id: "12345", no_cache: false}, [] ->

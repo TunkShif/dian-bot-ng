@@ -59,20 +59,6 @@ defmodule Dian.SteamWatcher.NotifierTest do
     end
   end
 
-  describe "format_message/1" do
-    test "mentions the QQ user and current game name" do
-      event = %StatusChanged{
-        steam_id: "76561198000000000",
-        qq_id: "12345",
-        current_game_id: "730",
-        current_game_name: "Counter-Strike 2",
-        changed_at: DateTime.utc_now(:second)
-      }
-
-      assert Notifier.format_message(event) == "[CQ:at,qq=12345] is now playing Counter-Strike 2"
-    end
-  end
-
   describe "build_status_card_svg/1" do
     test "builds an english steam status card" do
       summary = %PlayerSummary{
@@ -94,6 +80,62 @@ defmodule Dian.SteamWatcher.NotifierTest do
       assert svg =~ "171a21"
       assert svg =~ "data:image/png;base64,ZmFrZQ=="
       refute svg =~ "https://cdn.cloudflare.steamstatic.com"
+    end
+
+    test "uses the event game name when the steam summary omits it" do
+      Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
+        %PlayerSummary{
+          steam_id: "76561198826221336",
+          name: "幸运福袋限时掉落中",
+          profile_url: "https://steamcommunity.com/id/demo/",
+          avatar_url:
+            "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/aa/aaaabbbbccccddddaaaa1111222233334444_full.jpg",
+          state: :online,
+          playing_game_name: nil
+        }
+      end)
+
+      event = %StatusChanged{
+        steam_id: "76561198826221336",
+        qq_id: "1395084414",
+        current_game_id: "730",
+        current_game_name: "Counter-Strike 2",
+        changed_at: DateTime.utc_now(:second)
+      }
+
+      svg = Notifier.build_status_card_svg(event)
+
+      assert svg =~ "幸运福袋限时掉落中"
+      assert svg =~ "Counter-Strike 2"
+      refute svg =~ "一款 Steam 游戏"
+    end
+
+    test "preserves the steam summary game name when the event omits it" do
+      Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
+        %PlayerSummary{
+          steam_id: "76561198826221336",
+          name: "幸运福袋限时掉落中",
+          profile_url: "https://steamcommunity.com/id/demo/",
+          avatar_url:
+            "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/aa/aaaabbbbccccddddaaaa1111222233334444_full.jpg",
+          state: :online,
+          playing_game_name: "Counter-Strike 2"
+        }
+      end)
+
+      event = %StatusChanged{
+        steam_id: "76561198826221336",
+        qq_id: "1395084414",
+        current_game_id: nil,
+        current_game_name: nil,
+        changed_at: DateTime.utc_now(:second)
+      }
+
+      svg = Notifier.build_status_card_svg(event)
+
+      assert svg =~ "幸运福袋限时掉落中"
+      assert svg =~ "Counter-Strike 2"
+      refute svg =~ "一款 Steam 游戏"
     end
 
     test "embeds the avatar as a data uri before rendering" do

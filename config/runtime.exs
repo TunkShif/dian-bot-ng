@@ -38,11 +38,16 @@ if config_env() == :prod do
           :request_id,
           :component,
           :event,
+          :status,
+          :duration_ms,
           :user_id,
           :steam_id,
           :bot_action,
-          :status,
-          :duration_ms
+          :qq_id,
+          :group_id,
+          :group_count,
+          :display_name,
+          :current_game_name
         ]
       )
 

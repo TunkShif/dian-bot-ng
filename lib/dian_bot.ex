@@ -61,6 +61,8 @@ defmodule DianBot do
 
     with {:ok, data} <- Client.request("get_group_member_info", params, opts) do
       {:ok, GroupMember.build(data)}
+    else
+      {:error, reason} -> normalize_group_member_error(reason)
     end
   end
 
@@ -110,4 +112,29 @@ defmodule DianBot do
     do: Map.put(params, :user_id, target_id)
 
   defp put_target_id(params, _target_id), do: params
+
+  defp normalize_group_member_error(%{"retcode" => 1200} = reason) do
+    if member_not_found_reason?(reason) do
+      {:error, :not_found}
+    else
+      {:error, reason}
+    end
+  end
+
+  defp normalize_group_member_error(reason), do: {:error, reason}
+
+  defp member_not_found_reason?(reason) when is_map(reason) do
+    reason
+    |> Map.take(["message", "wording"])
+    |> Map.values()
+    |> Enum.any?(fn
+      value when is_binary(value) ->
+        String.contains?(value, "成员") and String.contains?(value, "不存在")
+
+      _value ->
+        false
+    end)
+  end
+
+  defp member_not_found_reason?(_reason), do: false
 end

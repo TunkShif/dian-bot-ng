@@ -1,6 +1,8 @@
 defmodule Dian.SteamWatcher.Notifier do
   use GenServer
 
+  require Logger
+
   alias Dian.Media
   alias Dian.Settings
   alias Dian.Steam
@@ -30,27 +32,63 @@ defmodule Dian.SteamWatcher.Notifier do
 
   @impl true
   def handle_info(%StatusChanged{} = event, %{deliver: deliver} = state) do
+    Logger.info("steam status event received",
+      event: "steam_status_event_received",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      current_game_id: event.current_game_id,
+      current_game_name: event.current_game_name
+    )
+
     deliver.(event)
     {:noreply, state}
   end
 
   def notify(%StatusChanged{} = event) do
-    event
-    |> notification_targets()
-    |> Enum.reduce_while({:ok, 0}, fn group_id, {:ok, count} ->
-      case send_group_notification(group_id, event) do
-        {:ok, :sent} -> {:cont, {:ok, count + 1}}
-        {:ok, :skipped} -> {:cont, {:ok, count}}
-        {:error, reason} -> {:halt, {:error, reason}}
-      end
-    end)
+    group_ids = notification_targets(event)
+
+    Logger.info("steam status notification start",
+      event: "steam_status_notification_start",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      group_count: length(group_ids)
+    )
+
+    result =
+      group_ids
+      |> Enum.reduce_while({:ok, 0}, fn group_id, {:ok, count} ->
+        case send_group_notification(group_id, event) do
+          {:ok, :sent} -> {:cont, {:ok, count + 1}}
+          {:ok, :skipped} -> {:cont, {:ok, count}}
+          {:error, reason} -> {:halt, {:error, reason}}
+        end
+      end)
+
+    Logger.info("steam status notification finished",
+      event: "steam_status_notification_finished",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      result: inspect(result)
+    )
+
+    result
   end
 
-  def format_message(%StatusChanged{} = event) do
-    player = event.qq_id
-    game = event.current_game_name || event.current_game_id || "a Steam game"
+  def build_status_card_svg(%StatusChanged{} = event) do
+    player = steam_player_summary(event)
+    merged_player = merge_event_game_name(player, event)
 
-    "[CQ:at,qq=#{player}] is now playing #{game}"
+    Logger.info("steam status card render input",
+      event: "steam_status_card_render_input",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      event_game_name: event.current_game_name || event.current_game_id,
+      summary_game_name: player.playing_game_name,
+      final_game_name: merged_player.playing_game_name,
+      player_name: merged_player.name
+    )
+
+    StatusCard.build_status_card_svg(merged_player)
   end
 
   def build_status_card_svg(player),
@@ -66,10 +104,16 @@ defmodule Dian.SteamWatcher.Notifier do
   defp send_group_notification(group_id, %StatusChanged{} = event) do
     qq_id = event.qq_id
 
+    Logger.info("steam status notification group start",
+      event: "steam_status_notification_group_start",
+      group_id: group_id,
+      qq_id: qq_id,
+      steam_id: event.steam_id
+    )
+
     with {:ok, member} <- DianBot.get_group_member_info(group_id, qq_id, no_cache: true) do
       display_name = group_member_display_name(member, qq_id)
-      player = steam_player_summary(event)
-      svg = StatusCard.build_status_card_svg(player)
+      svg = build_status_card_svg(event)
 
       with {:ok, image} <- Media.render_svg(svg),
            {:ok, _message_id} <-
@@ -86,13 +130,44 @@ defmodule Dian.SteamWatcher.Notifier do
                  Message.image("base64://#{Base.encode64(image.bytes)}")
                ]
              ) do
+        Logger.info("steam status notification group sent",
+          event: "steam_status_notification_group_sent",
+          group_id: group_id,
+          qq_id: qq_id,
+          display_name: display_name
+        )
+
         {:ok, :sent}
       else
-        {:error, reason} -> {:error, reason}
+        {:error, reason} ->
+          Logger.warning("steam status notification group failed",
+            event: "steam_status_notification_group_failed",
+            group_id: group_id,
+            qq_id: qq_id,
+            reason: inspect(reason)
+          )
+
+          {:error, reason}
       end
     else
-      {:error, :not_found} -> {:ok, :skipped}
-      {:error, reason} -> {:error, reason}
+      {:error, :not_found} ->
+        Logger.info("steam status notification group skipped",
+          event: "steam_status_notification_group_skipped",
+          group_id: group_id,
+          qq_id: qq_id
+        )
+
+        {:ok, :skipped}
+
+      {:error, reason} ->
+        Logger.warning("steam status notification group failed",
+          event: "steam_status_notification_group_failed",
+          group_id: group_id,
+          qq_id: qq_id,
+          reason: inspect(reason)
+        )
+
+        {:error, reason}
     end
   end
 
@@ -102,6 +177,13 @@ defmodule Dian.SteamWatcher.Notifier do
         steam_id: event.steam_id,
         playing_game_name: event.current_game_name || event.current_game_id
       }
+  end
+
+  defp merge_event_game_name(%PlayerSummary{} = player, %StatusChanged{} = event) do
+    case event.current_game_name || event.current_game_id do
+      nil -> player
+      game_name -> %{player | playing_game_name: game_name}
+    end
   end
 
   defp notification_text(display_name, game_name) do
