@@ -27,7 +27,22 @@ defmodule Dian.Accounts.UserNotifierTest do
     assert {:ok, email} =
              UserNotifier.deliver_update_email_instructions(user, "https://example.com")
 
-    assert email.from == {"Dian", "noreply@example.com"}
+    assert email.from == {"", "noreply@example.com"}
+  end
+
+  test "accepts a configured sender with display name" do
+    Application.put_env(
+      :dian,
+      Dian.Accounts.UserNotifier,
+      sender: "Support Team <noreply@example.com>"
+    )
+
+    user = unconfirmed_user_fixture()
+
+    assert {:ok, email} =
+             UserNotifier.deliver_update_email_instructions(user, "https://example.com")
+
+    assert email.from == {"Support Team", "noreply@example.com"}
   end
 
   test "falls back to the default email sender" do
@@ -38,6 +53,6 @@ defmodule Dian.Accounts.UserNotifierTest do
     assert {:ok, email} =
              UserNotifier.deliver_update_email_instructions(user, "https://example.com")
 
-    assert email.from == {"Dian", "contact@example.com"}
+    assert email.from == {"", "contact@example.com"}
   end
 end

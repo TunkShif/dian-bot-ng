@@ -4,6 +4,7 @@ defmodule Dian.Accounts do
   """
 
   import Ecto.Query, warn: false
+  require Logger
 
   alias Dian.Accounts.{Passkey, Scope, User, UserNotifier, UserToken}
   alias Dian.Repo
@@ -432,7 +433,10 @@ defmodule Dian.Accounts do
     {encoded_token, user_token} = UserToken.build_email_token(user, "change:#{current_email}")
 
     Repo.insert!(user_token)
-    UserNotifier.deliver_update_email_instructions(user, update_email_url_fun.(encoded_token))
+
+    user
+    |> UserNotifier.deliver_update_email_instructions(update_email_url_fun.(encoded_token))
+    |> normalize_email_delivery_result()
   end
 
   @doc """
@@ -442,7 +446,17 @@ defmodule Dian.Accounts do
       when is_function(magic_link_url_fun, 1) do
     {encoded_token, user_token} = UserToken.build_email_token(user, "login")
     Repo.insert!(user_token)
-    UserNotifier.deliver_login_instructions(user, magic_link_url_fun.(encoded_token))
+
+    user
+    |> UserNotifier.deliver_login_instructions(magic_link_url_fun.(encoded_token))
+    |> normalize_email_delivery_result()
+  end
+
+  defp normalize_email_delivery_result({:ok, result}), do: {:ok, result}
+
+  defp normalize_email_delivery_result({:error, reason}) do
+    Logger.error("failed to deliver account email instructions: #{inspect(reason)}")
+    {:error, {:email_delivery_failed, reason}}
   end
 
   def begin_passkey_login() do

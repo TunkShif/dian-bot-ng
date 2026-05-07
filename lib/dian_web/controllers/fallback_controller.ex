@@ -63,4 +63,10 @@ defmodule DianWeb.FallbackController do
     |> put_status(:bad_gateway)
     |> json(DianWeb.JSend.fail(%{message: "failed to fetch Steam player summary"}))
   end
+
+  def call(conn, {:error, {:email_delivery_failed, _reason}}) do
+    conn
+    |> put_status(:bad_gateway)
+    |> json(DianWeb.JSend.fail(%{message: "failed to send email"}))
+  end
 end
