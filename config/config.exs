@@ -35,6 +35,15 @@ config :dian,
   ecto_repos: [Dian.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :dian, Dian.Media,
+  bundled_fonts_dir: "priv/fonts",
+  default_timeout: 5_000,
+  load_system_fonts: true,
+  max_font_count: 8,
+  max_pixels: 16_000_000,
+  max_scale: 4.0,
+  max_svg_bytes: 250_000
+
 # Configure the endpoint
 config :dian, DianWeb.Endpoint,
   url: [host: "localhost"],
