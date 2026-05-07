@@ -1,9 +1,7 @@
 import { ArrowLeftIcon, HouseIcon, WarningOctagonIcon } from "@phosphor-icons/react";
-import i18n from "i18next";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Outlet, redirect, useLoaderData, useNavigate, useRouteError } from "react-router-dom";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { formatRouteErrorDetails, getRouteErrorTranslationKeys } from "@/lib/route-error";
@@ -19,8 +17,7 @@ type LayoutLoaderData = {
 export const loader = async () => {
   const user = await getCurrentUser();
   if (!user) {
-    toast.error(i18n.t("app.auth.required"));
-    return redirect("/login");
+    return redirect("/login?flash=auth_required");
   }
 
   const navMenuExpansionState =

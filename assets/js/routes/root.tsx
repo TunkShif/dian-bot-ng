@@ -18,7 +18,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { formatRouteErrorDetails, getRouteErrorTranslationKeys } from "@/lib/route-error";
 
-type Flash = "welcome" | "logout" | "set_password";
+type Flash = "welcome" | "logout" | "set_password" | "auth_required";
 
 type RootLoaderData = {
   flash: Flash | null;
@@ -29,7 +29,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const flash = searchParams.get("flash");
 
   return {
-    flash: flash === "welcome" || flash === "logout" || flash === "set_password" ? flash : null,
+    flash:
+      flash === "welcome" || flash === "logout" || flash === "set_password" || flash === "auth_required" ? flash : null,
   };
 };
 
@@ -61,6 +62,9 @@ export const Component = () => {
             },
           },
         });
+        break;
+      case "auth_required":
+        id = toast.error(t("app.auth.required"));
         break;
       default:
         return;
