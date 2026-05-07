@@ -4,18 +4,27 @@ defmodule Dian.Accounts.UserNotifier do
   alias Dian.Mailer
   alias Dian.Accounts.User
 
+  @default_sender "contact@example.com"
+
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
+    sender = sender()
+
     email =
       new()
       |> to(recipient)
-      |> from({"Dian", "contact@example.com"})
+      |> from({"Dian", sender})
       |> subject(subject)
       |> text_body(body)
 
     with {:ok, _metadata} <- Mailer.deliver(email) do
       {:ok, email}
     end
+  end
+
+  defp sender do
+    Application.get_env(:dian, __MODULE__, [])
+    |> Keyword.get(:sender, @default_sender)
   end
 
   @doc """

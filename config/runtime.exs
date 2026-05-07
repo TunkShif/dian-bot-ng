@@ -27,6 +27,9 @@ config :dian, DianBot.Bot,
   endpoint: System.get_env("BOT_ENDPOINT"),
   access_token: System.get_env("BOT_ACCESS_TOKEN")
 
+config :dian, Dian.Accounts.UserNotifier,
+  sender: System.get_env("USER_NOTIFIER_EMAIL_SENDER", "contact@example.com")
+
 # Configure Steam Client
 config :dian, Dian.Steam, api_key: System.get_env("STEAM_API_KEY")
 
@@ -97,6 +100,10 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base,
     cache_static_manifest_latest: PhoenixVite.cache_static_manifest_latest(:dian)
+
+  config :dian, Dian.Mailer,
+    adapter: Swoosh.Adapters.Resend,
+    api_key: System.get_env("RESEND_API_KEY")
 
   # ## SSL Support
   #

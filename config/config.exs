@@ -35,6 +35,9 @@ config :dian,
   ecto_repos: [Dian.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :dian, Dian.Accounts.UserNotifier,
+  sender: System.get_env("USER_NOTIFIER_EMAIL_SENDER", "contact@example.com")
+
 config :dian, Dian.Media,
   bundled_fonts_dir: "priv/fonts",
   default_timeout: 5_000,
