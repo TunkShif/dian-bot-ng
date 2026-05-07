@@ -1,6 +1,31 @@
 defmodule DianBotTest do
   use ExUnit.Case, async: false
 
+  alias DianBot.Message
+
+  describe "send_msg/4" do
+    test "sends group messages built from message segments" do
+      Mox.expect(DianBot.Client.Mock, :request, fn
+        "send_msg",
+        %{
+          message_type: "group",
+          group_id: 100,
+          message: [
+            %{"type" => "text", "data" => %{"text" => "hello"}},
+            %{"type" => "at", "data" => %{"qq" => "12345"}}
+          ]
+        },
+        [] ->
+          {:ok, %{"message_id" => 987_654}}
+      end)
+
+      assert DianBot.send_msg(:group, 100, [Message.text("hello"), Message.at("12345")]) ==
+               {:ok, 987_654}
+
+      Mox.verify!()
+    end
+  end
+
   describe "find_group_member_in_groups/2" do
     test "returns the first successful group member lookup" do
       Mox.expect(DianBot.Client.Mock, :request, 2, fn

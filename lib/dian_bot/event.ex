@@ -1,4 +1,6 @@
 defmodule DianBot.Event do
+  alias DianBot.Message
+
   defmodule GroupMessageEvent do
     defstruct [:group_id, :sender_id, :message, :raw_message, :timestamp]
   end
@@ -13,7 +15,7 @@ defmodule DianBot.Event do
     %GroupMessageEvent{
       group_id: payload["group_id"],
       sender_id: sender_id,
-      message: payload["message"],
+      message: Message.build(payload).message,
       raw_message: payload["raw_message"],
       timestamp: payload["time"]
     }

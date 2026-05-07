@@ -3,6 +3,7 @@ defmodule DianBot.EventTest do
 
   alias DianBot.Event
   alias DianBot.Event.GroupMessageEvent
+  alias DianBot.Message
 
   test "builds group message events with all advertised fields" do
     payload = %{
@@ -18,7 +19,7 @@ defmodule DianBot.EventTest do
     assert Event.build(payload) == %GroupMessageEvent{
              group_id: 456,
              sender_id: 789,
-             message: [%{"type" => "text", "data" => %{"text" => "hello"}}],
+             message: [Message.text("hello")],
              raw_message: "hello",
              timestamp: 1_713_456_789
            }

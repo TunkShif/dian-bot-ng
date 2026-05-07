@@ -2,6 +2,7 @@ defmodule DianBot do
   alias DianBot.Client
   alias DianBot.Group
   alias DianBot.GroupMember
+  alias DianBot.Message
 
   @type request_opts :: Client.request_opts()
   @type result(data) :: Client.result(data)
@@ -11,6 +12,8 @@ defmodule DianBot do
 
   @type group :: Group.t()
   @type group_member :: GroupMember.t()
+  @type message :: Message.t()
+  @type send_message_type :: :group | :private | String.t()
 
   @spec get_group_info(group_id(), request_opts()) :: result(group())
   def get_group_info(group_id, opts \\ []) do
@@ -18,6 +21,26 @@ defmodule DianBot do
 
     with {:ok, data} <- Client.request("get_group_info", params, opts) do
       {:ok, Group.build(data)}
+    end
+  end
+
+  @spec send_msg(
+          send_message_type(),
+          integer() | String.t(),
+          Message.t() | [map()] | String.t(),
+          request_opts()
+        ) ::
+          result(integer())
+  def send_msg(message_type, target_id, message, opts \\ []) do
+    params =
+      %{
+        message_type: normalize_message_type(message_type),
+        message: Message.to_payload(message)
+      }
+      |> put_target_id(target_id)
+
+    with {:ok, %{"message_id" => message_id}} <- Client.request("send_msg", params, opts) do
+      {:ok, message_id}
     end
   end
 
@@ -74,4 +97,17 @@ defmodule DianBot do
       {:ok, Enum.map(data, &GroupMember.build/1)}
     end
   end
+
+  defp normalize_message_type(message_type) when is_atom(message_type),
+    do: Atom.to_string(message_type)
+
+  defp normalize_message_type(message_type) when is_binary(message_type), do: message_type
+
+  defp put_target_id(%{message_type: "group"} = params, target_id),
+    do: Map.put(params, :group_id, target_id)
+
+  defp put_target_id(%{message_type: "private"} = params, target_id),
+    do: Map.put(params, :user_id, target_id)
+
+  defp put_target_id(params, _target_id), do: params
 end
