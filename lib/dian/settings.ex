@@ -29,6 +29,10 @@ defmodule Dian.Settings do
     end
   end
 
+  def list_enabled_group_ids do
+    Repo.all(from g in GroupSetting, where: g.enabled == true, select: g.group_id)
+  end
+
   def update_group_setting(group_id, attrs) when is_map(attrs) do
     group_id = to_string(group_id)
     attrs = Map.put(attrs, "group_id", group_id)
