@@ -2,6 +2,7 @@ defmodule Dian.SteamWatcher.Notifier do
   use GenServer
 
   alias Dian.SteamWatcher.Poller
+  alias Dian.SteamWatcher.StatusCard
   alias Dian.SteamWatcher.StatusChanged
 
   def start_link(opts \\ []) do
@@ -43,4 +44,10 @@ defmodule Dian.SteamWatcher.Notifier do
 
     "[CQ:at,qq=#{player}] is now playing #{game}"
   end
+
+  def build_status_card_svg(player),
+    do: StatusCard.build_status_card_svg(player)
+
+  def build_status_card_svg(player, locale),
+    do: StatusCard.build_status_card_svg(player, locale)
 end

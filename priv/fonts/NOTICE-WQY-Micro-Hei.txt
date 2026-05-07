@@ -1,0 +1,5 @@
+WenQuanYi Micro Hei
+
+Source: https://wenq.org/
+Package copied from the downloaded wqy-microhei release used for local rendering fixtures.
+License: dual-licensed under Apache 2.0 and GPLv3, see LICENSE-WQY-Micro-Hei-Apache2.txt and LICENSE-WQY-Micro-Hei-GPLv3.txt.

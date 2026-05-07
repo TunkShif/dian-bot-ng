@@ -31,3 +31,5 @@ svg = ~s(<svg xmlns="http://www.w3.org/2000/svg" width="220" height="72"><text x
 The renderer loads bundled fallback fonts from `priv/fonts/` automatically, then appends any caller-supplied font files. Font paths must exist on disk; invalid paths are rejected before rendering starts.
 
 For local tests or fixtures, place font files under `test/support/fixtures/fonts/` and reference them with `Path.expand/2` from your test.
+
+`priv/fonts/` already includes `WenQuanYi Micro Hei` for the Steam status card templates. Use it as the first family when you need Chinese text in rendered SVGs, and add extra font files alongside it when a card needs a different typeface.

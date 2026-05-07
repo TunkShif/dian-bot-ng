@@ -44,6 +44,8 @@ config :dian, Dian.Media,
   max_scale: 4.0,
   max_svg_bytes: 250_000
 
+config :dian, :notification_locale, :zh
+
 # Configure the endpoint
 config :dian, DianWeb.Endpoint,
   url: [host: "localhost"],
