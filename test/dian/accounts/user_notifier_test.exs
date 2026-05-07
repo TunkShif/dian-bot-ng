@@ -42,7 +42,19 @@ defmodule Dian.Accounts.UserNotifierTest do
     assert {:ok, email} =
              UserNotifier.deliver_update_email_instructions(user, "https://example.com")
 
-    assert email.from == {"Support Team", "noreply@example.com"}
+    assert email.from == {"", "Support Team <noreply@example.com>"}
+  end
+
+  test "raises for an invalid configured sender" do
+    Application.put_env(:dian, Dian.Accounts.UserNotifier, sender: "\"noreply@example.com\"")
+
+    user = unconfirmed_user_fixture()
+
+    assert_raise ArgumentError,
+                 ~r/USER_NOTIFIER_EMAIL_SENDER must be a valid email@example.com or Name <email@example.com> value/,
+                 fn ->
+                   UserNotifier.deliver_update_email_instructions(user, "https://example.com")
+                 end
   end
 
   test "falls back to the default email sender" do

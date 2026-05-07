@@ -5,7 +5,7 @@ defmodule Dian.Accounts.UserNotifier do
   alias Dian.Accounts.User
 
   @default_sender "contact@example.com"
-  @sender_pattern ~r/^\s*(?:(?<name>[^<]+?)\s*<)?(?<email>[^<>@\s]+@[^<>@\s]+)(?:>)?\s*$/
+  @sender_pattern ~r/^(?:[^<"']+ <[^<>"'\s@]+@[^<>"'\s@]+>|[^<>"'\s@]+@[^<>"'\s@]+)$/
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
@@ -26,21 +26,17 @@ defmodule Dian.Accounts.UserNotifier do
   defp sender do
     Application.get_env(:dian, __MODULE__, [])
     |> Keyword.get(:sender, @default_sender)
-    |> normalize_sender()
+    |> validate_sender!()
   end
 
-  defp normalize_sender(sender) when is_binary(sender) do
+  defp validate_sender!(sender) when is_binary(sender) do
     sender = String.trim(sender)
 
-    case Regex.named_captures(@sender_pattern, sender) do
-      %{"name" => name, "email" => email} when name in [nil, ""] ->
-        {"", email}
-
-      %{"name" => name, "email" => email} ->
-        {String.trim(name), email}
-
-      _ ->
-        {"", sender}
+    if Regex.match?(@sender_pattern, sender) do
+      sender
+    else
+      raise ArgumentError,
+            "USER_NOTIFIER_EMAIL_SENDER must be a valid email@example.com or Name <email@example.com> value"
     end
   end
 
