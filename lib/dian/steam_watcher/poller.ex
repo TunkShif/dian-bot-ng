@@ -1,6 +1,8 @@
 defmodule Dian.SteamWatcher.Poller do
   use GenServer
 
+  require Logger
+
   alias Dian.Steam
   alias Dian.Steam.PlayerSummary
   alias Dian.SteamWatcher.StatusChanged
@@ -39,11 +41,20 @@ defmodule Dian.SteamWatcher.Poller do
       timer_ref: nil
     }
 
+    Logger.info("steam watcher poller started",
+      event: "steam_watcher_poller_started",
+      interval_ms: state.interval
+    )
+
     {:ok, schedule_poll(state)}
   end
 
   @impl true
   def handle_call(:check_now, _from, state) do
+    Logger.info("steam watcher manual poll triggered",
+      event: "steam_watcher_poll_manual_triggered"
+    )
+
     case check_players(state) do
       {:ok, events, state} -> {:reply, {:ok, events}, state}
       {:error, reason, state} -> {:reply, {:error, reason}, state}
@@ -52,6 +63,10 @@ defmodule Dian.SteamWatcher.Poller do
 
   @impl true
   def handle_info(:poll, state) do
+    Logger.info("steam watcher scheduled poll triggered",
+      event: "steam_watcher_poll_triggered"
+    )
+
     state =
       case check_players(state) do
         {:ok, _events, state} -> state
@@ -73,8 +88,17 @@ defmodule Dian.SteamWatcher.Poller do
     steam_ids = Enum.map(bindings, & &1.steam_id)
 
     if steam_ids == [] do
+      Logger.info("steam watcher poll skipped with no bindings",
+        event: "steam_watcher_poll_skipped_no_bindings"
+      )
+
       {:ok, [], state}
     else
+      Logger.info("steam watcher poll started",
+        event: "steam_watcher_poll_started",
+        steam_ids_count: length(steam_ids)
+      )
+
       fetch_and_compare(bindings, steam_ids, state)
     end
   end
@@ -92,11 +116,24 @@ defmodule Dian.SteamWatcher.Poller do
             &status_changed_event(&1, state.snapshots, bindings_by_steam_id, changed_at)
           )
 
+        Logger.info("steam watcher poll finished",
+          event: "steam_watcher_poll_finished",
+          steam_ids_count: length(steam_ids),
+          summaries_count: length(summaries),
+          changed_count: length(events)
+        )
+
         Enum.each(events, state.broadcast)
 
         {:ok, events, %{state | snapshots: Map.merge(state.snapshots, summaries_by_steam_id)}}
 
       {:error, reason} ->
+        Logger.warning("steam watcher poll failed",
+          event: "steam_watcher_poll_failed",
+          steam_ids_count: length(steam_ids),
+          reason: inspect(reason)
+        )
+
         {:error, reason, state}
     end
   end
