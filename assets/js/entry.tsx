@@ -1,4 +1,5 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v6";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
@@ -11,16 +12,18 @@ import { router } from "@/router";
 
 const App = () => {
   return (
-    <HelmetProvider>
-      <NuqsAdapter>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <RouterProvider router={router} />
-            <Toaster position="top-center" />
-          </TooltipProvider>
-        </QueryClientProvider>
-      </NuqsAdapter>
-    </HelmetProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <HelmetProvider>
+        <NuqsAdapter>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <RouterProvider router={router} />
+              <Toaster position="top-center" />
+            </TooltipProvider>
+          </QueryClientProvider>
+        </NuqsAdapter>
+      </HelmetProvider>
+    </ThemeProvider>
   );
 };
 
