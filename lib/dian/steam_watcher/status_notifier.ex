@@ -68,7 +68,7 @@ defmodule Dian.SteamWatcher.StatusNotifier do
       event: "steam_status_notification_finished",
       steam_id: event.steam_id,
       qq_id: event.qq_id,
-      result: inspect(result)
+      delivery_result: inspect(result)
     )
 
     result

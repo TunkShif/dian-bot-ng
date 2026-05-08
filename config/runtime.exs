@@ -49,12 +49,20 @@ if config_env() == :prod do
           :steam_ids_count,
           :summaries_count,
           :changed_count,
+          :active_sessions_count,
           :bot_action,
           :qq_id,
           :group_id,
           :group_count,
           :display_name,
-          :current_game_name
+          :current_game_id,
+          :current_game_name,
+          :app_id,
+          :game_name,
+          :achievement_count,
+          :sent_count,
+          :delivery_result,
+          :reason
         ]
       )
 

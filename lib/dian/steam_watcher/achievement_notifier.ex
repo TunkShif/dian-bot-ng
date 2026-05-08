@@ -32,6 +32,15 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
 
   @impl true
   def handle_info(%AchievementUnlocked{} = event, %{deliver: deliver} = state) do
+    Logger.info("steam achievement event received",
+      event: "steam_achievement_event_received",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      app_id: event.app_id,
+      game_name: event.game_name,
+      achievement_count: length(event.achievements)
+    )
+
     deliver.(event)
     {:noreply, state}
   end
@@ -39,13 +48,33 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
   def notify(%AchievementUnlocked{} = event) do
     group_ids = Settings.list_enabled_group_ids()
 
-    group_ids
-    |> Enum.reduce({:ok, 0}, fn group_id, {:ok, sent_count} ->
-      case send_group_notification(group_id, event) do
-        {:ok, count} -> {:ok, sent_count + count}
-        {:error, _reason} -> {:ok, sent_count}
-      end
-    end)
+    Logger.info("steam achievement notification start",
+      event: "steam_achievement_notification_start",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      app_id: event.app_id,
+      group_count: length(group_ids),
+      achievement_count: length(event.achievements)
+    )
+
+    result =
+      group_ids
+      |> Enum.reduce({:ok, 0}, fn group_id, {:ok, sent_count} ->
+        case send_group_notification(group_id, event) do
+          {:ok, count} -> {:ok, sent_count + count}
+          {:error, _reason} -> {:ok, sent_count}
+        end
+      end)
+
+    Logger.info("steam achievement notification finished",
+      event: "steam_achievement_notification_finished",
+      steam_id: event.steam_id,
+      qq_id: event.qq_id,
+      app_id: event.app_id,
+      delivery_result: inspect(result)
+    )
+
+    result
   end
 
   def build_achievement_card_svg(%AchievementUnlocked{} = event) do
@@ -60,6 +89,14 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
   end
 
   defp send_group_notification(group_id, %AchievementUnlocked{} = event) do
+    Logger.info("steam achievement notification group start",
+      event: "steam_achievement_notification_group_start",
+      group_id: group_id,
+      qq_id: event.qq_id,
+      steam_id: event.steam_id,
+      app_id: event.app_id
+    )
+
     with {:ok, member} <- DianBot.get_group_member_info(group_id, event.qq_id, no_cache: true) do
       display_name = group_member_display_name(member, event.qq_id)
       player = steam_player_summary(event)
@@ -68,10 +105,35 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
       |> notification_payloads(display_name, player)
       |> Enum.reduce_while({:ok, 0}, fn payload, {:ok, count} ->
         case send_payload(group_id, payload) do
-          {:ok, _message_id} -> {:cont, {:ok, count + 1}}
-          {:error, reason} -> {:halt, {:error, reason}}
+          {:ok, _message_id} ->
+            {:cont, {:ok, count + 1}}
+
+          {:error, reason} ->
+            {:halt, {:error, reason}}
         end
       end)
+      |> case do
+        {:ok, count} ->
+          Logger.info("steam achievement notification group sent",
+            event: "steam_achievement_notification_group_sent",
+            group_id: group_id,
+            qq_id: event.qq_id,
+            display_name: display_name,
+            sent_count: count
+          )
+
+          {:ok, count}
+
+        {:error, reason} ->
+          Logger.warning("steam achievement notification group failed",
+            event: "steam_achievement_notification_group_failed",
+            group_id: group_id,
+            qq_id: event.qq_id,
+            reason: inspect(reason)
+          )
+
+          {:error, reason}
+      end
     else
       {:error, :not_found} ->
         Logger.info("steam achievement notification group skipped",

@@ -61,6 +61,10 @@ defmodule Dian.SteamWatcher.AchievementPoller do
 
   @impl true
   def handle_call(:check_now, _from, state) do
+    Logger.info("steam watcher manual achievement poll triggered",
+      event: "steam_watcher_achievement_poll_manual_triggered"
+    )
+
     case poll(state) do
       {:ok, events, next_state} -> {:reply, {:ok, events}, next_state}
       {:error, reason, next_state} -> {:reply, {:error, reason}, next_state}
@@ -69,6 +73,10 @@ defmodule Dian.SteamWatcher.AchievementPoller do
 
   @impl true
   def handle_info(:poll, state) do
+    Logger.info("steam watcher scheduled achievement poll triggered",
+      event: "steam_watcher_achievement_poll_triggered"
+    )
+
     next_state =
       case poll(state) do
         {:ok, _events, next_state} -> next_state
@@ -90,9 +98,18 @@ defmodule Dian.SteamWatcher.AchievementPoller do
     steam_ids = Enum.map(bindings, & &1.steam_id)
 
     if steam_ids == [] do
+      Logger.info("steam watcher achievement poll skipped with no bindings",
+        event: "steam_watcher_achievement_poll_skipped_no_bindings"
+      )
+
       {:ok, [], state}
     else
       bindings_by_steam_id = Map.new(bindings, &{&1.steam_id, &1})
+
+      Logger.info("steam watcher achievement poll started",
+        event: "steam_watcher_achievement_poll_started",
+        steam_ids_count: length(steam_ids)
+      )
 
       case state.fetch_summaries.(steam_ids) do
         {:ok, summaries} ->
@@ -154,6 +171,13 @@ defmodule Dian.SteamWatcher.AchievementPoller do
             {events, snapshots}
         end
       end)
+
+    Logger.info("steam watcher achievement poll finished",
+      event: "steam_watcher_achievement_poll_finished",
+      summaries_count: length(summaries),
+      active_sessions_count: map_size(active_sessions),
+      changed_count: length(events)
+    )
 
     Enum.each(events, state.broadcast)
     {:ok, events, %{state | snapshots: snapshots}}
