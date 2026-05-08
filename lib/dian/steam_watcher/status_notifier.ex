@@ -56,11 +56,11 @@ defmodule Dian.SteamWatcher.StatusNotifier do
 
     result =
       group_ids
-      |> Enum.reduce_while({:ok, 0}, fn group_id, {:ok, count} ->
+      |> Enum.reduce({:ok, 0}, fn group_id, {:ok, count} ->
         case send_group_notification(group_id, event) do
-          {:ok, :sent} -> {:cont, {:ok, count + 1}}
-          {:ok, :skipped} -> {:cont, {:ok, count}}
-          {:error, reason} -> {:halt, {:error, reason}}
+          {:ok, :sent} -> {:ok, count + 1}
+          {:ok, :skipped} -> {:ok, count}
+          {:error, _reason} -> {:ok, count}
         end
       end)
 

@@ -40,10 +40,10 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
     group_ids = Settings.list_enabled_group_ids()
 
     group_ids
-    |> Enum.reduce_while({:ok, 0}, fn group_id, {:ok, sent_count} ->
+    |> Enum.reduce({:ok, 0}, fn group_id, {:ok, sent_count} ->
       case send_group_notification(group_id, event) do
-        {:ok, count} -> {:cont, {:ok, sent_count + count}}
-        {:error, reason} -> {:halt, {:error, reason}}
+        {:ok, count} -> {:ok, sent_count + count}
+        {:error, _reason} -> {:ok, sent_count}
       end
     end)
   end

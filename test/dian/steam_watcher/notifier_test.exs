@@ -248,5 +248,94 @@ defmodule Dian.SteamWatcher.NotifierTest do
 
       Mox.verify!()
     end
+
+    test "continues sending to later groups when one group send fails" do
+      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "101")
+
+      Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
+        %PlayerSummary{
+          steam_id: "76561198826221336",
+          name: "HHruarua",
+          profile_url: "https://steamcommunity.com/id/demo/",
+          avatar_url:
+            "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/aa/aaaabbbbccccddddaaaa1111222233334444_full.jpg",
+          state: :online,
+          playing_game_name: "Counter-Strike 2"
+        }
+      end)
+
+      Mox.expect(DianBot.Client.Mock, :request, 4, fn
+        "get_group_member_info",
+        %{group_id: "100", user_id: "20001", no_cache: true},
+        [no_cache: true] ->
+          {:ok,
+           %{
+             "group_id" => "100",
+             "user_id" => 20001,
+             "nickname" => "Demo Nick",
+             "card" => "Demo Card",
+             "join_time" => 0,
+             "last_sent_time" => 0,
+             "is_robot" => false,
+             "role" => "member",
+             "title" => ""
+           }}
+
+        "send_msg",
+        %{
+          message_type: "group",
+          group_id: "100",
+          message: [
+            %{"type" => "text", "data" => %{"text" => "Demo Card 正在游玩 Counter-Strike 2"}},
+            %{"type" => "image", "data" => %{"file" => file}}
+          ]
+        },
+        [] ->
+          assert String.starts_with?(file, "base64://")
+          {:error, :timeout}
+
+        "get_group_member_info",
+        %{group_id: "101", user_id: "20001", no_cache: true},
+        [no_cache: true] ->
+          {:ok,
+           %{
+             "group_id" => "101",
+             "user_id" => 20001,
+             "nickname" => "Demo Nick 2",
+             "card" => "Demo Card 2",
+             "join_time" => 0,
+             "last_sent_time" => 0,
+             "is_robot" => false,
+             "role" => "member",
+             "title" => ""
+           }}
+
+        "send_msg",
+        %{
+          message_type: "group",
+          group_id: "101",
+          message: [
+            %{"type" => "text", "data" => %{"text" => "Demo Card 2 正在游玩 Counter-Strike 2"}},
+            %{"type" => "image", "data" => %{"file" => file}}
+          ]
+        },
+        [] ->
+          assert String.starts_with?(file, "base64://")
+          {:ok, %{"message_id" => 123_457}}
+      end)
+
+      event = %StatusChanged{
+        steam_id: "76561198826221336",
+        qq_id: "20001",
+        current_game_id: "730",
+        current_game_name: "Counter-Strike 2",
+        changed_at: DateTime.utc_now(:second)
+      }
+
+      assert {:ok, 1} = StatusNotifier.notify(event)
+
+      Mox.verify!()
+    end
   end
 end
