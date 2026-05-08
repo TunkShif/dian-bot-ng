@@ -193,7 +193,9 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
     {:ok, image} = Media.render_svg(svg)
 
     [
-      Message.text(notification_text(display_name, event.game_name, achievement_names)),
+      Message.text(
+        notification_text(display_name, event.game_name, achievements, achievement_names)
+      ),
       Message.image("base64://#{Base.encode64(image.bytes)}")
     ]
   end
@@ -202,10 +204,21 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
     DianBot.send_msg(:group, group_id, payload)
   end
 
-  defp notification_text(display_name, game_name, achievement_names) do
+  defp notification_text(display_name, game_name, achievements, achievement_names) do
+    achievement_count = length(achievements)
+
     case notification_locale() do
-      :zh -> "#{display_name} 在 #{game_name} 中取得了成就：#{achievement_names}！"
-      _ -> "#{display_name} unlocked achievements in #{game_name}: #{achievement_names}!"
+      :zh when achievement_count > 1 ->
+        "#{display_name} 在 #{game_name} 中取得了 #{achievement_count} 个成就：#{achievement_names}！"
+
+      :zh ->
+        "#{display_name} 在 #{game_name} 中取得了成就：#{achievement_names}！"
+
+      _ when achievement_count > 1 ->
+        "#{display_name} unlocked #{achievement_count} achievements in #{game_name}: #{achievement_names}!"
+
+      _ ->
+        "#{display_name} unlocked achievements in #{game_name}: #{achievement_names}!"
     end
   end
 
@@ -234,7 +247,7 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
 
   defp achievement_separator do
     case notification_locale() do
-      :zh -> ","
+      :zh -> "，"
       _ -> ", "
     end
   end
