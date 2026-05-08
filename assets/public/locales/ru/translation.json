@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "Сменить язык"
-      }
+      },
+      "pageTitle": "Войти"
     },
     "flash": {
       "welcome": "С возвращением",
@@ -93,7 +94,8 @@
       "systemSettings": "Системные настройки",
       "globalConfig": "Глобальная конфигурация",
       "permissionManagement": "Управление правами",
-      "featuredMessages": "Избранные сообщения"
+      "featuredMessages": "Избранные сообщения",
+      "groups": "Группы"
     },
     "userMenu": {
       "account": "Аккаунт",
@@ -102,7 +104,8 @@
       "logOut": "Выйти"
     },
     "dashboard": {
-      "title": "Панель"
+      "title": "Панель",
+      "pageTitle": "Панель управления"
     },
     "settings": {
       "title": "Настройки",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "Переименовать passkey",
           "inputLabel": "Название passkey",
-          "save": "Сохранить название passkey"
+          "save": "Сохранить название passkey",
+          "validation": {
+            "required": "Введите название passkey."
+          },
+          "successMessage": "Passkey переименован.",
+          "errorMessage": "Не удалось переименовать passkey. Пожалуйста, попробуйте снова."
         },
         "delete": {
           "trigger": "Удалить passkey",
           "title": "Удалить passkey?",
           "description": "{{label}} будет удалён из аккаунта. Удаление пока не подключено.",
-          "submit": "Удалить"
+          "submit": "Удалить",
+          "successMessage": "Passkey удалён.",
+          "errorMessage": "Не удалось удалить passkey. Пожалуйста, попробуйте снова."
+        }
+      },
+      "pageTitle": "Настройки аккаунта",
+      "sections": {
+        "connectedAccounts": {
+          "title": "Подключённые аккаунты",
+          "description": "Подключайте внешние игровые аккаунты для отслеживания статуса и функций активности."
+        },
+        "accountSecurity": {
+          "title": "Безопасность аккаунта",
+          "description": "Обновляйте учётные данные и методы входа, которые защищают доступ к вашему аккаунту."
+        }
+      },
+      "steam": {
+        "title": "Аккаунт Steam",
+        "description": "Привяжите аккаунт Steam, чтобы включить отслеживание статуса игры и уведомления.",
+        "playing": "Играет в {{game}}",
+        "profileLink": "Посмотреть профиль Steam",
+        "state": {
+          "online": "В сети",
+          "busy": "Занят",
+          "away": "Отошёл",
+          "snooze": "Отдыхает",
+          "offline": "Не в сети"
+        },
+        "notBound": {
+          "title": "Аккаунт Steam не привязан",
+          "description": "Привяжите аккаунт Steam, чтобы увидеть свой профиль здесь."
+        },
+        "error": {
+          "title": "Не удалось загрузить профиль Steam",
+          "description": "Повторите попытку позже."
+        },
+        "bind": {
+          "trigger": "Привязать Steam",
+          "title": "Привязать Steam Account",
+          "description": "Введите ваш 17-значный Steam ID для поиска и привязки аккаунта.",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "Ваш 17-значный Steam ID, начинающийся с 7656."
+          },
+          "lookup": "Найти",
+          "lookupError": "Не удалось найти профиль Steam для этого ID. Проверьте и попробуйте снова.",
+          "lookupServiceError": "Не удалось найти этот профиль Steam прямо сейчас. Пожалуйста, попробуйте снова.",
+          "back": "Назад",
+          "confirm": "Подтвердить привязку",
+          "successTitle": "Аккаунт Steam привязан",
+          "successMessage": "Ваш аккаунт Steam успешно привязан.",
+          "errorMessage": "Не удалось привязать аккаунт Steam. Пожалуйста, попробуйте снова."
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "Ошибка сервера",
           "description": "На нашей стороне что-то пошло не так. Попробуйте позже."
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "Управление группами",
+      "title": "Управление группами",
+      "description": "Просматривайте видимые группы, проверяйте участников и управляйте тем, где DianBot включён.",
+      "actions": {
+        "retry": "Повторить"
+      },
+      "summary": {
+        "total": "Всего",
+        "enabled": "Включено",
+        "admin": "Администратор"
+      },
+      "filters": {
+        "searchLabel": "Поиск групп",
+        "searchPlaceholder": "Поиск по имени или ID",
+        "statusLabel": "Фильтр по статусу",
+        "accessLabel": "Фильтр по доступу",
+        "status": {
+          "all": "Все статусы",
+          "enabled": "Включено",
+          "disabled": "Отключено"
+        },
+        "access": {
+          "all": "Все доступа",
+          "admin": "Администратор only",
+          "member": "Только участники"
+        }
+      },
+      "status": {
+        "enabled": "Включено",
+        "disabled": "Отключено"
+      },
+      "access": {
+        "admin": "Администратор",
+        "member": "Участник"
+      },
+      "list": {
+        "title": "Группы",
+        "description": "Найдите нужные группы и просмотрите статус бота одним взглядом.",
+        "table": {
+          "group": "Группа",
+          "members": "Участникs",
+          "status": "Статус",
+          "access": "Доступ"
+        },
+        "empty": {
+          "title": "Группы не найдены",
+          "description": "Настройте фильтры, чтобы найти другую группу."
+        },
+        "error": {
+          "title": "Группы could not be loaded",
+          "description": "Обновите список или повторите попытку позже."
+        }
+      },
+      "details": {
+        "noSelection": "Выберите группу для просмотра подробностей.",
+        "error": {
+          "title": "Группа details could not be loaded",
+          "description": "Обновите сведения о группе или повторите попытку позже."
+        }
+      },
+      "settings": {
+        "title": "Доступность бота",
+        "description": "Включите эту группу, чтобы разрешить команды бота и push-уведомления.",
+        "adminOnlyDescription": "Только администраторы группы могут изменять доступность бота.",
+        "enabledLabel": "Переключить доступность бота",
+        "update": {
+          "successMessage": "Группа settings updated.",
+          "errorMessage": "Не удалось обновить настройки группы. Пожалуйста, попробуйте снова."
+        }
+      },
+      "members": {
+        "title": "Участникs",
+        "count": "{{count}} участников",
+        "robot": "Бот",
+        "filters": {
+          "searchLabel": "Поиск участников",
+          "searchPlaceholder": "Поиск по имени или QQ ID",
+          "roleLabel": "Фильтр по роли",
+          "role": {
+            "all": "Все роли",
+            "owner": "Владелец",
+            "admin": "Администратор",
+            "member": "Участник",
+            "robot": "Бот"
+          }
+        },
+        "table": {
+          "member": "Участник",
+          "role": "Роль",
+          "joined": "Присоединился",
+          "steam": "Steam",
+          "actions": "Действия"
+        },
+        "actions": {
+          "openMenu": "Открыть действия участника",
+          "bindSteam": "Привязать Steam",
+          "rebindSteam": "Перепривязать Steam"
+        },
+        "steam": {
+          "notLinked": "Не привязан",
+          "linked": "Привязан",
+          "preview": {
+            "title": "Аккаунт Steam не привязан",
+            "description": "Привяжите аккаунт Steam для этого участника, чтобы здесь отображались данные профиля и текущая игровая активность.",
+            "error": "Не удалось загрузить этот профиль Steam прямо сейчас."
+          },
+          "bindDialog": {
+            "title": "Привязать Steam for {{member}}",
+            "description": "Найдите аккаунт Steam и привяжите его к этому участнику группы.",
+            "confirm": "Подтвердить привязку"
+          },
+          "rebindDialog": {
+            "title": "Перепривязать Steam for {{member}}",
+            "description": "Найдите другой аккаунт Steam, чтобы заменить текущую привязку этого участника.",
+            "confirm": "Подтвердить перепривязку"
+          }
+        },
+        "empty": {
+          "title": "Участники не найдены",
+          "description": "Настройте фильтры, чтобы найти другого участника."
+        },
+        "roles": {
+          "owner": "Владелец",
+          "admin": "Администратор",
+          "member": "Участник"
+        },
+        "pagination": {
+          "page": "Страница",
+          "of": "из",
+          "total": "{{count}} участников",
+          "previous": "Назад",
+          "next": "Вперёд"
+        }
+      },
+      "pagination": {
+        "page": "Страница",
+        "of": "из",
+        "total": "{{count}} групп",
+        "previous": "Назад",
+        "next": "Вперёд"
       }
     }
   }

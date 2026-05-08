@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "切換語言"
-      }
+      },
+      "pageTitle": "登入"
     },
     "flash": {
       "welcome": "歡迎返嚟",
@@ -93,7 +94,8 @@
       "systemSettings": "系統設定",
       "globalConfig": "全域設定",
       "permissionManagement": "權限管理",
-      "featuredMessages": "精華訊息"
+      "featuredMessages": "精華訊息",
+      "groups": "群組"
     },
     "userMenu": {
       "account": "帳戶",
@@ -102,7 +104,8 @@
       "logOut": "登出"
     },
     "dashboard": {
-      "title": "儀表板"
+      "title": "儀表板",
+      "pageTitle": "儀表板"
     },
     "settings": {
       "title": "設定",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "重新命名通行密鑰",
           "inputLabel": "通行密鑰名稱",
-          "save": "儲存通行密鑰名稱"
+          "save": "儲存通行密鑰名稱",
+          "validation": {
+            "required": "請輸入通行密鑰名稱。"
+          },
+          "successMessage": "通行密鑰已重新命名。",
+          "errorMessage": "重新命名唔到通行密鑰，請再試。"
         },
         "delete": {
           "trigger": "刪除通行密鑰",
           "title": "刪除通行密鑰？",
           "description": "呢個動作會由你帳戶移除 {{label}}。刪除流程仲未接駁。",
-          "submit": "刪除"
+          "submit": "刪除",
+          "successMessage": "通行密鑰已刪除。",
+          "errorMessage": "刪除唔到通行密鑰，請再試。"
+        }
+      },
+      "pageTitle": "帳戶設定",
+      "sections": {
+        "connectedAccounts": {
+          "title": "已連接帳戶",
+          "description": "綁定用於狀態追蹤同活動功能嘅外部遊戲帳戶。"
+        },
+        "accountSecurity": {
+          "title": "帳戶安全",
+          "description": "更新用嚟保護帳戶存取嘅憑證同登入方式。"
+        }
+      },
+      "steam": {
+        "title": "Steam 帳戶",
+        "description": "綁定你嘅 Steam 帳戶以啟用遊戲狀態追蹤同通知。",
+        "playing": "玩緊 {{game}}",
+        "profileLink": "睇 Steam 資料",
+        "state": {
+          "online": "在線",
+          "busy": "忙碌",
+          "away": "離開",
+          "snooze": "瞌眼瞓",
+          "offline": "離線"
+        },
+        "notBound": {
+          "title": "未綁定 Steam 账号",
+          "description": "綁定 Steam 账号后，你的个人资料将显示在此处。"
+        },
+        "error": {
+          "title": "載入唔到 Steam 資料",
+          "description": "請等陣再試。"
+        },
+        "bind": {
+          "trigger": "綁定 Steam",
+          "title": "綁定 Steam 账号",
+          "description": "輸入你嘅 17 位 Steam ID 嚟查找同綁定帳戶。",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "以 7656 開頭嘅 17 位 Steam ID。"
+          },
+          "lookup": "搵",
+          "lookupError": "搵唔到呢個 Steam ID 對應嘅個人資料，請檢查後再試。",
+          "lookupServiceError": "暫時搵唔到呢個 Steam 資料，請等陣再試。",
+          "back": "返去",
+          "confirm": "確認綁定",
+          "successTitle": "Steam 帳戶已绑定",
+          "successMessage": "你嘅 Steam 帳戶已成功綁定。",
+          "errorMessage": "綁定唔到 Steam 帳戶，請再試。"
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "伺服器錯誤",
           "description": "伺服器出咗啲問題。請遲啲再試。"
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "群組管理",
+      "title": "群組管理",
+      "description": "檢查可見嘅群組、成員列表，同控制 DianBot 喺邊啲群組啟用。",
+      "actions": {
+        "retry": "再試"
+      },
+      "summary": {
+        "total": "總數",
+        "enabled": "已啟用",
+        "admin": "可管理"
+      },
+      "filters": {
+        "searchLabel": "搜群組",
+        "searchPlaceholder": "搜名或 ID",
+        "statusLabel": "按狀態篩選",
+        "accessLabel": "按權限篩選",
+        "status": {
+          "all": "全部狀態",
+          "enabled": "已啟用",
+          "disabled": "未啟用"
+        },
+        "access": {
+          "all": "全部權限",
+          "admin": "只限管理員",
+          "member": "只限成員"
+        }
+      },
+      "status": {
+        "enabled": "已啟用",
+        "disabled": "未啟用"
+      },
+      "access": {
+        "admin": "管理員",
+        "member": "成員"
+      },
+      "list": {
+        "title": "群組",
+        "description": "快啲搵到需要嘅群組，並一眼睇到機械人啟用狀態。",
+        "table": {
+          "group": "群組",
+          "members": "成員",
+          "status": "狀態",
+          "access": "權限"
+        },
+        "empty": {
+          "title": "搵唔到群組",
+          "description": "調整篩選條件後再試。"
+        },
+        "error": {
+          "title": "載入唔到群組",
+          "description": "重新整理，或者等陣再試。"
+        }
+      },
+      "details": {
+        "noSelection": "揀一個群組嚟睇詳情。",
+        "error": {
+          "title": "載入唔到群組详情",
+          "description": "重新整理群組詳情，或者等陣再試。"
+        }
+      },
+      "settings": {
+        "title": "機械人可用性",
+        "description": "啟用之後，個群組可以用機械人功能同接收推送通知。",
+        "adminOnlyDescription": "得群管理員先可以改機械人可用性。",
+        "enabledLabel": "切換機械人可用性",
+        "update": {
+          "successMessage": "群組设置已更新。",
+          "errorMessage": "更新唔到群組設定，請再試。"
+        }
+      },
+      "members": {
+        "title": "成員",
+        "count": "{{count}} 位成員",
+        "robot": "機械人",
+        "filters": {
+          "searchLabel": "搜成員",
+          "searchPlaceholder": "搜名或 QQ 號",
+          "roleLabel": "按角色篩選",
+          "role": {
+            "all": "全部角色",
+            "owner": "群主",
+            "admin": "管理員",
+            "member": "成員",
+            "robot": "機械人"
+          }
+        },
+        "table": {
+          "member": "成員",
+          "role": "角色",
+          "joined": "加入時間",
+          "steam": "Steam",
+          "actions": "操作"
+        },
+        "actions": {
+          "openMenu": "打開成員操作選單",
+          "bindSteam": "綁定 Steam",
+          "rebindSteam": "重新綁定 Steam"
+        },
+        "steam": {
+          "notLinked": "未綁定",
+          "linked": "已綁定",
+          "preview": {
+            "title": "未綁定 Steam 帳戶",
+            "description": "幫呢個成員綁定 Steam 之後，呢度會顯示資料同當前遊戲狀態。",
+            "error": "暫時載入唔到嗰個 Steam 資料。"
+          },
+          "bindDialog": {
+            "title": "為 {{member}} 綁定 Steam",
+            "description": "搵 Steam 帳戶並綁定到呢個群成員。",
+            "confirm": "確認綁定"
+          },
+          "rebindDialog": {
+            "title": "為 {{member}} 重新綁定 Steam",
+            "description": "搵新 Steam 帳戶代替呢個成員目前嘅綁定。",
+            "confirm": "確認重新綁定"
+          }
+        },
+        "empty": {
+          "title": "搵唔到成員",
+          "description": "調整篩選條件後再試。"
+        },
+        "roles": {
+          "owner": "群主",
+          "admin": "管理員",
+          "member": "成員"
+        },
+        "pagination": {
+          "page": "第",
+          "of": "/",
+          "total": "共 {{count}} 位成員",
+          "previous": "上一頁",
+          "next": "下一頁"
+        }
+      },
+      "pagination": {
+        "page": "第",
+        "of": "/",
+        "total": "共 {{count}} 個群組",
+        "previous": "上一頁",
+        "next": "下一頁"
       }
     }
   }

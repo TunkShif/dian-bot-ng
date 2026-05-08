@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "言語を変更"
-      }
+      },
+      "pageTitle": "サインイン"
     },
     "flash": {
       "welcome": "おかえりなさい",
@@ -93,7 +94,8 @@
       "systemSettings": "システム設定",
       "globalConfig": "全体設定",
       "permissionManagement": "権限管理",
-      "featuredMessages": "注目メッセージ"
+      "featuredMessages": "注目メッセージ",
+      "groups": "グループ"
     },
     "userMenu": {
       "account": "アカウント",
@@ -102,7 +104,8 @@
       "logOut": "ログアウト"
     },
     "dashboard": {
-      "title": "ダッシュボード"
+      "title": "ダッシュボード",
+      "pageTitle": "ダッシュボード"
     },
     "settings": {
       "title": "設定",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "パスキー名を変更",
           "inputLabel": "パスキー名",
-          "save": "パスキー名を保存"
+          "save": "パスキー名を保存",
+          "validation": {
+            "required": "パスキー名を入力してください。"
+          },
+          "successMessage": "パスキー名を変更しました。",
+          "errorMessage": "パスキー名を変更できませんでした。もう一度お試しください。"
         },
         "delete": {
           "trigger": "パスキーを削除",
           "title": "パスキーを削除しますか？",
           "description": "{{label}} をアカウントから削除します。削除はまだ接続されていません。",
-          "submit": "削除"
+          "submit": "削除",
+          "successMessage": "パスキーを削除しました。",
+          "errorMessage": "パスキーを削除できませんでした。もう一度お試しください。"
+        }
+      },
+      "pageTitle": "アカウント設定",
+      "sections": {
+        "connectedAccounts": {
+          "title": "連携アカウント",
+          "description": "ステータス追跡やアクティビティ機能に使用する外部ゲームアカウントを連携します。"
+        },
+        "accountSecurity": {
+          "title": "アカウントセキュリティ",
+          "description": "アカウントへのアクセスを保護する認証情報とサインイン方法を更新します。"
+        }
+      },
+      "steam": {
+        "title": "Steamアカウント",
+        "description": "Steamアカウントを連携して、ゲームステータスの追跡と通知を有効にします。",
+        "playing": "{{game}} をプレイ中",
+        "profileLink": "Steamプロフィールを見る",
+        "state": {
+          "online": "オンライン",
+          "busy": "取り込み中",
+          "away": "離席中",
+          "snooze": "スヌーズ",
+          "offline": "オフライン"
+        },
+        "notBound": {
+          "title": "Steamアカウントが連携されていません",
+          "description": "Steamアカウントを連携すると、プロフィールがここに表示されます。"
+        },
+        "error": {
+          "title": "Steamプロフィールを読み込めませんでした",
+          "description": "しばらくしてからもう一度お試しください。"
+        },
+        "bind": {
+          "trigger": "Steamを連携",
+          "title": "Steamを連携 Account",
+          "description": "17桁のSteam IDを入力してアカウントを検索・連携します。",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "7656 で始まる17桁のSteam ID。"
+          },
+          "lookup": "検索",
+          "lookupError": "このIDのSteamプロフィールが見つかりませんでした。確認してもう一度お試しください。",
+          "lookupServiceError": "現在このSteamプロフィールを検索できません。もう一度お試しください。",
+          "back": "戻る",
+          "confirm": "連携を確認",
+          "successTitle": "Steamアカウントを連携しました",
+          "successMessage": "Steamアカウントが正常に連携されました。",
+          "errorMessage": "Steamアカウントを連携できませんでした。もう一度お試しください。"
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "サーバーエラー",
           "description": "サーバー側で問題が発生しました。後でもう一度お試しください。"
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "グループ管理",
+      "title": "グループ管理",
+      "description": "表示可能なグループを確認し、メンバーを検査して、DianBot を有効にする場所を制御します。",
+      "actions": {
+        "retry": "再試行"
+      },
+      "summary": {
+        "total": "合計",
+        "enabled": "有効",
+        "admin": "管理者"
+      },
+      "filters": {
+        "searchLabel": "グループを検索",
+        "searchPlaceholder": "名前またはIDを検索",
+        "statusLabel": "ステータスで絞り込み",
+        "accessLabel": "権限で絞り込み",
+        "status": {
+          "all": "すべてのステータス",
+          "enabled": "有効",
+          "disabled": "無効"
+        },
+        "access": {
+          "all": "すべてのアクセス",
+          "admin": "管理者 only",
+          "member": "メンバーのみ"
+        }
+      },
+      "status": {
+        "enabled": "有効",
+        "disabled": "無効"
+      },
+      "access": {
+        "admin": "管理者",
+        "member": "メンバー"
+      },
+      "list": {
+        "title": "グループ",
+        "description": "必要なグループを見つけ、ボットのステータスをひと目で確認できます。",
+        "table": {
+          "group": "グループ",
+          "members": "メンバーs",
+          "status": "ステータス",
+          "access": "アクセス"
+        },
+        "empty": {
+          "title": "グループが見つかりません",
+          "description": "フィルターを調整して別のグループを探してください。"
+        },
+        "error": {
+          "title": "グループ could not be loaded",
+          "description": "リストを更新するか、しばらくしてからもう一度お試しください。"
+        }
+      },
+      "details": {
+        "noSelection": "グループを選択して詳細を表示します。",
+        "error": {
+          "title": "グループ details could not be loaded",
+          "description": "グループの詳細を更新するか、しばらくしてからもう一度お試しください。"
+        }
+      },
+      "settings": {
+        "title": "ボットの利用",
+        "description": "このグループを有効にすると、ボットコマンドとプッシュ通知が許可されます。",
+        "adminOnlyDescription": "グループ管理者のみがボットの利用を変更できます。",
+        "enabledLabel": "ボットの利用を切り替え",
+        "update": {
+          "successMessage": "グループ settings updated.",
+          "errorMessage": "グループ設定を更新できませんでした。もう一度お試しください。"
+        }
+      },
+      "members": {
+        "title": "メンバーs",
+        "count": "{{count}} 人のメンバー",
+        "robot": "ボット",
+        "filters": {
+          "searchLabel": "メンバーを検索",
+          "searchPlaceholder": "名前またはQQ IDを検索",
+          "roleLabel": "メンバーの役割で絞り込み",
+          "role": {
+            "all": "すべての役割",
+            "owner": "オーナー",
+            "admin": "管理者",
+            "member": "メンバー",
+            "robot": "ボット"
+          }
+        },
+        "table": {
+          "member": "メンバー",
+          "role": "役割",
+          "joined": "参加日",
+          "steam": "Steam",
+          "actions": "操作"
+        },
+        "actions": {
+          "openMenu": "メンバー操作を開く",
+          "bindSteam": "Steamを連携",
+          "rebindSteam": "Steamを再連携"
+        },
+        "steam": {
+          "notLinked": "未連携",
+          "linked": "連携済み",
+          "preview": {
+            "title": "Steamアカウントが連携されていません",
+            "description": "このメンバーにSteamアカウントを連携すると、プロフィール詳細と現在のゲームアクティビティが表示されます。",
+            "error": "現在このSteamプロフィールを読み込めません。"
+          },
+          "bindDialog": {
+            "title": "Steamを連携 for {{member}}",
+            "description": "Steamアカウントを検索して、このグループメンバーにリンクします。",
+            "confirm": "連携を確認"
+          },
+          "rebindDialog": {
+            "title": "Steamを再連携 for {{member}}",
+            "description": "別のSteamアカウントを検索して、このメンバーの現在の連携を置き換えます。",
+            "confirm": "再連携を確認"
+          }
+        },
+        "empty": {
+          "title": "メンバーが見つかりません",
+          "description": "フィルターを調整して別のメンバーを探してください。"
+        },
+        "roles": {
+          "owner": "オーナー",
+          "admin": "管理者",
+          "member": "メンバー"
+        },
+        "pagination": {
+          "page": "ページ",
+          "of": "/",
+          "total": "{{count}} 人のメンバー",
+          "previous": "前へ",
+          "next": "次へ"
+        }
+      },
+      "pagination": {
+        "page": "ページ",
+        "of": "/",
+        "total": "{{count}} グループ",
+        "previous": "前へ",
+        "next": "次へ"
       }
     }
   }

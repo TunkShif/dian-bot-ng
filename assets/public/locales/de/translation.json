@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "Sprache wechseln"
-      }
+      },
+      "pageTitle": "Anmelden"
     },
     "flash": {
       "welcome": "Willkommen zurück",
@@ -93,7 +94,8 @@
       "systemSettings": "Systemeinstellungen",
       "globalConfig": "Globale Konfiguration",
       "permissionManagement": "Berechtigungsverwaltung",
-      "featuredMessages": "Ausgewählte Nachrichten"
+      "featuredMessages": "Ausgewählte Nachrichten",
+      "groups": "Gruppen"
     },
     "userMenu": {
       "account": "Konto",
@@ -102,7 +104,8 @@
       "logOut": "Abmelden"
     },
     "dashboard": {
-      "title": "Übersicht"
+      "title": "Übersicht",
+      "pageTitle": "Übersicht"
     },
     "settings": {
       "title": "Einstellungen",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "Passkey umbenennen",
           "inputLabel": "Passkey-Name",
-          "save": "Passkey-Namen speichern"
+          "save": "Passkey-Namen speichern",
+          "validation": {
+            "required": "Geben Sie einen Passkey-Namen ein."
+          },
+          "successMessage": "Passkey umbenannt.",
+          "errorMessage": "Passkey konnte nicht umbenannt werden. Bitte versuchen Sie es erneut."
         },
         "delete": {
           "trigger": "Passkey löschen",
           "title": "Passkey löschen?",
           "description": "Dies entfernt {{label}} aus deinem Konto. Das Löschen ist noch nicht verbunden.",
-          "submit": "Löschen"
+          "submit": "Löschen",
+          "successMessage": "Passkey gelöscht.",
+          "errorMessage": "Passkey konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
+        }
+      },
+      "pageTitle": "Kontoeinstellungen",
+      "sections": {
+        "connectedAccounts": {
+          "title": "Verbundene Konten",
+          "description": "Verknüpfen Sie externe Spielekonten für Statusverfolgung und Aktivitätsfunktionen."
+        },
+        "accountSecurity": {
+          "title": "Kontosicherheit",
+          "description": "Aktualisieren Sie Anmeldeinformationen und -methoden, die den Zugriff auf Ihr Konto schützen."
+        }
+      },
+      "steam": {
+        "title": "Steam-Konto",
+        "description": "Verknüpfen Sie Ihr Steam-Konto, um Spielstatusverfolgung und Benachrichtigungen zu aktivieren.",
+        "playing": "Spielt {{game}}",
+        "profileLink": "Steam-Profil anzeigen",
+        "state": {
+          "online": "Online",
+          "busy": "Beschäftigt",
+          "away": "Abwesend",
+          "snooze": "Schlummern",
+          "offline": "Offline"
+        },
+        "notBound": {
+          "title": "Kein Steam-Konto verbunden",
+          "description": "Verknüpfen Sie Ihr Steam-Konto, um Ihr Profil hier zu sehen."
+        },
+        "error": {
+          "title": "Steam-Profil konnte nicht geladen werden",
+          "description": "Versuchen Sie es in einem Moment erneut."
+        },
+        "bind": {
+          "trigger": "Steam verknüpfen",
+          "title": "Steam verknüpfen Account",
+          "description": "Geben Sie Ihre 17-stellige Steam-ID ein, um Ihr Konto zu suchen und zu verknüpfen.",
+          "steamId": {
+            "label": "Steam-ID",
+            "placeholder": "76561198012345678",
+            "helper": "Ihre 17-stellige Steam-ID beginnend mit 7656."
+          },
+          "lookup": "Suchen",
+          "lookupError": "Für diese ID wurde kein Steam-Profil gefunden. Bitte überprüfen Sie die ID und versuchen Sie es erneut.",
+          "lookupServiceError": "Dieses Steam-Profil kann derzeit nicht gesucht werden. Bitte versuchen Sie es später erneut.",
+          "back": "Zurück",
+          "confirm": "Verknüpfung bestätigen",
+          "successTitle": "Steam-Konto verknüpft",
+          "successMessage": "Ihr Steam-Konto wurde erfolgreich verknüpft.",
+          "errorMessage": "Steam-Konto konnte nicht verknüpft werden. Bitte versuchen Sie es erneut."
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "Serverfehler",
           "description": "Bei uns ist etwas schiefgelaufen. Bitte versuche es später erneut."
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "Gruppenverwaltung",
+      "title": "Gruppenverwaltung",
+      "description": "Übersicht über sichtbare Gruppen, Mitglieder einsehen und steuern, wo DianBot aktiviert ist.",
+      "actions": {
+        "retry": "Erneut versuchen"
+      },
+      "summary": {
+        "total": "Gesamt",
+        "enabled": "Aktiviert",
+        "admin": "Administrator"
+      },
+      "filters": {
+        "searchLabel": "Gruppen durchsuchen",
+        "searchPlaceholder": "Name oder ID suchen",
+        "statusLabel": "Nach Status filtern",
+        "accessLabel": "Nach Zugriff filtern",
+        "status": {
+          "all": "Alle Status",
+          "enabled": "Aktiviert",
+          "disabled": "Deaktiviert"
+        },
+        "access": {
+          "all": "Alle Zugriffe",
+          "admin": "Administrator only",
+          "member": "Nur Mitglieder"
+        }
+      },
+      "status": {
+        "enabled": "Aktiviert",
+        "disabled": "Deaktiviert"
+      },
+      "access": {
+        "admin": "Administrator",
+        "member": "Mitglied"
+      },
+      "list": {
+        "title": "Gruppen",
+        "description": "Finden Sie die benötigten Gruppen und sehen Sie auf einen Blick den Bot-Status.",
+        "table": {
+          "group": "Gruppe",
+          "members": "Mitglieds",
+          "status": "Status",
+          "access": "Zugriff"
+        },
+        "empty": {
+          "title": "Keine Gruppen gefunden",
+          "description": "Passen Sie die Filter an, um eine andere Gruppe zu finden."
+        },
+        "error": {
+          "title": "Gruppen could not be loaded",
+          "description": "Aktualisieren Sie die Liste oder versuchen Sie es in einem Moment erneut."
+        }
+      },
+      "details": {
+        "noSelection": "Wählen Sie eine Gruppe, um Details anzuzeigen.",
+        "error": {
+          "title": "Gruppe details could not be loaded",
+          "description": "Aktualisieren Sie die Gruppendetails oder versuchen Sie es in einem Moment erneut."
+        }
+      },
+      "settings": {
+        "title": "Bot-Verfügbarkeit",
+        "description": "Aktivieren Sie diese Gruppe, um Bot-Befehle und Push-Benachrichtigungen zu erlauben.",
+        "adminOnlyDescription": "Nur Gruppenadministratoren können die Bot-Verfügbarkeit ändern.",
+        "enabledLabel": "Bot-Verfügbarkeit umschalten",
+        "update": {
+          "successMessage": "Gruppe settings updated.",
+          "errorMessage": "Gruppeneinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+        }
+      },
+      "members": {
+        "title": "Mitglieds",
+        "count": "{{count}} Mitglieder",
+        "robot": "Bot",
+        "filters": {
+          "searchLabel": "Mitglieder durchsuchen",
+          "searchPlaceholder": "Name oder QQ-ID suchen",
+          "roleLabel": "Nach Mitgliedsrolle filtern",
+          "role": {
+            "all": "Alle Rollen",
+            "owner": "Besitzer",
+            "admin": "Administrator",
+            "member": "Mitglied",
+            "robot": "Bot"
+          }
+        },
+        "table": {
+          "member": "Mitglied",
+          "role": "Rolle",
+          "joined": "Beigetreten",
+          "steam": "Steam",
+          "actions": "Aktionen"
+        },
+        "actions": {
+          "openMenu": "Mitgliederaktionen öffnen",
+          "bindSteam": "Steam binden",
+          "rebindSteam": "Steam neu binden"
+        },
+        "steam": {
+          "notLinked": "Nicht verbunden",
+          "linked": "Verbunden",
+          "preview": {
+            "title": "Kein Steam-Konto verbunden",
+            "description": "Binden Sie ein Steam-Konto für dieses Mitglied, um Profildetails und aktuelle Spielaktivitäten anzuzeigen.",
+            "error": "Dieses Steam-Profil konnte derzeit nicht geladen werden."
+          },
+          "bindDialog": {
+            "title": "Steam binden for {{member}}",
+            "description": "Suchen Sie ein Steam-Konto und verknüpfen Sie es mit diesem Gruppenmitglied.",
+            "confirm": "Bindung bestätigen"
+          },
+          "rebindDialog": {
+            "title": "Steam neu binden for {{member}}",
+            "description": "Suchen Sie ein anderes Steam-Konto, um die aktuelle Bindung dieses Mitglieds zu ersetzen.",
+            "confirm": "Neubindung bestätigen"
+          }
+        },
+        "empty": {
+          "title": "Keine Mitglieder gefunden",
+          "description": "Passen Sie die Filter an, um ein anderes Mitglied zu finden."
+        },
+        "roles": {
+          "owner": "Besitzer",
+          "admin": "Administrator",
+          "member": "Mitglied"
+        },
+        "pagination": {
+          "page": "Seite",
+          "of": "von",
+          "total": "{{count}} Mitglieder",
+          "previous": "Vorherige",
+          "next": "Nächste"
+        }
+      },
+      "pagination": {
+        "page": "Seite",
+        "of": "von",
+        "total": "{{count}} Gruppen",
+        "previous": "Vorherige",
+        "next": "Nächste"
       }
     }
   }

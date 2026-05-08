@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "易語"
-      }
+      },
+      "pageTitle": "登入"
     },
     "flash": {
       "welcome": "歡迎歸來",
@@ -93,7 +94,8 @@
       "systemSettings": "系統設定",
       "globalConfig": "全域設定",
       "permissionManagement": "權限治理",
-      "featuredMessages": "精華訊息"
+      "featuredMessages": "精華訊息",
+      "groups": "群組"
     },
     "userMenu": {
       "account": "戶",
@@ -102,7 +104,8 @@
       "logOut": "出"
     },
     "dashboard": {
-      "title": "總覽"
+      "title": "總覽",
+      "pageTitle": "總覽"
     },
     "settings": {
       "title": "設定",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "更名通行密鑰",
           "inputLabel": "通行密鑰名",
-          "save": "存通行密鑰名"
+          "save": "存通行密鑰名",
+          "validation": {
+            "required": "請入通行密鑰之名。"
+          },
+          "successMessage": "通行密鑰已更名。",
+          "errorMessage": "通行密鑰更名未成，請復試。"
         },
         "delete": {
           "trigger": "刪通行密鑰",
           "title": "刪通行密鑰？",
           "description": "將自帳戶去 {{label}}。刪除尚未接。",
-          "submit": "刪"
+          "submit": "刪",
+          "successMessage": "通行密鑰已刪。",
+          "errorMessage": "通行密鑰刪除未成，請復試。"
+        }
+      },
+      "pageTitle": "帳戶設定",
+      "sections": {
+        "connectedAccounts": {
+          "title": "已連之戶",
+          "description": "繫外用遊戲之戶，以追蹤與活動。"
+        },
+        "accountSecurity": {
+          "title": "帳戶之安",
+          "description": "新憑以護帳戶之通。"
+        }
+      },
+      "steam": {
+        "title": "Steam 戶",
+        "description": "繫 Steam 戶以啟遊狀追蹤與告。",
+        "playing": "玩 {{game}}",
+        "profileLink": "覽 Steam 資",
+        "state": {
+          "online": "在線",
+          "busy": "忙",
+          "away": "離",
+          "snooze": "盹",
+          "offline": "離線"
+        },
+        "notBound": {
+          "title": "未繫 Steam 账号",
+          "description": "繫 Steam 账号后，你的个人资料将显示在此处。"
+        },
+        "error": {
+          "title": "不得載 Steam 資",
+          "description": "請稍後復試。"
+        },
+        "bind": {
+          "trigger": "繫 Steam",
+          "title": "繫 Steam 账号",
+          "description": "入君之 17 位 Steam ID 以尋而繫之。",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "以 7656 起之 17 位 Steam ID。"
+          },
+          "lookup": "尋",
+          "lookupError": "未得此 ID 之 Steam 資，請核而復試。",
+          "lookupServiceError": "暫不得尋此 Steam 資，請稍後復試。",
+          "back": "返",
+          "confirm": "確繫",
+          "successTitle": "Steam 戶已绑定",
+          "successMessage": "君之 Steam 戶已繫成矣。",
+          "errorMessage": "不得繫 Steam 戶，請復試。"
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "伺服有誤",
           "description": "吾端有誤。請稍後復試。"
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "群組治理",
+      "title": "群組治理",
+      "description": "覽可見之群、驗其眾，制 DianBot 所啟之處。",
+      "actions": {
+        "retry": "再試"
+      },
+      "summary": {
+        "total": "總數",
+        "enabled": "已啟",
+        "admin": "可治"
+      },
+      "filters": {
+        "searchLabel": "尋群",
+        "searchPlaceholder": "尋名或號",
+        "statusLabel": "以態篩",
+        "accessLabel": "以權篩",
+        "status": {
+          "all": "諸態",
+          "enabled": "已啟",
+          "disabled": "未啟"
+        },
+        "access": {
+          "all": "諸權",
+          "admin": "惟管",
+          "member": "惟眾"
+        }
+      },
+      "status": {
+        "enabled": "已啟",
+        "disabled": "未啟"
+      },
+      "access": {
+        "admin": "管理",
+        "member": "眾"
+      },
+      "list": {
+        "title": "群組",
+        "description": "速得所需之群，覽機器人啟用之狀。",
+        "table": {
+          "group": "群組",
+          "members": "眾",
+          "status": "態",
+          "access": "權"
+        },
+        "empty": {
+          "title": "未得群組",
+          "description": "易篩而復試。"
+        },
+        "error": {
+          "title": "載群未果",
+          "description": "新單，或稍後再試。"
+        }
+      },
+      "details": {
+        "noSelection": "擇一群以覽其詳。",
+        "error": {
+          "title": "載群未果详情",
+          "description": "新群詳，或稍後再試。"
+        }
+      },
+      "settings": {
+        "title": "機器人可用",
+        "description": "啟之，則群可用機器人令並收推送之告。",
+        "adminOnlyDescription": "惟群管可易機器人之可用。",
+        "enabledLabel": "易機器人可用",
+        "update": {
+          "successMessage": "群組设置已更新。",
+          "errorMessage": "群設未能更，請復試。"
+        }
+      },
+      "members": {
+        "title": "眾",
+        "count": "{{count}} 眾",
+        "robot": "機器人",
+        "filters": {
+          "searchLabel": "尋眾",
+          "searchPlaceholder": "尋名或 QQ 號",
+          "roleLabel": "以角色篩",
+          "role": {
+            "all": "諸角",
+            "owner": "群主",
+            "admin": "管理",
+            "member": "眾",
+            "robot": "機器人"
+          }
+        },
+        "table": {
+          "member": "眾",
+          "role": "角色",
+          "joined": "入時",
+          "steam": "Steam",
+          "actions": "行"
+        },
+        "actions": {
+          "openMenu": "啟眾行",
+          "bindSteam": "繫 Steam",
+          "rebindSteam": "更繫 Steam"
+        },
+        "steam": {
+          "notLinked": "未繫",
+          "linked": "已繫",
+          "preview": {
+            "title": "尚未繫 Steam 戶",
+            "description": "繫 Steam 於此眾，則示其資與遊狀。",
+            "error": "暫不得載此 Steam 資。"
+          },
+          "bindDialog": {
+            "title": "為 {{member}} 繫 Steam",
+            "description": "尋 Steam 戶而繫於此群眾。",
+            "confirm": "確繫"
+          },
+          "rebindDialog": {
+            "title": "為 {{member}} 更繫 Steam",
+            "description": "尋新 Steam 戶以替此眾之現繫。",
+            "confirm": "確更繫"
+          }
+        },
+        "empty": {
+          "title": "未得眾",
+          "description": "易篩而復試。"
+        },
+        "roles": {
+          "owner": "群主",
+          "admin": "管理",
+          "member": "眾"
+        },
+        "pagination": {
+          "page": "第",
+          "of": "／",
+          "total": "共 {{count}} 眾",
+          "previous": "上頁",
+          "next": "下頁"
+        }
+      },
+      "pagination": {
+        "page": "第",
+        "of": "／",
+        "total": "共 {{count}} 群",
+        "previous": "上頁",
+        "next": "下頁"
       }
     }
   }

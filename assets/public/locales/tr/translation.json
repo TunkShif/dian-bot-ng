@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "Dili değiştir"
-      }
+      },
+      "pageTitle": "Oturum aç"
     },
     "flash": {
       "welcome": "Tekrar hoş geldiniz",
@@ -93,7 +94,8 @@
       "systemSettings": "Sistem ayarları",
       "globalConfig": "Genel yapılandırma",
       "permissionManagement": "İzin yönetimi",
-      "featuredMessages": "Öne çıkan mesajlar"
+      "featuredMessages": "Öne çıkan mesajlar",
+      "groups": "Gruplar"
     },
     "userMenu": {
       "account": "Hesap",
@@ -102,7 +104,8 @@
       "logOut": "Çıkış yap"
     },
     "dashboard": {
-      "title": "Panel"
+      "title": "Panel",
+      "pageTitle": "Kontrol paneli"
     },
     "settings": {
       "title": "Ayarlar",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "Passkey adını değiştir",
           "inputLabel": "Passkey adı",
-          "save": "Passkey adını kaydet"
+          "save": "Passkey adını kaydet",
+          "validation": {
+            "required": "Bir passkey adı girin."
+          },
+          "successMessage": "Passkey yeniden adlandırıldı.",
+          "errorMessage": "Passkey yeniden adlandırılamadı. Lütfen tekrar deneyin."
         },
         "delete": {
           "trigger": "Passkey sil",
           "title": "Passkey silinsin mi?",
           "description": "Bu işlem {{label}} öğesini hesabınızdan kaldırır. Silme henüz bağlı değil.",
-          "submit": "Sil"
+          "submit": "Sil",
+          "successMessage": "Passkey silindi.",
+          "errorMessage": "Passkey silinemedi. Lütfen tekrar deneyin."
+        }
+      },
+      "pageTitle": "Hesap Ayarları",
+      "sections": {
+        "connectedAccounts": {
+          "title": "Bağlı Hesaplar",
+          "description": "Durum takibi ve etkinlik özellikleri için kullanılan harici oyun hesaplarını bağlayın."
+        },
+        "accountSecurity": {
+          "title": "Hesap Güvenliği",
+          "description": "Hesabınıza erişimi koruyan kimlik bilgilerini ve oturum açma yöntemlerini güncelleyin."
+        }
+      },
+      "steam": {
+        "title": "Steam Hesabı",
+        "description": "Oyun durumu takibi ve bildirimlerini etkinleştirmek için Steam hesabınızı bağlayın.",
+        "playing": "{{game}} oynuyor",
+        "profileLink": "Steam Profilini Görüntüle",
+        "state": {
+          "online": "Çevrimiçi",
+          "busy": "Meşgul",
+          "away": "Uzakta",
+          "snooze": "Uyku",
+          "offline": "Çevrimdışı"
+        },
+        "notBound": {
+          "title": "Steam hesabı bağlı değil",
+          "description": "Profilinizi burada görmek için Steam hesabınızı bağlayın."
+        },
+        "error": {
+          "title": "Steam profili yüklenemedi",
+          "description": "Birazdan tekrar deneyin."
+        },
+        "bind": {
+          "trigger": "Steam'i Bağla",
+          "title": "Steam'i Bağla Account",
+          "description": "Hesabınızı bulmak ve bağlamak için 17 haneli Steam ID'nizi girin.",
+          "steamId": {
+            "label": "Steam ID",
+            "placeholder": "76561198012345678",
+            "helper": "7656 ile başlayan 17 haneli Steam ID'niz."
+          },
+          "lookup": "Ara",
+          "lookupError": "Bu ID için bir Steam profili bulunamadı. Lütfen kontrol edip tekrar deneyin.",
+          "lookupServiceError": "Bu Steam profili şu anda aranamıyor. Lütfen tekrar deneyin.",
+          "back": "Geri",
+          "confirm": "Bağlamayı onayla",
+          "successTitle": "Steam hesabı bağlandı",
+          "successMessage": "Steam hesabınız başarıyla bağlandı.",
+          "errorMessage": "Steam hesabı bağlanamadı. Lütfen tekrar deneyin."
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "Sunucu hatası",
           "description": "Bizim tarafımızda bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin."
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "Grup yönetimi",
+      "title": "Grup yönetimi",
+      "description": "Görünür grupları inceleyin, üyeleri denetleyin ve DianBot'un nerede etkin olduğunu kontrol edin.",
+      "actions": {
+        "retry": "Tekrar dene"
+      },
+      "summary": {
+        "total": "Toplam",
+        "enabled": "Etkin",
+        "admin": "Yönetici"
+      },
+      "filters": {
+        "searchLabel": "Grupları ara",
+        "searchPlaceholder": "İsim veya ID ara",
+        "statusLabel": "Duruma göre filtrele",
+        "accessLabel": "İzne göre filtrele",
+        "status": {
+          "all": "Tüm durumlar",
+          "enabled": "Etkin",
+          "disabled": "Devre dışı"
+        },
+        "access": {
+          "all": "Tüm erişimler",
+          "admin": "Yönetici only",
+          "member": "Yalnızca üye"
+        }
+      },
+      "status": {
+        "enabled": "Etkin",
+        "disabled": "Devre dışı"
+      },
+      "access": {
+        "admin": "Yönetici",
+        "member": "Üye"
+      },
+      "list": {
+        "title": "Gruplar",
+        "description": "İhtiyacınız olan grupları bulun ve bot durumlarını tek bakışta görün.",
+        "table": {
+          "group": "Grup",
+          "members": "Üyes",
+          "status": "Durum",
+          "access": "Erişim"
+        },
+        "empty": {
+          "title": "Grup bulunamadı",
+          "description": "Başka bir grup bulmak için filtreleri ayarlayın."
+        },
+        "error": {
+          "title": "Gruplar could not be loaded",
+          "description": "Listeyi yenileyin veya birazdan tekrar deneyin."
+        }
+      },
+      "details": {
+        "noSelection": "Ayrıntıları görüntülemek için bir grup seçin.",
+        "error": {
+          "title": "Grup details could not be loaded",
+          "description": "Grup ayrıntılarını yenileyin veya birazdan tekrar deneyin."
+        }
+      },
+      "settings": {
+        "title": "Bot kullanılabilirliği",
+        "description": "Bot komutlarına ve push bildirimlerine izin vermek için bu grubu etkinleştirin.",
+        "adminOnlyDescription": "Bot kullanılabilirliğini yalnızca grup yöneticileri değiştirebilir.",
+        "enabledLabel": "Bot kullanılabilirliğini değiştir",
+        "update": {
+          "successMessage": "Grup settings updated.",
+          "errorMessage": "Grup ayarları güncellenemedi. Lütfen tekrar deneyin."
+        }
+      },
+      "members": {
+        "title": "Üyes",
+        "count": "{{count}} üye",
+        "robot": "Bot",
+        "filters": {
+          "searchLabel": "Üyeleri ara",
+          "searchPlaceholder": "İsim veya QQ ID ara",
+          "roleLabel": "Üye rolüne göre filtrele",
+          "role": {
+            "all": "Tüm roller",
+            "owner": "Sahip",
+            "admin": "Yönetici",
+            "member": "Üye",
+            "robot": "Bot"
+          }
+        },
+        "table": {
+          "member": "Üye",
+          "role": "Rol",
+          "joined": "Katıldı",
+          "steam": "Steam",
+          "actions": "İşlemler"
+        },
+        "actions": {
+          "openMenu": "Üye işlemlerini aç",
+          "bindSteam": "Steam bağla",
+          "rebindSteam": "Steam'i yeniden bağla"
+        },
+        "steam": {
+          "notLinked": "Bağlı değil",
+          "linked": "Bağlandı",
+          "preview": {
+            "title": "Steam hesabı bağlı değil",
+            "description": "Bu üye için bir Steam hesabı bağlayarak profil ayrıntılarını ve mevcut oyun etkinliğini burada gösterin.",
+            "error": "Bu Steam profili şu anda yüklenemedi."
+          },
+          "bindDialog": {
+            "title": "Steam bağla for {{member}}",
+            "description": "Bir Steam hesabı bulun ve bu grup üyesine bağlayın.",
+            "confirm": "Bağlamayı onayla"
+          },
+          "rebindDialog": {
+            "title": "Steam'i yeniden bağla for {{member}}",
+            "description": "Bu üyenin mevcut bağlantısını değiştirmek için başka bir Steam hesabı bulun.",
+            "confirm": "Yeniden bağlamayı onayla"
+          }
+        },
+        "empty": {
+          "title": "Üye bulunamadı",
+          "description": "Başka bir üye bulmak için filtreleri ayarlayın."
+        },
+        "roles": {
+          "owner": "Sahip",
+          "admin": "Yönetici",
+          "member": "Üye"
+        },
+        "pagination": {
+          "page": "Sayfa",
+          "of": "/",
+          "total": "{{count}} üye",
+          "previous": "Önceki",
+          "next": "Sonraki"
+        }
+      },
+      "pagination": {
+        "page": "Sayfa",
+        "of": "/",
+        "total": "{{count}} grup",
+        "previous": "Önceki",
+        "next": "Sonraki"
       }
     }
   }

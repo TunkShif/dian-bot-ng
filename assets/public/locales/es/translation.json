@@ -57,7 +57,8 @@
       },
       "languageSwitch": {
         "label": "Cambiar idioma"
-      }
+      },
+      "pageTitle": "Iniciar sesión"
     },
     "flash": {
       "welcome": "Bienvenido de nuevo",
@@ -93,7 +94,8 @@
       "systemSettings": "Ajustes del sistema",
       "globalConfig": "Configuración global",
       "permissionManagement": "Gestión de permisos",
-      "featuredMessages": "Mensajes destacados"
+      "featuredMessages": "Mensajes destacados",
+      "groups": "Grupos"
     },
     "userMenu": {
       "account": "Cuenta",
@@ -102,7 +104,8 @@
       "logOut": "Cerrar sesión"
     },
     "dashboard": {
-      "title": "Panel"
+      "title": "Panel",
+      "pageTitle": "Panel"
     },
     "settings": {
       "title": "Ajustes",
@@ -168,13 +171,70 @@
         "rename": {
           "trigger": "Renombrar passkey",
           "inputLabel": "Nombre de la passkey",
-          "save": "Guardar nombre de passkey"
+          "save": "Guardar nombre de passkey",
+          "validation": {
+            "required": "Introduzca un nombre para la passkey."
+          },
+          "successMessage": "Passkey renombrada.",
+          "errorMessage": "No se pudo renombrar la passkey. Inténtelo de nuevo."
         },
         "delete": {
           "trigger": "Eliminar passkey",
           "title": "¿Eliminar passkey?",
           "description": "Esto eliminará {{label}} de tu cuenta. La eliminación aún no está conectada.",
-          "submit": "Eliminar"
+          "submit": "Eliminar",
+          "successMessage": "Passkey eliminada.",
+          "errorMessage": "No se pudo eliminar la passkey. Inténtelo de nuevo."
+        }
+      },
+      "pageTitle": "Ajustes de la cuenta",
+      "sections": {
+        "connectedAccounts": {
+          "title": "Cuentas conectadas",
+          "description": "Vincule cuentas de juegos externas para el seguimiento de estado y funciones de actividad."
+        },
+        "accountSecurity": {
+          "title": "Seguridad de la cuenta",
+          "description": "Actualice las credenciales y métodos de inicio de sesión que protegen el acceso a su cuenta."
+        }
+      },
+      "steam": {
+        "title": "Cuenta de Steam",
+        "description": "Vincule su cuenta de Steam para activar el seguimiento del estado del juego y las notificaciones.",
+        "playing": "Jugando {{game}}",
+        "profileLink": "Ver perfil de Steam",
+        "state": {
+          "online": "En línea",
+          "busy": "Ocupado",
+          "away": "Ausente",
+          "snooze": "Inactivo",
+          "offline": "Desconectado"
+        },
+        "notBound": {
+          "title": "Ninguna cuenta de Steam vinculada",
+          "description": "Vincule su cuenta de Steam para ver su perfil aquí."
+        },
+        "error": {
+          "title": "No se pudo cargar el perfil de Steam",
+          "description": "Inténtelo de nuevo en un momento."
+        },
+        "bind": {
+          "trigger": "Vincular Steam",
+          "title": "Vincular Steam Account",
+          "description": "Introduzca su ID de Steam de 17 dígitos para buscar y vincular su cuenta.",
+          "steamId": {
+            "label": "ID de Steam",
+            "placeholder": "76561198012345678",
+            "helper": "Su ID de Steam de 17 dígitos que comienza con 7656."
+          },
+          "lookup": "Buscar",
+          "lookupError": "No se encontró un perfil de Steam para esta ID. Verifíquela e inténtelo de nuevo.",
+          "lookupServiceError": "No se pudo buscar este perfil de Steam en este momento. Inténtelo de nuevo.",
+          "back": "Volver",
+          "confirm": "Confirmar vinculación",
+          "successTitle": "Cuenta de Steam vinculada",
+          "successMessage": "Su cuenta de Steam se ha vinculado correctamente.",
+          "errorMessage": "No se pudo vincular la cuenta de Steam. Inténtelo de nuevo."
         }
       }
     },
@@ -209,6 +269,149 @@
           "title": "Error del servidor",
           "description": "Algo salió mal de nuestro lado. Inténtalo de nuevo más tarde."
         }
+      }
+    },
+    "groups": {
+      "pageTitle": "Gestión de grupos",
+      "title": "Gestión de grupos",
+      "description": "Revise los grupos visibles, inspeccione miembros y controle dónde está habilitado DianBot.",
+      "actions": {
+        "retry": "Reintentar"
+      },
+      "summary": {
+        "total": "Total",
+        "enabled": "Habilitado",
+        "admin": "Administrador"
+      },
+      "filters": {
+        "searchLabel": "Buscar grupos",
+        "searchPlaceholder": "Buscar nombre o ID",
+        "statusLabel": "Filtrar por estado",
+        "accessLabel": "Filtrar por permiso",
+        "status": {
+          "all": "Todos los estados",
+          "enabled": "Habilitado",
+          "disabled": "Deshabilitado"
+        },
+        "access": {
+          "all": "Todos los accesos",
+          "admin": "Administrador only",
+          "member": "Solo miembros"
+        }
+      },
+      "status": {
+        "enabled": "Habilitado",
+        "disabled": "Deshabilitado"
+      },
+      "access": {
+        "admin": "Administrador",
+        "member": "Miembro"
+      },
+      "list": {
+        "title": "Grupos",
+        "description": "Encuentre los grupos que necesita y revise el estado del bot de un vistazo.",
+        "table": {
+          "group": "Grupo",
+          "members": "Miembros",
+          "status": "Estado",
+          "access": "Acceso"
+        },
+        "empty": {
+          "title": "No se encontraron grupos",
+          "description": "Ajuste los filtros para encontrar otro grupo."
+        },
+        "error": {
+          "title": "Grupos could not be loaded",
+          "description": "Actualice la lista o inténtelo de nuevo en un momento."
+        }
+      },
+      "details": {
+        "noSelection": "Seleccione un grupo para ver los detalles.",
+        "error": {
+          "title": "Grupo details could not be loaded",
+          "description": "Actualice los detalles del grupo o inténtelo de nuevo en un momento."
+        }
+      },
+      "settings": {
+        "title": "Disponibilidad del bot",
+        "description": "Active este grupo para permitir comandos del bot y notificaciones push.",
+        "adminOnlyDescription": "Solo los administradores del grupo pueden cambiar la disponibilidad del bot.",
+        "enabledLabel": "Alternar disponibilidad del bot",
+        "update": {
+          "successMessage": "Grupo settings updated.",
+          "errorMessage": "No se pudo actualizar la configuración del grupo. Inténtelo de nuevo."
+        }
+      },
+      "members": {
+        "title": "Miembros",
+        "count": "{{count}} miembros",
+        "robot": "Bot",
+        "filters": {
+          "searchLabel": "Buscar miembros",
+          "searchPlaceholder": "Buscar nombre o QQ ID",
+          "roleLabel": "Filtrar por rol",
+          "role": {
+            "all": "Todos los roles",
+            "owner": "Propietario",
+            "admin": "Administrador",
+            "member": "Miembro",
+            "robot": "Bot"
+          }
+        },
+        "table": {
+          "member": "Miembro",
+          "role": "Rol",
+          "joined": "Se unió",
+          "steam": "Steam",
+          "actions": "Acciones"
+        },
+        "actions": {
+          "openMenu": "Abrir acciones del miembro",
+          "bindSteam": "Vincular Steam",
+          "rebindSteam": "Revincular Steam"
+        },
+        "steam": {
+          "notLinked": "No vinculado",
+          "linked": "Vinculado",
+          "preview": {
+            "title": "Ninguna cuenta de Steam vinculada",
+            "description": "Vincule una cuenta de Steam para este miembro y muestre aquí los detalles del perfil y la actividad actual del juego.",
+            "error": "No se pudo cargar este perfil de Steam en este momento."
+          },
+          "bindDialog": {
+            "title": "Vincular Steam for {{member}}",
+            "description": "Busque una cuenta de Steam y vincúlela a este miembro del grupo.",
+            "confirm": "Confirmar vinculación"
+          },
+          "rebindDialog": {
+            "title": "Revincular Steam for {{member}}",
+            "description": "Busque otra cuenta de Steam para reemplazar la vinculación actual de este miembro.",
+            "confirm": "Confirmar revinculación"
+          }
+        },
+        "empty": {
+          "title": "No se encontraron miembros",
+          "description": "Ajuste los filtros para encontrar otro miembro."
+        },
+        "roles": {
+          "owner": "Propietario",
+          "admin": "Administrador",
+          "member": "Miembro"
+        },
+        "pagination": {
+          "page": "Página",
+          "of": "de",
+          "total": "{{count}} miembros",
+          "previous": "Anterior",
+          "next": "Siguiente"
+        }
+      },
+      "pagination": {
+        "page": "Página",
+        "of": "de",
+        "total": "{{count}} grupos",
+        "previous": "Anterior",
+        "next": "Siguiente"
       }
     }
   }
