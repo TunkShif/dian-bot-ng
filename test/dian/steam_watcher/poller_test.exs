@@ -2,8 +2,8 @@ defmodule Dian.SteamWatcher.PollerTest do
   use Dian.DataCase
 
   alias Dian.Steam.PlayerSummary
-  alias Dian.SteamWatcher.Poller
   alias Dian.SteamWatcher.StatusChanged
+  alias Dian.SteamWatcher.StatusPoller
 
   import Dian.SteamFixtures
 
@@ -13,7 +13,7 @@ defmodule Dian.SteamWatcher.PollerTest do
 
       poller =
         start_supervised!(
-          {Poller,
+          {StatusPoller,
            name: nil,
            interval: false,
            fetch_summaries: fn [steam_id] ->
@@ -21,9 +21,9 @@ defmodule Dian.SteamWatcher.PollerTest do
            end}
         )
 
-      Poller.subscribe()
+      StatusPoller.subscribe()
 
-      assert {:ok, []} = Poller.check_now(poller)
+      assert {:ok, []} = StatusPoller.check_now(poller)
       refute_receive %StatusChanged{steam_id: _steam_id}
     end
 
@@ -35,15 +35,15 @@ defmodule Dian.SteamWatcher.PollerTest do
 
       poller =
         start_supervised!(
-          {Poller,
+          {StatusPoller,
            name: nil,
            interval: false,
            fetch_summaries: fn [_steam_id] -> {:ok, Agent.get(summaries, & &1)} end}
         )
 
-      Poller.subscribe()
+      StatusPoller.subscribe()
 
-      assert {:ok, []} = Poller.check_now(poller)
+      assert {:ok, []} = StatusPoller.check_now(poller)
 
       Agent.update(summaries, fn _summaries ->
         [
@@ -55,7 +55,7 @@ defmodule Dian.SteamWatcher.PollerTest do
         ]
       end)
 
-      assert {:ok, [%StatusChanged{} = event]} = Poller.check_now(poller)
+      assert {:ok, [%StatusChanged{} = event]} = StatusPoller.check_now(poller)
 
       assert event.steam_id == player.steam_id
       assert event.qq_id == player.qq_id
@@ -88,15 +88,15 @@ defmodule Dian.SteamWatcher.PollerTest do
 
       poller =
         start_supervised!(
-          {Poller,
+          {StatusPoller,
            name: nil,
            interval: false,
            fetch_summaries: fn [_steam_id] -> {:ok, Agent.get(summaries, & &1)} end}
         )
 
-      Poller.subscribe()
+      StatusPoller.subscribe()
 
-      assert {:ok, []} = Poller.check_now(poller)
+      assert {:ok, []} = StatusPoller.check_now(poller)
 
       Agent.update(summaries, fn _summaries ->
         [
@@ -108,7 +108,7 @@ defmodule Dian.SteamWatcher.PollerTest do
         ]
       end)
 
-      assert {:ok, [%StatusChanged{} = event]} = Poller.check_now(poller)
+      assert {:ok, [%StatusChanged{} = event]} = StatusPoller.check_now(poller)
 
       assert event.previous_game_id == "730"
       assert event.previous_game_name == "Counter-Strike 2"

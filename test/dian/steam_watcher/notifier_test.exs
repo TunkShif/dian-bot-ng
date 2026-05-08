@@ -1,9 +1,9 @@
 defmodule Dian.SteamWatcher.NotifierTest do
   use Dian.DataCase, async: false
 
-  alias Dian.SteamWatcher.Notifier
   alias Dian.Steam.PlayerSummary
   alias Dian.SteamWatcher.StatusChanged
+  alias Dian.SteamWatcher.StatusNotifier
 
   import Dian.SettingsFixtures
 
@@ -38,7 +38,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
 
       notifier =
         start_supervised!(
-          {Notifier,
+          {StatusNotifier,
            name: nil,
            subscribe?: false,
            deliver: fn event -> Agent.update(events, &[event | &1]) end}
@@ -71,7 +71,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         playing_game_name: "Counter-Strike 2"
       }
 
-      svg = Notifier.build_status_card_svg(summary, :en)
+      svg = StatusNotifier.build_status_card_svg(summary, :en)
 
       assert svg =~ "Demo Player"
       assert svg =~ "is playing"
@@ -103,7 +103,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         changed_at: DateTime.utc_now(:second)
       }
 
-      svg = Notifier.build_status_card_svg(event)
+      svg = StatusNotifier.build_status_card_svg(event)
 
       assert svg =~ "幸运福袋限时掉落中"
       assert svg =~ "Counter-Strike 2"
@@ -131,7 +131,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         changed_at: DateTime.utc_now(:second)
       }
 
-      svg = Notifier.build_status_card_svg(event)
+      svg = StatusNotifier.build_status_card_svg(event)
 
       assert svg =~ "幸运福袋限时掉落中"
       assert svg =~ "Counter-Strike 2"
@@ -153,7 +153,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         playing_game_name: "Counter-Strike 2"
       }
 
-      svg = Notifier.build_status_card_svg(summary, :en)
+      svg = StatusNotifier.build_status_card_svg(summary, :en)
 
       assert svg =~ "data:image/png;base64,ZmFrZQ=="
       refute svg =~ "aaaabbbbccccddddaaaa1111222233334444_full.jpg"
@@ -181,7 +181,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         end
       end)
 
-      svg = Notifier.build_status_card_svg(summary)
+      svg = StatusNotifier.build_status_card_svg(summary)
 
       assert svg =~ "演示玩家"
       assert svg =~ "正在游玩"
@@ -244,7 +244,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
         changed_at: DateTime.utc_now(:second)
       }
 
-      assert {:ok, 1} = Notifier.notify(event)
+      assert {:ok, 1} = StatusNotifier.notify(event)
 
       Mox.verify!()
     end
