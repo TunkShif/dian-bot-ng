@@ -8,6 +8,7 @@ defmodule Dian.Steam do
   alias Ecto.Multi
   alias Dian.Groups
   alias Dian.Repo
+  alias Dian.Steam.AchievementSnapshot
   alias Dian.Steam.Client
   alias Dian.Steam.SteamPlayer
 
@@ -16,6 +17,63 @@ defmodule Dian.Steam do
   """
   def list_steam_players do
     Repo.all(SteamPlayer)
+  end
+
+  @doc """
+  Returns all persisted achievement snapshots.
+  """
+  def list_achievement_snapshots do
+    Repo.all(AchievementSnapshot)
+  end
+
+  @doc """
+  Gets a persisted achievement snapshot by steam_id and app_id.
+  """
+  def get_achievement_snapshot(steam_id, app_id)
+      when is_binary(steam_id) and is_binary(app_id) do
+    Repo.get_by(AchievementSnapshot, steam_id: steam_id, app_id: app_id)
+  end
+
+  @doc """
+  Creates or updates an achievement snapshot keyed by steam_id and app_id.
+
+  Uses an atomic `INSERT ... ON CONFLICT` to avoid race conditions when
+  called concurrently. Returns `{:ok, %AchievementSnapshot{}}` on success
+  or `{:error, %Ecto.Changeset{}}` on failure.
+  """
+  def upsert_achievement_snapshot(attrs) when is_map(attrs) do
+    %AchievementSnapshot{}
+    |> AchievementSnapshot.changeset(attrs)
+    |> Repo.insert(
+      on_conflict:
+        {:replace,
+         [
+           :qq_id,
+           :game_name,
+           :unlocked_achievements,
+           :completion_state,
+           :last_checked_at,
+           :updated_at
+         ]},
+      conflict_target: [:steam_id, :app_id]
+    )
+  end
+
+  @doc """
+  Deletes a persisted achievement snapshot by steam_id and app_id.
+  """
+  def delete_achievement_snapshot(steam_id, app_id)
+      when is_binary(steam_id) and is_binary(app_id) do
+    case get_achievement_snapshot(steam_id, app_id) do
+      nil ->
+        :ok
+
+      snapshot ->
+        case Repo.delete(snapshot) do
+          {:ok, _} -> :ok
+          {:error, reason} -> {:error, reason}
+        end
+    end
   end
 
   @doc """
@@ -88,6 +146,21 @@ defmodule Dian.Steam do
   """
   def get_player_summaries(steam_ids) when is_list(steam_ids) do
     Client.get_player_summaries(steam_ids)
+  end
+
+  @doc """
+  Fetches Steam player achievements for one player and app from the configured Steam client.
+  """
+  def get_player_achievements(steam_id, app_id, locale \\ :en)
+      when is_binary(steam_id) and is_binary(app_id) and is_atom(locale) do
+    Client.get_player_achievements(steam_id, app_id, locale)
+  end
+
+  @doc """
+  Fetches Steam game achievement schema from the configured Steam client.
+  """
+  def get_game_schema(app_id, locale \\ :en) when is_binary(app_id) and is_atom(locale) do
+    Client.get_game_schema(app_id, locale)
   end
 
   @doc """

@@ -37,7 +37,21 @@ defmodule Dian.DataCase do
   """
   def setup_sandbox(tags) do
     pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Dian.Repo, shared: not tags[:async])
+    allow_global_processes(pid)
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+  end
+
+  defp allow_global_processes(owner_pid) do
+    [
+      Process.whereis(Dian.SteamWatcher.StatusNotifier),
+      Process.whereis(Dian.SteamWatcher.AchievementNotifier),
+      Process.whereis(Dian.SteamWatcher.AchievementPoller),
+      Process.whereis(Dian.SteamWatcher.StatusPoller)
+    ]
+    |> Enum.reject(&is_nil/1)
+    |> Enum.each(fn pid ->
+      Ecto.Adapters.SQL.Sandbox.allow(Dian.Repo, owner_pid, pid)
+    end)
   end
 
   @doc """

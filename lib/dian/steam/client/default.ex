@@ -3,6 +3,8 @@ defmodule Dian.Steam.Client.Default do
 
   require Logger
 
+  alias Dian.Steam.GameSchema
+  alias Dian.Steam.PlayerAchievement
   alias Dian.Steam.PlayerSummary
 
   @endpoint "https://api.steampowered.com"
@@ -49,8 +51,42 @@ defmodule Dian.Steam.Client.Default do
     result
   end
 
-  def get_player_achievements do
-    # TODO: Implement primitive Steam achievements API call when needed.
+  @impl true
+  def get_player_achievements(steam_id, app_id, locale \\ :en) do
+    with {:ok, response} <-
+           Req.get(req(),
+             url: "/ISteamUserStats/GetPlayerAchievements/v0001/",
+             params: [steamid: steam_id, appid: app_id, l: steam_locale(locale)],
+             telemetry: [
+               metadata: %{
+                 operation: :get_player_achievements,
+                 steam_id: steam_id,
+                 app_id: app_id
+               }
+             ]
+           ),
+         {:ok, data} <- handle_response(response) do
+      handle_player_achievements_response(data)
+    end
+    |> log_error(:get_player_achievements, %{steam_id: steam_id, app_id: app_id})
+  end
+
+  @impl true
+  def get_game_schema(app_id, locale \\ :en) do
+    with {:ok, response} <-
+           Req.get(req(),
+             url: "/ISteamUserStats/GetSchemaForGame/v0002/",
+             params: [appid: app_id, format: "json", l: steam_locale(locale)],
+             telemetry: [metadata: %{operation: :get_game_schema, app_id: app_id}]
+           ),
+         {:ok, data} <- handle_response(response),
+         %{"game" => game} when is_map(game) <- data do
+      {:ok, GameSchema.build(app_id, game)}
+    else
+      %{} -> {:error, :request_error}
+      {:error, reason} -> {:error, reason}
+    end
+    |> log_error(:get_game_schema, %{app_id: app_id})
   end
 
   defp req do
@@ -77,4 +113,34 @@ defmodule Dian.Steam.Client.Default do
   defp handle_response(_response) do
     {:error, :request_error}
   end
+
+  defp handle_player_achievements_response(%{"playerstats" => %{"success" => true} = stats}) do
+    achievements = stats["achievements"] || []
+    {:ok, Enum.map(achievements, &PlayerAchievement.build/1)}
+  end
+
+  defp handle_player_achievements_response(%{
+         "playerstats" => %{"success" => false, "error" => "Requested app has no stats"}
+       }) do
+    {:error, :no_stats}
+  end
+
+  defp handle_player_achievements_response(_data), do: {:error, :request_error}
+
+  defp steam_locale(:zh), do: "schinese"
+  defp steam_locale(:en), do: "english"
+  defp steam_locale(locale) when is_atom(locale), do: Atom.to_string(locale)
+
+  defp log_error({:error, reason} = result, operation, metadata) do
+    Logger.warning("steam api request failed",
+      event: "request_failed",
+      operation: operation,
+      error: reason,
+      metadata: inspect(metadata)
+    )
+
+    result
+  end
+
+  defp log_error(result, _operation, _metadata), do: result
 end

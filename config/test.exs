@@ -25,6 +25,7 @@ config :dian, DianBot.Bot, client: DianBot.Client.Mock
 
 # In test we don't connect to real Steam API
 config :dian, Dian.Steam, client: Dian.Steam.Client.Mock
+config :dian, :steam_watcher_subscriptions?, false
 
 config :dian, Dian.Steam.Client.Default,
   req_options: [plug: {Req.Test, Dian.Steam.Client.Default}]

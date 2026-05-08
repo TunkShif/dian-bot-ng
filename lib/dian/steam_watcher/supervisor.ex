@@ -8,10 +8,16 @@ defmodule Dian.SteamWatcher.Supervisor do
   @impl true
   def init(_opts) do
     children = [
-      Dian.SteamWatcher.Poller,
-      Dian.SteamWatcher.Notifier
+      Dian.SteamWatcher.StatusPoller,
+      {Dian.SteamWatcher.StatusNotifier, subscribe?: subscribe_watchers?()},
+      Dian.SteamWatcher.AchievementPoller,
+      {Dian.SteamWatcher.AchievementNotifier, subscribe?: subscribe_watchers?()}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
+  end
+
+  defp subscribe_watchers? do
+    Application.get_env(:dian, :steam_watcher_subscriptions?, true)
   end
 end
