@@ -3,7 +3,11 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
 
   require Logger
 
+  alias Dian.Media
   alias Dian.Settings
+  alias Dian.Steam
+  alias Dian.Steam.PlayerSummary
+  alias Dian.SteamWatcher.AchievementCard
   alias Dian.SteamWatcher.AchievementPoller
   alias Dian.SteamWatcher.AchievementUnlocked
   alias DianBot.Message
@@ -38,18 +42,36 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
     group_ids
     |> Enum.reduce_while({:ok, 0}, fn group_id, {:ok, sent_count} ->
       case send_group_notification(group_id, event) do
-        {:ok, :sent} -> {:cont, {:ok, sent_count + 1}}
-        {:ok, :skipped} -> {:cont, {:ok, sent_count}}
+        {:ok, count} -> {:cont, {:ok, sent_count + count}}
         {:error, reason} -> {:halt, {:error, reason}}
       end
     end)
   end
 
+  def build_achievement_card_svg(%AchievementUnlocked{} = event) do
+    player = steam_player_summary(event)
+    achievement = representative_achievement(event)
+
+    AchievementCard.build_achievement_card_svg(
+      player.name,
+      event.game_name,
+      achievement
+    )
+  end
+
   defp send_group_notification(group_id, %AchievementUnlocked{} = event) do
-    with {:ok, member} <- DianBot.get_group_member_info(group_id, event.qq_id, no_cache: true),
-         {:ok, _message_id} <-
-           DianBot.send_msg(:group, group_id, [Message.text(notification_text(member, event))]) do
-      {:ok, :sent}
+    with {:ok, member} <- DianBot.get_group_member_info(group_id, event.qq_id, no_cache: true) do
+      display_name = group_member_display_name(member, event.qq_id)
+      player = steam_player_summary(event)
+
+      event
+      |> notification_payloads(display_name, player)
+      |> Enum.reduce_while({:ok, 0}, fn payload, {:ok, count} ->
+        case send_payload(group_id, payload) do
+          {:ok, _message_id} -> {:cont, {:ok, count + 1}}
+          {:error, reason} -> {:halt, {:error, reason}}
+        end
+      end)
     else
       {:error, :not_found} ->
         Logger.info("steam achievement notification group skipped",
@@ -58,7 +80,7 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
           qq_id: event.qq_id
         )
 
-        {:ok, :skipped}
+        {:ok, 0}
 
       {:error, reason} ->
         Logger.warning("steam achievement notification group failed",
@@ -72,21 +94,73 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
     end
   end
 
-  defp notification_text(member, %AchievementUnlocked{} = event) do
-    display_name =
-      normalize_label(member.display_name) ||
-        normalize_label(member.nickname) ||
-        event.qq_id
+  defp notification_payloads(
+         %AchievementUnlocked{achievements: achievements} = event,
+         display_name,
+         player
+       ) do
+    if length(achievements) >= 3 do
+      [notification_payload(event, display_name, player, achievements)]
+    else
+      Enum.map(achievements, fn achievement ->
+        notification_payload(%{event | achievements: [achievement]}, display_name, player, [
+          achievement
+        ])
+      end)
+    end
+  end
+
+  defp notification_payload(
+         %AchievementUnlocked{} = event,
+         display_name,
+         %PlayerSummary{} = player,
+         achievements
+       ) do
+    svg =
+      AchievementCard.build_achievement_card_svg(
+        player.name,
+        event.game_name,
+        hd(achievements)
+      )
 
     achievement_names =
-      event.achievements
+      achievements
       |> Enum.map(&(&1.display_name || &1.api_name))
       |> Enum.join(achievement_separator())
 
-    case Application.get_env(:dian, :notification_locale, :zh) do
-      :zh -> "#{display_name} 在 #{event.game_name} 解锁了成就：#{achievement_names}"
-      _ -> "#{display_name} unlocked achievements in #{event.game_name}: #{achievement_names}"
+    {:ok, image} = Media.render_svg(svg)
+
+    [
+      Message.text(notification_text(display_name, event.game_name, achievement_names)),
+      Message.image("base64://#{Base.encode64(image.bytes)}")
+    ]
+  end
+
+  defp send_payload(group_id, payload) do
+    DianBot.send_msg(:group, group_id, payload)
+  end
+
+  defp notification_text(display_name, game_name, achievement_names) do
+    case notification_locale() do
+      :zh -> "#{display_name} 在 #{game_name} 中取得了成就：#{achievement_names}！"
+      _ -> "#{display_name} unlocked achievements in #{game_name}: #{achievement_names}!"
     end
+  end
+
+  defp steam_player_summary(%AchievementUnlocked{} = event) do
+    Steam.get_player_summary(event.steam_id) ||
+      %PlayerSummary{
+        steam_id: event.steam_id
+      }
+  end
+
+  defp representative_achievement(%AchievementUnlocked{achievements: [achievement | _rest]}),
+    do: achievement
+
+  defp group_member_display_name(member, qq_id) do
+    normalize_label(member.display_name) ||
+      normalize_label(member.nickname) ||
+      qq_id
   end
 
   defp normalize_label(value) when is_binary(value) do
@@ -98,7 +172,7 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
 
   defp achievement_separator do
     case notification_locale() do
-      :zh -> "、"
+      :zh -> ","
       _ -> ", "
     end
   end
