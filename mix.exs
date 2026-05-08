@@ -92,7 +92,7 @@ defmodule Dian.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["bun.install --if-missing", "bun assets install"],
       "assets.build": [
-        "openapi.spec.json --spec DianWeb.APISpec tmp/openapi.json",
+        "openapi.spec.json --spec DianWeb.APISpec openapi.json",
         "bun typegen",
         "bun vite build"
       ],

@@ -33,7 +33,7 @@ export default defineConfig({
     react(),
     heyApiPlugin({
       config: {
-        input: "../tmp/openapi.json",
+        input: "../openapi.json",
         output: "js/client",
         plugins: ["@tanstack/react-query", "zod", "@hey-api/client-fetch", "@hey-api/sdk", "@hey-api/typescript"],
       },
