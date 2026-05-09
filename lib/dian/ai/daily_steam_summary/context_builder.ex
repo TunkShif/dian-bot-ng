@@ -5,7 +5,7 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
 
   def build(group, members, sessions, target_date) do
     members = Enum.map(members, &compact_member/1)
-    sessions = Enum.map(sessions, &attach_group_display_name(&1, members))
+    sessions = Enum.map(sessions, &compact_session(&1, members))
 
     player_stats =
       sessions
@@ -64,8 +64,18 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
     end
   end
 
-  defp attach_group_display_name(session, members) do
-    %{session | player_display_name: member_display_name(members, session.qq_id)}
+  defp compact_session(session, members) do
+    %{
+      qq_id: session.qq_id,
+      steam_id: session.steam_id,
+      app_id: session.app_id,
+      game_name: session.game_name,
+      player_display_name: member_display_name(members, session.qq_id),
+      started_at: session.started_at,
+      ended_at: session.ended_at,
+      duration_seconds: session.duration_seconds,
+      session_end_reason: session.session_end_reason
+    }
   end
 
   defp normalize_label(value) when is_binary(value) do

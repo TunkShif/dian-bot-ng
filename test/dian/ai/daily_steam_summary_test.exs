@@ -3,6 +3,7 @@ defmodule Dian.AI.DailySteamSummaryTest do
 
   alias Dian.AI.DailySteamSummary
   alias Dian.AI.DailySteamSummary.ContextBuilder
+  alias Dian.Steam.PlaySession
 
   setup do
     previous_locale = Application.get_env(:dian, :notification_locale)
@@ -64,7 +65,7 @@ defmodule Dian.AI.DailySteamSummaryTest do
         %{group_id: "100", group_name: "Demo Group"},
         [%{user_id: 20001, display_name: "Group Card", nickname: "Nick"}],
         [
-          %{
+          %PlaySession{
             qq_id: "20001",
             steam_id: "76561198000000001",
             app_id: "730",
@@ -79,6 +80,8 @@ defmodule Dian.AI.DailySteamSummaryTest do
         ~D[2026-05-09]
       )
 
+    assert [%{} = session] = context.sessions
+    refute match?(%PlaySession{}, session)
     assert [%{player_display_name: "Group Card"}] = context.sessions
     assert [%{display_name: "Group Card"}] = context.player_stats
   end
