@@ -35,7 +35,7 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
       group_name: Map.get(group, :group_name),
       target_date: target_date,
       members: members,
-      sessions: Enum.sort_by(sessions, &{&1.qq_id, &1.started_at}, DateTime),
+      sessions: Enum.sort_by(sessions, &{&1.qq_id, &1.started_at}),
       player_stats: player_stats,
       group_stats: %{
         total_playtime_seconds: Enum.reduce(sessions, 0, &(&1.duration_seconds + &2)),
