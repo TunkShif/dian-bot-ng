@@ -33,6 +33,17 @@ config :dian, Dian.Accounts.UserNotifier,
 # Configure Steam Client
 config :dian, Dian.Steam, api_key: System.get_env("STEAM_API_KEY")
 
+config :dian, Dian.AI,
+  enabled:
+    String.downcase(System.get_env("ENABLE_AI_DAILY_SUMMARY", "false")) in [
+      "1",
+      "true",
+      "yes",
+      "on"
+    ],
+  deepseek_api_key: System.get_env("DEEPSEEK_API_KEY"),
+  model: %{provider: :deepseek, id: System.get_env("DEEPSEEK_MODEL", "deepseek-v4-flash")}
+
 if config_env() == :prod do
   config :logger, :default_handler,
     formatter:

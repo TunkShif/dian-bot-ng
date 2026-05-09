@@ -300,5 +300,31 @@ defmodule Dian.SteamTest do
       assert length(sessions) == 1
       assert hd(sessions).game_name == "Counter-Strike 2"
     end
+
+    test "list_play_sessions_for_players_between/3 returns sessions overlapping the UTC datetime range" do
+      qq_id = unique_qq_id()
+
+      assert {:ok, _session} =
+               Steam.create_play_session(%{
+                 qq_id: qq_id,
+                 steam_id: unique_steam_id(),
+                 app_id: "730",
+                 game_name: "Counter-Strike 2",
+                 started_at: ~U[2026-05-08 16:00:00Z],
+                 ended_at: ~U[2026-05-08 17:00:00Z],
+                 duration_seconds: 3600,
+                 session_end_reason: :stopped
+               })
+
+      sessions =
+        Steam.list_play_sessions_for_players_between(
+          [qq_id],
+          ~U[2026-05-08 16:30:00Z],
+          ~U[2026-05-08 18:00:00Z]
+        )
+
+      assert length(sessions) == 1
+      assert hd(sessions).game_name == "Counter-Strike 2"
+    end
   end
 end

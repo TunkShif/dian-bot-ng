@@ -99,11 +99,27 @@ defmodule Dian.Steam do
   def list_play_sessions_for_players(qq_ids, %Date.Range{} = date_range) when is_list(qq_ids) do
     {range_start, range_end} = date_range_bounds(date_range)
 
-    PlaySession
-    |> where([ps], ps.qq_id in ^qq_ids)
-    |> where([ps], ps.started_at < ^range_end and ps.ended_at >= ^range_start)
-    |> order_by([ps], asc: ps.started_at, asc: ps.id)
-    |> Repo.all()
+    list_play_sessions_for_players_between(qq_ids, range_start, range_end)
+  end
+
+  @doc """
+  Returns play sessions for the given players that overlap the given UTC datetime range.
+  """
+  def list_play_sessions_for_players_between(
+        qq_ids,
+        %DateTime{} = range_start,
+        %DateTime{} = range_end
+      )
+      when is_list(qq_ids) do
+    if qq_ids == [] do
+      []
+    else
+      PlaySession
+      |> where([ps], ps.qq_id in ^qq_ids)
+      |> where([ps], ps.started_at < ^range_end and ps.ended_at >= ^range_start)
+      |> order_by([ps], asc: ps.started_at, asc: ps.id)
+      |> Repo.all()
+    end
   end
 
   @doc """

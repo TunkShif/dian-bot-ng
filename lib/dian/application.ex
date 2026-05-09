@@ -21,6 +21,7 @@ defmodule Dian.Application do
         {Cachex, [:dian_cache]},
         {Task.Supervisor, name: Dian.Media.RenderTaskSupervisor},
         Dian.SteamWatcher.Supervisor,
+        Dian.AI.DailySteamSummaryScheduler,
         # Start a worker by calling: Dian.Worker.start_link(arg)
         # {Dian.Worker, arg},
         # Start to serve requests, typically the last entry
