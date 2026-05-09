@@ -5,6 +5,7 @@ defmodule Dian.SteamWatcher.StatusPoller do
 
   alias Dian.Steam
   alias Dian.Steam.PlayerSummary
+  alias Dian.SteamWatcher.PlaySessionTracker
   alias Dian.SteamWatcher.StatusChanged
 
   @pubsub Dian.PubSub
@@ -33,10 +34,12 @@ defmodule Dian.SteamWatcher.StatusPoller do
   @impl true
   def init(opts) do
     state = %{
+      open_sessions: PlaySessionTracker.new(),
       snapshots: %{},
       interval: Keyword.get(opts, :interval, @interval),
       list_bindings: Keyword.get(opts, :list_bindings, &Steam.list_steam_players/0),
       fetch_summaries: Keyword.get(opts, :fetch_summaries, &Steam.get_player_summaries/1),
+      save_play_session: Keyword.get(opts, :save_play_session, &Steam.create_play_session/1),
       broadcast: Keyword.get(opts, :broadcast, &broadcast_status_changed/1),
       timer_ref: nil
     }
@@ -110,6 +113,15 @@ defmodule Dian.SteamWatcher.StatusPoller do
         bindings_by_steam_id = Map.new(bindings, &{&1.steam_id, &1})
         summaries_by_steam_id = Map.new(summaries, &{&1.steam_id, &1})
 
+        {open_sessions, sessions} =
+          track_play_sessions(
+            summaries,
+            state.snapshots,
+            state.open_sessions,
+            bindings_by_steam_id,
+            changed_at
+          )
+
         events =
           summaries
           |> Enum.flat_map(
@@ -120,12 +132,19 @@ defmodule Dian.SteamWatcher.StatusPoller do
           event: "steam_watcher_status_poll_finished",
           steam_ids_count: length(steam_ids),
           summaries_count: length(summaries),
-          changed_count: length(events)
+          changed_count: length(events),
+          finalized_session_count: length(sessions)
         )
 
         Enum.each(events, state.broadcast)
+        Enum.each(sessions, &state.save_play_session.(&1))
 
-        {:ok, events, %{state | snapshots: Map.merge(state.snapshots, summaries_by_steam_id)}}
+        {:ok, events,
+         %{
+           state
+           | snapshots: Map.merge(state.snapshots, summaries_by_steam_id),
+             open_sessions: open_sessions
+         }}
 
       {:error, reason} ->
         Logger.warning("steam watcher status poll failed",
@@ -169,5 +188,18 @@ defmodule Dian.SteamWatcher.StatusPoller do
   defp playing_changed?(%PlayerSummary{} = previous, %PlayerSummary{} = current) do
     current.playing_game_id not in [nil, ""] and
       previous.playing_game_id != current.playing_game_id
+  end
+
+  defp track_play_sessions(summaries, snapshots, open_sessions, bindings_by_steam_id, changed_at) do
+    Enum.reduce(summaries, {open_sessions, []}, fn %PlayerSummary{} = current,
+                                                   {sessions, finalized} ->
+      previous = Map.get(snapshots, current.steam_id)
+      binding = Map.get(bindings_by_steam_id, current.steam_id)
+
+      {next_sessions, completed} =
+        PlaySessionTracker.track(sessions, previous, current, binding, changed_at)
+
+      {next_sessions, finalized ++ completed}
+    end)
   end
 end

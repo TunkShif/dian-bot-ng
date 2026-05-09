@@ -242,4 +242,63 @@ defmodule Dian.SteamTest do
       assert :ok = Steam.delete_achievement_snapshot(unique_steam_id(), "730")
     end
   end
+
+  describe "play sessions" do
+    test "create_play_session/1 persists a finalized play session" do
+      attrs = %{
+        qq_id: unique_qq_id(),
+        steam_id: unique_steam_id(),
+        app_id: "730",
+        game_name: "Counter-Strike 2",
+        player_display_name: "Player One",
+        started_at: ~U[2026-05-09 10:00:00Z],
+        ended_at: ~U[2026-05-09 10:30:00Z],
+        duration_seconds: 1800,
+        session_end_reason: :stopped
+      }
+
+      assert {:ok, session} = Steam.create_play_session(attrs)
+      assert session.qq_id == attrs.qq_id
+      assert session.steam_id == attrs.steam_id
+      assert session.app_id == "730"
+      assert session.game_name == "Counter-Strike 2"
+      assert session.player_display_name == "Player One"
+      assert session.duration_seconds == 1800
+      assert session.session_end_reason == :stopped
+    end
+
+    test "list_play_sessions_for_players/2 returns sessions overlapping the date range" do
+      qq_id = unique_qq_id()
+
+      assert {:ok, _session} =
+               Steam.create_play_session(%{
+                 qq_id: qq_id,
+                 steam_id: unique_steam_id(),
+                 app_id: "730",
+                 game_name: "Counter-Strike 2",
+                 started_at: ~U[2026-05-08 23:50:00Z],
+                 ended_at: ~U[2026-05-09 00:20:00Z],
+                 duration_seconds: 1800,
+                 session_end_reason: :stopped
+               })
+
+      assert {:ok, _session} =
+               Steam.create_play_session(%{
+                 qq_id: qq_id,
+                 steam_id: unique_steam_id(),
+                 app_id: "570",
+                 game_name: "Dota 2",
+                 started_at: ~U[2026-05-10 09:00:00Z],
+                 ended_at: ~U[2026-05-10 09:30:00Z],
+                 duration_seconds: 1800,
+                 session_end_reason: :stopped
+               })
+
+      sessions =
+        Steam.list_play_sessions_for_players([qq_id], Date.range(~D[2026-05-09], ~D[2026-05-09]))
+
+      assert length(sessions) == 1
+      assert hd(sessions).game_name == "Counter-Strike 2"
+    end
+  end
 end

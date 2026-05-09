@@ -10,6 +10,7 @@ defmodule Dian.Steam do
   alias Dian.Repo
   alias Dian.Steam.AchievementSnapshot
   alias Dian.Steam.Client
+  alias Dian.Steam.PlaySession
   alias Dian.Steam.SteamPlayer
 
   @doc """
@@ -74,6 +75,35 @@ defmodule Dian.Steam do
           {:error, reason} -> {:error, reason}
         end
     end
+  end
+
+  @doc """
+  Persists a finalized Steam play session.
+  """
+  def create_play_session(attrs) when is_map(attrs) do
+    %PlaySession{}
+    |> PlaySession.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Returns play sessions for one player that overlap the given date range.
+  """
+  def list_play_sessions_for_player(qq_id, %Date.Range{} = date_range) when is_binary(qq_id) do
+    list_play_sessions_for_players([qq_id], date_range)
+  end
+
+  @doc """
+  Returns play sessions for the given players that overlap the given date range.
+  """
+  def list_play_sessions_for_players(qq_ids, %Date.Range{} = date_range) when is_list(qq_ids) do
+    {range_start, range_end} = date_range_bounds(date_range)
+
+    PlaySession
+    |> where([ps], ps.qq_id in ^qq_ids)
+    |> where([ps], ps.started_at < ^range_end and ps.ended_at >= ^range_start)
+    |> order_by([ps], asc: ps.started_at, asc: ps.id)
+    |> Repo.all()
   end
 
   @doc """
@@ -253,5 +283,11 @@ defmodule Dian.Steam do
       {:error, :not_found} -> {:error, :not_found}
       {:error, reason} -> {:error, reason}
     end
+  end
+
+  defp date_range_bounds(%Date.Range{first: first, last: last}) do
+    range_start = DateTime.new!(first, ~T[00:00:00], "Etc/UTC")
+    range_end = last |> Date.add(1) |> DateTime.new!(~T[00:00:00], "Etc/UTC")
+    {range_start, range_end}
   end
 end

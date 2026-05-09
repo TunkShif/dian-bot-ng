@@ -1,6 +1,7 @@
 defmodule Dian.SteamWatcher.PollerTest do
   use Dian.DataCase
 
+  alias Dian.Steam
   alias Dian.Steam.PlayerSummary
   alias Dian.SteamWatcher.StatusChanged
   alias Dian.SteamWatcher.StatusPoller
@@ -117,6 +118,153 @@ defmodule Dian.SteamWatcher.PollerTest do
 
       assert_receive %StatusChanged{steam_id: steam_id, current_game_id: "570"}
       assert steam_id == player.steam_id
+    end
+
+    test "persists a play session when a bound player switches games" do
+      player = steam_player_fixture(%{display_name: "Player One"})
+
+      summaries =
+        start_supervised!(
+          {Agent,
+           fn ->
+             [
+               %PlayerSummary{
+                 steam_id: player.steam_id,
+                 name: "Steam Persona",
+                 playing_game_id: "730",
+                 playing_game_name: "Counter-Strike 2"
+               }
+             ]
+           end}
+        )
+
+      parent = self()
+
+      poller =
+        start_supervised!(
+          {StatusPoller,
+           name: nil,
+           interval: false,
+           fetch_summaries: fn [_steam_id] -> {:ok, Agent.get(summaries, & &1)} end,
+           save_play_session: fn attrs ->
+             send(parent, {:saved_play_session, attrs})
+             {:ok, attrs}
+           end}
+        )
+
+      assert {:ok, []} = StatusPoller.check_now(poller)
+
+      Agent.update(summaries, fn _summaries ->
+        [
+          %PlayerSummary{
+            steam_id: player.steam_id,
+            name: "Steam Persona",
+            playing_game_id: "570",
+            playing_game_name: "Dota 2"
+          }
+        ]
+      end)
+
+      assert {:ok, [%StatusChanged{}]} = StatusPoller.check_now(poller)
+
+      assert_receive {:saved_play_session, attrs}
+      assert attrs.qq_id == player.qq_id
+      assert attrs.steam_id == player.steam_id
+      assert attrs.app_id == "730"
+      assert attrs.game_name == "Counter-Strike 2"
+      assert attrs.player_display_name == "Player One"
+      assert attrs.session_end_reason == :switched
+      assert %DateTime{} = attrs.started_at
+      assert %DateTime{} = attrs.ended_at
+      assert attrs.duration_seconds >= 0
+    end
+
+    test "persists a play session when a bound player stops playing" do
+      player = steam_player_fixture()
+
+      summaries =
+        start_supervised!(
+          {Agent,
+           fn ->
+             [
+               %PlayerSummary{
+                 steam_id: player.steam_id,
+                 name: "Steam Persona",
+                 playing_game_id: "730",
+                 playing_game_name: "Counter-Strike 2"
+               }
+             ]
+           end}
+        )
+
+      parent = self()
+
+      poller =
+        start_supervised!(
+          {StatusPoller,
+           name: nil,
+           interval: false,
+           fetch_summaries: fn [_steam_id] -> {:ok, Agent.get(summaries, & &1)} end,
+           save_play_session: fn attrs ->
+             send(parent, {:saved_play_session, attrs})
+             {:ok, attrs}
+           end}
+        )
+
+      assert {:ok, []} = StatusPoller.check_now(poller)
+
+      Agent.update(summaries, fn _summaries ->
+        [%PlayerSummary{steam_id: player.steam_id, name: "Steam Persona", playing_game_id: nil}]
+      end)
+
+      assert {:ok, []} = StatusPoller.check_now(poller)
+
+      assert_receive {:saved_play_session, attrs}
+      assert attrs.app_id == "730"
+      assert attrs.game_name == "Counter-Strike 2"
+      assert attrs.session_end_reason == :stopped
+    end
+
+    test "writes finalized play sessions through the Steam context by default" do
+      player = steam_player_fixture()
+
+      summaries =
+        start_supervised!(
+          {Agent,
+           fn ->
+             [
+               %PlayerSummary{
+                 steam_id: player.steam_id,
+                 name: "Steam Persona",
+                 playing_game_id: "730",
+                 playing_game_name: "Counter-Strike 2"
+               }
+             ]
+           end}
+        )
+
+      poller =
+        start_supervised!(
+          {StatusPoller,
+           name: nil,
+           interval: false,
+           fetch_summaries: fn [_steam_id] -> {:ok, Agent.get(summaries, & &1)} end}
+        )
+
+      assert {:ok, []} = StatusPoller.check_now(poller)
+
+      Agent.update(summaries, fn _summaries ->
+        [%PlayerSummary{steam_id: player.steam_id, name: "Steam Persona", playing_game_id: nil}]
+      end)
+
+      assert {:ok, []} = StatusPoller.check_now(poller)
+
+      today = Date.utc_today()
+      sessions = Steam.list_play_sessions_for_player(player.qq_id, Date.range(today, today))
+
+      assert length(sessions) == 1
+      assert hd(sessions).game_name == "Counter-Strike 2"
+      assert hd(sessions).session_end_reason == :stopped
     end
   end
 end
