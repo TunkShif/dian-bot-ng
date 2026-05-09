@@ -11,10 +11,11 @@ defmodule Dian.AI.DailySteamSummary.Runner do
   alias Dian.Steam
 
   @utc8_offset_seconds 8 * 60 * 60
+  @gaming_day_cutoff_hour 4
 
   def run(opts \\ []) do
     now = Keyword.get(opts, :now, DateTime.utc_now(:second))
-    {target_date, range_start, range_end} = previous_local_day_bounds(now)
+    {target_date, range_start, range_end} = previous_local_gaming_day_bounds(now)
 
     list_enabled_group_ids =
       Keyword.get(opts, :list_enabled_group_ids, &Settings.list_enabled_group_ids/0)
@@ -118,7 +119,7 @@ defmodule Dian.AI.DailySteamSummary.Runner do
   defp ensure_present([], reason), do: {:skip, reason}
   defp ensure_present(_values, _reason), do: :ok
 
-  defp previous_local_day_bounds(now) do
+  defp previous_local_gaming_day_bounds(now) do
     local_date =
       now
       |> DateTime.add(@utc8_offset_seconds, :second)
@@ -126,8 +127,10 @@ defmodule Dian.AI.DailySteamSummary.Runner do
 
     target_date = Date.add(local_date, -1)
 
-    {:ok, start_at} = DateTime.new(target_date, ~T[00:00:00], "Etc/UTC")
-    {:ok, end_at} = DateTime.new(Date.add(target_date, 1), ~T[00:00:00], "Etc/UTC")
+    cutoff_time = Time.new!(@gaming_day_cutoff_hour, 0, 0)
+
+    {:ok, start_at} = DateTime.new(target_date, cutoff_time, "Etc/UTC")
+    {:ok, end_at} = DateTime.new(Date.add(target_date, 1), cutoff_time, "Etc/UTC")
 
     {target_date, DateTime.add(start_at, -@utc8_offset_seconds, :second),
      DateTime.add(end_at, -@utc8_offset_seconds, :second)}

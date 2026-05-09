@@ -54,8 +54,8 @@ defmodule Dian.AITest do
         app_id: "730",
         game_name: "Counter-Strike 2",
         player_display_name: "Player One",
-        started_at: ~U[2026-05-08 16:00:00Z],
-        ended_at: ~U[2026-05-08 17:00:00Z],
+        started_at: ~U[2026-05-09 01:00:00Z],
+        ended_at: ~U[2026-05-09 02:00:00Z],
         duration_seconds: 3600,
         session_end_reason: :stopped
       })
@@ -107,8 +107,8 @@ defmodule Dian.AITest do
         steam_id: player.steam_id,
         app_id: "730",
         game_name: "Counter-Strike 2",
-        started_at: ~U[2026-05-08 16:00:00Z],
-        ended_at: ~U[2026-05-08 17:00:00Z],
+        started_at: ~U[2026-05-09 01:00:00Z],
+        ended_at: ~U[2026-05-09 02:00:00Z],
         duration_seconds: 3600,
         session_end_reason: :stopped
       })
@@ -183,6 +183,32 @@ defmodule Dian.AITest do
 
       assert log =~ "ai daily steam summary group skipped"
       assert log =~ "no_sessions_in_window"
+    end
+
+    test "queries the previous 04:00 to 04:00 local gaming day window" do
+      Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
+      enabled_group_setting_fixture(group_id: "100")
+      steam_player_fixture(%{qq_id: "20001"})
+
+      sessions_range = start_supervised!({Agent, fn -> nil end})
+
+      assert {:ok, %{processed_group_count: 1, sent_group_count: 0, skipped_group_count: 1}} =
+               AI.run_daily_group_summaries(
+                 now: ~U[2026-05-10 02:00:00Z],
+                 get_group_info: fn "100" ->
+                   {:ok, %{group_id: "100", group_name: "Demo Group"}}
+                 end,
+                 get_group_member_list: fn "100" ->
+                   {:ok, [%{user_id: 20001, nickname: "Demo Nick", display_name: "Demo Card"}]}
+                 end,
+                 list_sessions_for_players: fn qq_ids, range_start, range_end ->
+                   Agent.update(sessions_range, fn _ -> {qq_ids, range_start, range_end} end)
+                   []
+                 end
+               )
+
+      assert {["20001"], ~U[2026-05-08 20:00:00Z], ~U[2026-05-09 20:00:00Z]} =
+               Agent.get(sessions_range, & &1)
     end
   end
 
