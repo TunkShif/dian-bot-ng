@@ -5,6 +5,7 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
 
   def build(group, members, sessions, target_date) do
     members = Enum.map(members, &compact_member/1)
+    sessions = Enum.map(sessions, &attach_group_display_name(&1, members))
 
     player_stats =
       sessions
@@ -61,6 +62,10 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
       nil -> qq_id
       member -> normalize_label(member.display_name) || normalize_label(member.nickname) || qq_id
     end
+  end
+
+  defp attach_group_display_name(session, members) do
+    %{session | player_display_name: member_display_name(members, session.qq_id)}
   end
 
   defp normalize_label(value) when is_binary(value) do
