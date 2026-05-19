@@ -44,8 +44,15 @@ defmodule Dian.Application do
 
   defp maybe_bot_client() do
     case DianBot.Client.impl() do
-      DianBot.Client.WebSocket -> [DianBot.Client.WebSocket]
-      _ -> []
+      DianBot.Client.WebSocket ->
+        [
+          DianBot.Client.WebSocket,
+          DianBot.Commands.Consumer,
+          DianBot.Commands.Batch
+        ]
+
+      _ ->
+        []
     end
   end
 
