@@ -25,7 +25,6 @@ defmodule DianBot.Commands.ConsumerTest do
     def command, do: "mention_cmd"
     def aliases, do: []
     def usage, do: "/mention_cmd"
-    def mention_required?, do: true
     def parse_args(args), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "mentioned!"}
   end
@@ -36,7 +35,6 @@ defmodule DianBot.Commands.ConsumerTest do
     def command, do: "reply_cmd"
     def aliases, do: []
     def usage, do: "/reply_cmd"
-    def reply_required?, do: true
     def parse_args(args), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "replied!"}
   end
@@ -58,6 +56,7 @@ defmodule DianBot.Commands.ConsumerTest do
 
     def workflow, do: :consumer_batch_test
     def timeout_ms, do: :timer.hours(1)
+    def parse_args(args), do: {:ok, args}
 
     def scope(request) do
       %{group_id: request.group_id, sender_id: request.sender_id}
@@ -79,14 +78,30 @@ defmodule DianBot.Commands.ConsumerTest do
       send(test_pid, {:send_msg, group_id, msg})
     end
 
+    alias DianBot.Commands.Registry.Entry
+
     lookup = fn
-      "test" -> {:ok, {:immediate, BasicHandler}}
-      "t" -> {:ok, {:immediate, BasicHandler}}
-      "mention_cmd" -> {:ok, {:immediate, MentionHandler}}
-      "reply_cmd" -> {:ok, {:immediate, ReplyHandler}}
-      "crash_cmd" -> {:ok, {:immediate, CrashHandler}}
-      "append" -> {:ok, {:batch, BatchHandler, :collect}}
-      "submit" -> {:ok, {:batch, BatchHandler, :flush}}
+      "test" ->
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>", throttle: :none}}
+
+      "t" ->
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>", throttle: :none}}
+
+      "mention_cmd" ->
+        {:ok, %Entry{type: :immediate, module: MentionHandler, mention_required?: true, reply_required?: false, usage: "/mention_cmd", throttle: :none}}
+
+      "reply_cmd" ->
+        {:ok, %Entry{type: :immediate, module: ReplyHandler, mention_required?: false, reply_required?: true, usage: "/reply_cmd", throttle: :none}}
+
+      "crash_cmd" ->
+        {:ok, %Entry{type: :immediate, module: CrashHandler, mention_required?: false, reply_required?: false, usage: "/crash_cmd", throttle: :none}}
+
+      "append" ->
+        {:ok, %Entry{type: :batch_collect, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/append <key>", throttle: :none}}
+
+      "submit" ->
+        {:ok, %Entry{type: :batch_flush, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/submit", throttle: :none}}
+
       _ -> :error
     end
 

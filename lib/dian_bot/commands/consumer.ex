@@ -44,33 +44,38 @@ defmodule DianBot.Commands.Consumer do
 
   defp dispatch(event, state) do
     with {:ok, request} <- Parser.parse(event),
-         {:ok, resolved} <- state.lookup.(request.name) do
-      dispatch_resolved(resolved, request, state)
+         {:ok, entry} <- state.lookup.(request.name) do
+      dispatch_entry(entry, request, state)
     else
       :ignore -> :ok
       :error -> :ok
     end
   end
 
-  defp dispatch_resolved({:immediate, handler}, request, state) do
-    with :ok <- check_mention_required(handler, request),
-         :ok <- check_reply_required(handler, request),
-         {:ok, args} <- handler.parse_args(request.raw_args) do
-      execute_immediate(handler, request, args, state)
+  defp dispatch_entry(entry, request, state) do
+    with :ok <- check_mention_required(entry, request),
+         :ok <- check_reply_required(entry, request),
+         {:ok, args} <- entry.module.parse_args(request.raw_args) do
+      dispatch_type(entry, request, args, state)
     else
-      {:error, reason} -> reply_usage(state, request.group_id, handler, reason)
+      {:error, reason} -> reply_usage(state, request.group_id, entry, reason)
       :ignore -> :ok
     end
   end
 
-  defp dispatch_resolved({:batch, workflow, :collect}, request, state) do
-    case Batch.collect(workflow, request, request.raw_args) do
+  defp dispatch_type(%{type: :immediate, module: handler}, request, args, state) do
+    # TODO: check throttle
+    execute_immediate(handler, request, args, state)
+  end
+
+  defp dispatch_type(%{type: :batch_collect, module: workflow}, request, args, state) do
+    case Batch.collect(workflow, request, args) do
       :ok -> :ok
       {:error, reason} -> state.send_msg.(:group, request.group_id, "Error: #{reason}")
     end
   end
 
-  defp dispatch_resolved({:batch, workflow, :flush}, request, state) do
+  defp dispatch_type(%{type: :batch_flush, module: workflow}, request, _args, state) do
     case Batch.flush(workflow, request) do
       {:reply, msg} -> state.send_msg.(:group, request.group_id, msg)
       :noreply -> :ok
@@ -79,24 +84,14 @@ defmodule DianBot.Commands.Consumer do
     end
   end
 
-  defp check_mention_required(handler, request) do
-    if function_exported?(handler, :mention_required?, 0) and
-         handler.mention_required?() and
-         not request.mentions_bot? do
-      :ignore
-    else
-      :ok
-    end
+  defp check_mention_required(entry, request) do
+    if entry.mention_required? and not request.mentions_bot?, do: :ignore, else: :ok
   end
 
-  defp check_reply_required(handler, request) do
-    if function_exported?(handler, :reply_required?, 0) and
-         handler.reply_required?() and
-         is_nil(request.reply) do
-      {:error, "a replied message is required"}
-    else
-      :ok
-    end
+  defp check_reply_required(entry, request) do
+    if entry.reply_required? and is_nil(request.reply),
+      do: {:error, "a replied message is required"},
+      else: :ok
   end
 
   defp execute_immediate(handler, request, args, state) do
@@ -119,7 +114,7 @@ defmodule DianBot.Commands.Consumer do
     end
   end
 
-  defp reply_usage(state, group_id, handler, reason) do
-    state.send_msg.(:group, group_id, "#{handler.usage()}: #{reason}")
+  defp reply_usage(state, group_id, entry, reason) do
+    state.send_msg.(:group, group_id, "#{entry.usage}: #{reason}")
   end
 end

@@ -2,56 +2,48 @@ defmodule DianBot.Commands.Registry do
   @moduledoc """
   Maps command names and aliases to handler or batch-workflow modules.
 
-  The command table is static (module attributes). Two categories:
-
-    * `:immediate` — stateless commands backed by `DianBot.Commands.Handler`
-    * `:batch` — accumulator commands backed by `DianBot.Commands.BatchWorkflow`
+  The command table is static (module attribute). Entries are `%Entry{}`
+  structs with a `type` field that determines how the consumer dispatches.
   """
 
-  @immediate %{}
-  @batch %{}
+  defmodule Entry do
+    @moduledoc """
+    A registry entry describing a single command with its type, module, and
+    generic dispatch options (`mention_required?`, `reply_required?`, `usage`,
+    `throttle`).
+    """
+    defstruct [:type, :module, :mention_required?, :reply_required?, :usage, :throttle]
+
+    @type t :: %__MODULE__{
+            type: :immediate | :batch_collect | :batch_flush,
+            module: module(),
+            mention_required?: boolean(),
+            reply_required?: boolean(),
+            usage: String.t(),
+            throttle: term()
+          }
+  end
+
+  @entries %{}
 
   @doc """
   Looks up a command name in the registry.
 
-  Returns `{:ok, {:immediate, handler_mod}}`, `{:ok, {:batch, workflow_mod, action}}`,
-  or `:error` when the name is unknown.
+  Returns `{:ok, %Entry{}}` or `:error` when the name is unknown.
   """
-  @spec lookup(String.t()) ::
-          {:ok, {:immediate, module()}}
-          | {:ok, {:batch, module(), :collect | :flush}}
-          | :error
+  @spec lookup(String.t()) :: {:ok, Entry.t()} | :error
   def lookup(name) when is_binary(name) do
-    case Map.get(immediate(), name) do
-      {type, mod, action} when type == :batch ->
-        {:ok, {:batch, mod, action}}
-
-      mod when not is_nil(mod) ->
-        {:ok, {:immediate, mod}}
-
-      nil ->
-        case Map.get(batch(), name) do
-          {mod, action} -> {:ok, {:batch, mod, action}}
-          nil -> :error
-        end
+    case Map.get(@entries, name) do
+      nil -> :error
+      entry -> {:ok, entry}
     end
   end
 
   @doc """
   Returns all registered commands as `{name, type, module}` tuples.
   """
-  @spec commands() :: [{String.t(), :immediate | :batch, module()}]
+  @spec commands() :: [{String.t(), :immediate | :batch_collect | :batch_flush, module()}]
   def commands do
-    immediates = for {name, mod} <- @immediate, do: {name, :immediate, mod}
-    batches = for {name, {mod, _action}} <- @batch, do: {name, :batch, mod}
-    immediates ++ batches
-  end
-
-  defp immediate do
-    @immediate
-  end
-
-  defp batch do
-    @batch
+    for {name, entry} <- @entries, do: {name, entry.type, entry.module}
   end
 end

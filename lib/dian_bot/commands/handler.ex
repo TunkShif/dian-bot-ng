@@ -4,12 +4,6 @@ defmodule DianBot.Commands.Handler do
 
   Commands that should be ignored by default (unknown command names) must
   not implement this behaviour — they will never be dispatched.
-
-  ## Optional callbacks
-
-  `mention_required?/0` and `reply_required?/0` are optional. The dispatcher
-  uses `function_exported?/3` to check before calling them. Default to `false`
-  when not defined.
   """
 
   alias DianBot.Commands.CommandRequest
@@ -32,16 +26,6 @@ defmodule DianBot.Commands.Handler do
   @callback usage() :: String.t()
 
   @doc """
-  Whether this command requires the bot to be @-mentioned.
-  """
-  @callback mention_required?() :: boolean()
-
-  @doc """
-  Whether this command requires replying to another message.
-  """
-  @callback reply_required?() :: boolean()
-
-  @doc """
   Parses the raw argument string into a structured argument.
 
   Return `{:ok, term()}` on success — the parsed value is passed to
@@ -58,8 +42,6 @@ defmodule DianBot.Commands.Handler do
   """
   @callback handle(CommandRequest.t(), parsed_args :: term()) ::
             {:reply, reply_message()} | :noreply | {:error, String.t()}
-
-  @optional_callbacks mention_required?: 0, reply_required?: 0
 
   @doc false
   defmacro __using__(_opts) do
