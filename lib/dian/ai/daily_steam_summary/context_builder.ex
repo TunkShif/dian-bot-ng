@@ -3,6 +3,8 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
   Builds the compact group context sent to the LLM layer.
   """
 
+  @utc8_offset_seconds 8 * 60 * 60
+
   def build(group, members, sessions, target_date) do
     members = Enum.map(members, &compact_member/1)
     sessions = Enum.map(sessions, &compact_session(&1, members))
@@ -30,6 +32,8 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
         }
       end)
       |> Enum.sort_by(&{&1.display_name || "", &1.qq_id})
+
+    sessions = Enum.map(sessions, &localize_session_times/1)
 
     %{
       group_id: group.group_id,
@@ -76,6 +80,22 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
       duration_seconds: session.duration_seconds,
       session_end_reason: session.session_end_reason
     }
+  end
+
+  defp localize_session_times(session) do
+    session
+    |> Map.update!(:started_at, &to_local/1)
+    |> Map.update!(:ended_at, &to_local/1)
+  end
+
+  defp to_local(%DateTime{} = dt) do
+    dt
+    |> DateTime.add(@utc8_offset_seconds, :second)
+    # TODO: DateTime.add/3 shifts wall clock but doesn't update timezone metadata.
+    # The emitted ISO 8601 will have a misleading "Z" (UTC) suffix instead of "+08:00".
+    # Fix: either add tzdata dep + DateTime.shift_zone!/2, or manually set utc_offset
+    # on the struct before formatting (e.g. %{shifted | utc_offset: @utc8_offset_seconds}).
+    |> DateTime.to_iso8601()
   end
 
   defp normalize_label(value) when is_binary(value) do
