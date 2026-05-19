@@ -19,6 +19,8 @@ defmodule DianBot.EventTest do
     assert Event.build(payload) == %GroupMessageEvent{
              group_id: 456,
              sender_id: 789,
+             self_id: nil,
+             message_id: nil,
              message: [Message.text("hello")],
              raw_message: "hello",
              timestamp: 1_713_456_789
