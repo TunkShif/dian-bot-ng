@@ -7,6 +7,7 @@ defmodule DianBot.Commands.BatchTest do
   defmodule RecordingWorkflow do
     @behaviour DianBot.Commands.BatchWorkflow
 
+    def cmds, do: []
     def workflow, do: :recording
     def timeout_ms, do: :timer.hours(1)
     def parse_args(args), do: {:ok, args}

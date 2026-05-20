@@ -60,8 +60,7 @@ defmodule DianBot.Commands.Throttle do
 
       _ ->
         expires_at = now + policy.window_ms
-        entries = Map.put(state.entries, key, %{expires_at: expires_at})
-        {:reply, :ok, %{state | entries: entries}}
+        {:reply, :ok, %{state | entries: Map.put(state.entries, key, %{expires_at: expires_at})}}
     end
   end
 

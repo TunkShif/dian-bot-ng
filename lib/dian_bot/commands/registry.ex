@@ -12,11 +12,22 @@ defmodule DianBot.Commands.Registry do
     generic dispatch options (`mention_required?`, `reply_required?`, `usage`,
     `throttle`).
     """
-    defstruct [:type, :module, :mention_required?, :reply_required?, :usage, :throttle]
+    defstruct [
+      :type,
+      :module,
+      :command,
+      :aliases,
+      :usage,
+      :throttle,
+      mention_required?: false,
+      reply_required?: false
+    ]
 
     @type t :: %__MODULE__{
             type: :immediate | :batch_collect | :batch_flush,
             module: module(),
+            command: String.t(),
+            aliases: [String.t()],
             mention_required?: boolean(),
             reply_required?: boolean(),
             usage: String.t(),
@@ -24,7 +35,17 @@ defmodule DianBot.Commands.Registry do
           }
   end
 
-  @entries %{}
+  @handlers [
+    DianBot.Commands.Handlers.Ping,
+    DianBot.Commands.Handlers.Weather,
+    DianBot.Commands.Handlers.Note
+  ]
+
+  @entries for mod <- @handlers,
+               entry <- mod.cmds(),
+               name <- [entry.command | entry.aliases],
+               into: %{},
+               do: {name, entry}
 
   @doc """
   Looks up a command name in the registry.
@@ -33,7 +54,7 @@ defmodule DianBot.Commands.Registry do
   """
   @spec lookup(String.t()) :: {:ok, Entry.t()} | :error
   def lookup(name) when is_binary(name) do
-    case Map.get(@entries, name) do
+    case Map.get(entries(), name) do
       nil -> :error
       entry -> {:ok, entry}
     end
@@ -44,6 +65,10 @@ defmodule DianBot.Commands.Registry do
   """
   @spec commands() :: [{String.t(), :immediate | :batch_collect | :batch_flush, module()}]
   def commands do
-    for {name, entry} <- @entries, do: {name, entry.type, entry.module}
+    for {name, entry} <- entries(), do: {name, entry.type, entry.module}
+  end
+
+  defp entries do
+    @entries
   end
 end

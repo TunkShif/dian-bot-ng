@@ -3,6 +3,7 @@ defmodule DianBot.Commands.ConsumerTest do
 
   alias DianBot.Commands.Batch
   alias DianBot.Commands.Consumer
+  alias DianBot.Commands.Registry.Entry
   alias DianBot.Commands.Throttle
   alias DianBot.Event.GroupMessageEvent
   alias DianBot.Message
@@ -12,9 +13,18 @@ defmodule DianBot.Commands.ConsumerTest do
   defmodule BasicHandler do
     @behaviour DianBot.Commands.Handler
 
-    def command, do: "test"
-    def aliases, do: ["t"]
-    def usage, do: "/test <arg>"
+    def cmds do
+      [
+        %Entry{
+          type: :immediate,
+          module: __MODULE__,
+          command: "test",
+          aliases: ["t"],
+          usage: "/test <arg>"
+        }
+      ]
+    end
+
     def parse_args(""), do: {:error, "arg required"}
     def parse_args(args), do: {:ok, args}
     def handle(_request, args), do: {:reply, "got: #{args}"}
@@ -23,9 +33,18 @@ defmodule DianBot.Commands.ConsumerTest do
   defmodule MentionHandler do
     @behaviour DianBot.Commands.Handler
 
-    def command, do: "mention_cmd"
-    def aliases, do: []
-    def usage, do: "/mention_cmd"
+    def cmds do
+      [
+        %Entry{
+          type: :immediate,
+          module: __MODULE__,
+          command: "mention_cmd",
+          aliases: [],
+          usage: "/mention_cmd"
+        }
+      ]
+    end
+
     def parse_args(args), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "mentioned!"}
   end
@@ -33,9 +52,19 @@ defmodule DianBot.Commands.ConsumerTest do
   defmodule ReplyHandler do
     @behaviour DianBot.Commands.Handler
 
-    def command, do: "reply_cmd"
-    def aliases, do: []
-    def usage, do: "/reply_cmd"
+    def cmds do
+      [
+        %Entry{
+          type: :immediate,
+          module: __MODULE__,
+          command: "reply_cmd",
+          aliases: [],
+          usage: "/reply_cmd",
+          reply_required?: true
+        }
+      ]
+    end
+
     def parse_args(args), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "replied!"}
   end
@@ -43,9 +72,18 @@ defmodule DianBot.Commands.ConsumerTest do
   defmodule CrashHandler do
     @behaviour DianBot.Commands.Handler
 
-    def command, do: "crash_cmd"
-    def aliases, do: []
-    def usage, do: "/crash_cmd"
+    def cmds do
+      [
+        %Entry{
+          type: :immediate,
+          module: __MODULE__,
+          command: "crash_cmd",
+          aliases: [],
+          usage: "/crash_cmd"
+        }
+      ]
+    end
+
     def parse_args(args), do: {:ok, args}
     def handle(_request, _args), do: raise("boom")
   end
@@ -55,19 +93,31 @@ defmodule DianBot.Commands.ConsumerTest do
   defmodule BatchHandler do
     @behaviour DianBot.Commands.BatchWorkflow
 
+    def cmds do
+      [
+        %Entry{
+          type: :batch_collect,
+          module: __MODULE__,
+          command: "append",
+          aliases: [],
+          usage: "/append <key>"
+        },
+        %Entry{
+          type: :batch_flush,
+          module: __MODULE__,
+          command: "submit",
+          aliases: [],
+          usage: "/submit"
+        }
+      ]
+    end
+
     def workflow, do: :consumer_batch_test
     def timeout_ms, do: :timer.hours(1)
     def parse_args(args), do: {:ok, args}
-
-    def scope(request) do
-      %{group_id: request.group_id, sender_id: request.sender_id}
-    end
-
+    def scope(request), do: %{group_id: request.group_id, sender_id: request.sender_id}
     def collect(_request, args), do: {:ok, args}
-
-    def flush(_scope, entries, _reason) do
-      {:reply, "flushed: #{length(entries)} entries"}
-    end
+    def flush(_scope, entries, _reason), do: {:reply, "flushed: #{length(entries)} entries"}
   end
 
   # --- Setup ---
@@ -78,8 +128,6 @@ defmodule DianBot.Commands.ConsumerTest do
     send_msg = fn :group, group_id, msg ->
       send(test_pid, {:send_msg, group_id, msg})
     end
-
-    alias DianBot.Commands.Registry.Entry
 
     lookup = fn
       "test" ->

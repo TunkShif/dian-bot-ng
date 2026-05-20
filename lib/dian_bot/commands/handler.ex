@@ -7,23 +7,18 @@ defmodule DianBot.Commands.Handler do
   """
 
   alias DianBot.Commands.CommandRequest
+  alias DianBot.Commands.Registry.Entry
 
   @type reply_message :: DianBot.Message.t() | [map()] | String.t()
 
   @doc """
-  The command name (without leading `/`), e.g. `"help"`.
-  """
-  @callback command() :: String.t()
+  Returns the registry entries describing the commands handled by this module.
 
-  @doc """
-  Alternative command names that also route to this handler.
+  Each entry declares the command name, aliases, type, usage string, and
+  dispatch options. The Registry collects these at compile time to build
+  the name-to-entry lookup map.
   """
-  @callback aliases() :: [String.t()]
-
-  @doc """
-  Short usage string shown to users on invalid invocation.
-  """
-  @callback usage() :: String.t()
+  @callback cmds() :: [Entry.t()]
 
   @doc """
   Parses the raw argument string into a structured argument.
@@ -47,6 +42,9 @@ defmodule DianBot.Commands.Handler do
   defmacro __using__(_opts) do
     quote do
       @behaviour DianBot.Commands.Handler
+      alias DianBot.Commands.CommandRequest
+      alias DianBot.Commands.Registry.Entry
+      alias DianBot.Commands.Throttle.Policy
     end
   end
 end

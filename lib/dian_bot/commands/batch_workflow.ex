@@ -16,8 +16,17 @@ defmodule DianBot.Commands.BatchWorkflow do
   """
 
   alias DianBot.Commands.CommandRequest
+  alias DianBot.Commands.Registry.Entry
 
   @type reply_message :: DianBot.Message.t() | [map()] | String.t()
+
+  @doc """
+  Returns the registry entries describing the commands handled by this module.
+
+  Batch workflows typically return two entries — one `:batch_collect` and one
+  `:batch_flush` — both pointing to the same workflow module.
+  """
+  @callback cmds() :: [Entry.t()]
 
   @doc """
   A unique atom identifying this workflow, used for session keying in the
@@ -77,6 +86,9 @@ defmodule DianBot.Commands.BatchWorkflow do
   defmacro __using__(_opts) do
     quote do
       @behaviour DianBot.Commands.BatchWorkflow
+      alias DianBot.Commands.CommandRequest
+      alias DianBot.Commands.Registry.Entry
+      alias DianBot.Commands.Throttle.Policy
     end
   end
 end

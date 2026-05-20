@@ -33,7 +33,7 @@ defmodule DianBot.Commands.Batch do
   `reason` defaults to `:submit`. Pass `:timeout` for auto-flush.
   """
   @spec flush(module(), CommandRequest.t(), :submit | :timeout) ::
-          {:reply, term()} | :noreply | {:error, String.t()}
+          {:reply, term()} | :noreply | {:error, :no_entries | String.t()}
   def flush(workflow_mod, request, reason \\ :submit) do
     GenServer.call(__MODULE__, {:flush, workflow_mod, request, reason})
   end
