@@ -36,9 +36,7 @@ defmodule DianBot.Commands.Registry do
   end
 
   @handlers [
-    DianBot.Commands.Handlers.Ping,
-    DianBot.Commands.Handlers.Weather,
-    DianBot.Commands.Handlers.Note
+    DianBot.Commands.Handlers.SteamStatus
   ]
 
   @entries for mod <- @handlers,

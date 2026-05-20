@@ -10,8 +10,11 @@ defmodule DianBot.Commands.RegistryTest do
   end
 
   describe "commands/0" do
-    test "returns empty list initially" do
-      assert Registry.commands() == []
+    test "returns all registered commands" do
+      cmds = Registry.commands()
+      names = for {name, _, _} <- cmds, do: name
+      assert "steam:status" in names
+      assert "zgsm" in names
     end
   end
 end
