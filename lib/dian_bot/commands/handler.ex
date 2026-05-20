@@ -41,7 +41,7 @@ defmodule DianBot.Commands.Handler do
   * `{:error, reason}` — sends an error reply to the group.
   """
   @callback handle(CommandRequest.t(), parsed_args :: term()) ::
-            {:reply, reply_message()} | :noreply | {:error, String.t()}
+              {:reply, reply_message()} | :noreply | {:error, String.t()}
 
   @doc false
   defmacro __using__(_opts) do

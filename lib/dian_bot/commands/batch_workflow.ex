@@ -57,7 +57,7 @@ defmodule DianBot.Commands.BatchWorkflow do
   to reject with a usage reply.
   """
   @callback collect(CommandRequest.t(), parsed_args :: term()) ::
-            {:ok, entry :: term()} | {:error, String.t()}
+              {:ok, entry :: term()} | {:error, String.t()}
 
   @doc """
   Flushes all accumulated entries for a scope.
@@ -71,7 +71,7 @@ defmodule DianBot.Commands.BatchWorkflow do
     not sent to the group.
   """
   @callback flush(scope :: term(), entries :: [term()], reason :: :submit | :timeout) ::
-            {:reply, reply_message()} | :noreply | {:error, String.t()}
+              {:reply, reply_message()} | :noreply | {:error, String.t()}
 
   @doc false
   defmacro __using__(_opts) do

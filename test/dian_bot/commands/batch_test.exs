@@ -111,5 +111,4 @@ defmodule DianBot.Commands.BatchTest do
       assert reason == :timeout
     end
   end
-
 end

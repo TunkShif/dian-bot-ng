@@ -83,33 +83,99 @@ defmodule DianBot.Commands.ConsumerTest do
 
     lookup = fn
       "test" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>",}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: BasicHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/test <arg>"
+         }}
 
       "t" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>",}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: BasicHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/test <arg>"
+         }}
 
       "mention_cmd" ->
-        {:ok, %Entry{type: :immediate, module: MentionHandler, mention_required?: true, reply_required?: false, usage: "/mention_cmd",}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: MentionHandler,
+           mention_required?: true,
+           reply_required?: false,
+           usage: "/mention_cmd"
+         }}
 
       "reply_cmd" ->
-        {:ok, %Entry{type: :immediate, module: ReplyHandler, mention_required?: false, reply_required?: true, usage: "/reply_cmd",}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: ReplyHandler,
+           mention_required?: false,
+           reply_required?: true,
+           usage: "/reply_cmd"
+         }}
 
       "crash_cmd" ->
-        {:ok, %Entry{type: :immediate, module: CrashHandler, mention_required?: false, reply_required?: false, usage: "/crash_cmd",}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: CrashHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/crash_cmd"
+         }}
 
       "append" ->
-        {:ok, %Entry{type: :batch_collect, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/append <key>",}}
+        {:ok,
+         %Entry{
+           type: :batch_collect,
+           module: BatchHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/append <key>"
+         }}
 
       "submit" ->
-        {:ok, %Entry{type: :batch_flush, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/submit",}}
+        {:ok,
+         %Entry{
+           type: :batch_flush,
+           module: BatchHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/submit"
+         }}
 
       "throttle_ignore" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/throttle_ignore <arg>", throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: :ignore}}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: BasicHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/throttle_ignore <arg>",
+           throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: :ignore}
+         }}
 
       "throttle_reply" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/throttle_reply <arg>", throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: {:reply, "slow down!"}}}}
+        {:ok,
+         %Entry{
+           type: :immediate,
+           module: BasicHandler,
+           mention_required?: false,
+           reply_required?: false,
+           usage: "/throttle_reply <arg>",
+           throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: {:reply, "slow down!"}}
+         }}
 
-      _ -> :error
+      _ ->
+        :error
     end
 
     start_supervised!(Throttle)

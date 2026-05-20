@@ -22,11 +22,9 @@ defmodule Dian.Application do
         {Task.Supervisor, name: Dian.Media.RenderTaskSupervisor},
         Dian.SteamWatcher.Supervisor,
         Dian.AI.DailySteamSummaryScheduler,
-        # Start a worker by calling: Dian.Worker.start_link(arg)
-        # {Dian.Worker, arg},
-        # Start to serve requests, typically the last entry
-        DianWeb.Endpoint
-      ] ++ maybe_bot_client()
+        DianWeb.Endpoint,
+        DianBot.Supervisor
+      ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -40,21 +38,6 @@ defmodule Dian.Application do
   def config_change(changed, _new, removed) do
     DianWeb.Endpoint.config_change(changed, removed)
     :ok
-  end
-
-  defp maybe_bot_client() do
-    case DianBot.Client.impl() do
-      DianBot.Client.WebSocket ->
-        [
-          DianBot.Client.WebSocket,
-          DianBot.Commands.Throttle,
-          DianBot.Commands.Consumer,
-          DianBot.Commands.Batch
-        ]
-
-      _ ->
-        []
-    end
   end
 
   defp skip_migrations?() do
