@@ -10,7 +10,7 @@ defmodule DianBot.Commands.BatchTest do
     def cmds, do: []
     def workflow, do: :recording
     def timeout_ms, do: :timer.hours(1)
-    def parse_args(args), do: {:ok, args}
+    def parse_args(args, _extra_segments), do: {:ok, args}
 
     def scope(request) do
       %{group_id: request.group_id, sender_id: request.sender_id}

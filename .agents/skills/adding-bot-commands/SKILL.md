@@ -14,6 +14,13 @@ a list of `%Entry{}` structs. The Registry collects these at compile time from a
 The `use` macro provides `CommandRequest`, `Entry`, and `Policy` aliases
 automatically — no explicit aliasing needed.
 
+The `parse_args/2` callback receives the raw argument string (text after the
+command name within the command text segment) and any **extra segments** that
+follow the command text (e.g. `@user` mentions). Handlers that don't need extra
+segments just ignore the second argument:
+
+    def parse_args(raw_args, _extra_segments), do: ...
+
 ## When to Use
 
 Add a new handler/workflow module when creating:
@@ -49,11 +56,22 @@ defmodule DianBot.Commands.Handlers.HelpHandler do
   end
 
   @impl true
-  def parse_args(""), do: {:ok, nil}
-  def parse_args(args), do: {:ok, args}
+  def parse_args("", _extra_segments), do: {:ok, nil}
+  def parse_args(args, _extra_segments), do: {:ok, args}
 
   @impl true
   def handle(_request, _parsed), do: {:reply, "Available commands: ..."}
+end
+```
+
+Commands that target another user via `@mention` can use `extra_segments`:
+
+```elixir
+def parse_args("", extra_segments) do
+  case Enum.find(extra_segments, &(&1.type == "at")) do
+    %{data: %{"qq" => target_id}} -> {:ok, target_id}
+    nil -> {:error, "no target user"}
+  end
 end
 ```
 
@@ -94,7 +112,7 @@ defmodule DianBot.Commands.Handlers.HelpHandlerTest do
     assert entry.command == "help"
     assert entry.aliases == ["h"]
   end
-  test "parse_args/1" do ... end
+  test "parse_args/2" do ... end
   test "handle/2" do ... end
 end
 ```
@@ -125,7 +143,7 @@ defmodule DianBot.Commands.Handlers.PollWorkflow do
   @impl true
   def scope(%CommandRequest{} = req), do: %{group_id: req.group_id, sender_id: req.sender_id}
   @impl true
-  def parse_args(args), do: {:ok, args}
+  def parse_args(args, _extra_segments), do: {:ok, args}
   @impl true
   def collect(_request, args), do: {:ok, args}
   @impl true
@@ -162,8 +180,8 @@ both collect and flush.
 
 ## Common Mistakes
 
-- **Validation placement**: `parse_args/1` runs for both collect and flush. Put
-  content validation in `collect/2`, not `parse_args/1`.
+- **Validation placement**: `parse_args/2` runs for both collect and flush. Put
+  content validation in `collect/2`, not `parse_args/2`.
 - **Don't forget `@handlers`**: Creating a handler with `cmds/0` is not enough —
   the module must be listed in the Registry's `@handlers` list.
 - **Don't add explicit aliases**: `CommandRequest`, `Entry`, and `Policy` are

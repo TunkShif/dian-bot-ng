@@ -51,12 +51,17 @@ defmodule DianBot.Commands.BatchWorkflow do
   @callback scope(CommandRequest.t()) :: term()
 
   @doc """
-  Parses and validates the raw argument string for a collect command.
+  Parses and validates arguments for a collect command.
+
+  Receives the raw argument string (everything after the command name within
+  the command text segment) and any extra segments that follow the command
+  text (e.g. @-mentions of other users).
+
+  For flush commands (which take no arguments), extra segments can be ignored.
 
   Return `{:ok, parsed_args}` on success or `{:error, reason}` to reject.
-  For flush commands (which take no arguments), return `{:ok, nil}`.
   """
-  @callback parse_args(String.t()) :: {:ok, term()} | {:error, String.t()}
+  @callback parse_args(String.t(), [map()]) :: {:ok, term()} | {:error, String.t()}
 
   @doc """
   Validates and converts a command request into a stored entry.

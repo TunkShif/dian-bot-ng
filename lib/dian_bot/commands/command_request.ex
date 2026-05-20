@@ -16,7 +16,8 @@ defmodule DianBot.Commands.CommandRequest do
     :mentions_bot?,
     :reply,
     :event,
-    :segments
+    :segments,
+    :extra_segments
   ]
 
   @type reply :: %{message_id: String.t()}
@@ -30,6 +31,7 @@ defmodule DianBot.Commands.CommandRequest do
           mentions_bot?: boolean(),
           reply: reply() | nil,
           event: DianBot.Event.GroupMessageEvent.t(),
-          segments: [DianBot.Message.segment()]
+          segments: [DianBot.Message.segment()],
+          extra_segments: [DianBot.Message.segment()]
         }
 end

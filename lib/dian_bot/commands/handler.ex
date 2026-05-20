@@ -21,12 +21,16 @@ defmodule DianBot.Commands.Handler do
   @callback cmds() :: [Entry.t()]
 
   @doc """
-  Parses the raw argument string into a structured argument.
+  Parses arguments into a structured argument.
+
+  Receives the raw argument string (everything after the command name within
+  the command text segment) and any extra segments that follow the command
+  text (e.g. @-mentions of other users).
 
   Return `{:ok, term()}` on success — the parsed value is passed to
   `handle/2`. Return `{:error, reason}` to reject with a usage reply.
   """
-  @callback parse_args(String.t()) :: {:ok, term()} | {:error, String.t()}
+  @callback parse_args(String.t(), [map()]) :: {:ok, term()} | {:error, String.t()}
 
   @doc """
   Executes the command.

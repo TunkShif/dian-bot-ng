@@ -56,7 +56,7 @@ defmodule DianBot.Commands.Consumer do
   defp dispatch_entry(entry, request, state) do
     with :ok <- check_mention_required(entry, request),
          :ok <- check_reply_required(entry, request),
-         {:ok, args} <- entry.module.parse_args(request.raw_args) do
+         {:ok, args} <- entry.module.parse_args(request.raw_args, request.extra_segments) do
       dispatch_type(entry, request, args, state)
     else
       {:error, reason} -> reply_usage(state, request.group_id, entry, reason)

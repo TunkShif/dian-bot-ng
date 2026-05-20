@@ -204,5 +204,78 @@ defmodule DianBot.Commands.ParserTest do
       assert request.name == "cmd"
       assert request.raw_args == "arg1  arg2"
     end
+
+    test "parses /cmd followed by @user mention as extra segment" do
+      event = %GroupMessageEvent{
+        group_id: 1,
+        self_id: @self_id,
+        sender_id: 789,
+        message_id: 100,
+        message: [Message.text("/warn"), Message.at(@other_id)],
+        raw_message: "",
+        timestamp: 1_713_456_789
+      }
+
+      assert {:ok, request} = Parser.parse(event)
+      assert request.name == "warn"
+      assert request.raw_args == ""
+      assert request.extra_segments == [Message.at(@other_id)]
+    end
+
+    test "parses /cmd with args followed by @user mention" do
+      event = %GroupMessageEvent{
+        group_id: 1,
+        self_id: @self_id,
+        sender_id: 789,
+        message_id: 100,
+        message: [Message.text("/warn spam"), Message.at(@other_id)],
+        raw_message: "",
+        timestamp: 1_713_456_789
+      }
+
+      assert {:ok, request} = Parser.parse(event)
+      assert request.name == "warn"
+      assert request.raw_args == "spam"
+      assert request.extra_segments == [Message.at(@other_id)]
+    end
+
+    test "parses /cmd with reply, @bot mention, and trailing @user" do
+      event = %GroupMessageEvent{
+        group_id: 1,
+        self_id: @self_id,
+        sender_id: 789,
+        message_id: 100,
+        message: [
+          Message.reply("5"),
+          Message.at(@self_id),
+          Message.text("/warn"),
+          Message.at(@other_id)
+        ],
+        raw_message: "",
+        timestamp: 1_713_456_789
+      }
+
+      assert {:ok, request} = Parser.parse(event)
+      assert request.name == "warn"
+      assert request.reply == %{message_id: "5"}
+      assert request.mentions_bot? == true
+      assert request.raw_args == ""
+      assert request.extra_segments == [Message.at(@other_id)]
+    end
+
+    test "empty extra_segments when no trailing segments" do
+      event = %GroupMessageEvent{
+        group_id: 1,
+        self_id: @self_id,
+        sender_id: 789,
+        message_id: 100,
+        message: [Message.text("/cmd")],
+        raw_message: "/cmd",
+        timestamp: 1_713_456_789
+      }
+
+      assert {:ok, request} = Parser.parse(event)
+      assert request.extra_segments == []
+    end
   end
 end

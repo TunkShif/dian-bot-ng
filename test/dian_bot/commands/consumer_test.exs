@@ -25,8 +25,8 @@ defmodule DianBot.Commands.ConsumerTest do
       ]
     end
 
-    def parse_args(""), do: {:error, "arg required"}
-    def parse_args(args), do: {:ok, args}
+    def parse_args("", _extra_segments), do: {:error, "arg required"}
+    def parse_args(args, _extra_segments), do: {:ok, args}
     def handle(_request, args), do: {:reply, "got: #{args}"}
   end
 
@@ -45,7 +45,7 @@ defmodule DianBot.Commands.ConsumerTest do
       ]
     end
 
-    def parse_args(args), do: {:ok, args}
+    def parse_args(args, _extra_segments), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "mentioned!"}
   end
 
@@ -65,7 +65,7 @@ defmodule DianBot.Commands.ConsumerTest do
       ]
     end
 
-    def parse_args(args), do: {:ok, args}
+    def parse_args(args, _extra_segments), do: {:ok, args}
     def handle(_request, _args), do: {:reply, "replied!"}
   end
 
@@ -84,7 +84,7 @@ defmodule DianBot.Commands.ConsumerTest do
       ]
     end
 
-    def parse_args(args), do: {:ok, args}
+    def parse_args(args, _extra_segments), do: {:ok, args}
     def handle(_request, _args), do: raise("boom")
   end
 
@@ -114,7 +114,7 @@ defmodule DianBot.Commands.ConsumerTest do
 
     def workflow, do: :consumer_batch_test
     def timeout_ms, do: :timer.hours(1)
-    def parse_args(args), do: {:ok, args}
+    def parse_args(args, _extra_segments), do: {:ok, args}
     def scope(request), do: %{group_id: request.group_id, sender_id: request.sender_id}
     def collect(_request, args), do: {:ok, args}
     def flush(_scope, entries, _reason), do: {:reply, "flushed: #{length(entries)} entries"}

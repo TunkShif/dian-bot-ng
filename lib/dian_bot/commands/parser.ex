@@ -4,7 +4,7 @@ defmodule DianBot.Commands.Parser do
 
   ## Recognized message shape
 
-      [optional reply segment] [optional @bot segment] [text segment starting with "/"]
+      [optional reply segment] [optional @bot segment] [text segment starting with "/"] [optional extra segments...]
 
   Any non-structural segment (image, face, etc.) or an @mention of a different
   user before the command text causes the message to be ignored.
@@ -19,6 +19,13 @@ defmodule DianBot.Commands.Parser do
   The bot's own user id is read from `event.self_id` to determine whether
   an @-mention targets this bot.
 
+  The recognized message shape is:
+
+      [optional reply] [optional @bot] [text starting with "/"] [optional extra segments...]
+
+  Any segments after the command text segment are collected as `extra_segments`
+  and made available to command handlers via `parse_args/2`.
+
   Returns `{:ok, %CommandRequest{}}` when a valid slash command is found,
   or `:ignore` when the message does not match the expected shape.
   """
@@ -27,7 +34,7 @@ defmodule DianBot.Commands.Parser do
     segments = event.message
 
     case do_parse(segments, event.self_id) do
-      {:ok, reply, mentions_bot?, name, raw_args} ->
+      {:ok, reply, mentions_bot?, name, raw_args, extra_segments} ->
         {:ok,
          %CommandRequest{
            group_id: event.group_id,
@@ -36,6 +43,7 @@ defmodule DianBot.Commands.Parser do
            timestamp: event.timestamp,
            name: name,
            raw_args: raw_args,
+           extra_segments: extra_segments,
            mentions_bot?: mentions_bot?,
            reply: reply,
            event: event,
@@ -67,15 +75,15 @@ defmodule DianBot.Commands.Parser do
     do_parse_command(segments, reply, false)
   end
 
-  defp do_parse_command([%{type: "text", data: %{"text" => text}}], reply, mentions_bot?) do
+  defp do_parse_command([%{type: "text", data: %{"text" => text}} | rest], reply, mentions_bot?) do
     trimmed = String.trim_leading(text)
 
     if String.starts_with?(trimmed, "/") do
-      <<"/", rest::binary>> = trimmed
-      rest = String.trim_leading(rest)
-      [name | tail] = String.split(rest, ~r/\s+/, parts: 2)
+      <<"/", rest_str::binary>> = trimmed
+      rest_str = String.trim_leading(rest_str)
+      [name | tail] = String.split(rest_str, ~r/\s+/, parts: 2)
 
-      {:ok, reply, mentions_bot?, name || "", List.first(tail) || ""}
+      {:ok, reply, mentions_bot?, name || "", List.first(tail) || "", rest}
     else
       :ignore
     end
