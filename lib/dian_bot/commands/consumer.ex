@@ -16,6 +16,7 @@ defmodule DianBot.Commands.Consumer do
   alias DianBot.Commands.Batch
   alias DianBot.Commands.Parser
   alias DianBot.Commands.Registry
+  alias DianBot.Commands.Throttle
   alias DianBot.Event.GroupMessageEvent
 
   @doc false
@@ -63,9 +64,13 @@ defmodule DianBot.Commands.Consumer do
     end
   end
 
-  defp dispatch_type(%{type: :immediate, module: handler}, request, args, state) do
-    # TODO: check throttle
-    execute_immediate(handler, request, args, state)
+  defp dispatch_type(%{type: :immediate, module: handler} = entry, request, args, state) do
+    with :ok <- check_throttle(entry, request, args) do
+      execute_immediate(handler, request, args, state)
+    else
+      {:throttled, :ignore} -> :ok
+      {:throttled, {:reply, msg}} -> state.send_msg.(:group, request.group_id, msg)
+    end
   end
 
   defp dispatch_type(%{type: :batch_collect, module: workflow}, request, args, state) do
@@ -113,6 +118,13 @@ defmodule DianBot.Commands.Consumer do
       {:error, reason} -> state.send_msg.(:group, request.group_id, "Error: #{reason}")
     end
   end
+
+  defp check_throttle(%{throttle: %Throttle.Policy{} = policy}, request, args) do
+    key = {request.group_id, request.sender_id, request.name, :erlang.phash2(args)}
+    Throttle.check(key, policy)
+  end
+
+  defp check_throttle(_entry, _request, _args), do: :ok
 
   defp reply_usage(state, group_id, entry, reason) do
     state.send_msg.(:group, group_id, "#{entry.usage}: #{reason}")

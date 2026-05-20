@@ -3,6 +3,7 @@ defmodule DianBot.Commands.ConsumerTest do
 
   alias DianBot.Commands.Batch
   alias DianBot.Commands.Consumer
+  alias DianBot.Commands.Throttle
   alias DianBot.Event.GroupMessageEvent
   alias DianBot.Message
 
@@ -82,29 +83,36 @@ defmodule DianBot.Commands.ConsumerTest do
 
     lookup = fn
       "test" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>", throttle: :none}}
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>",}}
 
       "t" ->
-        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>", throttle: :none}}
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/test <arg>",}}
 
       "mention_cmd" ->
-        {:ok, %Entry{type: :immediate, module: MentionHandler, mention_required?: true, reply_required?: false, usage: "/mention_cmd", throttle: :none}}
+        {:ok, %Entry{type: :immediate, module: MentionHandler, mention_required?: true, reply_required?: false, usage: "/mention_cmd",}}
 
       "reply_cmd" ->
-        {:ok, %Entry{type: :immediate, module: ReplyHandler, mention_required?: false, reply_required?: true, usage: "/reply_cmd", throttle: :none}}
+        {:ok, %Entry{type: :immediate, module: ReplyHandler, mention_required?: false, reply_required?: true, usage: "/reply_cmd",}}
 
       "crash_cmd" ->
-        {:ok, %Entry{type: :immediate, module: CrashHandler, mention_required?: false, reply_required?: false, usage: "/crash_cmd", throttle: :none}}
+        {:ok, %Entry{type: :immediate, module: CrashHandler, mention_required?: false, reply_required?: false, usage: "/crash_cmd",}}
 
       "append" ->
-        {:ok, %Entry{type: :batch_collect, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/append <key>", throttle: :none}}
+        {:ok, %Entry{type: :batch_collect, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/append <key>",}}
 
       "submit" ->
-        {:ok, %Entry{type: :batch_flush, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/submit", throttle: :none}}
+        {:ok, %Entry{type: :batch_flush, module: BatchHandler, mention_required?: false, reply_required?: false, usage: "/submit",}}
+
+      "throttle_ignore" ->
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/throttle_ignore <arg>", throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: :ignore}}}
+
+      "throttle_reply" ->
+        {:ok, %Entry{type: :immediate, module: BasicHandler, mention_required?: false, reply_required?: false, usage: "/throttle_reply <arg>", throttle: %Throttle.Policy{window_ms: 10_000, on_throttled: {:reply, "slow down!"}}}}
 
       _ -> :error
     end
 
+    start_supervised!(Throttle)
     start_supervised!({Batch, send_msg: fn _, _, _ -> :ok end})
     start_supervised!({Consumer, subscribe?: false, send_msg: send_msg, lookup: lookup})
     :ok
@@ -198,6 +206,48 @@ defmodule DianBot.Commands.ConsumerTest do
       send(consumer, event("/append key1"))
       send(consumer, event("/submit"))
       assert_receive {:send_msg, 1, "flushed: 1 entries"}, 500
+    end
+  end
+
+  describe "throttling" do
+    test "on_throttled: :ignore silently drops repeated command" do
+      consumer = Process.whereis(Consumer)
+
+      send(consumer, event("/throttle_ignore hello"))
+      assert_receive {:send_msg, 1, "got: hello"}, 500
+
+      send(consumer, event("/throttle_ignore hello"))
+      refute_receive {:send_msg, _, _}, 200
+    end
+
+    test "different args bypass throttle" do
+      consumer = Process.whereis(Consumer)
+
+      send(consumer, event("/throttle_ignore first"))
+      assert_receive {:send_msg, 1, "got: first"}, 500
+
+      send(consumer, event("/throttle_ignore second"))
+      assert_receive {:send_msg, 1, "got: second"}, 500
+    end
+
+    test "on_throttled: {:reply, msg} sends configured message" do
+      consumer = Process.whereis(Consumer)
+
+      send(consumer, event("/throttle_reply hello"))
+      assert_receive {:send_msg, 1, "got: hello"}, 500
+
+      send(consumer, event("/throttle_reply hello"))
+      assert_receive {:send_msg, 1, "slow down!"}, 200
+    end
+
+    test "commands without throttle policy are never throttled" do
+      consumer = Process.whereis(Consumer)
+
+      send(consumer, event("/test hello"))
+      assert_receive {:send_msg, 1, "got: hello"}, 500
+
+      send(consumer, event("/test hello"))
+      assert_receive {:send_msg, 1, "got: hello"}, 500
     end
   end
 end

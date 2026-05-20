@@ -47,6 +47,7 @@ defmodule Dian.Application do
       DianBot.Client.WebSocket ->
         [
           DianBot.Client.WebSocket,
+          DianBot.Commands.Throttle,
           DianBot.Commands.Consumer,
           DianBot.Commands.Batch
         ]

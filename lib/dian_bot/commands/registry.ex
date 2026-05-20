@@ -20,7 +20,7 @@ defmodule DianBot.Commands.Registry do
             mention_required?: boolean(),
             reply_required?: boolean(),
             usage: String.t(),
-            throttle: term()
+            throttle: DianBot.Commands.Throttle.Policy.t() | nil
           }
   end
 
