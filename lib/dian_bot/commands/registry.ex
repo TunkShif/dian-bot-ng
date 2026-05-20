@@ -36,7 +36,8 @@ defmodule DianBot.Commands.Registry do
   end
 
   @handlers [
-    DianBot.Commands.Handlers.SteamStatus
+    DianBot.Commands.Handlers.SteamStatus,
+    DianBot.Commands.Handlers.Help
   ]
 
   @entries for mod <- @handlers,
@@ -64,6 +65,16 @@ defmodule DianBot.Commands.Registry do
   @spec commands() :: [{String.t(), :immediate | :batch_collect | :batch_flush, module()}]
   def commands do
     for {name, entry} <- entries(), do: {name, entry.type, entry.module}
+  end
+
+  @doc """
+  Returns one `%Entry{}` per registered handler, deduplicated by module.
+  """
+  @spec list_entries() :: [Entry.t()]
+  def list_entries do
+    entries()
+    |> Map.values()
+    |> Enum.uniq_by(& &1.module)
   end
 
   defp entries do

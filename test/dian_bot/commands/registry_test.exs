@@ -15,6 +15,16 @@ defmodule DianBot.Commands.RegistryTest do
       names = for {name, _, _} <- cmds, do: name
       assert "steam:status" in names
       assert "zgsm" in names
+      assert "help" in names
+      assert "h" in names
+    end
+  end
+
+  describe "list_entries/0" do
+    test "returns one entry per handler module" do
+      entries = Registry.list_entries()
+      modules = Enum.map(entries, & &1.module)
+      assert length(entries) == length(Enum.uniq(modules))
     end
   end
 end
