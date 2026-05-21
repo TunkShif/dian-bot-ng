@@ -12,7 +12,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: dian-bot
+  IMAGE_NAME: ${{ github.repository_owner }}/dian-bot
   ELIXIR_VERSION: "1.19.5"
   OTP_VERSION: "28.4"
 
