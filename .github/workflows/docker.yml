@@ -13,8 +13,8 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: dian-bot
-  ELIXIR_VERSION: "1.18.4"
-  OTP_VERSION: "27.3.4.3"
+  ELIXIR_VERSION: "1.19.5"
+  OTP_VERSION: "28.4"
 
 jobs:
   test:
