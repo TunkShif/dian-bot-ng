@@ -5,10 +5,10 @@
 # https://hub.docker.com/r/hexpm/elixir/tags
 # https://hub.docker.com/_/debian/tags
 #
-ARG ELIXIR_VERSION=1.18.4
-ARG OTP_VERSION=27.3.4.3
-ARG RUST_VERSION=1.91.0
-ARG DEBIAN_VERSION=trixie-20250908-slim
+ARG ELIXIR_VERSION=1.19.5
+ARG OTP_VERSION=28.4
+ARG RUST_VERSION=1.95.0
+ARG DEBIAN_VERSION=trixie-20260518-slim
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 

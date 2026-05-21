@@ -1,2 +1,7 @@
+[tools]
+erlang = "28.4.1"
+elixir = "1.19.5"
+rust = "1.95.0"
+
 [env]
 _.file = '.env'
