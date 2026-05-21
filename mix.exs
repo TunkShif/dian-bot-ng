@@ -1,10 +1,12 @@
 defmodule Dian.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :dian,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -91,15 +93,13 @@ defmodule Dian.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "openapi.gen.spec": ["openapi.spec.json --spec DianWeb.APISpec openapi.json"],
       "assets.setup": ["bun.install --if-missing", "bun assets install"],
-      "assets.build": [
-        "openapi.spec.json --spec DianWeb.APISpec openapi.json",
-        "bun typegen",
-        "bun vite build"
-      ],
+      "assets.build": ["bun typegen", "bun vite build"],
       "assets.deploy": ["assets.build"],
       "assets.precommit": ["bun precommit", "assets.build"],
       precommit: [
+        "openapi.gen.spec",
         "assets.precommit",
         "compile --warnings-as-errors",
         "deps.unlock --unused",
