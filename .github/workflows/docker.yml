@@ -50,9 +50,11 @@ jobs:
       - name: Cache compiled build
         uses: actions/cache@v4
         with:
-          path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('mix.lock') }}-${{ hashFiles('lib/**/*.ex', 'lib/**/*.exs') }}
-          restore-keys: ${{ runner.os }}-build-${{ hashFiles('mix.lock') }}-
+          path: |
+            _build
+            native/dian_media/target
+          key: ${{ runner.os }}-build-${{ hashFiles('mix.lock', 'mix.exs', 'config/**/*.exs', 'lib/**/*.ex', 'lib/**/*.exs', 'native/dian_media/Cargo.lock', 'native/dian_media/Cargo.toml', 'native/dian_media/src/**/*.rs') }}
+          restore-keys: ${{ runner.os }}-build-
 
       - name: Install dependencies
         run: mix deps.get
@@ -61,7 +63,7 @@ jobs:
         run: mix format --check-formatted
 
       - name: Compile with warnings as errors
-        run: mix compile --warnings-as-errors
+        run: mix compile --force --warnings-as-errors
 
       - name: Run tests
         run: mix test
