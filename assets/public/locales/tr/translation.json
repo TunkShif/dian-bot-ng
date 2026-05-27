@@ -103,6 +103,11 @@
       "notifications": "Bildirimler",
       "logOut": "Çıkış yap"
     },
+    "sidebar": {
+      "toggleSidebar": "Yan paneli değiştir",
+      "sheetTitle": "Yan panel",
+      "sheetDescription": "Mobil yan paneli görüntüler."
+    },
     "dashboard": {
       "title": "Panel",
       "pageTitle": "Kontrol paneli"
@@ -225,7 +230,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "7656 ile başlayan 17 haneli Steam ID'niz."
+            "helper": "7656 ile başlayan 17 haneli Steam ID'niz.",
+            "regexError": "7656 ile başlayan geçerli bir Steam ID olmalı."
           },
           "lookup": "Ara",
           "lookupError": "Bu ID için bir Steam profili bulunamadı. Lütfen kontrol edip tekrar deneyin.",
@@ -413,6 +419,51 @@
         "previous": "Önceki",
         "next": "Sonraki"
       }
+    }
+  },
+  "validation": {
+    "required": "Bu alan zorunludur.",
+    "invalid_type": "{{expected}} bekleniyordu, {{received}} alındı.",
+    "invalid_enum": "Geçersiz enum değeri.",
+    "invalid_literal": "Geçersiz literal değer.",
+    "unrecognized_keys": "Nesnede tanınmayan anahtarlar.",
+    "invalid_union": "Geçersiz giriş.",
+    "types": {
+      "string": "dize",
+      "number": "sayı",
+      "boolean": "mantıksal",
+      "date": "tarih",
+      "array": "dizi",
+      "object": "nesne",
+      "undefined": "tanımsız",
+      "null": "null"
+    },
+    "string": {
+      "min": "En az {{min}} karakter.",
+      "max": "En fazla {{max}} karakter.",
+      "length": "Tam olarak {{length}} karakter.",
+      "email": "Geçersiz e-posta adresi.",
+      "url": "Geçersiz URL.",
+      "uuid": "Geçersiz UUID.",
+      "regex": "Geçersiz biçim.",
+      "datetime": "Geçersiz tarih/saat.",
+      "ip": "Geçersiz IP adresi."
+    },
+    "number": {
+      "min": "En az {{min}}.",
+      "max": "En fazla {{max}}.",
+      "greater_than": "{{min}}'den büyük olmalı.",
+      "less_than": "{{max}}'den küçük olmalı.",
+      "exact": "Tam olarak {{value}} olmalı."
+    },
+    "array": {
+      "nonempty": "Boş olamaz.",
+      "min": "En az {{min}} eleman.",
+      "max": "En fazla {{max}} eleman."
+    },
+    "date": {
+      "min": "Tarih minimumdan önce olamaz.",
+      "max": "Tarih maksimumdan sonra olamaz."
     }
   }
 }

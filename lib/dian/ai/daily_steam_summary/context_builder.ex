@@ -91,10 +91,10 @@ defmodule Dian.AI.DailySteamSummary.ContextBuilder do
   defp to_local(%DateTime{} = dt) do
     dt
     |> DateTime.add(@utc8_offset_seconds, :second)
-    # TODO: DateTime.add/3 shifts wall clock but doesn't update timezone metadata.
-    # The emitted ISO 8601 will have a misleading "Z" (UTC) suffix instead of "+08:00".
-    # Fix: either add tzdata dep + DateTime.shift_zone!/2, or manually set utc_offset
-    # on the struct before formatting (e.g. %{shifted | utc_offset: @utc8_offset_seconds}).
+    |> Map.put(:utc_offset, @utc8_offset_seconds)
+    |> Map.put(:std_offset, 0)
+    |> Map.put(:time_zone, "Etc/UTC+8")
+    |> Map.put(:zone_abbr, "+08:00")
     |> DateTime.to_iso8601()
   end
 

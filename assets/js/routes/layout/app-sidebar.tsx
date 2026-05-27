@@ -26,7 +26,12 @@ export function AppSidebar({ navMenuExpansionState, ...props }: AppSidebarProps)
   const currentUser = useCurrentUser();
 
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar
+      collapsible="offcanvas"
+      sheetTitle={t("app.sidebar.sheetTitle")}
+      sheetDescription={t("app.sidebar.sheetDescription")}
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

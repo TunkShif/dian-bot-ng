@@ -103,6 +103,11 @@
       "notifications": "Notifications",
       "logOut": "Se déconnecter"
     },
+    "sidebar": {
+      "toggleSidebar": "Basculer la barre latérale",
+      "sheetTitle": "Barre latérale",
+      "sheetDescription": "Affiche la barre latérale mobile."
+    },
     "dashboard": {
       "title": "Tableau de bord",
       "pageTitle": "Tableau de bord"
@@ -225,7 +230,8 @@
           "steamId": {
             "label": "ID Steam",
             "placeholder": "76561198012345678",
-            "helper": "Votre ID Steam à 17 chiffres commençant par 7656."
+            "helper": "Votre ID Steam à 17 chiffres commençant par 7656.",
+            "regexError": "Doit être un ID Steam valide commençant par 7656."
           },
           "lookup": "Rechercher",
           "lookupError": "Impossible de trouver un profil Steam pour cet ID. Veuillez vérifier et réessayer.",
@@ -413,6 +419,51 @@
         "previous": "Précédent",
         "next": "Suivant"
       }
+    }
+  },
+  "validation": {
+    "required": "Ce champ est obligatoire.",
+    "invalid_type": "Attendu {{expected}}, reçu {{received}}.",
+    "invalid_enum": "Valeur d'énumération invalide.",
+    "invalid_literal": "Valeur littérale invalide.",
+    "unrecognized_keys": "Clé(s) non reconnue(s) dans l'objet.",
+    "invalid_union": "Entrée invalide.",
+    "types": {
+      "string": "chaîne",
+      "number": "nombre",
+      "boolean": "booléen",
+      "date": "date",
+      "array": "tableau",
+      "object": "objet",
+      "undefined": "indéfini",
+      "null": "nul"
+    },
+    "string": {
+      "min": "Au moins {{min}} caractères.",
+      "max": "Au plus {{max}} caractères.",
+      "length": "Exactement {{length}} caractères.",
+      "email": "Adresse e-mail invalide.",
+      "url": "URL invalide.",
+      "uuid": "UUID invalide.",
+      "regex": "Format invalide.",
+      "datetime": "Date/heure invalide.",
+      "ip": "Adresse IP invalide."
+    },
+    "number": {
+      "min": "Au moins {{min}}.",
+      "max": "Au plus {{max}}.",
+      "greater_than": "Doit être supérieur à {{min}}.",
+      "less_than": "Doit être inférieur à {{max}}.",
+      "exact": "Doit être exactement {{value}}."
+    },
+    "array": {
+      "nonempty": "Ne doit pas être vide.",
+      "min": "Au moins {{min}} élément(s).",
+      "max": "Au plus {{max}} élément(s)."
+    },
+    "date": {
+      "min": "La date ne peut pas être antérieure au minimum.",
+      "max": "La date ne peut pas être postérieure au maximum."
     }
   }
 }

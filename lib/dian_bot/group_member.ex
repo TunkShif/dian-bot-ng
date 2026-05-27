@@ -1,7 +1,7 @@
 defmodule DianBot.GroupMember do
   alias Dian.Accounts
 
-  @type role :: String.t()
+  @type role :: :owner | :admin | :member
   @type sex :: String.t()
 
   @type t :: %__MODULE__{
@@ -26,7 +26,6 @@ defmodule DianBot.GroupMember do
     :join_time,
     :last_sent_time,
     :is_robot,
-    # TODO: make role enum atoms
     :role,
     :title
   ]
@@ -44,12 +43,16 @@ defmodule DianBot.GroupMember do
       join_time: data["join_time"],
       last_sent_time: data["last_sent_time"],
       is_robot: data["is_robot"],
-      role: data["role"],
+      role: normalize_role(data["role"]),
       title: data["title"]
     }
   end
 
   def admin?(%__MODULE__{} = member) do
-    member.role in ["owner", "admin"]
+    member.role in [:owner, :admin]
   end
+
+  defp normalize_role("owner"), do: :owner
+  defp normalize_role("admin"), do: :admin
+  defp normalize_role(_), do: :member
 end

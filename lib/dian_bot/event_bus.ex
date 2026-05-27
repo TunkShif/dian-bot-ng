@@ -9,6 +9,6 @@ defmodule DianBot.EventBus do
   end
 
   def broadcast(event) do
-    Phoenix.PubSub.broadcast!(@pubsub, @topic, event)
+    Phoenix.PubSub.broadcast(@pubsub, @topic, event)
   end
 end

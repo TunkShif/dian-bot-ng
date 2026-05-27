@@ -103,6 +103,11 @@
       "notifications": "通知",
       "logOut": "登出"
     },
+    "sidebar": {
+      "toggleSidebar": "切換側邊欄",
+      "sheetTitle": "側邊欄",
+      "sheetDescription": "顯示流動裝置側邊欄。"
+    },
     "dashboard": {
       "title": "儀表板",
       "pageTitle": "儀表板"
@@ -225,7 +230,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "以 7656 開頭嘅 17 位 Steam ID。"
+            "helper": "以 7656 開頭嘅 17 位 Steam ID。",
+            "regexError": "必須係以 7656 開頭嘅有效 Steam ID。"
           },
           "lookup": "搵",
           "lookupError": "搵唔到呢個 Steam ID 對應嘅個人資料，請檢查後再試。",
@@ -413,6 +419,51 @@
         "previous": "上一頁",
         "next": "下一頁"
       }
+    }
+  },
+  "validation": {
+    "required": "呢個欄位係必填。",
+    "invalid_type": "期望 {{expected}}，收到 {{received}}。",
+    "invalid_enum": "無效嘅枚舉值。",
+    "invalid_literal": "無效嘅字面值。",
+    "unrecognized_keys": "物件中有未知嘅鍵。",
+    "invalid_union": "無效嘅輸入。",
+    "types": {
+      "string": "字串",
+      "number": "數字",
+      "boolean": "布爾值",
+      "date": "日期",
+      "array": "陣列",
+      "object": "物件",
+      "undefined": "未定義",
+      "null": "空值"
+    },
+    "string": {
+      "min": "至少 {{min}} 個字。",
+      "max": "最多 {{max}} 個字。",
+      "length": "必須恰好 {{length}} 個字。",
+      "email": "請輸入有效嘅電郵地址。",
+      "url": "請輸入有效嘅 URL。",
+      "uuid": "請輸入有效嘅 UUID。",
+      "regex": "格式無效。",
+      "datetime": "請輸入有效嘅日期時間。",
+      "ip": "請輸入有效嘅 IP 地址。"
+    },
+    "number": {
+      "min": "唔可以少過 {{min}}。",
+      "max": "唔可以多過 {{max}}。",
+      "greater_than": "必須大過 {{min}}。",
+      "less_than": "必須細過 {{max}}。",
+      "exact": "必須等於 {{value}}。"
+    },
+    "array": {
+      "nonempty": "列表唔可以空。",
+      "min": "至少 {{min}} 個元素。",
+      "max": "最多 {{max}} 個元素。"
+    },
+    "date": {
+      "min": "日期唔可以早過指定日期。",
+      "max": "日期唔可以遲過指定日期。"
     }
   }
 }

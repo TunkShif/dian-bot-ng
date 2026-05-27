@@ -1,6 +1,8 @@
 defmodule DianWeb.FallbackController do
   use DianWeb, :controller
 
+  require Logger
+
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
@@ -68,5 +70,13 @@ defmodule DianWeb.FallbackController do
     conn
     |> put_status(:bad_gateway)
     |> json(DianWeb.JSend.fail(%{message: "failed to send email"}))
+  end
+
+  def call(conn, {:error, reason}) do
+    Logger.error("unhandled action_fallback error: #{inspect(reason)}")
+
+    conn
+    |> put_status(:internal_server_error)
+    |> json(DianWeb.JSend.fail(%{message: "internal server error"}))
   end
 end

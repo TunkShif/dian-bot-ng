@@ -17,9 +17,9 @@ export type SteamPlayerSummary = NonNullable<SteamPlayerSummaryResponse["data"][
 export const STEAM_ID_REGEX = /^7656\d{13}$/;
 export const steamIdFieldSchema = z
   .string()
-  .min(17, "Steam ID must be 17 characters")
-  .max(17, "Steam ID must be 17 characters")
-  .regex(STEAM_ID_REGEX, "Must be a valid Steam ID starting with 7656");
+  .min(17)
+  .max(17)
+  .regex(STEAM_ID_REGEX, i18n.t("app.settings.steam.bind.steamId.regexError"));
 export const steamIdSchema = z.object({
   steam_id: steamIdFieldSchema,
 });

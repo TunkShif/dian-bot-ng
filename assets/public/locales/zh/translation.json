@@ -103,6 +103,11 @@
       "notifications": "通知",
       "logOut": "退出登录"
     },
+    "sidebar": {
+      "toggleSidebar": "切换侧边栏",
+      "sheetTitle": "侧边栏",
+      "sheetDescription": "显示移动端侧边栏。"
+    },
     "errorBoundary": {
       "eyebrow": "恢复模式",
       "goBack": "返回",
@@ -401,7 +406,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "以 7656 开头的 17 位 Steam ID。"
+            "helper": "以 7656 开头的 17 位 Steam ID。",
+            "regexError": "请输入以 7656 开头的有效 Steam ID。"
           },
           "lookup": "查找",
           "lookupError": "未找到该 Steam ID 对应的个人资料，请检查后重试。",
@@ -413,6 +419,51 @@
           "errorMessage": "无法绑定 Steam 账号，请重试。"
         }
       }
+    }
+  },
+  "validation": {
+    "required": "此项为必填项。",
+    "invalid_type": "期望 {{expected}} 类型，收到 {{received}}。",
+    "invalid_enum": "选择的值无效。",
+    "invalid_literal": "值不匹配。",
+    "unrecognized_keys": "对象中存在未知的键。",
+    "invalid_union": "值不匹配任何预期类型。",
+    "types": {
+      "string": "字符串",
+      "number": "数字",
+      "boolean": "布尔值",
+      "date": "日期",
+      "array": "数组",
+      "object": "对象",
+      "undefined": "未定义",
+      "null": "空值"
+    },
+    "string": {
+      "min": "至少需要 {{min}} 个字符。",
+      "max": "最多 {{max}} 个字符。",
+      "length": "必须恰好 {{length}} 个字符。",
+      "email": "请输入有效的邮箱地址。",
+      "url": "请输入有效的 URL。",
+      "uuid": "请输入有效的 UUID。",
+      "regex": "格式无效。",
+      "datetime": "请输入有效的日期时间。",
+      "ip": "请输入有效的 IP 地址。"
+    },
+    "number": {
+      "min": "不能小于 {{min}}。",
+      "max": "不能大于 {{max}}。",
+      "greater_than": "必须大于 {{min}}。",
+      "less_than": "必须小于 {{max}}。",
+      "exact": "必须等于 {{value}}。"
+    },
+    "array": {
+      "nonempty": "列表不能为空。",
+      "min": "至少需要 {{min}} 个元素。",
+      "max": "最多 {{max}} 个元素。"
+    },
+    "date": {
+      "min": "日期不能早于指定日期。",
+      "max": "日期不能晚于指定日期。"
     }
   }
 }

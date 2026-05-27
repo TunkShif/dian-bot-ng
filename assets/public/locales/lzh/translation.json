@@ -103,6 +103,11 @@
       "notifications": "告",
       "logOut": "出"
     },
+    "sidebar": {
+      "toggleSidebar": "切換側欄",
+      "sheetTitle": "側欄",
+      "sheetDescription": "示移動側欄。"
+    },
     "dashboard": {
       "title": "總覽",
       "pageTitle": "總覽"
@@ -225,7 +230,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "以 7656 起之 17 位 Steam ID。"
+            "helper": "以 7656 起之 17 位 Steam ID。",
+            "regexError": "須為以 7656 起之有效 Steam ID。"
           },
           "lookup": "尋",
           "lookupError": "未得此 ID 之 Steam 資，請核而復試。",
@@ -413,6 +419,51 @@
         "previous": "上頁",
         "next": "下頁"
       }
+    }
+  },
+  "validation": {
+    "required": "此項為必填。",
+    "invalid_type": "望 {{expected}}，得 {{received}}。",
+    "invalid_enum": "枚舉之值無效。",
+    "invalid_literal": "字面之值無效。",
+    "unrecognized_keys": "物中有未識之鍵。",
+    "invalid_union": "輸入無效。",
+    "types": {
+      "string": "字串",
+      "number": "數",
+      "boolean": "邏輯",
+      "date": "日期",
+      "array": "列",
+      "object": "物",
+      "undefined": "未定",
+      "null": "空"
+    },
+    "string": {
+      "min": "至少 {{min}} 字。",
+      "max": "至多 {{max}} 字。",
+      "length": "恰 {{length}} 字。",
+      "email": "郵址無效。",
+      "url": "網址無效。",
+      "uuid": "UUID 無效。",
+      "regex": "格式無效。",
+      "datetime": "日期時刻無效。",
+      "ip": "IP 地址無效。"
+    },
+    "number": {
+      "min": "不可小於 {{min}}。",
+      "max": "不可大於 {{max}}。",
+      "greater_than": "須大於 {{min}}。",
+      "less_than": "須小於 {{max}}。",
+      "exact": "須等於 {{value}}。"
+    },
+    "array": {
+      "nonempty": "列不可空。",
+      "min": "至少 {{min}} 元。",
+      "max": "至多 {{max}} 元。"
+    },
+    "date": {
+      "min": "日期不可早於指定。",
+      "max": "日期不可晚於指定。"
     }
   }
 }

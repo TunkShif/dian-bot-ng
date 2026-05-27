@@ -12,11 +12,10 @@ defmodule Dian.Accounts do
 
   @user_details_cache_key_prefix "accounts:user_details:"
   @user_details_cache_ttl :timer.hours(24)
-
-  # TODO: logging
+  @accounts_topic "accounts:user_events"
 
   def extract_qq_id_from(email) when is_binary(email) do
-    String.trim_trailing(email, "@qq.com")
+    String.replace_suffix(email, "@qq.com", "")
   end
 
   def build_user_avatar_url(qq_id, size \\ 640),
@@ -24,6 +23,16 @@ defmodule Dian.Accounts do
 
   def build_group_avatar_url(group_id, size \\ 640),
     do: "https://p.qlogo.cn/gh/#{group_id}/#{group_id}/#{size}/"
+
+  @doc """
+  Subscribes to account-related PubSub events.
+
+  Events include:
+  - `%{type: :user_not_in_any_group, user_id: integer(), qq_id: String.t()}`
+  """
+  def subscribe_user_events do
+    Phoenix.PubSub.subscribe(Dian.PubSub, @accounts_topic)
+  end
 
   def get_user_details(%User{} = user) do
     cache_key = user_details_cache_key(user)
@@ -51,9 +60,15 @@ defmodule Dian.Accounts do
 
     if member do
       Cachex.put(:dian_cache, cache_key, details, expire: @user_details_cache_ttl)
+      Logger.debug("cached user details", user_id: user.id, qq_id: qq_id)
     else
-      # TODO: Broadcast a PubSub event when an existing user can no longer be
-      # found in any bot group, so a worker can mark the user inactive or locked.
+      Logger.warning("user not found in any bot group", user_id: user.id, qq_id: qq_id)
+
+      Phoenix.PubSub.broadcast(Dian.PubSub, @accounts_topic, %{
+        type: :user_not_in_any_group,
+        user_id: user.id,
+        qq_id: qq_id
+      })
     end
 
     details

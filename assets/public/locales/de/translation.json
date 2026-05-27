@@ -103,6 +103,11 @@
       "notifications": "Benachrichtigungen",
       "logOut": "Abmelden"
     },
+    "sidebar": {
+      "toggleSidebar": "Seitenleiste umschalten",
+      "sheetTitle": "Seitenleiste",
+      "sheetDescription": "Zeigt die mobile Seitenleiste an."
+    },
     "dashboard": {
       "title": "Übersicht",
       "pageTitle": "Übersicht"
@@ -225,7 +230,8 @@
           "steamId": {
             "label": "Steam-ID",
             "placeholder": "76561198012345678",
-            "helper": "Ihre 17-stellige Steam-ID beginnend mit 7656."
+            "helper": "Ihre 17-stellige Steam-ID beginnend mit 7656.",
+            "regexError": "Muss eine gültige Steam-ID sein, die mit 7656 beginnt."
           },
           "lookup": "Suchen",
           "lookupError": "Für diese ID wurde kein Steam-Profil gefunden. Bitte überprüfen Sie die ID und versuchen Sie es erneut.",
@@ -413,6 +419,51 @@
         "previous": "Vorherige",
         "next": "Nächste"
       }
+    }
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich.",
+    "invalid_type": "Erwartet {{expected}}, erhalten {{received}}.",
+    "invalid_enum": "Ungültiger Enum-Wert.",
+    "invalid_literal": "Ungültiger Literal-Wert.",
+    "unrecognized_keys": "Unbekannte Schlüssel im Objekt.",
+    "invalid_union": "Ungültige Eingabe.",
+    "types": {
+      "string": "Zeichenkette",
+      "number": "Zahl",
+      "boolean": "Wahrheitswert",
+      "date": "Datum",
+      "array": "Array",
+      "object": "Objekt",
+      "undefined": "undefiniert",
+      "null": "null"
+    },
+    "string": {
+      "min": "Mindestens {{min}} Zeichen.",
+      "max": "Höchstens {{max}} Zeichen.",
+      "length": "Genau {{length}} Zeichen.",
+      "email": "Ungültige E-Mail-Adresse.",
+      "url": "Ungültige URL.",
+      "uuid": "Ungültige UUID.",
+      "regex": "Ungültiges Format.",
+      "datetime": "Ungültiges Datum/Zeit.",
+      "ip": "Ungültige IP-Adresse."
+    },
+    "number": {
+      "min": "Mindestens {{min}}.",
+      "max": "Höchstens {{max}}.",
+      "greater_than": "Muss größer als {{min}} sein.",
+      "less_than": "Muss kleiner als {{max}} sein.",
+      "exact": "Muss genau {{value}} sein."
+    },
+    "array": {
+      "nonempty": "Darf nicht leer sein.",
+      "min": "Mindestens {{min}} Element(e).",
+      "max": "Höchstens {{max}} Element(e)."
+    },
+    "date": {
+      "min": "Datum darf nicht vor dem Minimum liegen.",
+      "max": "Datum darf nicht nach dem Maximum liegen."
     }
   }
 }

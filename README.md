@@ -1,23 +1,84 @@
+<div align="center">
+
 # Dian
+
+**A modern QQ bot platform powered by Phoenix and React**
+
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/your-username/dian-bot-ng)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-green)](LICENSE)
+[![Elixir](https://img.shields.io/badge/elixir-~>1.15-purple)](https://elixir-lang.org)
+[![Phoenix](https://img.shields.io/badge/phoenix-~>1.8-orange)](https://phoenixframework.org)
 
 **English** | [简体中文](README_zh-CN.md)
 
-## Prerequisites
+</div>
+
+## ✨ Features
+
+- **OneBot Protocol Support** - Seamless integration with QQ bots via WebSocket
+- **Steam Integration** - Track player status, achievements, and play sessions
+- **AI-Powered Summaries** - Daily summaries using DeepSeek AI
+- **WebAuthn Authentication** - Secure passwordless login
+- **Real-time Updates** - Live data streaming via Phoenix PubSub
+- **Media Rendering** - SVG-to-image conversion with custom fonts (Rust NIF)
+- **Multi-language Support** - i18n with English and Chinese locales
+
+## 🚀 Tech Stack
+
+### Backend
+- **Elixir** ~1.15 with **Phoenix** ~1.8.5
+- **SQLite** via Ecto + ecto_sqlite3
+- **WebSockex** for OneBot protocol communication
+- **Req** for HTTP requests (Steam API, DeepSeek)
+- **Rustler** NIF for media rendering
+
+### Frontend
+- **React** 19 with **React Router** v6
+- **shadcn/ui** components
+- **TanStack Query** for data fetching
+- **TanStack Form** for form management
+- **i18next** for internationalization
+- **nuqs** for URL state management
+
+## 📋 Prerequisites
 
 Before running project setup, install:
 
-* Elixir and Erlang/OTP compatible with this project
-* `bun` for frontend dependency installation and builds
-* Rust toolchain (`rustc` and `cargo`) because the media renderer builds a Rustler NIF
+- [Elixir](https://elixir-lang.org/install.html) and Erlang/OTP compatible with this project
+- [bun](https://bun.sh) for frontend dependency installation and builds
+- [Rust](https://rustup.rs) toolchain (`rustc` and `cargo`) because the media renderer builds a Rustler NIF
 
-To start your Phoenix server:
+## 🛠️ Development Setup
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/your-username/dian-bot-ng.git
+   cd dian-bot-ng
+   ```
 
-`mix setup` will also install frontend dependencies and compile the Rust-based media renderer.
+2. **Install dependencies and setup**
+   ```sh
+   mix setup
+   ```
+   This will:
+   - Install Elixir dependencies
+   - Install frontend dependencies via `bun`
+   - Compile the Rust-based media renderer
+   - Setup the database
 
-## Custom Fonts
+3. **Start the development server**
+   ```sh
+   mix phx.server
+   ```
+   Or with interactive shell:
+   ```sh
+   iex -S mix phx.server
+   ```
+
+4. **Visit the application**
+   Open [http://localhost:4000](http://localhost:4000) in your browser.
+
+## 🎨 Custom Fonts
 
 `Dian.Media.render_svg/2` accepts a `fonts:` option with a list of font file paths:
 
@@ -36,7 +97,7 @@ For local tests or fixtures, place font files under `test/support/fixtures/fonts
 
 `priv/fonts/` already includes `WenQuanYi Micro Hei` for the Steam status card templates. Use it as the first family when you need Chinese text in rendered SVGs, and add extra font files alongside it when a card needs a different typeface.
 
-## Deployment
+## 🐳 Deployment
 
 This project uses a multi-stage Docker build for production releases. The recommended approach follows the [Phoenix container deployment guide](https://hexdocs.pm/phoenix/releases.html#containers).
 
@@ -87,3 +148,7 @@ docker run -d \
 ```
 
 Mount a persistent volume for the SQLite database file so it survives container restarts.
+
+## 📄 License
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).

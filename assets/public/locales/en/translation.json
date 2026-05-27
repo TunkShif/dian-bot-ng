@@ -103,6 +103,11 @@
       "notifications": "Notifications",
       "logOut": "Log out"
     },
+    "sidebar": {
+      "toggleSidebar": "Toggle Sidebar",
+      "sheetTitle": "Sidebar",
+      "sheetDescription": "Displays the mobile sidebar."
+    },
     "errorBoundary": {
       "eyebrow": "Recovery mode",
       "goBack": "Go back",
@@ -401,7 +406,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "Your 17-digit Steam ID starting with 7656."
+            "helper": "Your 17-digit Steam ID starting with 7656.",
+            "regexError": "Must be a valid Steam ID starting with 7656."
           },
           "lookup": "Look up",
           "lookupError": "Could not find a Steam profile for this ID. Please check and try again.",
@@ -413,6 +419,51 @@
           "errorMessage": "Could not link Steam account. Please try again."
         }
       }
+    }
+  },
+  "validation": {
+    "required": "This field is required.",
+    "invalid_type": "Expected {{expected}}, received {{received}}.",
+    "invalid_enum": "Invalid enum value.",
+    "invalid_literal": "Invalid literal value.",
+    "unrecognized_keys": "Unrecognized key(s) in object.",
+    "invalid_union": "Invalid input.",
+    "types": {
+      "string": "string",
+      "number": "number",
+      "boolean": "boolean",
+      "date": "date",
+      "array": "array",
+      "object": "object",
+      "undefined": "undefined",
+      "null": "null"
+    },
+    "string": {
+      "min": "Must be at least {{min}} characters.",
+      "max": "Must be at most {{max}} characters.",
+      "length": "Must be exactly {{length}} characters.",
+      "email": "Invalid email address.",
+      "url": "Invalid URL.",
+      "uuid": "Invalid UUID.",
+      "regex": "Invalid format.",
+      "datetime": "Invalid datetime.",
+      "ip": "Invalid IP address."
+    },
+    "number": {
+      "min": "Must be at least {{min}}.",
+      "max": "Must be at most {{max}}.",
+      "greater_than": "Must be greater than {{min}}.",
+      "less_than": "Must be less than {{max}}.",
+      "exact": "Must be exactly {{value}}."
+    },
+    "array": {
+      "nonempty": "List must not be empty.",
+      "min": "Must have at least {{min}} element(s).",
+      "max": "Must have at most {{max}} element(s)."
+    },
+    "date": {
+      "min": "Date must not be before the minimum.",
+      "max": "Date must not be after the maximum."
     }
   }
 }
