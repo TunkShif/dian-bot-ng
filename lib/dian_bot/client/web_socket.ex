@@ -153,6 +153,21 @@ defmodule DianBot.Client.WebSocket do
     {:ok, state}
   end
 
+  @impl true
+  def handle_disconnect(_conn, state) do
+    Logger.warning("bot websocket disconnected, notifying pending callers",
+      event: "ws_disconnected",
+      pending_count: map_size(state.pending)
+    )
+
+    # Notify all pending callers so they don't hang until timeout.
+    Enum.each(state.pending, fn {_request_id, {pid, ref}} ->
+      send(pid, {:response, ref, {:error, :disconnected}})
+    end)
+
+    {:ok, %{state | pending: %{}}}
+  end
+
   defp default_timeout() do
     Application.fetch_env!(:dian, @env_key)
     |> Keyword.get(:timeout, @default_timeout)

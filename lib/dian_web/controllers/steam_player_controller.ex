@@ -91,6 +91,16 @@ defmodule DianWeb.SteamPlayerController do
       unprocessable_entity: {"Validation errors", "application/json", Schemas.JSendValidationFail}
     ]
 
+  operation :unbind_self,
+    operation_id: "unbind_steam_player_self",
+    summary: "Unbind Steam account from current user",
+    description:
+      "Removes the Steam binding for the authenticated user. Returns success even if no binding exists.",
+    responses: [
+      ok: {"Steam binding removed", "application/json", Schemas.JSendSuccess},
+      unauthorized: {"Authentication required", "application/json", Schemas.JSendMessageFail}
+    ]
+
   def show_by_steam_id(conn, %{"steam_id" => steam_id}) do
     case Steam.get_player_summaries([steam_id]) do
       {:ok, [summary]} ->
@@ -131,6 +141,19 @@ defmodule DianWeb.SteamPlayerController do
              Map.get(params, "display_name")
            ) do
       JSend.success_json(conn, %{binding: SteamPlayerJSON.binding(steam_player)})
+    end
+  end
+
+  def unbind_self(conn, _params) do
+    case Steam.unbind_self(conn.assigns.current_scope) do
+      :ok ->
+        JSend.success_json(conn, %{unbound: true})
+
+      {:error, :not_found} ->
+        JSend.success_json(conn, %{unbound: false})
+
+      {:error, changeset} ->
+        {:error, changeset}
     end
   end
 end

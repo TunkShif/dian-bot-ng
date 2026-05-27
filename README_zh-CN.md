@@ -1,23 +1,84 @@
+<div align="center">
+
 # Dian
+
+**基于 Phoenix 和 React 的现代 QQ 机器人平台**
+
+[![版本](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/your-username/dian-bot-ng)
+[![许可证](https://img.shields.io/badge/license-AGPL--3.0-green)](LICENSE)
+[![Elixir](https://img.shields.io/badge/elixir-~>1.15-purple)](https://elixir-lang.org)
+[![Phoenix](https://img.shields.io/badge/phoenix-~>1.8-orange)](https://phoenixframework.org)
 
 [English](README.md) | **简体中文**
 
-## 前置依赖
+</div>
+
+## ✨ 功能特性
+
+- **OneBot 协议支持** - 通过 WebSocket 与 QQ 机器人无缝集成
+- **Steam 集成** - 跟踪玩家状态、成就和游戏会话
+- **AI 驱动摘要** - 使用 DeepSeek AI 生成每日摘要
+- **WebAuthn 认证** - 安全的无密码登录
+- **实时更新** - 通过 Phoenix PubSub 进行实时数据流
+- **媒体渲染** - 支持自定义字体的 SVG 转图片（Rust NIF）
+- **多语言支持** - 支持英文和中文的国际化
+
+## 🚀 技术栈
+
+### 后端
+- **Elixir** ~1.15 配合 **Phoenix** ~1.8.5
+- **SQLite** 通过 Ecto + ecto_sqlite3
+- **WebSockex** 用于 OneBot 协议通信
+- **Req** 用于 HTTP 请求（Steam API、DeepSeek）
+- **Rustler** NIF 用于媒体渲染
+
+### 前端
+- **React** 19 配合 **React Router** v6
+- **shadcn/ui** 组件库
+- **TanStack Query** 数据获取
+- **TanStack Form** 表单管理
+- **i18next** 国际化
+- **nuqs** URL 状态管理
+
+## 📋 前置依赖
 
 在运行项目设置之前，请安装：
 
-- 与本项目兼容的 Elixir 和 Erlang/OTP
-- `bun`，用于前端依赖安装和构建
-- Rust 工具链（`rustc` 和 `cargo`），因为媒体渲染器使用 Rustler NIF
+- [Elixir](https://elixir-lang.org/install.html) 和与本项目兼容的 Erlang/OTP
+- [bun](https://bun.sh) 用于前端依赖安装和构建
+- [Rust](https://rustup.rs) 工具链（`rustc` 和 `cargo`），因为媒体渲染器使用 Rustler NIF
 
-启动 Phoenix 服务器：
+## 🛠️ 开发设置
 
-- 运行 `mix setup` 安装并配置依赖
-- 使用 `mix phx.server` 或在 IEx 中使用 `iex -S mix phx.server` 启动 Phoenix 端点
+1. **克隆仓库**
+   ```sh
+   git clone https://github.com/your-username/dian-bot-ng.git
+   cd dian-bot-ng
+   ```
 
-`mix setup` 也会安装前端依赖并编译基于 Rust 的 SVG 渲染器。
+2. **安装依赖并设置**
+   ```sh
+   mix setup
+   ```
+   这将：
+   - 安装 Elixir 依赖
+   - 通过 `bun` 安装前端依赖
+   - 编译基于 Rust 的媒体渲染器
+   - 设置数据库
 
-## 自定义字体
+3. **启动开发服务器**
+   ```sh
+   mix phx.server
+   ```
+   或使用交互式 shell：
+   ```sh
+   iex -S mix phx.server
+   ```
+
+4. **访问应用**
+   在浏览器中打开 [http://localhost:4000](http://localhost:4000)。
+
+## 🎨 自定义字体
 
 `Dian.Media.render_svg/2` 接受 `fonts:` 选项，参数为字体文件路径列表：
 
@@ -36,7 +97,7 @@ svg = ~s(<svg xmlns="http://www.w3.org/2000/svg" width="220" height="72"><text x
 
 `priv/fonts/` 已包含用于 Steam 状态卡片模板的 `WenQuanYi Micro Hei` 字体。当渲染的 SVG 需要中文文本时，将其作为首选字体族，并在卡片需要不同字型时在其旁添加额外的字体文件。
 
-## 部署
+## 🐳 部署
 
 本项目使用多阶段 Docker 构建生产版本。推荐方法遵循 [Phoenix 容器部署指南](https://hexdocs.pm/phoenix/releases.html#containers)。
 
@@ -87,3 +148,7 @@ docker run -d \
 ```
 
 挂载持久化卷以存储 SQLite 数据库文件，确保容器重启后数据不丢失。
+
+## 📄 许可证
+
+本项目基于 [GNU Affero 通用公共许可证 v3.0](LICENSE) 授权。

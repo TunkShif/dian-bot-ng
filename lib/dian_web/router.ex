@@ -23,6 +23,17 @@ defmodule DianWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: DianWeb.APISpec
   end
 
+  pipeline :api_rate_limited do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :fetch_current_scope_for_user
+    plug OpenApiSpex.Plug.PutApiSpec, module: DianWeb.APISpec
+    plug DianWeb.Plugs.RateLimit, window_ms: :timer.minutes(15), max_requests: 5
+  end
+
   ## Authentication routes
   scope "/redirects/", DianWeb do
     pipe_through [:browser]
@@ -31,16 +42,22 @@ defmodule DianWeb.Router do
     delete "/users/logout", UserSessionController, :delete
   end
 
-  ## Internal API
+  ## Internal API (rate-limited auth endpoints)
   scope "/api", DianWeb do
-    pipe_through :api
+    pipe_through :api_rate_limited
 
     post "/users/register", UserRegistrationController, :create
     post "/users/login", UserSessionController, :create
-    get "/users/me", UserSessionController, :show
 
     post "/passkeys/login/begin", PasskeySessionController, :begin
     post "/passkeys/login/complete", PasskeySessionController, :complete
+  end
+
+  ## Internal API (authenticated endpoints)
+  scope "/api", DianWeb do
+    pipe_through :api
+
+    get "/users/me", UserSessionController, :show
   end
 
   scope "/api", DianWeb do
@@ -61,7 +78,18 @@ defmodule DianWeb.Router do
     get "/steam/players/:steam_id", SteamPlayerController, :show_by_steam_id
     get "/steam/players/by-qq/:qq_id", SteamPlayerController, :show_by_qq_id
     put "/steam/players/self", SteamPlayerController, :bind_self
+    delete "/steam/players/self", SteamPlayerController, :unbind_self
     put "/steam/players/group-members/:group_id/:qq_id", SteamPlayerController, :bind_member
+
+    # Admin endpoints
+    get "/admin/users", AdminController, :list_users
+    get "/admin/settings", AdminController, :global_settings
+    put "/admin/superadmin", AdminController, :update_superadmin
+
+    # Export endpoints
+    get "/export/users", ExportController, :export_users
+    get "/export/groups", ExportController, :export_groups
+    get "/export/steam-players", ExportController, :export_steam_players
   end
 
   ## SPA entrypoint

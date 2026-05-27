@@ -103,9 +103,38 @@
       "notifications": "通知",
       "logOut": "ログアウト"
     },
+    "sidebar": {
+      "toggleSidebar": "サイドバーの切り替え",
+      "sheetTitle": "サイドバー",
+      "sheetDescription": "モバイルサイドバーを表示します。"
+    },
     "dashboard": {
       "title": "ダッシュボード",
       "pageTitle": "ダッシュボード"
+    },
+    "monitor": {
+      "pageTitle": "ライブモニター",
+      "title": "ライブモニター",
+      "description": "有効な全グループの Steam オンライン状態をリアルタイムで確認。",
+      "groupsCount": "{{count}} グループ",
+      "loading": "読み込み中...",
+      "loadingMembers": "メンバーを読み込み中...",
+      "loadingStatus": "読み込み中...",
+      "errorMembers": "メンバーを読み込めません。",
+      "noSteamBindings": "Steam アカウントがリンクされていません。",
+      "boundCount": "{{bound}}/{{total}} リンク済み",
+      "state": {
+        "playing": "プレイ中"
+      },
+      "previewError": "この Steam プロフィールを読み込めません。",
+      "empty": {
+        "title": "有効なグループがありません",
+        "description": "Steam アクティビティの監視を開始するには、少なくとも 1 つのグループを有効にしてください。"
+      },
+      "error": {
+        "title": "グループを読み込めません",
+        "description": "しばらくしてからもう一度お試しください。"
+      }
     },
     "settings": {
       "title": "設定",
@@ -225,7 +254,8 @@
           "steamId": {
             "label": "Steam ID",
             "placeholder": "76561198012345678",
-            "helper": "7656 で始まる17桁のSteam ID。"
+            "helper": "7656 で始まる17桁のSteam ID。",
+            "regexError": "7656で始まる有効なSteam IDを入力してください。"
           },
           "lookup": "検索",
           "lookupError": "このIDのSteamプロフィールが見つかりませんでした。確認してもう一度お試しください。",
@@ -235,6 +265,82 @@
           "successTitle": "Steamアカウントを連携しました",
           "successMessage": "Steamアカウントが正常に連携されました。",
           "errorMessage": "Steamアカウントを連携できませんでした。もう一度お試しください。"
+        },
+        "unbind": {
+          "trigger": "Steam連携解除",
+          "title": "Steamアカウント連携解除",
+          "description": "アカウントとSteamのリンクを解除します。いつでも再リンクできます。",
+          "confirm": "連携解除",
+          "successTitle": "Steamアカウント連携解除済み",
+          "successMessage": "Steamアカウントの連携が解除されました。",
+          "errorMessage": "Steamアカウントの連携を解除できませんでした。もう一度お試しください。"
+        }
+      },
+      "system": {
+        "pageTitle": "システム設定",
+        "title": "システム設定",
+        "description": "グローバルなシステム設定を構成し、システム状態を確認します。",
+        "globalConfig": {
+          "title": "全体設定",
+          "description": "システム全体の設定と設定。",
+          "content": "アプリケーションのグローバル設定を構成します。"
+        },
+        "superadmin": {
+          "title": "スーパー管理者",
+          "description": "スーパー管理者権限を管理します。",
+          "content": "スーパー管理者は、すべてのシステム設定とユーザー管理機能にフルアクセスできます。"
+        },
+        "userManagement": {
+          "title": "ユーザー管理",
+          "description": "登録ユーザーを表示および管理します。",
+          "content": "ユーザー管理機能にアクセスして、ユーザーアカウントを表示し、権限を管理します。"
+        }
+      },
+      "permissions": {
+        "pageTitle": "権限管理",
+        "title": "権限管理",
+        "description": "ユーザーの役割と権限を理解し、管理します。",
+        "roles": {
+          "title": "ユーザー役割",
+          "description": "システムはアクセス制御に階層的な役割モデルを使用します。",
+          "superadmin": {
+            "title": "スーパー管理者",
+            "description": "完全なシステムアクセス。最初に登録したユーザーが自動的にスーパー管理者になります。"
+          },
+          "groupAdmin": {
+            "title": "グループ管理者",
+            "description": "グループのSteam連携とグループ設定を管理できます。"
+          },
+          "user": {
+            "title": "一般ユーザー",
+            "description": "所属するグループを表示し、自分のSteamアカウントを管理できます。"
+          }
+        },
+        "registration": {
+          "title": "登録ポリシー",
+          "description": "誰がアカウントを登録できるかを制御します。",
+          "content": "ユーザーは有効なグループのメンバーであれば登録できます。最初に登録したユーザーが自動的にスーパー管理者になります。"
+        }
+      },
+      "export": {
+        "pageTitle": "データエクスポート",
+        "title": "データエクスポート",
+        "description": "システムデータをバックアップまたは分析用にCSVファイルとしてエクスポートします。",
+        "download": "CSVをダウンロード",
+        "users": {
+          "title": "ユーザーデータ",
+          "description": "登録済みの全ユーザーアカウントをエクスポートします。",
+          "content": "ユーザーID、メールアドレス、確認状態、登録日を含むCSVファイルをダウンロードします。"
+        },
+        "groups": {
+          "title": "グループ設定",
+          "description": "すべてのグループ設定データをエクスポートします。",
+          "content": "グループID、有効状態、最終更新タイムスタンプを含むCSVファイルをダウンロードします。"
+        },
+        "steamPlayers": {
+          "title": "Steamバインディング",
+          "description": "すべてのSteamアカウントバインディングをエクスポートします。",
+          "content": "QQ ID、Steam ID、バインディングタイムスタンプを含むCSVファイルをダウンロードします。"
         }
       }
     },
@@ -413,6 +519,51 @@
         "previous": "前へ",
         "next": "次へ"
       }
+    }
+  },
+  "validation": {
+    "required": "この項目は必須です。",
+    "invalid_type": "{{expected}}を期待しましたが、{{received}}を受け取りました。",
+    "invalid_enum": "無効な列挙値です。",
+    "invalid_literal": "無効なリテラル値です。",
+    "unrecognized_keys": "オブジェクトに不明なキーがあります。",
+    "invalid_union": "無効な入力です。",
+    "types": {
+      "string": "文字列",
+      "number": "数値",
+      "boolean": "真偽値",
+      "date": "日付",
+      "array": "配列",
+      "object": "オブジェクト",
+      "undefined": "未定義",
+      "null": "null"
+    },
+    "string": {
+      "min": "{{min}}文字以上で入力してください。",
+      "max": "{{max}}文字以下で入力してください。",
+      "length": "ちょうど{{length}}文字で入力してください。",
+      "email": "有効なメールアドレスを入力してください。",
+      "url": "有効なURLを入力してください。",
+      "uuid": "有効なUUIDを入力してください。",
+      "regex": "形式が無効です。",
+      "datetime": "有効な日時を入力してください。",
+      "ip": "有効なIPアドレスを入力してください。"
+    },
+    "number": {
+      "min": "{{min}}以上で入力してください。",
+      "max": "{{max}}以下で入力してください。",
+      "greater_than": "{{min}}より大きい値を入力してください。",
+      "less_than": "{{max}}より小さい値を入力してください。",
+      "exact": "{{value}}を入力してください。"
+    },
+    "array": {
+      "nonempty": "空にできません。",
+      "min": "少なくとも{{min}}個の要素が必要です。",
+      "max": "最大{{max}}個の要素です。"
+    },
+    "date": {
+      "min": "日付は最小値より前にはできません。",
+      "max": "日付は最大値より後にはできません。"
     }
   }
 }

@@ -49,7 +49,7 @@ defmodule DianWeb.UserSessionController do
     end
   end
 
-  # TODO: rate limit
+  # Rate limited via DianWeb.Plugs.RateLimit in router
   # magic link request
   def create(conn, %{"user" => %{"email" => email}}) do
     with user when not is_nil(user) <- Accounts.get_user_by_email(email),

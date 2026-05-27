@@ -27,6 +27,22 @@ export const router = createBrowserRouter(
               path: "/settings/user",
               lazy: () => import("@/routes/settings.user"),
             },
+            {
+              path: "/settings/system",
+              lazy: () => import("@/routes/settings.system"),
+            },
+            {
+              path: "/settings/permissions",
+              lazy: () => import("@/routes/settings.permissions"),
+            },
+            {
+              path: "/settings/export",
+              lazy: () => import("@/routes/settings.export"),
+            },
+            {
+              path: "/games/monitor",
+              lazy: () => import("@/routes/games.monitor"),
+            },
           ],
         },
       ],

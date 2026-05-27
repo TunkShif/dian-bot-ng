@@ -17,9 +17,9 @@ export type SteamPlayerSummary = NonNullable<SteamPlayerSummaryResponse["data"][
 export const STEAM_ID_REGEX = /^7656\d{13}$/;
 export const steamIdFieldSchema = z
   .string()
-  .min(17, "Steam ID must be 17 characters")
-  .max(17, "Steam ID must be 17 characters")
-  .regex(STEAM_ID_REGEX, "Must be a valid Steam ID starting with 7656");
+  .min(17)
+  .max(17)
+  .regex(STEAM_ID_REGEX, i18n.t("app.settings.steam.bind.steamId.regexError"));
 export const steamIdSchema = z.object({
   steam_id: steamIdFieldSchema,
 });
@@ -113,6 +113,41 @@ export const useBindMemberSteamMutation = (groupId: string | null) => {
       successTitle: i18n.t("app.settings.steam.bind.successTitle"),
       successMessage: i18n.t("app.settings.steam.bind.successMessage"),
       errorMessage: i18n.t("app.settings.steam.bind.errorMessage"),
+    },
+  });
+};
+
+export const useUnbindSelfSteamMutation = (qqId: string | null) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/steam/players/self", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      if (qqId) {
+        void queryClient.invalidateQueries({
+          queryKey: showSteamPlayerByQqIdQueryKey({
+            path: { qq_id: qqId },
+          }),
+        });
+      }
+    },
+    meta: {
+      successTitle: i18n.t("app.settings.steam.unbind.successTitle"),
+      successMessage: i18n.t("app.settings.steam.unbind.successMessage"),
+      errorMessage: i18n.t("app.settings.steam.unbind.errorMessage"),
     },
   });
 };

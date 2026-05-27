@@ -71,4 +71,52 @@ defmodule Dian.Settings do
 
     DianBot.find_group_member_in_groups(group_ids, qq_id) != nil
   end
+
+  @doc """
+  Gets the global settings.
+
+  Returns the global settings or nil if not initialized.
+  """
+  def get_global_settings do
+    Repo.get(GlobalSetting, 1)
+  end
+
+  @doc """
+  Gets the superadmin user info.
+
+  Returns %{superadmin_user_id: integer(), user: %User{}} or nil.
+  """
+  def get_superadmin_info do
+    case get_global_settings() do
+      %GlobalSetting{superadmin_user_id: user_id} when is_integer(user_id) ->
+        user = Dian.Accounts.get_user(user_id)
+        %{superadmin_user_id: user_id, user: user}
+
+      _ ->
+        nil
+    end
+  end
+
+  @doc """
+  Lists all group settings.
+
+  Returns a list of all group settings.
+  """
+  def list_group_settings do
+    GroupSetting
+    |> order_by([g], asc: g.group_id)
+    |> Repo.all()
+  end
+
+  @doc """
+  Checks if a user is the superadmin.
+  """
+  def is_superadmin?(user_id) when is_integer(user_id) do
+    case get_global_settings() do
+      %GlobalSetting{superadmin_user_id: ^user_id} -> true
+      _ -> false
+    end
+  end
+
+  def is_superadmin?(_user_id), do: false
 end

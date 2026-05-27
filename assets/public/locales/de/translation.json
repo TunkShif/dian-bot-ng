@@ -103,9 +103,38 @@
       "notifications": "Benachrichtigungen",
       "logOut": "Abmelden"
     },
+    "sidebar": {
+      "toggleSidebar": "Seitenleiste umschalten",
+      "sheetTitle": "Seitenleiste",
+      "sheetDescription": "Zeigt die mobile Seitenleiste an."
+    },
     "dashboard": {
       "title": "Übersicht",
       "pageTitle": "Übersicht"
+    },
+    "monitor": {
+      "pageTitle": "Live-Monitor",
+      "title": "Live-Monitor",
+      "description": "Echtzeit-Status von Steam über alle aktivierten Gruppen hinweg.",
+      "groupsCount": "{{count}} Gruppen",
+      "loading": "Laden...",
+      "loadingMembers": "Mitglieder werden geladen...",
+      "loadingStatus": "Laden...",
+      "errorMembers": "Mitglieder konnten nicht geladen werden.",
+      "noSteamBindings": "Keine Steam-Konten verknüpft.",
+      "boundCount": "{{bound}}/{{total}} verknüpft",
+      "state": {
+        "playing": "Spielt"
+      },
+      "previewError": "Dieses Steam-Profil kann gerade nicht geladen werden.",
+      "empty": {
+        "title": "Keine aktivierten Gruppen",
+        "description": "Aktivieren Sie mindestens eine Gruppe, um die Steam-Aktivität zu überwachen."
+      },
+      "error": {
+        "title": "Gruppen konnten nicht geladen werden",
+        "description": "Bitte versuchen Sie es in einem Moment erneut."
+      }
     },
     "settings": {
       "title": "Einstellungen",
@@ -225,7 +254,8 @@
           "steamId": {
             "label": "Steam-ID",
             "placeholder": "76561198012345678",
-            "helper": "Ihre 17-stellige Steam-ID beginnend mit 7656."
+            "helper": "Ihre 17-stellige Steam-ID beginnend mit 7656.",
+            "regexError": "Muss eine gültige Steam-ID sein, die mit 7656 beginnt."
           },
           "lookup": "Suchen",
           "lookupError": "Für diese ID wurde kein Steam-Profil gefunden. Bitte überprüfen Sie die ID und versuchen Sie es erneut.",
@@ -235,6 +265,82 @@
           "successTitle": "Steam-Konto verknüpft",
           "successMessage": "Ihr Steam-Konto wurde erfolgreich verknüpft.",
           "errorMessage": "Steam-Konto konnte nicht verknüpft werden. Bitte versuchen Sie es erneut."
+        },
+        "unbind": {
+          "trigger": "Steam trennen",
+          "title": "Steam-Konto trennen",
+          "description": "Dies entfernt die Verbindung zwischen Ihrem Konto und Steam. Sie können jederzeit wieder verknüpfen.",
+          "confirm": "Trennen",
+          "successTitle": "Steam-Konto getrennt",
+          "successMessage": "Ihr Steam-Konto wurde erfolgreich getrennt.",
+          "errorMessage": "Steam-Konto konnte nicht getrennt werden. Bitte versuchen Sie es erneut."
+        }
+      },
+      "system": {
+        "pageTitle": "Systemeinstellungen",
+        "title": "Systemeinstellungen",
+        "description": "Konfigurieren Sie globale Systemeinstellungen und anzeigen Sie den Systemstatus.",
+        "globalConfig": {
+          "title": "Globale Konfiguration",
+          "description": "Systemweite Einstellungen und Präferenzen.",
+          "content": "Konfigurieren Sie globale Einstellungen für die Anwendung."
+        },
+        "superadmin": {
+          "title": "Superadministrator",
+          "description": "Superadministrator-Berechtigungen verwalten.",
+          "content": "Der Superadministrator hat vollen Zugriff auf alle Systemeinstellungen und Benutzerverwaltungsfunktionen."
+        },
+        "userManagement": {
+          "title": "Benutzerverwaltung",
+          "description": "Registrierte Benutzer anzeigen und verwalten.",
+          "content": "Greifen Sie auf Benutzerverwaltungsfunktionen zu, um Benutzerkonten anzuzeigen und Berechtigungen zu verwalten."
+        }
+      },
+      "permissions": {
+        "pageTitle": "Berechtigungsverwaltung",
+        "title": "Berechtigungsverwaltung",
+        "description": "Verstehen und verwalten Sie Benutzerrollen und Berechtigungen.",
+        "roles": {
+          "title": "Benutzerrollen",
+          "description": "Das System verwendet ein hierarchisches Rollenmodell für die Zugriffskontrolle.",
+          "superadmin": {
+            "title": "Superadministrator",
+            "description": "Voller Systemzugriff. Der erste registrierte Benutzer wird automatisch zum Superadministrator."
+          },
+          "groupAdmin": {
+            "title": "Gruppenadministrator",
+            "description": "Kann Steam-Bindungen und Gruppeneinstellungen für seine Gruppen verwalten."
+          },
+          "user": {
+            "title": "Normaler Benutzer",
+            "description": "Kann Gruppen, denen er angehört, anzeigen und sein eigenes Steam-Konto verwalten."
+          }
+        },
+        "registration": {
+          "title": "Registrierungsrichtlinie",
+          "description": "Steuern Sie, wer sich registrieren kann.",
+          "content": "Benutzer können sich registrieren, wenn sie Mitglieder einer aktivierten Gruppe sind. Der erste registrierte Benutzer wird automatisch zum Superadministrator."
+        }
+      },
+      "export": {
+        "pageTitle": "Datenexport",
+        "title": "Datenexport",
+        "description": "Exportieren Sie Systemdaten als CSV-Dateien für Backup oder Analyse.",
+        "download": "CSV herunterladen",
+        "users": {
+          "title": "Benutzerdaten",
+          "description": "Alle registrierten Benutzerkonten exportieren.",
+          "content": "Laden Sie eine CSV-Datei mit Benutzer-IDs, E-Mail-Adressen, Bestätigungsstatus und Registrierungsdaten herunter."
+        },
+        "groups": {
+          "title": "Gruppeneinstellungen",
+          "description": "Alle Gruppenkonfigurationsdaten exportieren.",
+          "content": "Laden Sie eine CSV-Datei mit Gruppen-IDs, Aktivierungsstatus und letzten Aktualisierungszeitstempeln herunter."
+        },
+        "steamPlayers": {
+          "title": "Steam-Bindungen",
+          "description": "Alle Steam-Kontobindungen exportieren.",
+          "content": "Laden Sie eine CSV-Datei mit QQ-IDs, Steam-IDs und Bindungszeitstempeln herunter."
         }
       }
     },
@@ -413,6 +519,51 @@
         "previous": "Vorherige",
         "next": "Nächste"
       }
+    }
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich.",
+    "invalid_type": "Erwartet {{expected}}, erhalten {{received}}.",
+    "invalid_enum": "Ungültiger Enum-Wert.",
+    "invalid_literal": "Ungültiger Literal-Wert.",
+    "unrecognized_keys": "Unbekannte Schlüssel im Objekt.",
+    "invalid_union": "Ungültige Eingabe.",
+    "types": {
+      "string": "Zeichenkette",
+      "number": "Zahl",
+      "boolean": "Wahrheitswert",
+      "date": "Datum",
+      "array": "Array",
+      "object": "Objekt",
+      "undefined": "undefiniert",
+      "null": "null"
+    },
+    "string": {
+      "min": "Mindestens {{min}} Zeichen.",
+      "max": "Höchstens {{max}} Zeichen.",
+      "length": "Genau {{length}} Zeichen.",
+      "email": "Ungültige E-Mail-Adresse.",
+      "url": "Ungültige URL.",
+      "uuid": "Ungültige UUID.",
+      "regex": "Ungültiges Format.",
+      "datetime": "Ungültiges Datum/Zeit.",
+      "ip": "Ungültige IP-Adresse."
+    },
+    "number": {
+      "min": "Mindestens {{min}}.",
+      "max": "Höchstens {{max}}.",
+      "greater_than": "Muss größer als {{min}} sein.",
+      "less_than": "Muss kleiner als {{max}} sein.",
+      "exact": "Muss genau {{value}} sein."
+    },
+    "array": {
+      "nonempty": "Darf nicht leer sein.",
+      "min": "Mindestens {{min}} Element(e).",
+      "max": "Höchstens {{max}} Element(e)."
+    },
+    "date": {
+      "min": "Datum darf nicht vor dem Minimum liegen.",
+      "max": "Datum darf nicht nach dem Maximum liegen."
     }
   }
 }

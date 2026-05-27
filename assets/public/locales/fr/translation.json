@@ -103,9 +103,38 @@
       "notifications": "Notifications",
       "logOut": "Se déconnecter"
     },
+    "sidebar": {
+      "toggleSidebar": "Basculer la barre latérale",
+      "sheetTitle": "Barre latérale",
+      "sheetDescription": "Affiche la barre latérale mobile."
+    },
     "dashboard": {
       "title": "Tableau de bord",
       "pageTitle": "Tableau de bord"
+    },
+    "monitor": {
+      "pageTitle": "Moniteur en direct",
+      "title": "Moniteur en direct",
+      "description": "État Steam en temps réel pour tous les groupes activés.",
+      "groupsCount": "{{count}} groupes",
+      "loading": "Chargement...",
+      "loadingMembers": "Chargement des membres...",
+      "loadingStatus": "Chargement...",
+      "errorMembers": "Impossible de charger les membres.",
+      "noSteamBindings": "Aucun compte Steam lié.",
+      "boundCount": "{{bound}}/{{total}} liés",
+      "state": {
+        "playing": "En jeu"
+      },
+      "previewError": "Impossible de charger ce profil Steam.",
+      "empty": {
+        "title": "Aucun groupe activé",
+        "description": "Activez au moins un groupe pour commencer à surveiller l'activité Steam."
+      },
+      "error": {
+        "title": "Impossible de charger les groupes",
+        "description": "Veuillez réessayer dans un instant."
+      }
     },
     "settings": {
       "title": "Paramètres",
@@ -225,7 +254,8 @@
           "steamId": {
             "label": "ID Steam",
             "placeholder": "76561198012345678",
-            "helper": "Votre ID Steam à 17 chiffres commençant par 7656."
+            "helper": "Votre ID Steam à 17 chiffres commençant par 7656.",
+            "regexError": "Doit être un ID Steam valide commençant par 7656."
           },
           "lookup": "Rechercher",
           "lookupError": "Impossible de trouver un profil Steam pour cet ID. Veuillez vérifier et réessayer.",
@@ -235,6 +265,82 @@
           "successTitle": "Compte Steam lié",
           "successMessage": "Votre compte Steam a été lié avec succès.",
           "errorMessage": "Impossible de lier le compte Steam. Veuillez réessayer."
+        },
+        "unbind": {
+          "trigger": "Délier Steam",
+          "title": "Délier le compte Steam",
+          "description": "Cela supprimera le lien entre votre compte et Steam. Vous pouvez lier à nouveau à tout moment.",
+          "confirm": "Délier",
+          "successTitle": "Compte Steam délié",
+          "successMessage": "Votre compte Steam a été délié avec succès.",
+          "errorMessage": "Impossible de délier le compte Steam. Veuillez réessayer."
+        }
+      },
+      "system": {
+        "pageTitle": "Paramètres système",
+        "title": "Paramètres système",
+        "description": "Configurer les paramètres système globaux et consulter l'état du système.",
+        "globalConfig": {
+          "title": "Configuration globale",
+          "description": "Paramètres et préférences à l'échelle du système.",
+          "content": "Configurez les paramètres globaux de l'application."
+        },
+        "superadmin": {
+          "title": "Super administrateur",
+          "description": "Gérer les privilèges de super administrateur.",
+          "content": "Le super administrateur a un accès complet à tous les paramètres système et aux fonctionnalités de gestion des utilisateurs."
+        },
+        "userManagement": {
+          "title": "Gestion des utilisateurs",
+          "description": "Voir et gérer les utilisateurs enregistrés.",
+          "content": "Accédez aux fonctionnalités de gestion des utilisateurs pour voir les comptes utilisateurs et gérer les permissions."
+        }
+      },
+      "permissions": {
+        "pageTitle": "Gestion des permissions",
+        "title": "Gestion des permissions",
+        "description": "Comprendre et gérer les rôles et permissions des utilisateurs.",
+        "roles": {
+          "title": "Rôles utilisateurs",
+          "description": "Le système utilise un modèle de rôles hiérarchique pour le contrôle d'accès.",
+          "superadmin": {
+            "title": "Super administrateur",
+            "description": "Accès complet au système. Le premier utilisateur enregistré devient automatiquement super administrateur."
+          },
+          "groupAdmin": {
+            "title": "Administrateur de groupe",
+            "description": "Peut gérer les liaisons Steam et les paramètres de groupe pour ses groupes."
+          },
+          "user": {
+            "title": "Utilisateur régulier",
+            "description": "Peut voir les groupes auxquels il appartient et gérer son propre compte Steam."
+          }
+        },
+        "registration": {
+          "title": "Politique d'inscription",
+          "description": "Contrôler qui peut s'inscrire pour un compte.",
+          "content": "Les utilisateurs peuvent s'ils sont membres d'un groupe activé. Le premier utilisateur inscrit devient automatiquement super administrateur."
+        }
+      },
+      "export": {
+        "pageTitle": "Exportation de données",
+        "title": "Exportation de données",
+        "description": "Exportez les données du système en fichiers CSV pour sauvegarde ou analyse.",
+        "download": "Télécharger le CSV",
+        "users": {
+          "title": "Données utilisateurs",
+          "description": "Exporter tous les comptes utilisateurs enregistrés.",
+          "content": "Téléchargez un fichier CSV contenant les identifiants utilisateurs, les adresses e-mail, le statut de confirmation et les dates d'inscription."
+        },
+        "groups": {
+          "title": "Paramètres de groupe",
+          "description": "Exporter toutes les données de configuration des groupes.",
+          "content": "Téléchargez un fichier CSV contenant les identifiants de groupe, le statut activé et les horodatages de dernière mise à jour."
+        },
+        "steamPlayers": {
+          "title": "Liaisons Steam",
+          "description": "Exporter toutes les liaisons de comptes Steam.",
+          "content": "Téléchargez un fichier CSV contenant les identifiants QQ, les identifiants Steam et les horodatages de liaison."
         }
       }
     },
@@ -413,6 +519,51 @@
         "previous": "Précédent",
         "next": "Suivant"
       }
+    }
+  },
+  "validation": {
+    "required": "Ce champ est obligatoire.",
+    "invalid_type": "Attendu {{expected}}, reçu {{received}}.",
+    "invalid_enum": "Valeur d'énumération invalide.",
+    "invalid_literal": "Valeur littérale invalide.",
+    "unrecognized_keys": "Clé(s) non reconnue(s) dans l'objet.",
+    "invalid_union": "Entrée invalide.",
+    "types": {
+      "string": "chaîne",
+      "number": "nombre",
+      "boolean": "booléen",
+      "date": "date",
+      "array": "tableau",
+      "object": "objet",
+      "undefined": "indéfini",
+      "null": "nul"
+    },
+    "string": {
+      "min": "Au moins {{min}} caractères.",
+      "max": "Au plus {{max}} caractères.",
+      "length": "Exactement {{length}} caractères.",
+      "email": "Adresse e-mail invalide.",
+      "url": "URL invalide.",
+      "uuid": "UUID invalide.",
+      "regex": "Format invalide.",
+      "datetime": "Date/heure invalide.",
+      "ip": "Adresse IP invalide."
+    },
+    "number": {
+      "min": "Au moins {{min}}.",
+      "max": "Au plus {{max}}.",
+      "greater_than": "Doit être supérieur à {{min}}.",
+      "less_than": "Doit être inférieur à {{max}}.",
+      "exact": "Doit être exactement {{value}}."
+    },
+    "array": {
+      "nonempty": "Ne doit pas être vide.",
+      "min": "Au moins {{min}} élément(s).",
+      "max": "Au plus {{max}} élément(s)."
+    },
+    "date": {
+      "min": "La date ne peut pas être antérieure au minimum.",
+      "max": "La date ne peut pas être postérieure au maximum."
     }
   }
 }

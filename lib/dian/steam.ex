@@ -168,8 +168,36 @@ defmodule Dian.Steam do
   """
   def unbind_steam_player(steam_id) when is_binary(steam_id) do
     case get_steam_player_by_steam_id(steam_id) do
-      nil -> {:error, :not_found}
-      steam_player -> Repo.delete(steam_player) |> then(fn {:ok, _} -> :ok end)
+      nil ->
+        {:error, :not_found}
+
+      steam_player ->
+        case Repo.delete(steam_player) do
+          {:ok, _} -> :ok
+          {:error, changeset} -> {:error, changeset}
+        end
+    end
+  end
+
+  @doc """
+  Unbinds the authenticated user's Steam binding.
+
+  Derives the qq_id from the current scope and deletes the binding.
+
+  Returns `:ok` on success or `{:error, :not_found}` if no binding exists.
+  """
+  def unbind_self(scope)
+
+  def unbind_self(%Dian.Accounts.Scope{qq_id: qq_id}) when is_binary(qq_id) do
+    case get_steam_player_by_qq_id(qq_id) do
+      nil ->
+        {:error, :not_found}
+
+      steam_player ->
+        case Repo.delete(steam_player) do
+          {:ok, _} -> :ok
+          {:error, changeset} -> {:error, changeset}
+        end
     end
   end
 
@@ -223,7 +251,7 @@ defmodule Dian.Steam do
 
       %SteamPlayer{steam_id: steam_id} ->
         case get_player_summaries([steam_id]) do
-          {:ok, []} -> {:error, :not_found}
+          {:ok, []} -> {:error, :steam_api_error}
           {:ok, [summary]} -> {:ok, summary}
           {:error, _reason} -> {:error, :steam_api_error}
         end
