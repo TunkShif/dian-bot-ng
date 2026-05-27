@@ -288,6 +288,30 @@
         "next": "下一页"
       }
     },
+    "monitor": {
+      "pageTitle": "实时监控",
+      "title": "实时监控",
+      "description": "查看所有已启用群组的 Steam 在线状态。",
+      "groupsCount": "{{count}} 个群组",
+      "loading": "加载中...",
+      "loadingMembers": "加载成员中...",
+      "loadingStatus": "加载中...",
+      "errorMembers": "无法加载成员。",
+      "noSteamBindings": "暂无 Steam 账号绑定。",
+      "boundCount": "{{bound}}/{{total}} 已绑定",
+      "state": {
+        "playing": "游戏中"
+      },
+      "previewError": "无法加载该 Steam 资料。",
+      "empty": {
+        "title": "没有已启用的群组",
+        "description": "请先启用至少一个群组以开始监控 Steam 活动。"
+      },
+      "error": {
+        "title": "无法加载群组",
+        "description": "请稍后重试。"
+      }
+    },
     "settings": {
       "pageTitle": "账户设置",
       "title": "账户设置",
@@ -417,6 +441,82 @@
           "successTitle": "Steam 账号已绑定",
           "successMessage": "你的 Steam 账号已成功绑定。",
           "errorMessage": "无法绑定 Steam 账号，请重试。"
+        },
+        "unbind": {
+          "trigger": "解绑 Steam",
+          "title": "解绑 Steam 账号",
+          "description": "这将解除你的账号与 Steam 的关联。你可以随时重新绑定。",
+          "confirm": "解绑",
+          "successTitle": "Steam 账号已解绑",
+          "successMessage": "你的 Steam 账号已成功解绑。",
+          "errorMessage": "无法解绑 Steam 账号，请重试。"
+        }
+      },
+      "system": {
+        "pageTitle": "系统设置",
+        "title": "系统设置",
+        "description": "配置全局系统设置并查看系统状态。",
+        "globalConfig": {
+          "title": "全局配置",
+          "description": "系统级设置和偏好。",
+          "content": "配置应用程序的全局设置。"
+        },
+        "superadmin": {
+          "title": "超级管理员",
+          "description": "管理超级管理员权限。",
+          "content": "超级管理员拥有所有系统设置和用户管理功能的完全访问权限。"
+        },
+        "userManagement": {
+          "title": "用户管理",
+          "description": "查看和管理注册用户。",
+          "content": "访问用户管理功能以查看用户帐户和管理权限。"
+        }
+      },
+      "permissions": {
+        "pageTitle": "权限管理",
+        "title": "权限管理",
+        "description": "了解和管理用户角色与权限。",
+        "roles": {
+          "title": "用户角色",
+          "description": "系统使用分层角色模型进行访问控制。",
+          "superadmin": {
+            "title": "超级管理员",
+            "description": "完全系统访问权限。第一个注册的用户自动成为超级管理员。"
+          },
+          "groupAdmin": {
+            "title": "群组管理员",
+            "description": "可以管理其群组的 Steam 绑定和群组设置。"
+          },
+          "user": {
+            "title": "普通用户",
+            "description": "可以查看所属群组并管理自己的 Steam 帐号。"
+          }
+        },
+        "registration": {
+          "title": "注册策略",
+          "description": "控制谁可以注册帐户。",
+          "content": "用户如果是已启用群组的成员即可注册。第一个注册的用户自动成为超级管理员。"
+        }
+      },
+      "export": {
+        "pageTitle": "数据导出",
+        "title": "数据导出",
+        "description": "将系统数据导出为 CSV 文件，用于备份或分析。",
+        "download": "下载 CSV",
+        "users": {
+          "title": "用户数据",
+          "description": "导出所有注册用户帐户。",
+          "content": "下载包含用户 ID、邮箱地址、确认状态和注册日期的 CSV 文件。"
+        },
+        "groups": {
+          "title": "群组设置",
+          "description": "导出所有群组配置数据。",
+          "content": "下载包含群组 ID、启用状态和最后更新时间戳的 CSV 文件。"
+        },
+        "steamPlayers": {
+          "title": "Steam 绑定",
+          "description": "导出所有 Steam 帐户绑定。",
+          "content": "下载包含 QQ ID、Steam ID 和绑定时间戳的 CSV 文件。"
         }
       }
     }

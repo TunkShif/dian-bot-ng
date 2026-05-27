@@ -116,3 +116,38 @@ export const useBindMemberSteamMutation = (groupId: string | null) => {
     },
   });
 };
+
+export const useUnbindSelfSteamMutation = (qqId: string | null) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/steam/players/self", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      if (qqId) {
+        void queryClient.invalidateQueries({
+          queryKey: showSteamPlayerByQqIdQueryKey({
+            path: { qq_id: qqId },
+          }),
+        });
+      }
+    },
+    meta: {
+      successTitle: i18n.t("app.settings.steam.unbind.successTitle"),
+      successMessage: i18n.t("app.settings.steam.unbind.successMessage"),
+      errorMessage: i18n.t("app.settings.steam.unbind.errorMessage"),
+    },
+  });
+};

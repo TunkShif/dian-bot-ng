@@ -112,6 +112,30 @@
       "title": "總覽",
       "pageTitle": "總覽"
     },
+    "monitor": {
+      "pageTitle": "即時監測",
+      "title": "即時監測",
+      "description": "觀諸已啟群組之 Steam 即時狀態。",
+      "groupsCount": "{{count}} 群組",
+      "loading": "載入中...",
+      "loadingMembers": "載入成員中...",
+      "loadingStatus": "載入中...",
+      "errorMembers": "無法載入成員。",
+      "noSteamBindings": "尚無 Steam 帳號綁定。",
+      "boundCount": "{{bound}}/{{total}} 已綁定",
+      "state": {
+        "playing": "遊玩中"
+      },
+      "previewError": "無法載入此 Steam 資料。",
+      "empty": {
+        "title": "無已啟用之群組",
+        "description": "請先啟用至少一群組，以始監測 Steam 活動。"
+      },
+      "error": {
+        "title": "無法載入群組",
+        "description": "請稍後再試。"
+      }
+    },
     "settings": {
       "title": "設定",
       "description": "治登入之法，護帳戶之通。",
@@ -241,6 +265,82 @@
           "successTitle": "Steam 戶已绑定",
           "successMessage": "君之 Steam 戶已繫成矣。",
           "errorMessage": "不得繫 Steam 戶，請復試。"
+        },
+        "unbind": {
+          "trigger": "解 Steam",
+          "title": "解 Steam 戶",
+          "description": "此將解君之戶與 Steam 之繫。君可隨時復繫。",
+          "confirm": "解",
+          "successTitle": "Steam 戶已解",
+          "successMessage": "君之 Steam 戶已解矣。",
+          "errorMessage": "不得解 Steam 戶，請復試。"
+        }
+      },
+      "system": {
+        "pageTitle": "系統設定",
+        "title": "系統設定",
+        "description": "設全系統之選項，觀系統之態。",
+        "globalConfig": {
+          "title": "全局設定",
+          "description": "全系統之設定與偏好。",
+          "content": "設應用之全局選項。"
+        },
+        "superadmin": {
+          "title": "超管",
+          "description": "理超管之權。",
+          "content": "超管可全權掌系統設定與用戶管理之能。"
+        },
+        "userManagement": {
+          "title": "用戶管理",
+          "description": "覽與理已登之用戶。",
+          "content": "用用戶管理之能，覽用戶帳號，理權限。"
+        }
+      },
+      "permissions": {
+        "pageTitle": "權限管理",
+        "title": "權限管理",
+        "description": "識與理用戶之角色與權限。",
+        "roles": {
+          "title": "用戶角色",
+          "description": "系統以層級角色之模行存取之控。",
+          "superadmin": {
+            "title": "超管",
+            "description": "全權掌系統。首登之用戶自為超管。"
+          },
+          "groupAdmin": {
+            "title": "群管",
+            "description": "可理其群之 Steam 繫與群設定。"
+          },
+          "user": {
+            "title": "常用戶",
+            "description": "可覽其所屬之群，理己之 Steam 戶。"
+          }
+        },
+        "registration": {
+          "title": "登記之策",
+          "description": "控何人可登記帳號。",
+          "content": "用戶為已啟用群之員方可登記。首登之用戶自為超管。"
+        }
+      },
+      "export": {
+        "pageTitle": "數據匯出",
+        "title": "數據匯出",
+        "description": "匯系統之數據為 CSV 文檔，備用或析之。",
+        "download": "下載 CSV",
+        "users": {
+          "title": "用戶數據",
+          "description": "匯出所有已登之用戶帳號。",
+          "content": "下載含用戶 ID、郵址、確認態與登記日之 CSV 文檔。"
+        },
+        "groups": {
+          "title": "群設定",
+          "description": "匯出所有群組配置數據。",
+          "content": "下載含群 ID、啟用態與末次更新時戳之 CSV 文檔。"
+        },
+        "steamPlayers": {
+          "title": "Steam 繫",
+          "description": "匯出所有 Steam 帳號繫。",
+          "content": "下載含 QQ ID、Steam ID 與繫時戳之 CSV 文檔。"
         }
       }
     },

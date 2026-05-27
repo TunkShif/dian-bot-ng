@@ -112,6 +112,30 @@
       "title": "儀表板",
       "pageTitle": "儀表板"
     },
+    "monitor": {
+      "pageTitle": "即時監控",
+      "title": "即時監控",
+      "description": "查看所有已啟用群組嘅 Steam 即時狀態。",
+      "groupsCount": "{{count}} 個群組",
+      "loading": "載入中...",
+      "loadingMembers": "載入成員中...",
+      "loadingStatus": "載入中...",
+      "errorMembers": "無法載入成員。",
+      "noSteamBindings": "暫無 Steam 帳號綁定。",
+      "boundCount": "{{bound}}/{{total}} 已綁定",
+      "state": {
+        "playing": "玩緊"
+      },
+      "previewError": "無法載入呢個 Steam 資料。",
+      "empty": {
+        "title": "冇已啟用嘅群組",
+        "description": "請先啟用至少一個群組以開始監控 Steam 活動。"
+      },
+      "error": {
+        "title": "無法載入群組",
+        "description": "請稍後再試。"
+      }
+    },
     "settings": {
       "title": "設定",
       "description": "管理你點樣登入，保護帳戶存取安全。",
@@ -241,6 +265,82 @@
           "successTitle": "Steam 帳戶已绑定",
           "successMessage": "你嘅 Steam 帳戶已成功綁定。",
           "errorMessage": "綁定唔到 Steam 帳戶，請再試。"
+        },
+        "unbind": {
+          "trigger": "解綁 Steam",
+          "title": "解綁 Steam 帳戶",
+          "description": "呢個會解除你嘅帳戶同 Steam 嘅關聯。你可以隨時重新綁定。",
+          "confirm": "解綁",
+          "successTitle": "Steam 帳戶已解綁",
+          "successMessage": "你嘅 Steam 帳戶已成功解綁。",
+          "errorMessage": "解綁唔到 Steam 帳戶，請再試。"
+        }
+      },
+      "system": {
+        "pageTitle": "系統設定",
+        "title": "系統設定",
+        "description": "設定全系統嘅選項同埋睇系統狀態。",
+        "globalConfig": {
+          "title": "全局設定",
+          "description": "全系統嘅設定同偏好。",
+          "content": "設定應用程式嘅全局選項。"
+        },
+        "superadmin": {
+          "title": "超級管理員",
+          "description": "管理超級管理員權限。",
+          "content": "超級管理員可以完全存取所有系統設定同用戶管理功能。"
+        },
+        "userManagement": {
+          "title": "用戶管理",
+          "description": "查閱同管理已登記嘅用戶。",
+          "content": "使用用戶管理功能嚟睇用戶帳號同管理權限。"
+        }
+      },
+      "permissions": {
+        "pageTitle": "權限管理",
+        "title": "權限管理",
+        "description": "了解同管理用戶角色同權限。",
+        "roles": {
+          "title": "用戶角色",
+          "description": "系統用分層角色模型做存取控制。",
+          "superadmin": {
+            "title": "超級管理員",
+            "description": "完全系統存取。第一個登記嘅用戶會自動成為超級管理員。"
+          },
+          "groupAdmin": {
+            "title": "群組管理員",
+            "description": "可以管理佢哋群組嘅 Steam 綁定同群組設定。"
+          },
+          "user": {
+            "title": "普通用戶",
+            "description": "可以睇佢哋所屬嘅群組同管理自己嘅 Steam 帳號。"
+          }
+        },
+        "registration": {
+          "title": "登記政策",
+          "description": "控制邊個可以登記帳號。",
+          "content": "如果用戶係已啟用群組嘅成員就可以登記。第一個登記嘅用戶會自動成為超級管理員。"
+        }
+      },
+      "export": {
+        "pageTitle": "數據匯出",
+        "title": "數據匯出",
+        "description": "將系統數據匯出為 CSV 檔案，用於備份或分析。",
+        "download": "下載 CSV",
+        "users": {
+          "title": "用戶數據",
+          "description": "匯出所有已登記嘅用戶帳號。",
+          "content": "下載包含用戶 ID、電郵地址、確認狀態同登記日期嘅 CSV 檔案。"
+        },
+        "groups": {
+          "title": "群組設定",
+          "description": "匯出所有群組配置數據。",
+          "content": "下載包含群組 ID、啟用狀態同最後更新時間戳嘅 CSV 檔案。"
+        },
+        "steamPlayers": {
+          "title": "Steam 綁定",
+          "description": "匯出所有 Steam 帳號綁定。",
+          "content": "下載包含 QQ ID、Steam ID 同綁定時間戳嘅 CSV 檔案。"
         }
       }
     },

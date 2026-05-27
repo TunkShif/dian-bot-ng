@@ -112,6 +112,30 @@
       "title": "Panel",
       "pageTitle": "Kontrol paneli"
     },
+    "monitor": {
+      "pageTitle": "Canlı İzleme",
+      "title": "Canlı İzleme",
+      "description": "Tüm etkin gruplarda Steam çevrimiçi durumu.",
+      "groupsCount": "{{count}} grup",
+      "loading": "Yükleniyor...",
+      "loadingMembers": "Üyeler yükleniyor...",
+      "loadingStatus": "Yükleniyor...",
+      "errorMembers": "Üyeler yüklenemedi.",
+      "noSteamBindings": "Bağlı Steam hesabı yok.",
+      "boundCount": "{{bound}}/{{total}} bağlı",
+      "state": {
+        "playing": "Oyunda"
+      },
+      "previewError": "Steam profili yüklenemedi.",
+      "empty": {
+        "title": "Etkin grup yok",
+        "description": "Steam etkinliğini izlemeye başlamak için en az bir grubu etkinleştirin."
+      },
+      "error": {
+        "title": "Gruplar yüklenemedi",
+        "description": "Lütfen biraz sonra tekrar deneyin."
+      }
+    },
     "settings": {
       "title": "Ayarlar",
       "description": "Oturum açma yöntemlerinizi yönetin ve hesabınıza erişimi koruyun.",
@@ -241,6 +265,82 @@
           "successTitle": "Steam hesabı bağlandı",
           "successMessage": "Steam hesabınız başarıyla bağlandı.",
           "errorMessage": "Steam hesabı bağlanamadı. Lütfen tekrar deneyin."
+        },
+        "unbind": {
+          "trigger": "Steam'i Ayır",
+          "title": "Steam Hesabını Ayır",
+          "description": "Bu, hesabınız ile Steam arasındaki bağlantıyı kaldıracaktır. istediğiniz zaman tekrar bağlayabilirsiniz.",
+          "confirm": "Ayır",
+          "successTitle": "Steam hesabı ayrıldı",
+          "successMessage": "Steam hesabınız başarıyla ayrıldı.",
+          "errorMessage": "Steam hesabı ayrılamadı. Lütfen tekrar deneyin."
+        }
+      },
+      "system": {
+        "pageTitle": "Sistem Ayarları",
+        "title": "Sistem Ayarları",
+        "description": "Genel sistem ayarlarını yapılandırın ve sistem durumunu görüntüleyin.",
+        "globalConfig": {
+          "title": "Genel Yapılandırma",
+          "description": "Sistem genelinde ayarlar ve tercihler.",
+          "content": "Uygulama için genel ayarları yapılandırın."
+        },
+        "superadmin": {
+          "title": "Süper yönetici",
+          "description": "Süper yönetici ayrıcalıklarını yönetin.",
+          "content": "Süper yönetici, tüm sistem ayarlarına ve kullanıcı yönetim özelliklerine tam erişime sahiptir."
+        },
+        "userManagement": {
+          "title": "Kullanıcı Yönetimi",
+          "description": "Kayıtlı kullanıcıları görüntüleyin ve yönetin.",
+          "content": "Kullanıcı hesaplarını görüntülemek ve izinleri yönetmek için kullanıcı yönetim özelliklerine erişin."
+        }
+      },
+      "permissions": {
+        "pageTitle": "İzin Yönetimi",
+        "title": "İzin Yönetimi",
+        "description": "Kullanıcı rollerini ve izinlerini anlayın ve yönetin.",
+        "roles": {
+          "title": "Kullanıcı Rolleri",
+          "description": "Sistem, erişim kontrolü için hiyerarşik bir rol modeli kullanır.",
+          "superadmin": {
+            "title": "Süper yönetici",
+            "description": "Tam sistem erişimi. İlk kaydolan kullanıcı otomatik olarak süper yönetici olur."
+          },
+          "groupAdmin": {
+            "title": "Grup Yöneticisi",
+            "description": "Grupları için Steam bağlamalarını ve grup ayarlarını yönetebilir."
+          },
+          "user": {
+            "title": "Normal Kullanıcı",
+            "description": "Üyesi olduğu grupları görüntüleyebilir ve kendi Steam hesabını yönetebilir."
+          }
+        },
+        "registration": {
+          "title": "Kayıt Politikası",
+          "description": "Kimlerin hesap oluşturabileceğini kontrol edin.",
+          "content": "Kullanıcılar, etkin bir grubun üyesi oldukları takdirde kayıt olabilirler. İlk kaydolan kullanıcı otomatik olarak süper yönetici olur."
+        }
+      },
+      "export": {
+        "pageTitle": "Veri Dışa Aktarma",
+        "title": "Veri Dışa Aktarma",
+        "description": "Sistem verilerini yedekleme veya analiz için CSV dosyaları olarak dışa aktarın.",
+        "download": "CSV İndir",
+        "users": {
+          "title": "Kullanıcı Verileri",
+          "description": "Tüm kayıtlı kullanıcı hesaplarını dışa aktarın.",
+          "content": "Kullanıcı kimlikleri, e-posta adresleri, onay durumları ve kayıt tarihlerini içeren bir CSV dosyası indirin."
+        },
+        "groups": {
+          "title": "Grup Ayarları",
+          "description": "Tüm grup yapılandırma verilerini dışa aktarın.",
+          "content": "Grup kimlikleri, etkin durumu ve son güncelleme zaman damgalarını içeren bir CSV dosyası indirin."
+        },
+        "steamPlayers": {
+          "title": "Steam Bağlantıları",
+          "description": "Tüm Steam hesap bağlantılarını dışa aktarın.",
+          "content": "QQ kimlikleri, Steam kimlikleri ve bağlantı zaman damgalarını içeren bir CSV dosyası indirin."
         }
       }
     },

@@ -180,6 +180,28 @@ defmodule Dian.Steam do
   end
 
   @doc """
+  Unbinds the authenticated user's Steam binding.
+
+  Derives the qq_id from the current scope and deletes the binding.
+
+  Returns `:ok` on success or `{:error, :not_found}` if no binding exists.
+  """
+  def unbind_self(scope)
+
+  def unbind_self(%Dian.Accounts.Scope{qq_id: qq_id}) when is_binary(qq_id) do
+    case get_steam_player_by_qq_id(qq_id) do
+      nil ->
+        {:error, :not_found}
+
+      steam_player ->
+        case Repo.delete(steam_player) do
+          {:ok, _} -> :ok
+          {:error, changeset} -> {:error, changeset}
+        end
+    end
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking steam player changes.
   """
   def change_steam_player(%SteamPlayer{} = steam_player, attrs \\ %{}) do

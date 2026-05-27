@@ -78,7 +78,18 @@ defmodule DianWeb.Router do
     get "/steam/players/:steam_id", SteamPlayerController, :show_by_steam_id
     get "/steam/players/by-qq/:qq_id", SteamPlayerController, :show_by_qq_id
     put "/steam/players/self", SteamPlayerController, :bind_self
+    delete "/steam/players/self", SteamPlayerController, :unbind_self
     put "/steam/players/group-members/:group_id/:qq_id", SteamPlayerController, :bind_member
+
+    # Admin endpoints
+    get "/admin/users", AdminController, :list_users
+    get "/admin/settings", AdminController, :global_settings
+    put "/admin/superadmin", AdminController, :update_superadmin
+
+    # Export endpoints
+    get "/export/users", ExportController, :export_users
+    get "/export/groups", ExportController, :export_groups
+    get "/export/steam-players", ExportController, :export_steam_players
   end
 
   ## SPA entrypoint

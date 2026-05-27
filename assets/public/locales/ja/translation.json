@@ -112,6 +112,30 @@
       "title": "ダッシュボード",
       "pageTitle": "ダッシュボード"
     },
+    "monitor": {
+      "pageTitle": "ライブモニター",
+      "title": "ライブモニター",
+      "description": "有効な全グループの Steam オンライン状態をリアルタイムで確認。",
+      "groupsCount": "{{count}} グループ",
+      "loading": "読み込み中...",
+      "loadingMembers": "メンバーを読み込み中...",
+      "loadingStatus": "読み込み中...",
+      "errorMembers": "メンバーを読み込めません。",
+      "noSteamBindings": "Steam アカウントがリンクされていません。",
+      "boundCount": "{{bound}}/{{total}} リンク済み",
+      "state": {
+        "playing": "プレイ中"
+      },
+      "previewError": "この Steam プロフィールを読み込めません。",
+      "empty": {
+        "title": "有効なグループがありません",
+        "description": "Steam アクティビティの監視を開始するには、少なくとも 1 つのグループを有効にしてください。"
+      },
+      "error": {
+        "title": "グループを読み込めません",
+        "description": "しばらくしてからもう一度お試しください。"
+      }
+    },
     "settings": {
       "title": "設定",
       "description": "サインイン方法を管理し、アカウントへのアクセスを保護します。",
@@ -241,6 +265,82 @@
           "successTitle": "Steamアカウントを連携しました",
           "successMessage": "Steamアカウントが正常に連携されました。",
           "errorMessage": "Steamアカウントを連携できませんでした。もう一度お試しください。"
+        },
+        "unbind": {
+          "trigger": "Steam連携解除",
+          "title": "Steamアカウント連携解除",
+          "description": "アカウントとSteamのリンクを解除します。いつでも再リンクできます。",
+          "confirm": "連携解除",
+          "successTitle": "Steamアカウント連携解除済み",
+          "successMessage": "Steamアカウントの連携が解除されました。",
+          "errorMessage": "Steamアカウントの連携を解除できませんでした。もう一度お試しください。"
+        }
+      },
+      "system": {
+        "pageTitle": "システム設定",
+        "title": "システム設定",
+        "description": "グローバルなシステム設定を構成し、システム状態を確認します。",
+        "globalConfig": {
+          "title": "全体設定",
+          "description": "システム全体の設定と設定。",
+          "content": "アプリケーションのグローバル設定を構成します。"
+        },
+        "superadmin": {
+          "title": "スーパー管理者",
+          "description": "スーパー管理者権限を管理します。",
+          "content": "スーパー管理者は、すべてのシステム設定とユーザー管理機能にフルアクセスできます。"
+        },
+        "userManagement": {
+          "title": "ユーザー管理",
+          "description": "登録ユーザーを表示および管理します。",
+          "content": "ユーザー管理機能にアクセスして、ユーザーアカウントを表示し、権限を管理します。"
+        }
+      },
+      "permissions": {
+        "pageTitle": "権限管理",
+        "title": "権限管理",
+        "description": "ユーザーの役割と権限を理解し、管理します。",
+        "roles": {
+          "title": "ユーザー役割",
+          "description": "システムはアクセス制御に階層的な役割モデルを使用します。",
+          "superadmin": {
+            "title": "スーパー管理者",
+            "description": "完全なシステムアクセス。最初に登録したユーザーが自動的にスーパー管理者になります。"
+          },
+          "groupAdmin": {
+            "title": "グループ管理者",
+            "description": "グループのSteam連携とグループ設定を管理できます。"
+          },
+          "user": {
+            "title": "一般ユーザー",
+            "description": "所属するグループを表示し、自分のSteamアカウントを管理できます。"
+          }
+        },
+        "registration": {
+          "title": "登録ポリシー",
+          "description": "誰がアカウントを登録できるかを制御します。",
+          "content": "ユーザーは有効なグループのメンバーであれば登録できます。最初に登録したユーザーが自動的にスーパー管理者になります。"
+        }
+      },
+      "export": {
+        "pageTitle": "データエクスポート",
+        "title": "データエクスポート",
+        "description": "システムデータをバックアップまたは分析用にCSVファイルとしてエクスポートします。",
+        "download": "CSVをダウンロード",
+        "users": {
+          "title": "ユーザーデータ",
+          "description": "登録済みの全ユーザーアカウントをエクスポートします。",
+          "content": "ユーザーID、メールアドレス、確認状態、登録日を含むCSVファイルをダウンロードします。"
+        },
+        "groups": {
+          "title": "グループ設定",
+          "description": "すべてのグループ設定データをエクスポートします。",
+          "content": "グループID、有効状態、最終更新タイムスタンプを含むCSVファイルをダウンロードします。"
+        },
+        "steamPlayers": {
+          "title": "Steamバインディング",
+          "description": "すべてのSteamアカウントバインディングをエクスポートします。",
+          "content": "QQ ID、Steam ID、バインディングタイムスタンプを含むCSVファイルをダウンロードします。"
         }
       }
     },

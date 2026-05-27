@@ -576,4 +576,28 @@ defmodule Dian.Accounts do
       end
     end)
   end
+
+  ## User management (admin)
+
+  @doc """
+  Lists all users.
+
+  Returns a list of all users ordered by insertion time.
+  """
+  def list_users do
+    User
+    |> order_by([u], desc: u.inserted_at)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a user by id.
+
+  Returns `nil` if no user exists.
+  """
+  def get_user(id) when is_integer(id) do
+    Repo.get(User, id)
+  end
+
+  def get_user(_id), do: nil
 end

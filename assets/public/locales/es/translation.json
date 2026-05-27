@@ -112,6 +112,30 @@
       "title": "Panel",
       "pageTitle": "Panel"
     },
+    "monitor": {
+      "pageTitle": "Monitor en vivo",
+      "title": "Monitor en vivo",
+      "description": "Estado de Steam en tiempo real para todos los grupos habilitados.",
+      "groupsCount": "{{count}} grupos",
+      "loading": "Cargando...",
+      "loadingMembers": "Cargando miembros...",
+      "loadingStatus": "Cargando...",
+      "errorMembers": "No se pudieron cargar los miembros.",
+      "noSteamBindings": "Sin cuentas de Steam vinculadas.",
+      "boundCount": "{{bound}}/{{total}} vinculados",
+      "state": {
+        "playing": "Jugando"
+      },
+      "previewError": "No se pudo cargar este perfil de Steam.",
+      "empty": {
+        "title": "Sin grupos habilitados",
+        "description": "Habilite al menos un grupo para comenzar a monitorear la actividad de Steam."
+      },
+      "error": {
+        "title": "No se pudieron cargar los grupos",
+        "description": "Inténtelo de nuevo en un momento."
+      }
+    },
     "settings": {
       "title": "Ajustes",
       "description": "Gestiona cómo inicias sesión y mantén protegido el acceso a tu cuenta.",
@@ -241,6 +265,82 @@
           "successTitle": "Cuenta de Steam vinculada",
           "successMessage": "Su cuenta de Steam se ha vinculado correctamente.",
           "errorMessage": "No se pudo vincular la cuenta de Steam. Inténtelo de nuevo."
+        },
+        "unbind": {
+          "trigger": "Desvincular Steam",
+          "title": "Desvincular cuenta de Steam",
+          "description": "Esto eliminará el vínculo entre tu cuenta y Steam. Puedes vincular de nuevo en cualquier momento.",
+          "confirm": "Desvincular",
+          "successTitle": "Cuenta de Steam desvinculada",
+          "successMessage": "Tu cuenta de Steam ha sido desvinculada exitosamente.",
+          "errorMessage": "No se pudo desvincular la cuenta de Steam. Inténtelo de nuevo."
+        }
+      },
+      "system": {
+        "pageTitle": "Ajustes del sistema",
+        "title": "Ajustes del sistema",
+        "description": "Configure los ajustes globales del sistema y vea el estado del sistema.",
+        "globalConfig": {
+          "title": "Configuración global",
+          "description": "Ajustes y preferencias de todo el sistema.",
+          "content": "Configure los ajustes globales de la aplicación."
+        },
+        "superadmin": {
+          "title": "Superadministrador",
+          "description": "Gestionar privilegios de superadministrador.",
+          "content": "El superadministrador tiene acceso completo a todos los ajustes del sistema y funciones de gestión de usuarios."
+        },
+        "userManagement": {
+          "title": "Gestión de usuarios",
+          "description": "Ver y gestionar usuarios registrados.",
+          "content": "Acceda a las funciones de gestión de usuarios para ver cuentas de usuario y gestionar permisos."
+        }
+      },
+      "permissions": {
+        "pageTitle": "Gestión de permisos",
+        "title": "Gestión de permisos",
+        "description": "Comprenda y gestione los roles y permisos de los usuarios.",
+        "roles": {
+          "title": "Roles de usuario",
+          "description": "El sistema utiliza un modelo de roles jerárquico para el control de acceso.",
+          "superadmin": {
+            "title": "Superadministrador",
+            "description": "Acceso completo al sistema. El primer usuario registrado se convierte automáticamente en superadministrador."
+          },
+          "groupAdmin": {
+            "title": "Administrador de grupo",
+            "description": "Puede gestionar vinculaciones de Steam y ajustes de grupo para sus grupos."
+          },
+          "user": {
+            "title": "Usuario regular",
+            "description": "Puede ver los grupos a los que pertenece y gestionar su propia cuenta de Steam."
+          }
+        },
+        "registration": {
+          "title": "Política de registro",
+          "description": "Controle quién puede registrar una cuenta.",
+          "content": "Los usuarios pueden registrarse si son miembros de un grupo habilitado. El primer usuario en registrarse se convierte automáticamente en superadministrador."
+        }
+      },
+      "export": {
+        "pageTitle": "Exportación de datos",
+        "title": "Exportación de datos",
+        "description": "Exporte los datos del sistema como archivos CSV para respaldo o análisis.",
+        "download": "Descargar CSV",
+        "users": {
+          "title": "Datos de usuarios",
+          "description": "Exportar todas las cuentas de usuario registradas.",
+          "content": "Descargue un archivo CSV con IDs de usuario, direcciones de correo, estado de confirmación y fechas de registro."
+        },
+        "groups": {
+          "title": "Configuración de grupos",
+          "description": "Exportar todos los datos de configuración de grupos.",
+          "content": "Descargue un archivo CSV con IDs de grupo, estado habilitado y marcas de tiempo de última actualización."
+        },
+        "steamPlayers": {
+          "title": "Vinculaciones de Steam",
+          "description": "Exportar todas las vinculaciones de cuentas de Steam.",
+          "content": "Descargue un archivo CSV con IDs de QQ, IDs de Steam y marcas de tiempo de vinculación."
         }
       }
     },

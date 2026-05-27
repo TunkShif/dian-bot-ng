@@ -95,6 +95,7 @@
       "systemSettings": "System settings",
       "globalConfig": "Global config",
       "permissionManagement": "Permission management",
+      "dataExport": "Data export",
       "featuredMessages": "Featured messages"
     },
     "userMenu": {
@@ -288,6 +289,30 @@
         "next": "Next"
       }
     },
+    "monitor": {
+      "pageTitle": "Live Monitor",
+      "title": "Live Monitor",
+      "description": "Real-time Steam online status across all enabled groups.",
+      "groupsCount": "{{count}} groups",
+      "loading": "Loading...",
+      "loadingMembers": "Loading members...",
+      "loadingStatus": "Loading...",
+      "errorMembers": "Could not load members.",
+      "noSteamBindings": "No Steam accounts linked.",
+      "boundCount": "{{bound}}/{{total}} linked",
+      "state": {
+        "playing": "In-Game"
+      },
+      "previewError": "Could not load this Steam profile right now.",
+      "empty": {
+        "title": "No enabled groups",
+        "description": "Enable at least one group to start monitoring Steam activity."
+      },
+      "error": {
+        "title": "Could not load groups",
+        "description": "Please try again in a moment."
+      }
+    },
     "settings": {
       "pageTitle": "Account Settings",
       "title": "Account Settings",
@@ -417,6 +442,82 @@
           "successTitle": "Steam account linked",
           "successMessage": "Your Steam account has been linked successfully.",
           "errorMessage": "Could not link Steam account. Please try again."
+        },
+        "unbind": {
+          "trigger": "Unlink Steam",
+          "title": "Unlink Steam Account",
+          "description": "This will remove the link between your account and Steam. You can link again anytime.",
+          "confirm": "Unlink",
+          "successTitle": "Steam account unlinked",
+          "successMessage": "Your Steam account has been unlinked successfully.",
+          "errorMessage": "Could not unlink Steam account. Please try again."
+        }
+      },
+      "system": {
+        "pageTitle": "System Settings",
+        "title": "System Settings",
+        "description": "Configure global system settings and view system status.",
+        "globalConfig": {
+          "title": "Global Configuration",
+          "description": "System-wide settings and preferences.",
+          "content": "Configure global settings for the application."
+        },
+        "superadmin": {
+          "title": "Superadmin",
+          "description": "Manage superadmin privileges.",
+          "content": "The superadmin has full access to all system settings and user management features."
+        },
+        "userManagement": {
+          "title": "User Management",
+          "description": "View and manage registered users.",
+          "content": "Access user management features to view user accounts and manage permissions."
+        }
+      },
+      "permissions": {
+        "pageTitle": "Permission Management",
+        "title": "Permission Management",
+        "description": "Understand and manage user roles and permissions.",
+        "roles": {
+          "title": "User Roles",
+          "description": "The system uses a hierarchical role model for access control.",
+          "superadmin": {
+            "title": "Superadmin",
+            "description": "Full system access. First registered user becomes superadmin automatically."
+          },
+          "groupAdmin": {
+            "title": "Group Admin",
+            "description": "Can manage Steam bindings and group settings for their groups."
+          },
+          "user": {
+            "title": "Regular User",
+            "description": "Can view groups they belong to and manage their own Steam account."
+          }
+        },
+        "registration": {
+          "title": "Registration Policy",
+          "description": "Control who can register for an account.",
+          "content": "Users can register if they are members of an enabled group. The first user to register automatically becomes the superadmin."
+        }
+      },
+      "export": {
+        "pageTitle": "Data Export",
+        "title": "Data Export",
+        "description": "Export system data as CSV files for backup or analysis.",
+        "download": "Download CSV",
+        "users": {
+          "title": "User Data",
+          "description": "Export all registered user accounts.",
+          "content": "Download a CSV file containing user IDs, email addresses, confirmation status, and registration dates."
+        },
+        "groups": {
+          "title": "Group Settings",
+          "description": "Export all group configuration data.",
+          "content": "Download a CSV file containing group IDs, enabled status, and last update timestamps."
+        },
+        "steamPlayers": {
+          "title": "Steam Bindings",
+          "description": "Export all Steam account bindings.",
+          "content": "Download a CSV file containing QQ IDs, Steam IDs, and binding timestamps."
         }
       }
     }
