@@ -44,7 +44,12 @@ defmodule DianBot.Client.WebSocket.Transport do
     )
 
     backoff = min(attempt * 1_000, 30_000)
-    Process.sleep(backoff)
+    Process.send_after(self(), :reconnect, backoff)
+    {:ok, state}
+  end
+
+  @impl true
+  def handle_info(:reconnect, state) do
     {:reconnect, state}
   end
 
