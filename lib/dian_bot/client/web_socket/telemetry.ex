@@ -18,7 +18,7 @@ defmodule DianBot.Client.WebSocket.Telemetry do
   end
 
   def handle_event(event, _measurements, metadata, _config) do
-    if metadata[:module] == DianBot.Client.WebSocket do
+    if metadata[:module] == DianBot.Client.WebSocket.Transport do
       Logger.metadata(component: "onebot_websocket")
       log_event(event, metadata)
     end

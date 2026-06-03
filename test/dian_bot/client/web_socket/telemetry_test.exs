@@ -16,7 +16,7 @@ defmodule DianBot.Client.WebSocket.TelemetryTest do
           [:websockex, :disconnected],
           %{time: System.system_time()},
           %{
-            module: DianBot.Client.WebSocket,
+            module: DianBot.Client.WebSocket.Transport,
             reason: {:remote, 1001, "server restart"},
             attempt_number: 2
           },
