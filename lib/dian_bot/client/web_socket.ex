@@ -1,5 +1,5 @@
 defmodule DianBot.Client.WebSocket do
-  use WebSockex
+  use GenServer
 
   require Logger
 
@@ -9,108 +9,113 @@ defmodule DianBot.Client.WebSocket do
 
   @behaviour DianBot.Client
 
-  @env_key DianBot.Bot
   @default_timeout 5_000
 
-  def start_link(_opts) do
-    config = Application.fetch_env!(:dian, @env_key)
+  # Public API
 
-    initial_state = %{pending: %{}}
-    endpoint = Keyword.fetch!(config, :endpoint)
-    access_token = Keyword.fetch!(config, :access_token)
-    extra_headers = [{"Authorization", "Bearer #{access_token}"}]
-
-    WebSockex.start_link(endpoint, __MODULE__, initial_state,
-      name: __MODULE__,
-      extra_headers: extra_headers
-    )
-  end
-
-  defp cast(message) do
-    WebSockex.cast(__MODULE__, message)
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
   @impl true
   def request(action, params, opts) when is_list(opts) do
-    timeout = Keyword.get(opts, :timeout, default_timeout())
+    GenServer.call(__MODULE__, {:request, action, params, opts}, :infinity)
+  end
 
-    ref = make_ref()
-    request_id = Ecto.UUID.generate()
-    start_time = System.monotonic_time(:millisecond)
-    cast({:request, {self(), ref}, request_id, action, params})
+  # GenServer callbacks
 
-    {result, metadata} =
-      receive do
-        {:response, ^ref, result} ->
-          {result, %{success: true}}
-      after
-        timeout ->
-          Logger.warning("bot request timed out",
-            event: "request_timeout",
-            bot_action: action,
-            timeout_ms: timeout
-          )
+  @impl true
+  def init(opts) do
+    timeout = Keyword.get(opts, :timeout, @default_timeout)
 
-          cast({:cancel_request, request_id, ref})
-          {{:error, :timeout}, %{success: false}}
-      end
+    state = %{
+      timeout: timeout,
+      transport_pid: nil,
+      connected?: false,
+      pending: %{},
+      monitors: %{}
+    }
 
-    :telemetry.execute(
-      [:dian, :bot, :websocket, :request],
-      %{duration: System.monotonic_time(:millisecond) - start_time},
-      Map.merge(metadata, %{
-        component: :onebot_websocket,
-        bot_action: action
-      })
-    )
-
-    result
+    {:ok, state}
   end
 
   @impl true
-  def handle_frame({:text, msg}, state) do
-    with {:ok, payload} <- Jason.decode(msg) do
-      handle_message(payload, state)
+  def handle_call({:request, action, params, opts}, from, state) do
+    if !state.connected? or state.transport_pid == nil do
+      {:reply, {:error, :disconnected}, state}
     else
-      {:error, reason} ->
-        Logger.warning("invalid ws payload dropped",
-          event: "invalid_payload",
-          error: Exception.message(reason)
-        )
+      echo = Ecto.UUID.generate()
+      caller_pid = elem(from, 0)
+      monitor = Process.monitor(caller_pid)
+      per_request_timeout = Keyword.get(opts, :timeout, state.timeout)
+      timer = Process.send_after(self(), {:request_timeout, echo}, per_request_timeout)
+      started_at = System.monotonic_time(:millisecond)
 
-        {:ok, state}
+      pending_req = %{
+        from: from,
+        caller_pid: caller_pid,
+        action: action,
+        timer: timer,
+        monitor: monitor,
+        started_at: started_at
+      }
+
+      payload = OneBot.build_request(echo, action, params)
+
+      state = put_in(state.pending[echo], pending_req)
+      state = put_in(state.monitors[monitor], echo)
+
+      WebSockex.cast(state.transport_pid, {:send_frame, payload})
+
+      {:noreply, state}
     end
   end
 
   @impl true
-  def handle_cast({:request, caller, request_id, action, params}, state) do
-    payload = OneBot.build_request(request_id, action, params)
-
-    new_state = put_in(state.pending[request_id], caller)
-
-    {:reply, {:text, Jason.encode!(payload)}, new_state}
+  def handle_info({:ws_connected, transport_pid}, state) do
+    {:noreply, %{state | transport_pid: transport_pid, connected?: true}}
   end
 
-  def handle_cast({:cancel_request, echo, ref}, state) do
-    pending =
-      case Map.get(state.pending, echo) do
-        {_pid, ^ref} -> Map.delete(state.pending, echo)
-        _ -> state.pending
-      end
+  def handle_info({:ws_disconnected, _reason}, state) do
+    pending = state.pending
 
-    {:ok, %{state | pending: pending}}
+    state = %{state | connected?: false, transport_pid: nil, pending: %{}, monitors: %{}}
+
+    for {_echo, req} <- pending do
+      Process.demonitor(req.monitor, [:flush])
+      Process.cancel_timer(req.timer)
+
+      GenServer.reply(req.from, {:error, :disconnected})
+
+      :telemetry.execute(
+        [:dian, :bot, :websocket, :request],
+        %{duration: System.monotonic_time(:millisecond) - req.started_at},
+        %{
+          component: :onebot_websocket,
+          bot_action: req.action,
+          success: false,
+          outcome: :disconnected
+        }
+      )
+    end
+
+    if pending != %{} do
+      Logger.warning("bot ws disconnected, drained #{map_size(pending)} pending requests",
+        event: "drain_pending_on_disconnect",
+        count: map_size(pending)
+      )
+    end
+
+    {:noreply, state}
   end
 
-  defp handle_message(payload, state) do
+  def handle_info({:ws_payload, payload}, state) do
     payload_class = OneBot.classify_payload(payload)
 
     :telemetry.execute(
       [:dian, :bot, :websocket, :message],
       %{count: 1},
-      %{
-        component: :onebot_websocket,
-        payload_class: payload_class
-      }
+      %{component: :onebot_websocket, payload_class: payload_class}
     )
 
     case payload_class do
@@ -120,25 +125,87 @@ defmodule DianBot.Client.WebSocket do
     end
   end
 
+  def handle_info({:DOWN, ref, :process, _pid, _reason}, state) do
+    case state.monitors do
+      %{^ref => echo} ->
+        case state.pending do
+          %{^echo => req} ->
+            state = delete_pending(state, echo, req)
+            {:noreply, state}
+
+          _ ->
+            {:noreply, state}
+        end
+
+      _ ->
+        {:noreply, state}
+    end
+  end
+
+  def handle_info({:request_timeout, echo}, state) do
+    case state.pending do
+      %{^echo => req} ->
+        state = delete_pending(state, echo, req)
+
+        GenServer.reply(req.from, {:error, :timeout})
+
+        :telemetry.execute(
+          [:dian, :bot, :websocket, :request],
+          %{duration: System.monotonic_time(:millisecond) - req.started_at},
+          %{
+            component: :onebot_websocket,
+            bot_action: req.action,
+            success: false,
+            outcome: :timeout
+          }
+        )
+
+        {:noreply, state}
+
+      _ ->
+        {:noreply, state}
+    end
+  end
+
+  # Private helpers
+
   defp handle_event(payload, state) do
     if event = Event.build(payload) do
       EventBus.broadcast(event)
     end
 
-    {:ok, state}
+    {:noreply, state}
   end
 
   defp handle_response(payload, state) do
-    request_id = Map.fetch!(payload, "echo")
-    {caller, pending} = Map.pop(state.pending, request_id)
+    echo = Map.fetch!(payload, "echo")
 
-    case caller do
-      nil ->
-        {:ok, state}
+    case state.pending do
+      %{^echo => req} ->
+        state = delete_pending(state, echo, req)
 
-      {pid, ref} ->
-        send(pid, {:response, ref, OneBot.response_result(payload)})
-        {:ok, %{state | pending: pending}}
+        GenServer.reply(req.from, OneBot.response_result(payload))
+
+        :telemetry.execute(
+          [:dian, :bot, :websocket, :request],
+          %{duration: System.monotonic_time(:millisecond) - req.started_at},
+          %{
+            component: :onebot_websocket,
+            bot_action: req.action,
+            success: true,
+            outcome: :ok
+          }
+        )
+
+        {:noreply, state}
+
+      _ ->
+        Logger.warning("late or unknown response dropped",
+          event: "late_response",
+          echo: echo
+        )
+
+        {:noreply, state}
     end
   end
 
@@ -150,11 +217,17 @@ defmodule DianBot.Client.WebSocket do
       message_type: payload["message_type"]
     )
 
-    {:ok, state}
+    {:noreply, state}
   end
 
-  defp default_timeout() do
-    Application.fetch_env!(:dian, @env_key)
-    |> Keyword.get(:timeout, @default_timeout)
+  defp delete_pending(state, echo, req) do
+    Process.demonitor(req.monitor, [:flush])
+    Process.cancel_timer(req.timer)
+
+    %{
+      state
+      | pending: Map.delete(state.pending, echo),
+        monitors: Map.delete(state.monitors, req.monitor)
+    }
   end
 end

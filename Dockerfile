@@ -5,8 +5,8 @@
 # https://hub.docker.com/r/hexpm/elixir/tags
 # https://hub.docker.com/_/debian/tags
 #
-ARG ELIXIR_VERSION=1.19.5
-ARG OTP_VERSION=28.4
+ARG ELIXIR_VERSION=1.20.0
+ARG OTP_VERSION=29.0.1
 ARG RUST_VERSION=1.95.0
 ARG DEBIAN_VERSION=trixie-20260518-slim
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
@@ -18,11 +18,11 @@ ARG RUST_VERSION
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    build-essential \
-    ca-certificates \
-    curl \
-    git \
-    unzip \
+  build-essential \
+  ca-certificates \
+  curl \
+  git \
+  unzip \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -64,12 +64,12 @@ FROM ${RUNNER_IMAGE} AS final
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    libncurses6 \
-    libsqlite3-0 \
-    libstdc++6 \
-    locales \
-    openssl \
+  ca-certificates \
+  libncurses6 \
+  libsqlite3-0 \
+  libstdc++6 \
+  locales \
+  openssl \
   && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \

@@ -11,7 +11,7 @@ defmodule DianBot.Supervisor do
       case DianBot.Client.impl() do
         DianBot.Client.WebSocket ->
           [
-            DianBot.Client.WebSocket,
+            DianBot.Client.WebSocket.Supervisor,
             DianBot.Commands.Throttle,
             DianBot.Commands.Consumer,
             DianBot.Commands.Batch

@@ -89,10 +89,10 @@ defmodule Dian.GroupsTest do
           {:ok, [member_payload("100", 12345, "admin"), member_payload("100", 20001, "member")]}
       end)
 
-      assert {:ok, group} = Groups.get_group(scope, "100")
+      assert {:ok, data} = Groups.get_group(scope, "100")
 
       assert [%{user_id: 12345, steam_player: nil}, %{user_id: 20001, steam_player: steam_player}] =
-               group.members
+               data.members
 
       assert %{steam_id: ^steam_id, display_name: "PlayerOne"} = steam_player
 
