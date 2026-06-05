@@ -115,17 +115,14 @@ defmodule Dian.SteamWatcher.AchievementCard do
 
   defp icon_data_uri(url) when is_binary(url) do
     case icon_fetcher().(url) do
-      {:ok, data_uri} when is_binary(data_uri) ->
-        if String.starts_with?(data_uri, "data:") do
-          data_uri
+      {:ok, body} when is_binary(body) ->
+        if String.starts_with?(body, "data:") do
+          body
         else
-          "data:image/jpeg;base64," <> Base.encode64(data_uri)
+          "data:image/jpeg;base64," <> Base.encode64(body)
         end
 
       {:ok, %Req.Response{status: 200, body: body}} when is_binary(body) ->
-        "data:image/jpeg;base64," <> Base.encode64(body)
-
-      {:ok, body} when is_binary(body) ->
         "data:image/jpeg;base64," <> Base.encode64(body)
 
       _ ->
