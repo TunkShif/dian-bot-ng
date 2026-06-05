@@ -99,6 +99,24 @@ defmodule DianBot.Commands.ParserTest do
       assert request.mentions_bot? == true
     end
 
+    test "parses /cmd with reply and @other user (NapCat auto-@mention)" do
+      event = %GroupMessageEvent{
+        group_id: 1,
+        self_id: @self_id,
+        sender_id: 789,
+        message_id: 100,
+        message: [Message.reply("5"), Message.at(@other_id), Message.text("/cmd")],
+        raw_message: "",
+        timestamp: 1_713_456_789
+      }
+
+      assert {:ok, request} = Parser.parse(event)
+      assert request.name == "cmd"
+      assert request.raw_args == ""
+      assert request.reply == %{message_id: "5"}
+      assert request.mentions_bot? == false
+    end
+
     test "preserves original event and segments" do
       segments = [Message.text("/foo")]
 

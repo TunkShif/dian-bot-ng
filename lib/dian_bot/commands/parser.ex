@@ -67,7 +67,12 @@ defmodule DianBot.Commands.Parser do
     if to_string(qq) == to_string(bot_id) do
       do_parse_command(rest, reply, true)
     else
-      :ignore
+      # NapCat auto-adds @mention of replied-to user. Skip it.
+      if reply != nil do
+        do_parse_after_reply(rest, bot_id, reply)
+      else
+        :ignore
+      end
     end
   end
 
