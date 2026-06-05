@@ -30,12 +30,10 @@ defmodule Dian.Groups do
       steam_players_by_qq_id =
         members |> Enum.map(&to_string(&1.user_id)) |> Steam.get_steam_players_by_qq_ids()
 
-      group =
-        group
-        |> enrich_group(group_admin?(member, superadmin?))
-        |> Map.put(:members, attach_member_steam_players(members, steam_players_by_qq_id))
-
-      {:ok, group}
+      {:ok, %{
+        group: enrich_group(group, group_admin?(member, superadmin?)),
+        members: attach_member_steam_players(members, steam_players_by_qq_id)
+      }}
     end
   end
 

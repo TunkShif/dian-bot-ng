@@ -3,18 +3,26 @@ defmodule DianWeb.GroupJSON do
   alias Dian.Steam.SteamPlayer
 
   def one(%Group{} = group) do
+    base(group)
+  end
+
+  def one(%{group: group, members: members}) do
+    base(group) |> Map.put(:members, Enum.map(members, &member/1))
+  end
+
+  def many(groups), do: Enum.map(groups, &one/1)
+
+  defp base(%Group{} = group) do
     %{
       group_id: group.group_id,
       group_name: group.group_name,
       group_remark: group.group_remark,
       avatar_url: group.avatar_url,
       member_count: group.member_count,
-      enabled: Map.get(group, :enabled, false),
-      is_admin: Map.get(group, :is_admin, false)
+      enabled: group.enabled,
+      is_admin: group.is_admin
     }
   end
-
-  def many(groups), do: Enum.map(groups, &one/1)
 
   def member(member) when is_map(member) do
     %{

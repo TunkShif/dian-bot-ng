@@ -56,10 +56,8 @@ defmodule DianWeb.GroupController do
   end
 
   def show(conn, %{"id" => group_id}) do
-    with {:ok, group} <- Groups.get_group(conn.assigns.current_scope, group_id) do
-      members = group |> Map.get(:members, []) |> Enum.map(&GroupJSON.member/1)
-      group = group |> GroupJSON.one() |> Map.put(:members, members)
-      JSend.success_json(conn, %{group: group})
+    with {:ok, data} <- Groups.get_group(conn.assigns.current_scope, group_id) do
+      data |> GroupJSON.one() |> then(&JSend.success_json(conn, %{group: &1}))
     end
   end
 

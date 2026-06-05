@@ -135,6 +135,4 @@ defmodule DianBot do
         false
     end)
   end
-
-  defp member_not_found_reason?(_reason), do: false
 end

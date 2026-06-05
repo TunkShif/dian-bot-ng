@@ -6,7 +6,9 @@ defmodule DianBot.Group do
           group_id: integer(),
           group_name: String.t(),
           member_count: integer(),
-          avatar_url: String.t()
+          avatar_url: String.t(),
+          enabled: boolean(),
+          is_admin: boolean()
         }
 
   defstruct [
@@ -14,7 +16,9 @@ defmodule DianBot.Group do
     :group_name,
     :group_remark,
     :member_count,
-    :avatar_url
+    :avatar_url,
+    enabled: false,
+    is_admin: false
   ]
 
   @spec build(map()) :: t()
