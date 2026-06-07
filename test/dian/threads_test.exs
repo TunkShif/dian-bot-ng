@@ -61,10 +61,9 @@ defmodule Dian.ThreadsTest do
       assert second.types == ["image"]
     end
 
-    test "raises on invalid attrs" do
-      assert_raise Ecto.InvalidChangesetError, fn ->
-        Dian.Threads.create_thread_with_messages(%{}, [])
-      end
+    test "returns error on invalid attrs" do
+      assert {:error, %Ecto.Changeset{}} =
+               Dian.Threads.create_thread_with_messages(%{}, [])
     end
   end
 

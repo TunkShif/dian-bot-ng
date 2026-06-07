@@ -20,6 +20,7 @@ defmodule Dian.Repo.Migrations.CreateThreadsAndMessages do
       timestamps()
     end
 
+    create index(:threads, [:group_id])
     create index(:messages, [:thread_id])
   end
 end

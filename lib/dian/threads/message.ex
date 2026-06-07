@@ -16,7 +16,7 @@ defmodule Dian.Threads.Message do
   def changeset(message, attrs) do
     message
     |> cast(attrs, [:raw_message_id, :sender_id, :segments, :types, :text_content])
-    |> validate_required([:thread_id, :raw_message_id, :sender_id, :segments, :types])
+    |> validate_required([:raw_message_id, :sender_id, :segments, :types])
     |> foreign_key_constraint(:thread_id)
   end
 end

@@ -15,6 +15,8 @@ defmodule Dian.Threads do
   alias Dian.Threads.SegmentStore
   alias Dian.Threads.Thread
 
+  @dupe_ttl :timer.seconds(5)
+
   @doc """
   Fetches a replied-to message via OneBot API, processes its segments,
   and persists it as a new thread with a single message.
@@ -27,40 +29,50 @@ defmodule Dian.Threads do
   def save_replied_message(group_id, creator_id, reply_message_id) do
     dupe_key = "thread:save:#{group_id}:#{reply_message_id}"
 
-    case Cachex.get(:dian_cache, dupe_key) do
-      {:ok, true} ->
-        Logger.warning("thread:save dedupe hit",
-          group_id: group_id,
-          message_id: reply_message_id,
-          sender_id: creator_id
-        )
+    Cachex.transaction(:dian_cache, [dupe_key], fn _ ->
+      case Cachex.get(:dian_cache, dupe_key) do
+        {:ok, true} ->
+          Logger.warning("thread:save dedupe hit",
+            group_id: group_id,
+            message_id: reply_message_id,
+            sender_id: creator_id
+          )
 
-        {:error, :duplicate}
+          {:error, :duplicate}
 
-      _ ->
-        Cachex.put(:dian_cache, dupe_key, true, ttl: :timer.seconds(5))
+        _ ->
+          Cachex.put(:dian_cache, dupe_key, true, expire: @dupe_ttl)
 
-        case DianBot.get_msg(reply_message_id) do
-          {:ok, msg_data} ->
-            msg_attrs = build_msg_attrs(reply_message_id, msg_data)
+          case DianBot.get_msg(reply_message_id) do
+            {:ok, msg_data} ->
+              msg_attrs = build_msg_attrs(reply_message_id, msg_data)
 
-            create_thread_with_messages(
-              %{group_id: group_id, creator_id: creator_id},
-              [msg_attrs]
-            )
+              case create_thread_with_messages(
+                     %{group_id: group_id, creator_id: creator_id},
+                     [msg_attrs]
+                   ) do
+                {:ok, _} = result ->
+                  result
 
-          {:error, reason} ->
-            Cachex.del(:dian_cache, dupe_key)
+                {:error, _} = error ->
+                  Cachex.del(:dian_cache, dupe_key)
+                  error
+              end
 
-            Logger.error("thread:save get_msg failed",
-              group_id: group_id,
-              message_id: reply_message_id,
-              reason: reason
-            )
+            {:error, reason} ->
+              Cachex.del(:dian_cache, dupe_key)
 
-            {:error, :fetch_failed}
-        end
-    end
+              Logger.error("thread:save get_msg failed",
+                group_id: group_id,
+                message_id: reply_message_id,
+                reason: reason
+              )
+
+              {:error, :fetch_failed}
+          end
+      end
+    end)
+    |> elem(1)
   end
 
   @doc """
@@ -103,14 +115,14 @@ defmodule Dian.Threads do
   """
   def batch_save_messages(group_id, creator_id, collected) do
     case create_thread_with_messages(%{group_id: group_id, creator_id: creator_id}, collected) do
-      {:ok, %{messages: messages}} ->
+      {:ok, %{thread: thread, messages: messages}} ->
         Logger.info("thread:done flush success",
           group_id: group_id,
           creator_id: creator_id,
           count: length(messages)
         )
 
-        {:ok, %{messages: messages}}
+        {:ok, %{thread: thread, messages: messages}}
 
       {:error, _changeset} = error ->
         error
@@ -130,26 +142,42 @@ defmodule Dian.Threads do
   """
   def create_thread_with_messages(attrs, messages_data) when is_list(messages_data) do
     Repo.transact(fn repo ->
-      thread = %Thread{} |> Thread.changeset(attrs) |> repo.insert!()
-
-      messages =
-        Enum.map(messages_data, fn msg_attrs ->
-          %Message{thread_id: thread.id}
-          |> Message.changeset(msg_attrs)
-          |> repo.insert!()
-        end)
-
-      {:ok, %{thread: thread, messages: messages}}
+      with {:ok, thread} <- %Thread{} |> Thread.changeset(attrs) |> repo.insert(),
+           {:ok, messages} <- insert_messages(repo, thread, messages_data) do
+        {:ok, %{thread: thread, messages: messages}}
+      end
     end)
+  end
+
+  defp insert_messages(repo, thread, messages_data) do
+    messages_data
+    |> Enum.reduce_while({:ok, []}, fn msg_attrs, {:ok, acc} ->
+      case %Message{thread_id: thread.id}
+           |> Message.changeset(msg_attrs)
+           |> repo.insert() do
+        {:ok, message} -> {:cont, {:ok, [message | acc]}}
+        {:error, _changeset} = error -> {:halt, error}
+      end
+    end)
+    |> case do
+      {:ok, messages} -> {:ok, Enum.reverse(messages)}
+      error -> error
+    end
   end
 
   defp build_msg_attrs(reply_message_id, msg_data) do
     segments = msg_data["message"] || []
     processed = SegmentStore.process_segments(segments)
 
+    sender_id =
+      case msg_data do
+        %{"sender" => %{"user_id" => uid}} when uid != nil -> to_string(uid)
+        _ -> ""
+      end
+
     %{
       raw_message_id: to_string(reply_message_id),
-      sender_id: to_string(msg_data["sender"]["user_id"]),
+      sender_id: sender_id,
       segments: processed.segments,
       types: processed.types,
       text_content: processed.text_content
