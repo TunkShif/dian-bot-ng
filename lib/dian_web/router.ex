@@ -23,6 +23,10 @@ defmodule DianWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: DianWeb.APISpec
   end
 
+  pipeline :media do
+    plug :accepts, ["*/*"]
+  end
+
   ## Authentication routes
   scope "/redirects/", DianWeb do
     pipe_through [:browser]
@@ -62,6 +66,13 @@ defmodule DianWeb.Router do
     get "/steam/players/by-qq/:qq_id", SteamPlayerController, :show_by_qq_id
     put "/steam/players/self", SteamPlayerController, :bind_self
     put "/steam/players/group-members/:group_id/:qq_id", SteamPlayerController, :bind_member
+  end
+
+  ## Public media proxy (unauthenticated, for serving stored images)
+  scope "/media", DianWeb do
+    pipe_through [:media]
+
+    get "/images/:id", MediaController, :show
   end
 
   ## SPA entrypoint
