@@ -33,6 +33,30 @@ defmodule Dian.Settings do
     Repo.all(from g in GroupSetting, where: g.enabled == true, select: g.group_id)
   end
 
+  def list_steam_status_target_ids do
+    Repo.all(
+      from g in GroupSetting,
+        where: g.enabled == true and g.steam_status_enabled == true,
+        select: g.group_id
+    )
+  end
+
+  def list_steam_achievements_target_ids do
+    Repo.all(
+      from g in GroupSetting,
+        where: g.enabled == true and g.steam_achievements_enabled == true,
+        select: g.group_id
+    )
+  end
+
+  def list_daily_steam_summary_target_ids do
+    Repo.all(
+      from g in GroupSetting,
+        where: g.enabled == true and g.daily_steam_summary_enabled == true,
+        select: g.group_id
+    )
+  end
+
   def update_group_setting(group_id, attrs) when is_map(attrs) do
     group_id = to_string(group_id)
     attrs = Map.put(attrs, "group_id", group_id)

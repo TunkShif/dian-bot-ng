@@ -16,10 +16,19 @@ defmodule DianWeb.Schemas.GroupSettingsResponse do
         properties: %{
           group: %Schema{
             type: :object,
-            required: [:id, :enabled],
+            required: [
+              :id,
+              :enabled,
+              :steam_status_enabled,
+              :steam_achievements_enabled,
+              :daily_steam_summary_enabled
+            ],
             properties: %{
               id: %Schema{type: :string, example: "100"},
-              enabled: %Schema{type: :boolean, example: true}
+              enabled: %Schema{type: :boolean, example: true},
+              steam_status_enabled: %Schema{type: :boolean, example: true},
+              steam_achievements_enabled: %Schema{type: :boolean, example: true},
+              daily_steam_summary_enabled: %Schema{type: :boolean, example: true}
             }
           }
         }

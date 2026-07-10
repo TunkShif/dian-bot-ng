@@ -40,7 +40,15 @@ defmodule Dian.Groups do
 
   def update_group(scope, group_id, attrs) when is_map(attrs) do
     with :ok <- authorize_group_admin(scope, group_id) do
-      Settings.update_group_setting(group_id, Map.take(attrs, ["enabled"]))
+      Settings.update_group_setting(
+        group_id,
+        Map.take(attrs, [
+          "enabled",
+          "steam_status_enabled",
+          "steam_achievements_enabled",
+          "daily_steam_summary_enabled"
+        ])
+      )
     end
   end
 

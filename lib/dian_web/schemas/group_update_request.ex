@@ -7,9 +7,11 @@ defmodule DianWeb.Schemas.GroupUpdateRequest do
     title: "GroupUpdateRequest",
     description: "Group settings update params.",
     type: :object,
-    required: [:enabled],
     properties: %{
-      enabled: %Schema{type: :boolean, example: true}
+      enabled: %Schema{type: :boolean, example: true},
+      steam_status_enabled: %Schema{type: :boolean, example: true},
+      steam_achievements_enabled: %Schema{type: :boolean, example: true},
+      daily_steam_summary_enabled: %Schema{type: :boolean, example: true}
     }
   })
 end

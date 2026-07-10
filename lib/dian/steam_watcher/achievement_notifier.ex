@@ -46,7 +46,7 @@ defmodule Dian.SteamWatcher.AchievementNotifier do
   end
 
   def notify(%AchievementUnlocked{} = event) do
-    group_ids = Settings.list_enabled_group_ids()
+    group_ids = Settings.list_steam_achievements_target_ids()
 
     Logger.info("steam achievement notification start",
       event: "steam_achievement_notification_start",

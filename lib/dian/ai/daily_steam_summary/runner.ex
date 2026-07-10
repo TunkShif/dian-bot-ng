@@ -17,8 +17,8 @@ defmodule Dian.AI.DailySteamSummary.Runner do
     now = Keyword.get(opts, :now, DateTime.utc_now(:second))
     {target_date, range_start, range_end} = previous_local_gaming_day_bounds(now)
 
-    list_enabled_group_ids =
-      Keyword.get(opts, :list_enabled_group_ids, &Settings.list_enabled_group_ids/0)
+    list_target_group_ids =
+      Keyword.get(opts, :list_target_group_ids, &Settings.list_daily_steam_summary_target_ids/0)
 
     get_group_info = Keyword.get(opts, :get_group_info, &DianBot.get_group_info/1)
 
@@ -44,7 +44,7 @@ defmodule Dian.AI.DailySteamSummary.Runner do
       end)
 
     counts =
-      list_enabled_group_ids.()
+      list_target_group_ids.()
       |> Enum.reduce(
         %{processed_group_count: 0, sent_group_count: 0, skipped_group_count: 0},
         fn group_id, counts ->

@@ -191,7 +191,7 @@ defmodule Dian.SteamWatcher.NotifierTest do
 
   describe "notify/1" do
     test "sends a localized text message and rendered status card to enabled groups" do
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", steam_status_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{
@@ -250,8 +250,8 @@ defmodule Dian.SteamWatcher.NotifierTest do
     end
 
     test "continues sending to later groups when one group send fails" do
-      enabled_group_setting_fixture(group_id: "100")
-      enabled_group_setting_fixture(group_id: "101")
+      enabled_group_setting_fixture(group_id: "100", steam_status_enabled: true)
+      enabled_group_setting_fixture(group_id: "101", steam_status_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{
