@@ -20,6 +20,9 @@ defmodule DianWeb.GroupJSON do
       avatar_url: group.avatar_url,
       member_count: group.member_count,
       enabled: group.enabled,
+      steam_status_enabled: group.steam_status_enabled,
+      steam_achievements_enabled: group.steam_achievements_enabled,
+      daily_steam_summary_enabled: group.daily_steam_summary_enabled,
       is_admin: group.is_admin
     }
   end

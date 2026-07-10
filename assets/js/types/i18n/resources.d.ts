@@ -167,8 +167,25 @@ export default interface Resources {
         },
         "settings": {
           "adminOnlyDescription": "Only group admins can change bot availability.",
-          "description": "Enable this group to allow bot commands and push notifications.",
+          "description": "Enable this group to allow bot commands. Then opt into individual features below.",
           "enabledLabel": "Toggle bot availability",
+          "features": {
+            "achievements": {
+              "description": "Post a card when a member unlocks an achievement.",
+              "label": "Achievements"
+            },
+            "dailySummary": {
+              "description": "Generate a daily play-activity summary with AI.",
+              "label": "Daily AI summary"
+            },
+            "disabledHint": "Enable the bot to configure features.",
+            "enabledHint": "Bot enabled — turn on the features below.",
+            "label": "Features",
+            "steamStatus": {
+              "description": "Post a card when a member starts playing a game.",
+              "label": "Steam status"
+            }
+          },
           "title": "Bot availability",
           "update": {
             "errorMessage": "Could not update group settings. Please try again.",

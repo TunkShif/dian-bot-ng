@@ -203,12 +203,29 @@
       },
       "settings": {
         "title": "机器人可用性",
-        "description": "启用后，该群组可使用机器人功能并接收推送通知。",
+        "description": "启用该群组以使用机器人命令，然后在下方开启你想要的功能。",
         "adminOnlyDescription": "只有群管理员可以修改机器人可用性。",
         "enabledLabel": "切换机器人可用性",
         "update": {
           "successMessage": "群组设置已更新。",
           "errorMessage": "无法更新群组设置，请重试。"
+        },
+        "features": {
+          "label": "功能",
+          "enabledHint": "机器人已启用，在下方打开你想要的功能。",
+          "disabledHint": "先启用机器人才能配置这些功能。",
+          "steamStatus": {
+            "label": "Steam 动态",
+            "description": "成员开始游戏时发送一张动态卡。"
+          },
+          "achievements": {
+            "label": "成就解锁",
+            "description": "成员解锁成就时发送一张成就卡。"
+          },
+          "dailySummary": {
+            "label": "每日 AI 总结",
+            "description": "用 AI 生成每日游戏活动总结。"
+          }
         }
       },
       "members": {

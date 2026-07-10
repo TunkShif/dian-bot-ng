@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "Διαθεσιμότητα bot",
-        "description": "Ενεργοποιήστε αυτήν την ομάδα για να επιτρέψετε εντολές bot και ειδοποιήσεις push.",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "Μόνο οι διαχειριστές ομάδας μπορούν να αλλάξουν τη διαθεσιμότητα του bot.",
         "enabledLabel": "Εναλλαγή διαθεσιμότητας bot",
         "update": {
           "successMessage": "Ομάδα settings updated.",
           "errorMessage": "Δεν ήταν δυνατή η ενημέρωση των ρυθμίσεων ομάδας. Δοκιμάστε ξανά."
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

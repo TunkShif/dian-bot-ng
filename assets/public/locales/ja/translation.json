@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "ボットの利用",
-        "description": "このグループを有効にすると、ボットコマンドとプッシュ通知が許可されます。",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "グループ管理者のみがボットの利用を変更できます。",
         "enabledLabel": "ボットの利用を切り替え",
         "update": {
           "successMessage": "グループ settings updated.",
           "errorMessage": "グループ設定を更新できませんでした。もう一度お試しください。"
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

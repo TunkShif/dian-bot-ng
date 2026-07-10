@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "Bot kullanılabilirliği",
-        "description": "Bot komutlarına ve push bildirimlerine izin vermek için bu grubu etkinleştirin.",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "Bot kullanılabilirliğini yalnızca grup yöneticileri değiştirebilir.",
         "enabledLabel": "Bot kullanılabilirliğini değiştir",
         "update": {
           "successMessage": "Grup settings updated.",
           "errorMessage": "Grup ayarları güncellenemedi. Lütfen tekrar deneyin."
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

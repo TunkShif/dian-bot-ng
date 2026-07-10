@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "機械人可用性",
-        "description": "啟用之後，個群組可以用機械人功能同接收推送通知。",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "得群管理員先可以改機械人可用性。",
         "enabledLabel": "切換機械人可用性",
         "update": {
           "successMessage": "群組设置已更新。",
           "errorMessage": "更新唔到群組設定，請再試。"
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

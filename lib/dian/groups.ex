@@ -2,6 +2,7 @@ defmodule Dian.Groups do
   alias Dian.Accounts.Scope
   alias Dian.Accounts.User
   alias Dian.Settings
+  alias Dian.Settings.GroupSetting
   alias Dian.Steam
   alias DianBot.GroupMember
 
@@ -79,8 +80,28 @@ defmodule Dian.Groups do
 
   defp enrich_group(group, admin?) do
     group
-    |> Map.put(:enabled, Settings.group_enabled?(group.group_id))
+    |> Map.merge(setting_flags(group.group_id))
     |> Map.put(:is_admin, admin?)
+  end
+
+  defp setting_flags(group_id) do
+    case Settings.get_group_setting(group_id) do
+      nil ->
+        %{
+          enabled: false,
+          steam_status_enabled: false,
+          steam_achievements_enabled: false,
+          daily_steam_summary_enabled: false
+        }
+
+      %GroupSetting{} = setting ->
+        %{
+          enabled: setting.enabled,
+          steam_status_enabled: setting.steam_status_enabled,
+          steam_achievements_enabled: setting.steam_achievements_enabled,
+          daily_steam_summary_enabled: setting.daily_steam_summary_enabled
+        }
+    end
   end
 
   defp get_current_member(group_id, qq_id, superadmin?, opts \\ [])
