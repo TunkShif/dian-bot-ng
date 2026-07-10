@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "Доступность бота",
-        "description": "Включите эту группу, чтобы разрешить команды бота и push-уведомления.",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "Только администраторы группы могут изменять доступность бота.",
         "enabledLabel": "Переключить доступность бота",
         "update": {
           "successMessage": "Группа settings updated.",
           "errorMessage": "Не удалось обновить настройки группы. Пожалуйста, попробуйте снова."
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

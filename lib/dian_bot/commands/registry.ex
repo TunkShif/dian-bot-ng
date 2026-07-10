@@ -36,8 +36,10 @@ defmodule DianBot.Commands.Registry do
   end
 
   @handlers [
+    DianBot.Commands.Handlers.Help,
     DianBot.Commands.Handlers.SteamStatus,
-    DianBot.Commands.Handlers.Help
+    DianBot.Commands.Handlers.ThreadSave,
+    DianBot.Commands.Handlers.ThreadAppend
   ]
 
   @entries for mod <- @handlers,

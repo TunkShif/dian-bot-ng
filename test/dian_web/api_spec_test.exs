@@ -89,7 +89,13 @@ defmodule DianWeb.APISpecTest do
              Access.key!(:properties)
            ])
            |> Map.keys()
-           |> Enum.sort() == [:enabled, :id]
+           |> Enum.sort() == [
+             :daily_steam_summary_enabled,
+             :enabled,
+             :id,
+             :steam_achievements_enabled,
+             :steam_status_enabled
+           ]
   end
 
   defp get_response_schema_ref(spec, path, method, status) do

@@ -8,7 +8,10 @@ defmodule DianBot.Group do
           member_count: integer(),
           avatar_url: String.t(),
           enabled: boolean(),
-          is_admin: boolean()
+          is_admin: boolean(),
+          steam_status_enabled: boolean(),
+          steam_achievements_enabled: boolean(),
+          daily_steam_summary_enabled: boolean()
         }
 
   defstruct [
@@ -18,6 +21,9 @@ defmodule DianBot.Group do
     :member_count,
     :avatar_url,
     enabled: false,
+    steam_status_enabled: false,
+    steam_achievements_enabled: false,
+    daily_steam_summary_enabled: false,
     is_admin: false
   ]
 

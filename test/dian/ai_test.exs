@@ -45,7 +45,7 @@ defmodule Dian.AITest do
   describe "run_daily_group_summaries/1" do
     test "generates and sends a daily summary for enabled groups with play sessions" do
       Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", daily_steam_summary_enabled: true)
       player = steam_player_fixture(%{qq_id: "20001", display_name: "Player One"})
 
       Repo.insert!(%PlaySession{
@@ -97,8 +97,8 @@ defmodule Dian.AITest do
 
     test "continues when one group generation fails" do
       Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
-      enabled_group_setting_fixture(group_id: "100")
-      enabled_group_setting_fixture(group_id: "200")
+      enabled_group_setting_fixture(group_id: "100", daily_steam_summary_enabled: true)
+      enabled_group_setting_fixture(group_id: "200", daily_steam_summary_enabled: true)
 
       player = steam_player_fixture(%{qq_id: "20001"})
 
@@ -140,7 +140,7 @@ defmodule Dian.AITest do
 
     test "logs a distinct skip reason when a group has no bound steam players" do
       Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", daily_steam_summary_enabled: true)
 
       log =
         capture_log([level: :info], fn ->
@@ -163,7 +163,7 @@ defmodule Dian.AITest do
 
     test "logs a distinct skip reason when a group has no sessions in the target window" do
       Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", daily_steam_summary_enabled: true)
       steam_player_fixture(%{qq_id: "20001"})
 
       log =
@@ -187,7 +187,7 @@ defmodule Dian.AITest do
 
     test "queries the previous 04:00 to 04:00 local gaming day window" do
       Application.put_env(:dian, Dian.AI, enabled: true, deepseek_api_key: "secret")
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", daily_steam_summary_enabled: true)
       steam_player_fixture(%{qq_id: "20001"})
 
       sessions_range = start_supervised!({Agent, fn -> nil end})

@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "機器人可用",
-        "description": "啟之，則群可用機器人令並收推送之告。",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "惟群管可易機器人之可用。",
         "enabledLabel": "易機器人可用",
         "update": {
           "successMessage": "群組设置已更新。",
           "errorMessage": "群設未能更，請復試。"
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {

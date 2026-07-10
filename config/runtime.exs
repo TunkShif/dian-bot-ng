@@ -33,6 +33,16 @@ config :dian, Dian.Accounts.UserNotifier,
 # Configure Steam Client
 config :dian, Dian.Steam, api_key: System.get_env("STEAM_API_KEY")
 
+config :ex_aws,
+  access_key_id: System.get_env("S3_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("S3_SECRET_ACCESS_KEY"),
+  region: System.get_env("S3_REGION", "us-east-1"),
+  scheme: System.get_env("S3_SCHEME", "https://"),
+  host: System.get_env("S3_ENDPOINT"),
+  port: System.get_env("S3_PORT", "443")
+
+config :dian, Dian.Media.ImageStore, bucket: System.get_env("S3_BUCKET", "dian-assets")
+
 config :dian, Dian.AI,
   enabled:
     String.downcase(System.get_env("ENABLE_AI_DAILY_SUMMARY", "false")) in [

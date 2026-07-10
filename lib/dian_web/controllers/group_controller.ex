@@ -64,7 +64,13 @@ defmodule DianWeb.GroupController do
   def update(conn, %{"id" => group_id} = params) do
     with {:ok, group_setting} <- Groups.update_group(conn.assigns.current_scope, group_id, params) do
       JSend.success_json(conn, %{
-        group: %{id: group_setting.group_id, enabled: group_setting.enabled}
+        group: %{
+          id: group_setting.group_id,
+          enabled: group_setting.enabled,
+          steam_status_enabled: group_setting.steam_status_enabled,
+          steam_achievements_enabled: group_setting.steam_achievements_enabled,
+          daily_steam_summary_enabled: group_setting.daily_steam_summary_enabled
+        }
       })
     end
   end

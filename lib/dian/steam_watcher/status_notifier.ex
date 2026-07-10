@@ -98,7 +98,7 @@ defmodule Dian.SteamWatcher.StatusNotifier do
     do: StatusCard.build_status_card_svg(player, locale)
 
   defp notification_targets(%StatusChanged{}) do
-    Settings.list_enabled_group_ids()
+    Settings.list_steam_status_target_ids()
   end
 
   defp send_group_notification(group_id, %StatusChanged{} = event) do

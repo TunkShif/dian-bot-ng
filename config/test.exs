@@ -23,6 +23,12 @@ config :dian, DianWeb.Endpoint,
 # In test we don't connect to real bot server
 config :dian, DianBot.Bot, client: DianBot.Client.Mock
 
+# In test we don't connect to real S3 storage
+config :dian, Dian.Media.ImageStore, store_impl: Dian.Media.ImageStore.Mock
+
+config :dian, Dian.Media.ImageStore.Default,
+  req_options: [plug: {Req.Test, Dian.Media.ImageStore.Default}]
+
 # In test we don't connect to real Steam API
 config :dian, Dian.Steam, client: Dian.Steam.Client.Mock
 config :dian, :steam_watcher_subscriptions?, false

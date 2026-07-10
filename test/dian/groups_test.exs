@@ -46,8 +46,20 @@ defmodule Dian.GroupsTest do
           {:ok, member_payload("100", 12345, "admin")}
       end)
 
-      assert {:ok, %GroupSetting{group_id: "100", enabled: true}} =
-               Groups.update_group(scope, "100", %{"enabled" => true})
+      assert {:ok,
+              %GroupSetting{
+                group_id: "100",
+                enabled: true,
+                steam_status_enabled: true,
+                steam_achievements_enabled: true,
+                daily_steam_summary_enabled: true
+              }} =
+               Groups.update_group(scope, "100", %{
+                 "enabled" => true,
+                 "steam_status_enabled" => true,
+                 "steam_achievements_enabled" => true,
+                 "daily_steam_summary_enabled" => true
+               })
 
       Mox.verify!()
     end

@@ -23,6 +23,9 @@ defmodule DianWeb.Schemas.GroupResponse do
               :group_remark,
               :member_count,
               :enabled,
+              :steam_status_enabled,
+              :steam_achievements_enabled,
+              :daily_steam_summary_enabled,
               :is_admin,
               :members
             ],
@@ -33,6 +36,9 @@ defmodule DianWeb.Schemas.GroupResponse do
               group_remark: %Schema{type: :string, nullable: true, example: ""},
               member_count: %Schema{type: :integer, example: 42},
               enabled: %Schema{type: :boolean, example: true},
+              steam_status_enabled: %Schema{type: :boolean, example: false},
+              steam_achievements_enabled: %Schema{type: :boolean, example: false},
+              daily_steam_summary_enabled: %Schema{type: :boolean, example: false},
               is_admin: %Schema{type: :boolean, example: false},
               members: %Schema{
                 type: :array,

@@ -61,7 +61,7 @@ defmodule Dian.SteamWatcher.AchievementNotifierTest do
 
   describe "notify/1" do
     test "sends one notification per achievement when the grouped event contains fewer than three achievements" do
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", steam_achievements_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{
@@ -155,8 +155,8 @@ defmodule Dian.SteamWatcher.AchievementNotifierTest do
     end
 
     test "continues sending to later groups when one group send fails" do
-      enabled_group_setting_fixture(group_id: "100")
-      enabled_group_setting_fixture(group_id: "101")
+      enabled_group_setting_fixture(group_id: "100", steam_achievements_enabled: true)
+      enabled_group_setting_fixture(group_id: "101", steam_achievements_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{
@@ -260,7 +260,7 @@ defmodule Dian.SteamWatcher.AchievementNotifierTest do
     end
 
     test "sends one grouped localized notification when the grouped event contains three or more achievements" do
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", steam_achievements_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{
@@ -353,7 +353,7 @@ defmodule Dian.SteamWatcher.AchievementNotifierTest do
         end
       end)
 
-      enabled_group_setting_fixture(group_id: "100")
+      enabled_group_setting_fixture(group_id: "100", steam_achievements_enabled: true)
 
       Mox.stub(Dian.Steam.Client.Mock, :get_player_summary, fn "76561198826221336" ->
         %PlayerSummary{

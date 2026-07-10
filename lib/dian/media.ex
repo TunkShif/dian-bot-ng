@@ -3,6 +3,8 @@ defmodule Dian.Media do
   The Media context.
   """
 
+  alias Dian.Media.ImageAsset
+  alias Dian.Media.ImageStore
   alias Dian.Media.RenderedImage
   alias Dian.Media.SvgRenderer
 
@@ -32,6 +34,25 @@ defmodule Dian.Media do
   end
 
   def render_svg(_svg, _opts), do: {:error, :invalid_options}
+
+  @spec store_image(String.t(), String.t(), String.t()) ::
+          {:ok, ImageAsset.t()} | {:error, ImageStore.store_error()}
+  def store_image(filename, file_size, url)
+      when is_binary(filename) and is_binary(file_size) and is_binary(url) do
+    ImageStore.store_image(filename, file_size, url)
+  end
+
+  @spec get_image(String.t()) ::
+          {:ok, ImageAsset.t()} | {:error, :not_found}
+  def get_image(object_id) when is_binary(object_id) do
+    ImageStore.get_image(object_id)
+  end
+
+  @spec get_image_url(ImageAsset.t()) :: String.t()
+  def get_image_url(%ImageAsset{object_id: object_id}) do
+    base = DianWeb.Endpoint.url()
+    "#{base}/media/images/#{object_id}"
+  end
 
   defp render_with_task(svg, timeout, font_paths, scale) do
     max_pixels = config(:max_pixels, 16_000_000)

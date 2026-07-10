@@ -44,6 +44,11 @@ defmodule DianBot do
     end
   end
 
+  @spec get_msg(String.t() | integer(), request_opts()) :: result(map())
+  def get_msg(message_id, opts \\ []) do
+    Client.request("get_msg", %{message_id: message_id}, opts)
+  end
+
   @spec get_group_list(request_opts()) :: result([group()])
   def get_group_list(opts \\ []) do
     with {:ok, data} <- Client.request("get_group_list", %{}, opts) do

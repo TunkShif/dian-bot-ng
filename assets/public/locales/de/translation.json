@@ -334,12 +334,29 @@
       },
       "settings": {
         "title": "Bot-Verfügbarkeit",
-        "description": "Aktivieren Sie diese Gruppe, um Bot-Befehle und Push-Benachrichtigungen zu erlauben.",
+        "description": "Enable this group to allow bot commands. Then opt into individual features below.",
         "adminOnlyDescription": "Nur Gruppenadministratoren können die Bot-Verfügbarkeit ändern.",
         "enabledLabel": "Bot-Verfügbarkeit umschalten",
         "update": {
           "successMessage": "Gruppe settings updated.",
           "errorMessage": "Gruppeneinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+        },
+        "features": {
+          "label": "Features",
+          "enabledHint": "Bot enabled — turn on the features below.",
+          "disabledHint": "Enable the bot to configure features.",
+          "steamStatus": {
+            "label": "Steam status",
+            "description": "Post a card when a member starts playing a game."
+          },
+          "achievements": {
+            "label": "Achievements",
+            "description": "Post a card when a member unlocks an achievement."
+          },
+          "dailySummary": {
+            "label": "Daily AI summary",
+            "description": "Generate a daily play-activity summary with AI."
+          }
         }
       },
       "members": {
